@@ -1,0 +1,11 @@
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m: In function 'continuousDisplayOutputCallback':
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m:112: warning: unused variable 'gain'
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m: In function '-[AudioSignalManager changeCallbackTo:]':
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m:807: warning: unused variable 'err'
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m: In function '-[AudioSignalManager pause]':
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m:935: warning: unused variable 'err'
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m: In function '-[AudioSignalManager alertView:didDismissWithButtonIndex:]':
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m:980: warning: 'AudioSignalManager' may not respond to '-ifAudioInputIsAvailableThenSetupAudioSession'
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m:980: warning: (Messages without a matching method signature
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m:980: warning: will be assumed to return 'id' and accept
+/Users/Alex/Dropbox/iPhone/Backyard Brains/Classes/../Classes/AudioSignalManager.m:980: warning: '...' as arguments.)

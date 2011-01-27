@@ -1,0 +1,118 @@
+//
+//  BBFileDownloadViewController.m
+//  Backyard Brains
+//
+//  Created by Alex Wiltschko on 3/20/10.
+//  Copyright 2010 University of Michigan. All rights reserved.
+//
+
+#import "BBFileDownloadViewController.h"
+
+
+@implementation BBFileDownloadViewController
+@synthesize delegate;
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+
+	[self setupServer];
+	[self startServer];
+	
+	
+	fileNameLabel.text = [delegate filename];
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	
+	[self stopServer];
+}
+
+- (void)setupServer {
+	NSString *root = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES) objectAtIndex:0];
+	
+	httpServer = [HTTPServer new];
+	[httpServer setType:@"_http._tcp."];
+	[httpServer setConnectionClass:[MyHTTPConnection class]];
+	[httpServer setDocumentRoot:[NSURL fileURLWithPath:root]];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayInfoUpdate:) name:@"LocalhostAdressesResolved" object:nil];
+	[localhostAddresses performSelectorInBackground:@selector(list) withObject:nil];
+	
+}
+
+- (void)startServer {
+	[httpServer setPort:8080];
+	
+	NSError *error;
+	if(![httpServer start:&error])
+	{
+		NSLog(@"Error starting HTTP Server: %@", error);
+	}
+	
+}
+
+- (void)stopServer {
+	[httpServer stop];
+}
+
+- (void)displayInfoUpdate:(NSNotification *) notification {
+	
+	if(notification)
+	{
+		[addresses release];
+		addresses = [[notification object] copy];
+	}
+	
+	if(addresses == nil)
+	{
+		return;
+	}
+	
+	UInt16 port = [httpServer port];
+	
+	NSString *localIP = nil;
+	
+	localIP = [addresses objectForKey:@"en0"];
+	
+	if (!localIP)
+	{
+		localIP = [addresses objectForKey:@"en1"];
+	}
+	
+	if (!localIP)
+		ipLabel.text = @"Wifi: No Connection!\n";
+	
+	else
+		ipLabel.text = [NSString stringWithFormat:@"http://%@:%d\n", localIP, port];
+
+	// NOTE: is this for connecting over the internet if there's a cell connection?
+//	NSString *wwwIP = [addresses objectForKey:@"www"];
+//	
+//	if (wwwIP)
+//		info = [info stringByAppendingFormat:@"Web: %@:%d\n", wwwIP, port];
+//	else
+//		info = [info stringByAppendingString:@"Web: Unable to determine external IP\n"];
+	
+}
+
+- (void)didReceiveMemoryWarning {
+	// Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
+}
+
+- (void)viewDidUnload {
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+
+@end
