@@ -14,5 +14,22 @@
 @synthesize shortname;
 @synthesize subname;
 @synthesize lengthname;
-@synthesize playPauseButton;
+@synthesize actionButton;
+@synthesize isSelected;
+@synthesize index;
+
+@synthesize delegate;
+
+-(IBAction)actionButtonSelected
+{
+    [self.delegate cellActionTriggeredFrom:self.index];
+}
+
+-(void)dealloc
+{
+    [index release];
+
+    [super dealloc];
+}
+
 @end

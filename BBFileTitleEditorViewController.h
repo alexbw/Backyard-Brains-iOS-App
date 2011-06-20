@@ -20,10 +20,10 @@
 
 @interface BBFileTitleEditorViewController : UIViewController {
 	IBOutlet UITextField *titleTextField;
-	id <BBFileTitleEditorDelegate> *delegate;
+	id <BBFileTitleEditorDelegate> delegate;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *titleTextField;
-@property (nonatomic, retain) id <BBFileTitleEditorDelegate> *delegate;
+@property (assign) id <BBFileTitleEditorDelegate> delegate;
 
 @end

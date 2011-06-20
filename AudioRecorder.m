@@ -73,7 +73,7 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 
 - (id)initWithAudioSignalManager:(AudioSignalManager *)thisAsm 
 {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.asm = thisAsm;
 		isRecording = NO;
 		UInt32 numBytes = kRecordingTimerIntervalInSeconds*thisAsm.samplingRate*sizeof(SInt16)*4;

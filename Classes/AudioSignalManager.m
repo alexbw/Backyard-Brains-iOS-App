@@ -42,12 +42,12 @@ void sessionPropertyListener(void *                  inClientData,
 		AudioSessionGetProperty(kAudioSessionProperty_AudioInputAvailable, 
 								&size, 
 								&inputAvailable);
-		NSLog(@"Input available? %d", inputAvailable);
+		NSLog(@"Input available? %lu", inputAvailable);
 		if ( inputAvailable ) {
 			// Set the audio session category for simultaneous play and record
 			if (asm.paused) {
 				NSLog(@"YARRRRR ME MATEYYYYSSSS");
-				NSLog(@"My callback: %d", asm.myCallbackType);
+				NSLog(@"My callback: %lu", asm.myCallbackType);
 				[asm ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:asm.myCallbackType];
 				[asm play];
 			}
@@ -67,7 +67,7 @@ void sessionPropertyListener(void *                  inClientData,
 //and im sure there is a few more
 void sessionInterruptionListener(void *inClientData, UInt32 inInterruption) {
 
-	AudioSignalManager *asm = (AudioSignalManager *)inClientData;
+	//AudioSignalManager *asm = (AudioSignalManager *)inClientData;
 	
 	if (inInterruption == kAudioSessionBeginInterruption) {
 		NSLog(@"begin interuption");		
@@ -202,7 +202,7 @@ static OSStatus averageTriggerDisplayOutputCallback(void *inRefCon,
 		int indexThresholdCrossing = findThresholdCrossing(incomingAudio, inNumberFrames, [asm thresholdValue], [asm triggerType]);
 		
 		if (indexThresholdCrossing != -1) { 
-			NSLog(@"Crossing at %d... adding to %d averages", indexThresholdCrossing, th->sizeOfMovingAverage);
+			NSLog(@"Crossing at %d... adding to %lu averages", indexThresholdCrossing, th->sizeOfMovingAverage);
 
 			isTriggered = YES;
 			haveAllAudio = NO;
@@ -471,21 +471,20 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		
 		NSNumber *gainValue;
-		if (gainValue = [defaults valueForKey:@"gain"]) {
+		if ((gainValue = [defaults valueForKey:@"gain"])) {
 			gain = [gainValue floatValue];
 		}
 		else {
 			gain = 1.0f;
 		}
-
-		
+        
 		
 		NSNumber *samplingRateValue;
 		NSLog(@"==== DEFAULT SAMPLINGRATE: %@", [defaults valueForKey:@"samplerate"]);
 		NSLog(@"==== DEFAULT GAIN: %@", [defaults valueForKey:@"gain"]);
 		
 		
-		if (samplingRateValue = [defaults valueForKey:@"samplerate"]) {
+		if ((samplingRateValue = [defaults valueForKey:@"samplerate"])) {
 			samplingRate = (Float64)[samplingRateValue floatValue];
 			NSLog(@"Samplingrate = %f", samplingRate);
 		}
@@ -521,7 +520,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	OSStatus setupErr = 	AudioSessionGetProperty(kAudioSessionProperty_AudioInputAvailable,
 													&ui32PropertySize,
 													&inputAvailable);
-	NSLog(@"setupErr: %d", setupErr);
+	NSLog(@"setupErr: %ld", setupErr);
 	NSAssert(setupErr == noErr, @"Could not ask if there was audio input available");
 	
 	
@@ -574,7 +573,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	err = AudioSessionSetProperty (kAudioSessionProperty_AudioCategory,
 									  sizeof (sessionCategory),
 									  &sessionCategory);    
-	NSLog(@"Set audio category. Err: %d", err);
+	NSLog(@"Set audio category. Err: %ld", err);
 	
 
 	// Allow iPod audio to continue to play while the app is active.
@@ -770,7 +769,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	err = AudioUnitInitialize(outputAudioUnit);
 	
 
-	NSLog(@"err = %d", err);
+	NSLog(@"err = %ld", err);
 
 	
 //	
@@ -834,12 +833,12 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 //							   sizeof(playbackCallbackStruct));
 //	NSAssert(err == noErr, @"Setting input callback failed");
 	
-	OSStatus err = AudioUnitSetProperty(outputAudioUnit, 
+	/*OSStatus err = AudioUnitSetProperty(outputAudioUnit, 
 							   kAudioUnitProperty_SetRenderCallback, 
 							   kAudioUnitScope_Output,
 							   kOutputBus, 
 							   &playbackCallbackStruct, 
-							   sizeof(playbackCallbackStruct));
+							   sizeof(playbackCallbackStruct));*/
 
 	self.myCallbackType = callbackType;
 	[self play];
@@ -965,7 +964,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 - (void)pause {
 	
 	if (!paused) {
-		OSStatus err = AudioOutputUnitStop(outputAudioUnit);
+		//OSStatus err = AudioOutputUnitStop(outputAudioUnit);
 		paused = YES;
 	}
 
@@ -983,7 +982,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		// Set the audio session category for simultaneous play and record
 		if (paused) {
 			OSStatus err = AudioOutputUnitStart(outputAudioUnit);
-			NSLog(@"err = %d", err);			
+			NSLog(@"err = %ld", err);			
 			paused = NO;
 		}
 	}

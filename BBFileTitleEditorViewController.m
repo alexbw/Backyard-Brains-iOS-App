@@ -48,6 +48,7 @@
 	
 	BBFile *file = [delegate file];
 	file.shortname = titleTextField.text;
+    file.filename = titleTextField.text;
 	[file save];
 }
 

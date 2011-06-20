@@ -18,11 +18,12 @@
 
 
 @protocol BBFileViewControllerDelegate
+@required
 - (void)hideFiles;
 @end
 
 
-@interface BBFileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BBFileDetailDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, BBFileDownloadViewControllerDelegate> {
+@interface BBFileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BBFileDetailDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, BBFileDownloadViewControllerDelegate, BBFileTableCellDelegate> {
 	IBOutlet UITableView *theTableView;
 	IBOutlet UIButton *shareFileButton;
 	IBOutlet UIButton *deleteFileButton;
@@ -32,8 +33,20 @@
 	IBOutlet UISlider *currentPositionInAudioFileSlider;
 	
 	NSMutableArray *allFiles;
+    
+	NSMutableArray *selectedArray;
+	BOOL inPseudoEditMode;
+    UIImage *playImage;
+    UIImage *pauseImage;
+	UIImage *selectedImage;
+	UIImage *unselectedImage;
+    NSUInteger lastRowSelected;
+    
+    BBFileTableCell *lastCell;
+    
 	
-	id <BBFileViewControllerDelegate> *delegate;
+	
+	id <BBFileViewControllerDelegate> delegate;
 	
 	// Properties required by the BBFileDetailDelegate protocol
 	BBFile *file;
@@ -43,10 +56,11 @@
 	AVAudioPlayer *audioPlayer;
 	
 	NSTimer *timerThread;
+    
 }
 
 
-@property (nonatomic,retain) IBOutlet UITableView *theTableView;
+@property (nonatomic, retain) IBOutlet UITableView *theTableView;
 @property (nonatomic, retain) NSArray *allFiles;
 @property (nonatomic, retain) IBOutlet UIButton *shareFileButton;
 @property (nonatomic, retain) IBOutlet UIButton *deleteFileButton;
@@ -56,7 +70,16 @@
 @property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
 @property (nonatomic, retain) IBOutlet UISlider *currentPositionInAudioFileSlider;
 
-@property (nonatomic, retain) id <BBFileViewControllerDelegate> *delegate;
+@property (nonatomic, retain) NSMutableArray *selectedArray;
+@property BOOL inPseudoEditMode;
+@property (nonatomic, retain) UIImage *playImage;
+@property (nonatomic, retain) UIImage *pauseImage;
+@property (nonatomic, retain) UIImage *selectedImage;
+@property (nonatomic, retain) UIImage *unselectedImage;
+
+@property (nonatomic, assign) BBFileTableCell *lastCell;
+
+@property (nonatomic, assign) id <BBFileViewControllerDelegate> delegate;
 
 - (void)done;
 
@@ -64,10 +87,10 @@
 - (IBAction)shareBBFile:(UIButton *)sender;
 - (IBAction)positionInFileChanged:(UISlider *)sender;
 
-- (void)playPause;
+- (void)cellActionTriggeredByCell:(BBFileTableCell *)cell;
 - (IBAction)positionInFileChanged:(UISlider *)sender;
-- (void)startPlaying;
-- (void)pausePlaying;
+- (void)startPlayingCell:(BBFileTableCell *)cell;
+- (void)pausePlayingCell:(BBFileTableCell *)cell;
 - (void)stopPlaying;
 
 - (void)startUpdateTimer;
@@ -77,10 +100,13 @@
 - (void)emailBBFile;
 - (void)allowDownloadOfBBFile;
 
-- (void)setCellToSelectedStyle:(BBFileTableCell *)cell;
-- (void)setCellToDeselectedStyle:(BBFileTableCell *)cell;
+/*- (void)setCellToSelectedStyle:(BBFileTableCell *)cell;
+- (void)setCellToDeselectedStyle:(BBFileTableCell *)cell;*/
 - (NSString *)stringWithFileLengthFromBBFile:(BBFile *)thisFile;
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error;
+
+- (IBAction)togglePseudoEditMode;
+- (void)populateSelectedArray;
 
 // Properties required by the BBFileDetailDelegate protocol
 @property (nonatomic, retain) BBFile *file;

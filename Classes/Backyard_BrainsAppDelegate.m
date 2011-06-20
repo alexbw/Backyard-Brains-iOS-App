@@ -25,19 +25,25 @@
 	
 	NSNumber *gain;
 	NSNumber *samplerate;
+    NSNumber *ledcontrolfreq;
 	gain = [[NSUserDefaults standardUserDefaults] objectForKey:@"gain"];
 	samplerate = [[NSUserDefaults standardUserDefaults] objectForKey:@"samplerate"];
+    ledcontrolfreq = [[NSUserDefaults standardUserDefaults] objectForKey:@"ledcontrolfreq"];
 	if (!gain) {
 		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:1.0f] forKey:@"gain"];
 	}
 	if (!samplerate) {
 		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:22050.f] forKey:@"samplerate"];
 	}
+    if (!ledcontrolfreq) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:10000.f] forKey:@"ledcontrolfreq"];
+    }
 	
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	
 	NSLog(@"gain = %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"gain"]);
 	NSLog(@"sample rate = %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"samplerate"]);
+    NSLog(@"led control frequency = %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"ledcontrolfreq"]);
 	
 	
 	UIApplication *thisApp = [UIApplication sharedApplication];

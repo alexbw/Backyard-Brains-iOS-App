@@ -33,7 +33,7 @@
 }
 
 - (id)initWithRecordingFile {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		
 		
 		self.date = [NSDate date];		
@@ -58,9 +58,8 @@
 		
 		// Grab the sampling rate from NSUserDefaults
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		self.samplingrate = [[defaults valueForKey:@"samplerate"] floatValue];
-		
-		self.gain = [[[NSUserDefaults standardUserDefaults] stringForKey:@"gain"] floatValue];
+		self.samplingrate   = [[defaults valueForKey:@"samplerate"] floatValue];
+		self.gain           = [[defaults valueForKey:@"gain"] floatValue];
 		
 	}
 	

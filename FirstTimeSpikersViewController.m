@@ -28,7 +28,7 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+	if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
 		theTableView.dataSource = self;
 		theTableView.delegate = self;
 		theTableView.sectionIndexMinimumDisplayRowCount=6;
@@ -167,10 +167,10 @@
 	
 	// Make sure the URL is encoded properly 
 	[urlString replaceOccurrencesOfString:@"(null)" withString:@"" options:nil range:NSMakeRange(0, [urlString length])];
-	NSString* escapedUrl = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; 
-	NSURL *url = [NSURL URLWithString: escapedUrl];
+	//NSString* escapedUrl = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; 
+	//NSURL *url = [NSURL URLWithString: escapedUrl];
 	
-	NSData *data = [NSData dataWithContentsOfURL:url];
+	//NSData *data = [NSData dataWithContentsOfURL:url];
 	
 	[delegate firstTimeSpikeViewIsDone];
 }

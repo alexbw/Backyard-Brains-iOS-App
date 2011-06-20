@@ -14,6 +14,12 @@
 		282CCBFE0DB6C98000C4EA27 /* SecondView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 282CCBFD0DB6C98000C4EA27 /* SecondView.xib */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
+		E9B7883C13AD3E0B00806699 /* selected.png in Resources */ = {isa = PBXBuildFile; fileRef = E9B7882B13AD3E0B00806699 /* selected.png */; };
+		E9B7884113AD3E0B00806699 /* unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = E9B7883013AD3E0B00806699 /* unselected.png */; };
+		E9C1049A1372214D0058CD90 /* LarvajoltButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E9C104991372214D0058CD90 /* LarvajoltButton.png */; };
+		E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */; };
+		E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */; };
+		E9C8B41313638A2E00F0ED8E /* LarvaJoltViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */; };
 		FA13338B111F289D00A89543 /* TriggerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA13338A111F289D00A89543 /* TriggerView.xib */; };
 		FA133396111F291000A89543 /* TriggerView.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA133395111F291000A89543 /* TriggerView.plist */; };
 		FA1636FD1131C465003065AC /* ByB-Logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1636FC1131C465003065AC /* ByB-Logo-57.png */; };
@@ -122,6 +128,14 @@
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Backyard_Brains-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Backyard_Brains-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		E9B7882B13AD3E0B00806699 /* selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = selected.png; path = Images/selected.png; sourceTree = "<group>"; };
+		E9B7883013AD3E0B00806699 /* unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.png; path = Images/unselected.png; sourceTree = "<group>"; };
+		E9C104991372214D0058CD90 /* LarvajoltButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LarvajoltButton.png; sourceTree = "<group>"; };
+		E9C8B4061363885000F0ED8E /* LarvaJoltAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltAudio.h; sourceTree = "<group>"; };
+		E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltAudio.m; sourceTree = "<group>"; };
+		E9C8B4081363885000F0ED8E /* LarvaJoltViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltViewController.h; sourceTree = "<group>"; };
+		E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltViewController.m; sourceTree = "<group>"; };
+		E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LarvaJoltViewController.xib; sourceTree = "<group>"; };
 		FA13338A111F289D00A89543 /* TriggerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TriggerView.xib; sourceTree = "<group>"; };
 		FA133395111F291000A89543 /* TriggerView.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TriggerView.plist; sourceTree = "<group>"; };
 		FA1636FC1131C465003065AC /* ByB-Logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ByB-Logo-57.png"; sourceTree = "<group>"; };
@@ -314,7 +328,6 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
-				FAC1E59212BE8C9E001C83FD /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				FAF70E7F111E22AA009E7EFA /* OpenGLES.framework */,
@@ -367,6 +380,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E9C8B4001363882E00F0ED8E /* LarvaJolt */ = {
+			isa = PBXGroup;
+			children = (
+				E9C8B4061363885000F0ED8E /* LarvaJoltAudio.h */,
+				E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */,
+				E9C8B4081363885000F0ED8E /* LarvaJoltViewController.h */,
+				E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */,
+			);
+			name = LarvaJolt;
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		FA1636D01131AE1A003065AC /* Audio Input */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,6 +415,7 @@
 				FA1636DB1131AE70003065AC /* Continuous View */,
 				FA1636DA1131AE62003065AC /* OpenGL */,
 				FA1636D21131AE34003065AC /* Abstract Superclass */,
+				E9C8B4001363882E00F0ED8E /* LarvaJolt */,
 			);
 			name = Display;
 			path = ..;
@@ -465,6 +491,8 @@
 		FA1636DF1131AECC003065AC /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E9B7882B13AD3E0B00806699 /* selected.png */,
+				E9B7883013AD3E0B00806699 /* unselected.png */,
 				FA8C81EF1184FE24008E693C /* Pause.png */,
 				FA8C81F01184FE25008E693C /* Play.png */,
 				FAC9FECD115B070F0004822F /* msLine.png */,
@@ -472,6 +500,7 @@
 				FAC9FE0D115AE5350004822F /* FileButton.png */,
 				FAC9FE0E115AE5350004822F /* RecordButton.png */,
 				FAC9FE0F115AE5350004822F /* RoundedButtonBackground.png */,
+				E9C104991372214D0058CD90 /* LarvajoltButton.png */,
 				FA88C64711482005006C2FE0 /* Chevron.png */,
 				FA88C64511481E93006C2FE0 /* RoachDetailIcon.png */,
 				FA88BDC61145B34F006C2FE0 /* TransBar.png */,
@@ -506,6 +535,8 @@
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				FAF052D112BE950600568255 /* MainWindow_iPad.xib */,
 				FAF052D412BE952D00568255 /* ContinuousWaveView_iPad.xib */,
+				FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */,
+				FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */,
 				FA16389211320CAB003065AC /* BBFileView.xib */,
 				FA88BDDF1145B658006C2FE0 /* BBFileNavView.xib */,
 				FA163A2F1134A949003065AC /* BBFileDetailView.xib */,
@@ -513,6 +544,7 @@
 				FA88C76F114837EE006C2FE0 /* BBFileTitleEditorView.xib */,
 				FA88C81511486E85006C2FE0 /* BBFileCommentEditorView.xib */,
 				FA826D6F11557A80005BE83D /* BBFileDownloadView.xib */,
+				E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -572,7 +604,6 @@
 			children = (
 				FA5A8684115E740900E201BC /* FirstTimeSpikersViewController.h */,
 				FA5A8685115E740900E201BC /* FirstTimeSpikersViewController.m */,
-				FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */,
 			);
 			name = "First Time Spikers View";
 			sourceTree = "<group>";
@@ -661,18 +692,10 @@
 		FAAC43B7115D998C00967AA7 /* Flipside Info View */ = {
 			isa = PBXGroup;
 			children = (
-				FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */,
 				FAAC43BA115D9A2200967AA7 /* FlipsideInfoViewController.h */,
 				FAAC43BB115D9A2200967AA7 /* FlipsideInfoViewController.m */,
 			);
 			name = "Flipside Info View";
-			sourceTree = "<group>";
-		};
-		FAC1E59212BE8C9E001C83FD /* Resources-iPad */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Resources-iPad";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -768,6 +791,10 @@
 				FAF052D212BE950600568255 /* MainWindow_iPad.xib in Resources */,
 				FAF052D512BE952D00568255 /* ContinuousWaveView_iPad.xib in Resources */,
 				FAF0549712BEA3E000568255 /* TriggerView_iPad.xib in Resources */,
+				E9C8B41313638A2E00F0ED8E /* LarvaJoltViewController.xib in Resources */,
+				E9C1049A1372214D0058CD90 /* LarvajoltButton.png in Resources */,
+				E9B7883C13AD3E0B00806699 /* selected.png in Resources */,
+				E9B7884113AD3E0B00806699 /* unselected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -827,6 +854,8 @@
 				FA5A8686115E740900E201BC /* FirstTimeSpikersViewController.m in Sources */,
 				FAF0529012BE924200568255 /* ContinuousWaveViewController_iPad.m in Sources */,
 				FAF052AC12BE937500568255 /* ContinuousWaveViewController_iPhone.m in Sources */,
+				E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */,
+				E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,8 +867,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Greg Gage (J38LH5GF4H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Greg Gage (J38LH5GF4H)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -848,8 +877,8 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				PRODUCT_NAME = BYB;
-				PROVISIONING_PROFILE = "5DC35551-EE89-4D66-8928-015D79D2D7BA";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5DC35551-EE89-4D66-8928-015D79D2D7BA";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -860,14 +889,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alexander Wiltschko (5FPX9BJ39G)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Backyard_Brains_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				PRODUCT_NAME = "Backyard Brains";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F74F747D-8591-447C-8CE4-CCDE151A1AE1";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -877,12 +908,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Greg Gage (J38LH5GF4H)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "5DC35551-EE89-4D66-8928-015D79D2D7BA";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -891,11 +922,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Release;

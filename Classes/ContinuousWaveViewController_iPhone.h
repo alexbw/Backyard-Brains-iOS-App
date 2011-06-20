@@ -9,15 +9,18 @@
 #import "ContinuousWaveViewController.h"
 #import "BBFileViewController.h"
 #import "FlipsideInfoViewController.h"
+#import "LarvaJoltViewController.h"
 
-@interface ContinuousWaveViewController_iPhone : ContinuousWaveViewController <UINavigationControllerDelegate, FlipsideInfoViewDelegate> {
-	
+@interface ContinuousWaveViewController_iPhone : ContinuousWaveViewController <UINavigationControllerDelegate, FlipsideInfoViewDelegate, LarvaJoltViewDelegate, BBFileViewControllerDelegate> {
 	
 }
 
 - (IBAction)displayInfoFlipside:(UIButton *)sender;
 - (IBAction)showFiles:(UIButton *)sender;
-- (void)hideFiles;
 - (void)flipsideIsDone;
+- (IBAction)showLarvaJolt:(UIButton *)sender;
+
+//for BBFileViewControllerDelegate
+- (void)hideFiles;
 
 @end

@@ -41,7 +41,7 @@
 	[self.audioSignalManager pause];
 	
 	BBFileViewController *theViewController	= [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
-	theViewController.delegate = (id *)self;
+	theViewController.delegate = (id)self;
 	UINavigationController *theNavigationController = [[UINavigationController alloc] initWithRootViewController:theViewController];
 	
 	theNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
@@ -59,6 +59,23 @@
 	
 }
 
+- (IBAction)showLarvaJolt:(UIButton *)sender {
+    
+	[self.audioSignalManager pause];
+    
+    if (!self.larvaJoltController)
+    {
+        self.larvaJoltController = [[LarvaJoltViewController alloc] initWithNibName:@"LarvaJoltViewController" bundle:nil];
+        self.larvaJoltController.delegate = self;
+        self.larvaJoltController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    }
+    [self presentModalViewController:self.larvaJoltController animated:YES];
+    
+}
+
+- (void)hideLarvaJolt {
+	[self.audioSignalManager play];
+}
 
 
 

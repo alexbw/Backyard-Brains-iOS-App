@@ -14,8 +14,11 @@
 @synthesize stopButton;
 @synthesize fileButton;
 @synthesize audioRecorder;
+@synthesize stimButton;
 
 @synthesize cwView;
+
+@synthesize larvaJoltController;
 
 - (void)dealloc {	
     [super dealloc];
@@ -23,6 +26,10 @@
 	[recordButton release];
 	[stopButton release];
 	[fileButton release];
+    [stimButton release];
+    if (self.larvaJoltController) {
+        [self.larvaJoltController release];
+    }
 
 }
 

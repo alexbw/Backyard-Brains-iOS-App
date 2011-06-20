@@ -5,7 +5,7 @@
 
 - (id)initWithFilePath:(NSString *)filePathParam
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		filePath = [filePathParam copy];
 		fileHandle = [[NSFileHandle fileHandleForReadingAtPath:filePath] retain];
@@ -23,7 +23,7 @@
 
 - (UInt64)contentLength
 {
-	NSDictionary *fileAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:filePath traverseLink:NO];
+	NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL];
 	
 	NSNumber *fileSize = [fileAttributes objectForKey:NSFileSize];
 	
@@ -60,7 +60,7 @@
 
 - (id)initWithData:(NSData *)dataParam
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		offset = 0;
 		data = [dataParam retain];

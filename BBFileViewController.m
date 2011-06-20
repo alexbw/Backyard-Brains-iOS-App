@@ -16,18 +16,23 @@
 @synthesize shareFileButton;
 @synthesize deleteFileButton;
 @synthesize buttonHolderView;
+
 @synthesize delegate;
+
 @synthesize filename;
 @synthesize timeElapsedLabel;
 @synthesize timeLeftLabel;
 @synthesize currentPositionInAudioFileSlider;
+@synthesize selectedArray, inPseudoEditMode;
+@synthesize playImage, pauseImage, selectedImage, unselectedImage;
+@synthesize lastCell;
 
 // Protocol properties
 @synthesize file;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+	if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
 		theTableView.dataSource = self;
 		theTableView.delegate = self;
 		theTableView.sectionIndexMinimumDisplayRowCount=10;
@@ -39,6 +44,17 @@
 														style: UIBarButtonSystemItemDone
 														target:self
 														action:@selector(done)];
+        
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
+                                                        style: UIBarButtonItemStylePlain
+                                                        target:self
+                                                        action:@selector(togglePseudoEditMode)];
+        
+        
+        self.playImage =        [UIImage imageNamed:@"Play.png"];
+        self.pauseImage =       [UIImage imageNamed:@"Pause.png"];
+        self.selectedImage =    [UIImage imageNamed:@"selected.png"];
+        self.unselectedImage =  [UIImage imageNamed:@"unselected.png"];
 		
 		// audioPlayer will remain nil as long as nothing is playing
 		audioPlayer = nil;
@@ -46,11 +62,10 @@
     }
     return self;
 	
-
 }
 
-
-- (void)viewWillAppear:(BOOL)animated {	
+- (void)viewWillAppear:(BOOL)animated 
+{	
 
 	Class cls = NSClassFromString(@"UIPopoverController");
 	if (cls != nil)
@@ -67,11 +82,12 @@
 	for (BBFile *thisFile in allFiles) {
 		[thisFile retain]; 
 	}
-	
+    
+    self.inPseudoEditMode = NO;
+	[self populateSelectedArray];
 	
 	[theTableView reloadData];
 }
-
 
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -91,7 +107,29 @@
 }
 
 
+
+
+
+
 #pragma mark Table view methods
+
+
+//UITableViewDelegate
+ - (void)tableView:(UITableView *)tableView willDisplayCell:(BBFileTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (inPseudoEditMode)
+    {
+        [cell.actionButton setImage:self.unselectedImage forState:UIControlStateNormal];
+    }
+    else
+    {
+        [cell.actionButton setImage:self.playImage forState:UIControlStateNormal];
+    }
+    
+    cell.index = [theTableView indexPathForCell:cell];
+    
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -101,7 +139,8 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	
-	if ([allFiles count] == 0) {
+	if ([allFiles count] == 0) 
+    {
 		shareFileButton.enabled = NO;
 		deleteFileButton.enabled = NO;
 	}
@@ -117,7 +156,8 @@
 	
     static NSString *CellIdentifier = @"BBFileTableCell";    
     BBFileTableCell *cell = (BBFileTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
+    if (cell == nil) 
+    {
 		
 		NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"BBFileTableCell" owner:nil options:nil];
 		
@@ -150,32 +190,20 @@
  - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	 
 	 NSLog(@"=== Cell selected! === ");
-	 
-	 shareFileButton.enabled = YES;
-	 deleteFileButton.enabled = YES;
-	 
-	 BBFileTableCell *cell = (BBFileTableCell *)[tableView cellForRowAtIndexPath:indexPath];
-	 
-	 UIImage *playPauseImage = [UIImage imageNamed:@"Play.png"];
-	 cell.playPauseButton.hidden = NO;
-	 [cell.playPauseButton setImage:playPauseImage forState:UIControlStateNormal];
-	 [cell.playPauseButton addTarget:self action:@selector(playPause) forControlEvents:UIControlEventTouchUpInside];
-	 
-	 [self setCellToSelectedStyle:cell];
+     
+     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+     
+     self.lastCell = (BBFileTableCell *)[tableView cellForRowAtIndexPath:indexPath];
+     
+     [self cellActionTriggeredByCell:self.lastCell];
 	 	 
  }
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-	BBFileTableCell *cell = (BBFileTableCell *)[tableView cellForRowAtIndexPath:indexPath];
-	[self setCellToDeselectedStyle:cell];
-	
-	cell.playPauseButton.hidden = YES;
-	
-	self.file = (BBFile *)[allFiles objectAtIndex:indexPath.row];
-	if (audioPlayer.playing) {
-		[self stopPlaying];
-	}
-}
+/*- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    
+}*/
+
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
 	
@@ -189,25 +217,109 @@
 	[[self navigationController] pushViewController:detailViewController animated:YES];
 }
 
-#pragma mark - Audio Functions
 
-// The IBOutlet for start playing
 
-- (void)playPause {
-	if (audioPlayer == nil) {
-		[self startPlaying];
-	}
-	else {
-		
-		if (audioPlayer.playing) {
-		[self pausePlaying];
-		} else {
-			[self startPlaying];
-		}
 
-	}
+#pragma mark - Select multiple functions
+
+
+- (IBAction)togglePseudoEditMode
+{
+    self.inPseudoEditMode = !inPseudoEditMode;	
+	[self.theTableView reloadData];
+    
+    if (inPseudoEditMode)
+    {
+        //self.navigationItem.leftBarButtonItem   //toggle button state
+    }
+    else
+    {
+        
+    }
 
 }
+
+- (void)populateSelectedArray
+{
+    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:[allFiles count]];
+	for (int i=0; i < [allFiles count]; i++)
+		[array addObject:[NSNumber numberWithBool:NO]];
+	self.selectedArray = array;
+	[array release];
+}
+
+
+
+- (void)cellActionTriggeredByCell:(BBFileTableCell *)cell
+{
+    
+    if (inPseudoEditMode)
+    {
+        
+        
+        NSUInteger theRow = [[theTableView indexPathForCell:cell] row];
+        
+        BOOL selected = [[selectedArray objectAtIndex:theRow] boolValue];
+        [selectedArray replaceObjectAtIndex:theRow withObject:[NSNumber numberWithBool:!selected]];
+        self.lastCell.isSelected = selected;
+        
+        if (selected)
+        {
+            [self.lastCell.actionButton setImage:self.selectedImage forState:UIControlStateNormal];
+        } else {
+            [self.lastCell.actionButton setImage:self.unselectedImage forState:UIControlStateNormal];
+        }
+        
+        if (selectedArray)
+        {
+            shareFileButton.enabled = YES;
+            deleteFileButton.enabled = YES;
+        } else {
+            shareFileButton.enabled = NO;
+            deleteFileButton.enabled = NO;
+        }
+        
+        
+        [self.theTableView reloadData];
+        
+    }
+    else
+    {
+        if (audioPlayer == nil) 
+        {
+            [self startPlayingCell:cell];
+        }
+        else 
+        {
+            
+            if (audioPlayer.playing) 
+            {
+                [self pausePlayingCell:cell];
+            } 
+            else 
+            {
+                [self startPlayingCell:cell];
+            }
+            
+        }
+    }
+    
+}
+
+
+
+#pragma mark - BBFileTableCellDelegate methods
+
+-(void)cellActionTriggeredFrom:(NSIndexPath *) index
+{
+    [self cellActionTriggeredByCell:(BBFileTableCell *)[theTableView cellForRowAtIndexPath:index]];
+}
+
+
+
+
+
+#pragma mark - Audio Functions
 
 - (IBAction)positionInFileChanged:(UISlider *)sender {
 	NSLog(@"Position in file changed!");
@@ -215,15 +327,14 @@
 	[self updateCurrentTime];
 }
 
-- (void)startPlaying {
+- (void)startPlayingCell:(BBFileTableCell *)cell {
 	
 	NSLog(@" WANT TO START ");
 	
-	self.file = (BBFile *)[allFiles objectAtIndex:[[theTableView indexPathForSelectedRow] row]];
+	self.file = (BBFile *)[allFiles objectAtIndex:[[theTableView indexPathForCell:cell] row]];
 	
 	BBFileTableCell *currentCell = (BBFileTableCell *)[theTableView cellForRowAtIndexPath:[theTableView indexPathForSelectedRow]];
-	UIImage *pauseImage = [UIImage imageNamed:@"Pause.png"];
-	[currentCell.playPauseButton setImage:pauseImage forState:UIControlStateNormal];
+	[currentCell.actionButton setImage:self.pauseImage forState:UIControlStateNormal];
 	
 	if (audioPlayer == nil) {
 		// Make a URL to the BBFile's audio file
@@ -247,22 +358,25 @@
 	
 }
 
-- (void)pausePlaying {
-	BBFileTableCell *currentCell = (BBFileTableCell *)[theTableView cellForRowAtIndexPath:[theTableView indexPathForSelectedRow]];
-	UIImage *playImage = [UIImage imageNamed:@"Play.png"];
-	[currentCell.playPauseButton setImage:playImage forState:UIControlStateNormal];
-	
+- (void)pausePlayingCell:(BBFileTableCell *)cell {
+    
+    if (!inPseudoEditMode)
+    {
+        [cell.actionButton setImage:self.playImage forState:UIControlStateNormal];
+	}
+        
 	[audioPlayer pause];
 }
 
 - (void)stopPlaying {
 	
 	NSLog(@"Stopping play!");
-	
-	BBFileTableCell *currentCell = (BBFileTableCell *)[theTableView cellForRowAtIndexPath:[theTableView indexPathForSelectedRow]];
-	UIImage *playImage = [UIImage imageNamed:@"Play.png"];
-	[currentCell.playPauseButton setImage:playImage forState:UIControlStateNormal];
-	
+    
+    if (!inPseudoEditMode)
+    {
+        [self.lastCell.actionButton setImage:self.playImage forState:UIControlStateNormal];
+	}
+    
 	timeElapsedLabel.text = @"0:00";
 	timeLeftLabel.text = @"-0:00";
 	currentPositionInAudioFileSlider.value = 0.0f;
@@ -333,7 +447,7 @@
 
 
 #pragma mark - Helper functions
-
+/*
 - (void)setCellToSelectedStyle:(BBFileTableCell *)cell {	
 	cell.lengthname.textColor = [UIColor whiteColor];
 	cell.shortname.textColor = [UIColor whiteColor];
@@ -345,7 +459,7 @@
 	cell.lengthname.textColor = [UIColor colorWithRed:0.196f green:0.408f blue:0.788f alpha:1.0f];
 	cell.shortname.textColor = [UIColor blackColor];
 	cell.subname.textColor = [UIColor colorWithWhite:0.6f alpha:1.0f];	
-}
+}*/
 
 - (NSString *)stringWithFileLengthFromBBFile:(BBFile *)thisFile {
 	int minutes = (int)floor(thisFile.filelength / 60.0);
@@ -379,9 +493,6 @@
 	NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:newRow inSection:tmpPath.section];	
 	[theTableView selectRowAtIndexPath:newIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone]; // select the next item in the table view
 	[self tableView:theTableView didSelectRowAtIndexPath:newIndexPath];
-
-		
-	[self setCellToSelectedStyle:(BBFileTableCell *)[self.theTableView cellForRowAtIndexPath:newIndexPath]];
 }
 
 - (IBAction)shareBBFile:(UIButton *)sender {
@@ -490,7 +601,20 @@
 
 - (void)dealloc {
     [super dealloc];
+    [theTableView release];
+    [shareFileButton release];
+    [deleteFileButton release];
+    [buttonHolderView release];
+    [filename release];
+    [timeElapsedLabel release];
+    [timeLeftLabel release];
+    [currentPositionInAudioFileSlider release];
 	[allFiles release];
+	[selectedArray release];
+    [playImage release];
+    [pauseImage release];
+	[selectedImage release];
+	[unselectedImage release];
 }
 
 - (void)done
@@ -503,7 +627,6 @@
 
 
 @end
-
 
 
 

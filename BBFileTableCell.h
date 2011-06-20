@@ -8,17 +8,35 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol BBFileTableCellDelegate
+-(void)cellActionTriggeredFrom:(NSIndexPath *) index;
+@end
+
 
 @interface BBFileTableCell : UITableViewCell {
 	IBOutlet UILabel *shortname;
 	IBOutlet UILabel *subname;
 	IBOutlet UILabel *lengthname;
-	IBOutlet UIButton *playPauseButton;
+	IBOutlet UIButton *actionButton;
+    IBOutlet UIButton *selectButton;
+    
+    BOOL selected;
+    NSIndexPath *index;
+    
+    id <BBFileTableCellDelegate> delegate;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *shortname;
 @property (nonatomic, retain) IBOutlet UILabel *subname;
 @property (nonatomic, retain) IBOutlet UILabel *lengthname;
-@property (nonatomic, retain) IBOutlet UIButton *playPauseButton;
+@property (nonatomic, retain) IBOutlet UIButton *actionButton;
+
+@property (nonatomic) BOOL isSelected;
+@property (nonatomic, retain) NSIndexPath *index;
+
+@property (nonatomic, assign) id <BBFileTableCellDelegate> delegate;
+
+-(IBAction)actionButtonSelected;
+
 
 @end

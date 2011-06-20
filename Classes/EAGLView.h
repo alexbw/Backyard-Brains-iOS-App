@@ -107,7 +107,7 @@ typedef struct {
 - (void) destroyFramebuffer;
 - (void)toggleVisibilityOfGridAndLabels;
 
-
-- (void)drawView;
+/*
+- (void)drawView;*/
 
 @end

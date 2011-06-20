@@ -11,6 +11,7 @@
 @implementation ContinuousWaveViewController_iPad
 
 @synthesize recordedFilesPopover;
+@synthesize larvaJoltPopover;
 
 - (void)dealloc {	
     [super dealloc];
@@ -45,7 +46,7 @@
 	[self.audioSignalManager pause];
 	
 	BBFileViewController *theViewController	= [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
-	theViewController.delegate = (id *)self;
+	theViewController.delegate = (id)self;
 	UINavigationController *theNavigationController = [[UINavigationController alloc] initWithRootViewController:theViewController];
 	
 	UIPopoverController *aPopover = [[UIPopoverController alloc] initWithContentViewController:theNavigationController];
@@ -65,6 +66,26 @@
 	// This is also a delegate action	
 	[self.audioSignalManager play];
 	[recordedFilesPopover dismissPopoverAnimated:YES];
+}
+
+
+- (IBAction)showLarvaJoltPopover:(UIButton *)sender {
+    
+	[self.audioSignalManager pause];
+    
+    if (!self.larvaJoltController)
+    {
+        self.larvaJoltController = [[LarvaJoltViewController alloc] initWithNibName:@"LarvaJoltViewController" bundle:nil];
+        self.larvaJoltController.delegate = self;
+        self.larvaJoltController.modalPresentationStyle = UIModalPresentationFormSheet;
+        self.larvaJoltController.view.frame = CGRectMake(0, 0, 620, 540);
+	}
+    [self presentModalViewController:self.larvaJoltController animated:YES];
+    
+}
+
+- (void)hideLarvaJolt {
+	[self.audioSignalManager play];
 }
 
 - (void)done {

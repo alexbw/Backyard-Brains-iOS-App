@@ -15,7 +15,6 @@
 @synthesize commentTextView;
 
 - (void)dealloc {
-	[delegate release];
 	[commentTextView release];
 	
 	[super dealloc];

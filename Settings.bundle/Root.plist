@@ -2,54 +2,72 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>StringsTable</key>
-	<string>Root</string>
-	<key>Title</key>
-	<string>Backyard Brains</string>
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
 			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>Spikerbox Settings</string>
+			<string>PSSliderSpecifier</string>
+			<key>Key</key>
+			<string></string>
+			<key>DefaultValue</key>
+			<integer>0</integer>
+			<key>MinimumValue</key>
+			<integer>0</integer>
+			<key>MaximumValue</key>
+			<integer>0</integer>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Gain</string>
-			<key>Key</key>
-			<string>gain</string>
 			<key>DefaultValue</key>
 			<real>100</real>
 			<key>IsSecure</key>
 			<false/>
+			<key>Key</key>
+			<string>gain</string>
 			<key>KeyboardType</key>
 			<string>NumberPad</string>
+			<key>Title</key>
+			<string>Gain</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Title</key>
-			<string>Sampling Rate</string>
-			<key>Key</key>
-			<string>samplerate</string>
 			<key>DefaultValue</key>
 			<real>22050</real>
-			<key>Values</key>
-			<array>
-				<integer>11025</integer>
-				<integer>22050</integer>
-				<integer>44100</integer>
-			</array>
+			<key>Key</key>
+			<string>samplerate</string>
+			<key>Title</key>
+			<string>Sampling Rate</string>
 			<key>Titles</key>
 			<array>
 				<string>11.025 kHz</string>
 				<string>22.05 kHz</string>
 				<string>44.1 kHz</string>
 			</array>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Values</key>
+			<array>
+				<integer>11025</integer>
+				<integer>22050</integer>
+				<integer>44100</integer>
+			</array>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>LED Control Frequency</string>
+			<key>Key</key>
+			<string>ledcontrolfreq</string>
+			<key>DefaultValue</key>
+			<integer>10000</integer>
+			<key>KeyboardType</key>
+			<string>NumbersAndPunctuation</string>
 		</dict>
 	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
+	<key>Title</key>
+	<string>Backyard Brains</string>
 </dict>
 </plist>
