@@ -23,7 +23,7 @@
 
 
 @interface BBFileDetailViewController : UIViewController <BBFileTitleEditorDelegate> {
-	id <BBFileDetailDelegate> *delegate;
+	id <BBFileDetailDelegate> delegate;
 	
 	IBOutlet UIButton *titleButton;
 	IBOutlet UILabel *durationLabel;
@@ -35,7 +35,7 @@
 	BBFile *file;
 }
 
-@property id <BBFileDetailDelegate> *delegate;
+@property (assign) id <BBFileDetailDelegate> delegate;
 
 @property (nonatomic, retain) IBOutlet UIButton *titleButton;
 @property (nonatomic, retain) IBOutlet UILabel *durationLabel;

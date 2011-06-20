@@ -22,7 +22,6 @@
 @synthesize file;
 
 - (void)dealloc {
-	[delegate release];
 	[titleButton release];
 	[durationLabel release];
 	[recordedInfoLabel release];
@@ -49,7 +48,7 @@
     [super viewWillAppear:animated];
 	self.navigationItem.title = @"Info";
 	
-	BBFile *thisFile = (BBFile *)[delegate file];
+	BBFile *thisFile = [delegate file];
 	
 	// Load up the views!
 	[self setButton:titleButton titleForAllStates:thisFile.shortname];
@@ -75,6 +74,7 @@
 	}
 	[self setButton:commentButton titleForAllStates:commentText];
 	
+    [inputFormatter release];
 	[fileComment release];
 	
 	
