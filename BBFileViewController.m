@@ -19,13 +19,13 @@
 
 @synthesize delegate;
 
-@synthesize filename;
+@synthesize filesToShare;
 @synthesize timeElapsedLabel;
 @synthesize timeLeftLabel;
 @synthesize currentPositionInAudioFileSlider;
 @synthesize selectedArray, inPseudoEditMode;
 @synthesize playImage, pauseImage, selectedImage, unselectedImage;
-@synthesize lastCell;
+@synthesize playingCell;
 
 // Protocol properties
 @synthesize file;
@@ -84,7 +84,6 @@
 	}
     
     self.inPseudoEditMode = NO;
-	[self populateSelectedArray];
 	
 	[theTableView reloadData];
 }
@@ -126,8 +125,7 @@
         [cell.actionButton setImage:self.playImage forState:UIControlStateNormal];
     }
     
-    cell.index = [theTableView indexPathForCell:cell];
-    
+    cell.delegate = self;
 }
 
 
@@ -186,23 +184,19 @@
     return cell;
 }
 
- // Override to support row selection in the table view.
+
  - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	 
 	 NSLog(@"=== Cell selected! === ");
      
      [tableView deselectRowAtIndexPath:indexPath animated:NO];
+     /*
+     self.playingCell = (BBFileTableCell *)[tableView cellForRowAtIndexPath:indexPath];
      
-     self.lastCell = (BBFileTableCell *)[tableView cellForRowAtIndexPath:indexPath];
-     
-     [self cellActionTriggeredByCell:self.lastCell];
+     [self cellActionTriggeredFrom:indexPath];*/
 	 	 
  }
 
-/*- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath 
-{
-    
-}*/
 
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
@@ -230,11 +224,16 @@
     
     if (inPseudoEditMode)
     {
-        //self.navigationItem.leftBarButtonItem   //toggle button state
+        [self populateSelectedArray];
+        self.navigationItem.leftBarButtonItem.title = @"Done editing";
+        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleDone;
     }
     else
     {
-        
+        shareFileButton.enabled = NO;
+        deleteFileButton.enabled = NO;
+        self.navigationItem.leftBarButtonItem.title = @"Edit...";
+        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStylePlain;
     }
 
 }
@@ -250,7 +249,10 @@
 
 
 
-- (void)cellActionTriggeredByCell:(BBFileTableCell *)cell
+
+#pragma mark - BBFileTableCellDelegate methods
+
+-(void)cellActionTriggeredFrom:(BBFileTableCell *) cell
 {
     
     if (inPseudoEditMode)
@@ -258,19 +260,23 @@
         
         
         NSUInteger theRow = [[theTableView indexPathForCell:cell] row];
+        NSLog(@"Cell at row %u", theRow);
         
-        BOOL selected = [[selectedArray objectAtIndex:theRow] boolValue];
-        [selectedArray replaceObjectAtIndex:theRow withObject:[NSNumber numberWithBool:!selected]];
-        self.lastCell.isSelected = selected;
+        BOOL selected = ![[selectedArray objectAtIndex:theRow] boolValue];
+        [selectedArray replaceObjectAtIndex:theRow withObject:[NSNumber numberWithBool:selected]];
+         
+        NSLog(@"Cell is selected: %i", selected);
         
         if (selected)
         {
-            [self.lastCell.actionButton setImage:self.selectedImage forState:UIControlStateNormal];
+            [cell.actionButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
+            
+            NSLog(@"Swapped image for selectedImage ");
         } else {
-            [self.lastCell.actionButton setImage:self.unselectedImage forState:UIControlStateNormal];
+            [cell.actionButton setImage:self.unselectedImage forState:UIControlStateNormal];
         }
         
-        if (selectedArray)
+        if ([selectedArray containsObject:[NSNumber numberWithBool:YES]])
         {
             shareFileButton.enabled = YES;
             deleteFileButton.enabled = YES;
@@ -279,8 +285,6 @@
             deleteFileButton.enabled = NO;
         }
         
-        
-        [self.theTableView reloadData];
         
     }
     else
@@ -307,13 +311,6 @@
 }
 
 
-
-#pragma mark - BBFileTableCellDelegate methods
-
--(void)cellActionTriggeredFrom:(NSIndexPath *) index
-{
-    [self cellActionTriggeredByCell:(BBFileTableCell *)[theTableView cellForRowAtIndexPath:index]];
-}
 
 
 
@@ -374,7 +371,7 @@
     
     if (!inPseudoEditMode)
     {
-        [self.lastCell.actionButton setImage:self.playImage forState:UIControlStateNormal];
+        [self.playingCell.actionButton setImage:self.playImage forState:UIControlStateNormal];
 	}
     
 	timeElapsedLabel.text = @"0:00";
@@ -479,20 +476,20 @@
 #pragma mark - Bottom panel actions
 
 - (IBAction)deleteBBFileFromTableView:(UIButton *)sender {
-	NSIndexPath *tmpPath = [theTableView indexPathForSelectedRow];
-	NSArray *tmpArray = [NSArray arrayWithObject:tmpPath];
-	NSUInteger rowToDelete = tmpPath.row;
-
-	
-	[[allFiles objectAtIndex:rowToDelete] deleteObject]; // remove the file from the database
-	[allFiles removeObjectAtIndex:rowToDelete]; // remove the file from the array of current arrays.
-	
-	[theTableView deleteRowsAtIndexPaths:tmpArray withRowAnimation:UITableViewRowAnimationRight]; // remove file from the table view
-	
-	NSUInteger newRow = ([allFiles count]-1 < tmpPath.row) ? [allFiles count]-1 : tmpPath.row; // make sure we select a row that exists
-	NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:newRow inSection:tmpPath.section];	
-	[theTableView selectRowAtIndexPath:newIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone]; // select the next item in the table view
-	[self tableView:theTableView didSelectRowAtIndexPath:newIndexPath];
+    
+    int num = [allFiles count] - 1;
+    for (int i=num; i >= 0; i--)
+    {
+        if ([[selectedArray objectAtIndex:i] boolValue])
+        {
+            NSLog(@"selected index for deletion: %u", i);
+            [[allFiles objectAtIndex:i] deleteObject]; // remove the file from the database
+            [allFiles removeObjectAtIndex:i]; // remove the file from the array of current arrays.
+            
+            [theTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationRight]; // remove file from the table view
+        }
+        
+    }
 }
 
 - (IBAction)shareBBFile:(UIButton *)sender {
@@ -512,11 +509,25 @@
 
 - (void)emailBBFile {
 		
-	// Identify the file we'll be sharing
-	NSIndexPath *tmpPath = [theTableView indexPathForSelectedRow];
+	// Identify the files we'll be sharing
+    NSMutableArray *allFilesToShare = [NSMutableArray array];
+    
+	// Identify the files we'll be sharing
+    int num = [allFiles count] - 1;
+    for (int i=num; i >= 0; i--)
+    {
+        if ([[selectedArray objectAtIndex:i] boolValue])
+        {
+            NSLog(@"selected index for deletion: %u", i);
+            BBFile *fileToShare = [allFiles objectAtIndex:i];
+            [allFilesToShare addObject:fileToShare];
+            
+        }
+        
+    }
+    
+    self.filesToShare = [NSArray arrayWithArray:allFilesToShare];
 
-	NSUInteger rowToShare = tmpPath.row;
-	BBFile *fileToShare = [allFiles objectAtIndex:rowToShare];
 	
 	// If we can't send email right now, let the user know about it
 	if (![MFMailComposeViewController canSendMail]) {
@@ -534,27 +545,37 @@
 	message.mailComposeDelegate = self;
 	
 	[message setSubject:@"A recording from my Backyard Brains iPhone app!"];
-	NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-	NSString *fullFilePath = [docPath stringByAppendingPathComponent:fileToShare.filename];
-	NSData *attachmentData = [NSData dataWithContentsOfFile:fullFilePath];
-	[message addAttachmentData:attachmentData mimeType:@"audio/wav" fileName:fileToShare.filename];
-	// 32kadpcm
-	NSMutableString *bodyText = [NSMutableString stringWithFormat:@"<p>I recorded a file named \"%@,\" ", fileToShare.shortname];
-	
-	int minutes = (int)floor(fileToShare.filelength / 60.0);
-	int seconds = (int)(fileToShare.filelength - minutes*60.0);
-	
-	if (minutes > 0) {
-		[bodyText appendFormat: @"which lasted %d minutes and %d seconds.</p>", minutes, seconds];
-	}
-	else {
-		[bodyText appendFormat:@"which lasted %d seconds.</p>", seconds];
-	}
-	
-	[bodyText appendFormat:@"<p>Some other info about the file: <br>Sampling rate: %0.0f<br>", fileToShare.samplingrate];
-	[bodyText appendFormat:@"Gain: %0.0f</p>", fileToShare.gain];
-	[bodyText appendFormat:@"<p>%@</p>", fileToShare.comment];
-		
+    
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    for (BBFile *thisFile in allFilesToShare)
+    {
+        NSString *fullFilePath = [docPath stringByAppendingPathComponent:thisFile.filename];
+        NSData *attachmentData = [NSData dataWithContentsOfFile:fullFilePath];
+        [message addAttachmentData:attachmentData mimeType:@"audio/wav" fileName:thisFile.filename];
+        // 32kadpcm
+    }
+
+    NSMutableString *bodyText = [NSMutableString stringWithFormat:@"<p>I recorded these files:"];
+    for (BBFile *thisFile in allFilesToShare)
+    {
+        [bodyText appendFormat:[NSMutableString stringWithFormat:@"<p>\"%@,\" ", thisFile.shortname]];
+        
+        int minutes = (int)floor(thisFile.filelength / 60.0);
+        int seconds = (int)(thisFile.filelength - minutes*60.0);
+        
+        if (minutes > 0) {
+            [bodyText appendFormat: @"which lasted %d minutes and %d seconds.</p>", minutes, seconds];
+        }
+        else {
+            [bodyText appendFormat:@"which lasted %d seconds.</p>", seconds];
+        }
+            
+        
+        [bodyText appendFormat:@"<p>Some other info about the file: <br>Sampling rate: %0.0f<br>", thisFile.samplingrate];
+        [bodyText appendFormat:@"Gain: %0.0f</p>", thisFile.gain];
+        [bodyText appendFormat:@"<p>%@</p>", thisFile.comment];
+    }
+    
 	[message setMessageBody:bodyText isHTML:YES];
 	
 	[self presentModalViewController:message animated:YES];
@@ -564,14 +585,26 @@
 
 - (void)allowDownloadOfBBFile {
 	
-	// Identify the file we'll be sharing
-	NSIndexPath *tmpPath = [theTableView indexPathForSelectedRow];
-	NSUInteger rowToShare = tmpPath.row;
-	BBFile *fileToShare = [allFiles objectAtIndex:rowToShare];
-	
+    NSMutableArray *allFilesToShare = [NSMutableArray array];
+    
+	// Identify the files we'll be sharing
+    int num = [allFiles count] - 1;
+    for (int i=num; i >= 0; i--)
+    {
+        if ([[selectedArray objectAtIndex:i] boolValue])
+        {
+            NSLog(@"selected index for deletion: %u", i);
+            BBFile *fileToShare = [allFiles objectAtIndex:i];
+            [allFilesToShare addObject:fileToShare];
+            
+        }
+        
+    }
+    
+    self.filesToShare = [NSArray arrayWithArray:allFilesToShare];
+
 	
 	BBFileDownloadViewController *downloadViewController = [[BBFileDownloadViewController alloc] initWithNibName:@"BBFileDownloadView" bundle:nil];
-	self.filename = fileToShare.filename;
 	downloadViewController.delegate = self;
 	[[self navigationController] pushViewController:downloadViewController animated:YES];
 	[downloadViewController release];
@@ -605,7 +638,7 @@
     [shareFileButton release];
     [deleteFileButton release];
     [buttonHolderView release];
-    [filename release];
+    [filesToShare release];
     [timeElapsedLabel release];
     [timeLeftLabel release];
     [currentPositionInAudioFileSlider release];

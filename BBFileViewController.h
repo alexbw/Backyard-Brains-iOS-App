@@ -42,7 +42,7 @@
 	UIImage *unselectedImage;
     NSUInteger lastRowSelected;
     
-    BBFileTableCell *lastCell;
+    BBFileTableCell *playingCell;
     
 	
 	
@@ -51,7 +51,8 @@
 	// Properties required by the BBFileDetailDelegate protocol
 	BBFile *file;
 	
-	NSString *filename; // for BBFileDownloadViewControllerDelegate
+    // Properties required by BBFileDownloadViewControllerDelegate
+	NSArray *filesToShare; 
 	
 	AVAudioPlayer *audioPlayer;
 	
@@ -65,7 +66,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *shareFileButton;
 @property (nonatomic, retain) IBOutlet UIButton *deleteFileButton;
 @property (nonatomic, retain) IBOutlet UIView *buttonHolderView;
-@property (nonatomic, retain) NSString *filename;
+@property (nonatomic, retain) NSArray *filesToShare;
 @property (nonatomic, retain) IBOutlet UILabel *timeElapsedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
 @property (nonatomic, retain) IBOutlet UISlider *currentPositionInAudioFileSlider;
@@ -77,7 +78,7 @@
 @property (nonatomic, retain) UIImage *selectedImage;
 @property (nonatomic, retain) UIImage *unselectedImage;
 
-@property (nonatomic, assign) BBFileTableCell *lastCell;
+@property (nonatomic, assign) BBFileTableCell *playingCell;
 
 @property (nonatomic, assign) id <BBFileViewControllerDelegate> delegate;
 
@@ -87,7 +88,6 @@
 - (IBAction)shareBBFile:(UIButton *)sender;
 - (IBAction)positionInFileChanged:(UISlider *)sender;
 
-- (void)cellActionTriggeredByCell:(BBFileTableCell *)cell;
 - (IBAction)positionInFileChanged:(UISlider *)sender;
 - (void)startPlayingCell:(BBFileTableCell *)cell;
 - (void)pausePlayingCell:(BBFileTableCell *)cell;

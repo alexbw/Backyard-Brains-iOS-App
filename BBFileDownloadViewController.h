@@ -17,7 +17,7 @@
 
 @protocol BBFileDownloadViewControllerDelegate
 
-@property (nonatomic, retain) NSString *filename;
+@property (nonatomic, retain) NSArray *filesToShare;
 
 @end
 

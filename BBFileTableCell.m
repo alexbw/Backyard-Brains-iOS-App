@@ -15,21 +15,22 @@
 @synthesize subname;
 @synthesize lengthname;
 @synthesize actionButton;
-@synthesize isSelected;
-@synthesize index;
-
+//@synthesize isSelected;
 @synthesize delegate;
 
+/*-(id)init
+{
+    if ((self = [super init]))
+    {
+        self.isSelected = 0;
+    }
+    return self;
+}
+*/
 -(IBAction)actionButtonSelected
 {
-    [self.delegate cellActionTriggeredFrom:self.index];
-}
-
--(void)dealloc
-{
-    [index release];
-
-    [super dealloc];
+    [self.delegate cellActionTriggeredFrom:self];
+    NSLog(@"---Cell button pressed---");
 }
 
 @end

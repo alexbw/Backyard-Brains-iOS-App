@@ -19,7 +19,7 @@
 	[self startServer];
 	
 	
-	fileNameLabel.text = [delegate filename];
+	fileNameLabel.text = @"Files";
 
 }
 

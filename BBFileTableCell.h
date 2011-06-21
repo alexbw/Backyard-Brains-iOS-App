@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class BBFileTableCell;
+
+
 @protocol BBFileTableCellDelegate
--(void)cellActionTriggeredFrom:(NSIndexPath *) index;
+-(void)cellActionTriggeredFrom:(BBFileTableCell *) cell;
 @end
 
 
@@ -20,8 +23,7 @@
 	IBOutlet UIButton *actionButton;
     IBOutlet UIButton *selectButton;
     
-    BOOL selected;
-    NSIndexPath *index;
+    //BOOL selected;
     
     id <BBFileTableCellDelegate> delegate;
 }
@@ -31,8 +33,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *lengthname;
 @property (nonatomic, retain) IBOutlet UIButton *actionButton;
 
-@property (nonatomic) BOOL isSelected;
-@property (nonatomic, retain) NSIndexPath *index;
+//@property (nonatomic) BOOL isSelected;
 
 @property (nonatomic, assign) id <BBFileTableCellDelegate> delegate;
 
