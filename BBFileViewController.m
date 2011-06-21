@@ -19,11 +19,13 @@
 
 @synthesize delegate;
 
-@synthesize filesToShare;
+// Properties required by BBFileDownloadViewControllerDelegate
+@synthesize fileNamesToShare;
+
 @synthesize timeElapsedLabel;
 @synthesize timeLeftLabel;
 @synthesize currentPositionInAudioFileSlider;
-@synthesize selectedArray, inPseudoEditMode;
+@synthesize selectedArray;
 @synthesize playImage, pauseImage, selectedImage, unselectedImage;
 @synthesize playingCell;
 
@@ -119,10 +121,12 @@
     if (inPseudoEditMode)
     {
         [cell.actionButton setImage:self.unselectedImage forState:UIControlStateNormal];
+        //cell.accessoryType = UITableViewCellAccessoryNone;
     }
     else
     {
         [cell.actionButton setImage:self.playImage forState:UIControlStateNormal];
+        //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     
     cell.delegate = self;
@@ -190,10 +194,8 @@
 	 NSLog(@"=== Cell selected! === ");
      
      [tableView deselectRowAtIndexPath:indexPath animated:NO];
-     /*
-     self.playingCell = (BBFileTableCell *)[tableView cellForRowAtIndexPath:indexPath];
      
-     [self cellActionTriggeredFrom:indexPath];*/
+     [self cellActionTriggeredFrom:(BBFileTableCell *)[tableView cellForRowAtIndexPath:indexPath]];
 	 	 
  }
 
@@ -221,6 +223,13 @@
 {
     self.inPseudoEditMode = !inPseudoEditMode;	
 	[self.theTableView reloadData];
+}
+
+
+//Setter for inPseudoEditMode property
+- (void)setInPseudoEditMode:(BOOL)setting
+{
+    inPseudoEditMode = setting;
     
     if (inPseudoEditMode)
     {
@@ -235,8 +244,15 @@
         self.navigationItem.leftBarButtonItem.title = @"Edit...";
         self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStylePlain;
     }
-
 }
+
+//Getter for inPseudoEditMode property
+- (BOOL)inPseudoEditMode
+{
+    return inPseudoEditMode;
+}
+
+
 
 - (void)populateSelectedArray
 {
@@ -330,8 +346,7 @@
 	
 	self.file = (BBFile *)[allFiles objectAtIndex:[[theTableView indexPathForCell:cell] row]];
 	
-	BBFileTableCell *currentCell = (BBFileTableCell *)[theTableView cellForRowAtIndexPath:[theTableView indexPathForSelectedRow]];
-	[currentCell.actionButton setImage:self.pauseImage forState:UIControlStateNormal];
+	[cell.actionButton setImage:self.pauseImage forState:UIControlStateNormal];
 	
 	if (audioPlayer == nil) {
 		// Make a URL to the BBFile's audio file
@@ -356,6 +371,8 @@
 }
 
 - (void)pausePlayingCell:(BBFileTableCell *)cell {
+    
+    NSLog(@"Pausing play!");
     
     if (!inPseudoEditMode)
     {
@@ -431,13 +448,15 @@
 	
 	if (totalSecondsLeft == 0) {
 		[self stopPlaying];
+        NSLog(@"timer stopped playing");
 		[timerThread invalidate];
 	}
 	
-	if (audioPlayer.playing == NO) {
+	/*if (audioPlayer.playing == NO) {
+        NSLog(@"timer stopped playing");
 		[self stopPlaying];
 		[timerThread invalidate];
-	}
+	}*/
 	
 	
 }
@@ -525,8 +544,6 @@
         }
         
     }
-    
-    self.filesToShare = [NSArray arrayWithArray:allFilesToShare];
 
 	
 	// If we can't send email right now, let the user know about it
@@ -585,7 +602,7 @@
 
 - (void)allowDownloadOfBBFile {
 	
-    NSMutableArray *allFilesToShare = [NSMutableArray array];
+    NSMutableArray *allFileNamesToShare = [NSMutableArray array];
     
 	// Identify the files we'll be sharing
     int num = [allFiles count] - 1;
@@ -595,13 +612,13 @@
         {
             NSLog(@"selected index for deletion: %u", i);
             BBFile *fileToShare = [allFiles objectAtIndex:i];
-            [allFilesToShare addObject:fileToShare];
+            [allFileNamesToShare addObject:fileToShare.filename];
             
         }
         
     }
     
-    self.filesToShare = [NSArray arrayWithArray:allFilesToShare];
+    self.fileNamesToShare = [NSArray arrayWithArray:allFileNamesToShare];
 
 	
 	BBFileDownloadViewController *downloadViewController = [[BBFileDownloadViewController alloc] initWithNibName:@"BBFileDownloadView" bundle:nil];
@@ -638,7 +655,7 @@
     [shareFileButton release];
     [deleteFileButton release];
     [buttonHolderView release];
-    [filesToShare release];
+    [fileNamesToShare release];
     [timeElapsedLabel release];
     [timeLeftLabel release];
     [currentPositionInAudioFileSlider release];

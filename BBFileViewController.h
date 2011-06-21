@@ -52,7 +52,7 @@
 	BBFile *file;
 	
     // Properties required by BBFileDownloadViewControllerDelegate
-	NSArray *filesToShare; 
+	NSArray *fileNamesToShare; 
 	
 	AVAudioPlayer *audioPlayer;
 	
@@ -66,7 +66,6 @@
 @property (nonatomic, retain) IBOutlet UIButton *shareFileButton;
 @property (nonatomic, retain) IBOutlet UIButton *deleteFileButton;
 @property (nonatomic, retain) IBOutlet UIView *buttonHolderView;
-@property (nonatomic, retain) NSArray *filesToShare;
 @property (nonatomic, retain) IBOutlet UILabel *timeElapsedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
 @property (nonatomic, retain) IBOutlet UISlider *currentPositionInAudioFileSlider;
@@ -81,6 +80,9 @@
 @property (nonatomic, assign) BBFileTableCell *playingCell;
 
 @property (nonatomic, assign) id <BBFileViewControllerDelegate> delegate;
+
+// Properties required by BBFileDownloadViewControllerDelegate
+@property (nonatomic, retain) NSArray *fileNamesToShare;
 
 - (void)done;
 

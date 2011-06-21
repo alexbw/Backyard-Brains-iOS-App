@@ -105,6 +105,7 @@
 	
 	
 	[self.cwView startAnimation];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

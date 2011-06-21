@@ -1002,14 +1002,14 @@ Failed:;
 {
 	if (theDelegate == NULL)
 	{
-		NSString *message = @"Attempting to connect without a delegate. Set a delegate first.";
-		[NSException raise:AsyncSocketException format:message];
+		NSString *message = @"Attempting to connect without a delegate. Set a delegate first. %d";
+		[NSException raise:AsyncSocketException format:message, theDelegate];
 	}
 	
 	if (theSocket != NULL || theSocket6 != NULL)
 	{
-		NSString *message = @"Attempting to connect while connected or accepting connections. Disconnect first.";
-		[NSException raise:AsyncSocketException format:message];
+		NSString *message = @"Attempting to connect while connected or accepting connections. Disconnect first. %s";
+		[NSException raise:AsyncSocketException format:message, theSocket];
 	}
 	
 	BOOL pass = YES;

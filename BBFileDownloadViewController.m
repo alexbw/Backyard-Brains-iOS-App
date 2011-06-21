@@ -18,8 +18,15 @@
 	[self setupServer];
 	[self startServer];
 	
-	
-	fileNameLabel.text = @"Files";
+    NSString *theNames = [NSString string];
+	for (int i = 0; i < [delegate.fileNamesToShare count]; i++)
+    {
+        theNames = [theNames stringByAppendingFormat:@"%@\n", [delegate.fileNamesToShare objectAtIndex:i]];
+    }
+    
+    //fileNameLabel.lineBreakMode = UILineBreakModeCharacterWrap; 
+    //fileNameLabel.numberOfLines = 0;
+	fileNameLabel.text = theNames;
 
 }
 
