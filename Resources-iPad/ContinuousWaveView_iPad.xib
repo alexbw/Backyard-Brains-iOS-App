@@ -173,8 +173,8 @@
 					</object>
 					<object class="IBUIButton" id="243548960">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">289</int>
-						<string key="NSFrame">{{549, 21}, {18, 19}}</string>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{23, 21}, {18, 19}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="601541161"/>
@@ -273,28 +273,6 @@
 							<reference key="NSColor" ref="203724787"/>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="365502823"/>
-					</object>
-					<object class="IBUIButton" id="316047678">
-						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">289</int>
-						<string key="NSFrame">{{580, 7}, {47, 47}}</string>
-						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<int key="IBUIContentHorizontalAlignment">0</int>
-						<int key="IBUIContentVerticalAlignment">0</int>
-						<reference key="IBUIFont" ref="528252759"/>
-						<reference key="IBUIHighlightedTitleColor" ref="203724787"/>
-						<object class="NSColor" key="IBUINormalTitleColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-						</object>
-						<reference key="IBUINormalTitleShadowColor" ref="365502823"/>
-						<object class="NSCustomResource" key="IBUINormalImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">LarvajoltButton.png</string>
-						</object>
 					</object>
 				</object>
 				<string key="NSFrameSize">{768, 975}</string>
@@ -421,23 +399,6 @@
 					</object>
 					<int key="connectionID">49</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">stimButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="316047678"/>
-					</object>
-					<int key="connectionID">52</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">showLarvaJoltPopover:</string>
-						<reference key="source" ref="316047678"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">53</int>
-				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -459,11 +420,10 @@
 							<reference ref="581895998"/>
 							<reference ref="174792949"/>
 							<reference ref="941077163"/>
-							<reference ref="243548960"/>
 							<reference ref="604067761"/>
 							<reference ref="681983886"/>
 							<reference ref="193395725"/>
-							<reference ref="316047678"/>
+							<reference ref="243548960"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -528,11 +488,6 @@
 						<reference key="object" ref="243548960"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">51</int>
-						<reference key="object" ref="316047678"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -555,7 +510,6 @@
 					<string>44.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.IBViewBoundsToFrameTransform</string>
-					<string>51.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
@@ -580,7 +534,6 @@
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAw3wAAA</bytes>
 					</object>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
@@ -841,7 +794,6 @@
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>FileButton.png</string>
-				<string>LarvajoltButton.png</string>
 				<string>RecordButton.png</string>
 				<string>RoundedButtonBackground.png</string>
 				<string>TickMarks.png</string>
@@ -850,7 +802,6 @@
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{46, 46}</string>
-				<string>{45, 45}</string>
 				<string>{46, 46}</string>
 				<string>{149, 61}</string>
 				<string>{15, 429}</string>

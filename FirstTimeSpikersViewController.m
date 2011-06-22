@@ -143,8 +143,7 @@
 	
 	// If they're not, raise an error and return
 	if (err) {		
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fields missing" message:@"Please fill in all fields"
-													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fields missing" message:@"Please fill in all fields" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alert show];    
 		[alert release];
 		return;
@@ -166,7 +165,7 @@
 	
 	
 	// Make sure the URL is encoded properly 
-	[urlString replaceOccurrencesOfString:@"(null)" withString:@"" options:nil range:NSMakeRange(0, [urlString length])];
+	[urlString replaceOccurrencesOfString:@"(null)" withString:@"" options:0 range:NSMakeRange(0, [urlString length])];
 	//NSString* escapedUrl = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; 
 	//NSURL *url = [NSURL URLWithString: escapedUrl];
 	

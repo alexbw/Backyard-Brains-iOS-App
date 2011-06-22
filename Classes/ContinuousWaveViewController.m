@@ -87,7 +87,16 @@
 - (void)viewWillAppear:(BOOL)animated { 
 	[super viewWillAppear:animated];
 	
-	
+    // Grab the stim button setting from the NSUserDefaults THINGYYY
+    BOOL enablestim = [[NSUserDefaults standardUserDefaults] boolForKey:@"enablestim"];
+    NSLog(@"==== ENABLE STIM set to: %u", enablestim);
+    if (enablestim)
+    {
+        self.stimButton.hidden = NO;
+    } else {
+        self.stimButton.hidden = YES;
+    }
+    
 	
 	[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
 	
@@ -107,6 +116,7 @@
 	[self.cwView startAnimation];
     
 }
+
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[self collectPreferences];
@@ -243,7 +253,6 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	[super touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event];
-	
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
