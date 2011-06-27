@@ -12463,7 +12463,7 @@
 		<string>PrimaryDocumentVisibleCharacterRange</string>
 		<string>HideAllIssues</string>
 		<string>PrimaryDocumentSelectedCharacterRange</string>
-		<real>330300236.058496</real>
+		<real>330312025.97164398</real>
 		<string>{0, 491}</string>
 		<string>{258, 0}</string>
 		<dict>
@@ -26123,7 +26123,7 @@
 				</dict>
 			</array>
 		</dict>
-		<real>330300236.06304997</real>
+		<real>330312025.99482399</real>
 		<string>{0, 491}</string>
 		<string>{258, 0}</string>
 		<string>@interface LarvaJoltAppDelegate</string>
@@ -27756,7 +27756,7 @@
 			</array>
 		</dict>
 		<string>{{0, 0}, {890, 535}}</string>
-		<string>{{83, -69}, {1440, 874}}</string>
+		<string>{{12, -18}, {1440, 874}}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
