@@ -340,10 +340,6 @@
 				FA826E0011558926005BE83D /* CFNetwork.framework */,
 				FACDAD2E1156960C0063FC9B /* CoreAudio.framework */,
 				FACDAD52115696C90063FC9B /* AVFoundation.framework */,
-				FA50CA88117F9FBC00D0CA5A /* test.xib */,
-				FAF0528912BE90FB00568255 /* MainWindow_iPad.xib */,
-				FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */,
-				FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */,
 			);
 			name = "Backyard Brains";
 			sourceTree = "<group>";
@@ -529,11 +525,15 @@
 		FA1636EC1131AEF5003065AC /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
+				FA50CA88117F9FBC00D0CA5A /* test.xib */,
 				FA13338A111F289D00A89543 /* TriggerView.xib */,
+				FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */,
 				FAF7111E111E57A6009E7EFA /* ContinuousWaveView.xib */,
 				282CCBFD0DB6C98000C4EA27 /* SecondView.xib */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
+				FAF0528912BE90FB00568255 /* MainWindow_iPad.xib */,
 				FAF052D112BE950600568255 /* MainWindow_iPad.xib */,
+				FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */,
 				FAF052D412BE952D00568255 /* ContinuousWaveView_iPad.xib */,
 				FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */,
 				FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */,

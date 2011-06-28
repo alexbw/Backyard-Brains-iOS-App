@@ -3,7 +3,8 @@
 //  oScope
 //
 //  Created by Alex Wiltschko on 10/30/09.
-//  Copyright 2009 University of Michigan. All rights reserved.
+//  Modified by Zachary King on 6/27/2011.
+//  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
 #import "ContinuousWaveViewController.h"
@@ -15,12 +16,12 @@
 @interface ContinuousWaveViewController_iPad : ContinuousWaveViewController <BBFileViewControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, FlipsideInfoViewDelegate, LarvaJoltViewDelegate> {
 
 	UIPopoverController *recordedFilesPopover;
-    UIPopoverController *larvaJoltPopover;
+    LarvaJoltViewController *ljvc;
 	
 }
 
 @property (nonatomic, retain) UIPopoverController *recordedFilesPopover;
-@property (nonatomic, retain) UIPopoverController *larvaJoltPopover;
+@property (nonatomic, retain) LarvaJoltViewController *ljvc;
 
 - (IBAction)displayInfoPopover:(UIButton *)sender;
 - (IBAction)showFilePopover:(UIButton *)sender;
@@ -28,5 +29,11 @@
 
 //for BBFileViewControllerDelegate
 - (void)hideFiles;
+
+//for LarvaJoltViewControllerDelegate
+- (void)hideLarvaJolt;
+
+//for FlipsideInfoViewDelegate
+- (void)flipsideIsDone;
 
 @end

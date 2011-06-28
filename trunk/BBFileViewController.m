@@ -347,6 +347,7 @@
 	self.file = (BBFile *)[allFiles objectAtIndex:[[theTableView indexPathForCell:cell] row]];
 	
 	[cell.actionButton setImage:self.pauseImage forState:UIControlStateNormal];
+    self.playingCell = cell;
 	
 	if (audioPlayer == nil) {
 		// Make a URL to the BBFile's audio file
@@ -389,6 +390,7 @@
     if (!inPseudoEditMode)
     {
         [self.playingCell.actionButton setImage:self.playImage forState:UIControlStateNormal];
+        NSLog(@"Set the image for cell at row: %u", [[self.theTableView indexPathForCell:self.playingCell] row]);
 	}
     
 	timeElapsedLabel.text = @"0:00";
@@ -671,8 +673,6 @@
 {
 	NSLog(@"All done?");
 	[self.delegate hideFiles];	
-
-	
 }
 
 

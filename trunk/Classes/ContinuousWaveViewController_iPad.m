@@ -3,7 +3,8 @@
 //  oScope
 //
 //  Created by Alex Wiltschko on 10/30/09.
-//  Copyright 2009 University of Michigan. All rights reserved.
+//  Modified by Zachary King on 6/27/2011.
+//  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
 #import "ContinuousWaveViewController_iPad.h"
@@ -11,12 +12,15 @@
 @implementation ContinuousWaveViewController_iPad
 
 @synthesize recordedFilesPopover;
-@synthesize larvaJoltPopover;
+@synthesize ljvc;
 
 - (void)dealloc {	
     [super dealloc];
 	
-
+    if (self.recordedFilesPopover)
+        [recordedFilesPopover release];
+    if (self.ljvc)
+        [ljvc release];
 }
 
 - (IBAction)displayInfoPopover:(UIButton *)sender {
@@ -26,18 +30,16 @@
 	flipController.modalPresentationStyle = UIModalPresentationFormSheet;
 	flipController.view.frame = CGRectMake(0, 0, 620, 540);
 	[self presentModalViewController:flipController animated:YES];
-	[flipController release];	
+	[flipController release];
+	
+	[self.audioSignalManager pause];
 }
 
+//for FlipsideInfoViewDelegate
 - (void)flipsideIsDone
 {
 	[self dismissModalViewControllerAnimated:YES];
-}
-
-// iPad settings popover delegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
-{
-	[popoverController release];
+	[self.audioSignalManager play];
 }
 
 
@@ -45,53 +47,63 @@
 	
 	[self.audioSignalManager pause];
 	
-	BBFileViewController *theViewController	= [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
-	theViewController.delegate = (id)self;
-	UINavigationController *theNavigationController = [[UINavigationController alloc] initWithRootViewController:theViewController];
 	
-	UIPopoverController *aPopover = [[UIPopoverController alloc] initWithContentViewController:theNavigationController];
-	recordedFilesPopover = aPopover;
-	recordedFilesPopover.delegate = self;
-	[recordedFilesPopover setPopoverContentSize:CGSizeMake(320.0f, 480.0f)];
-	recordedFilesPopover.passthroughViews = [NSArray arrayWithObject:self.cwView];
-	[recordedFilesPopover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-	
-	[theViewController release];
-	[theNavigationController release];
-	
+    if (!self.recordedFilesPopover)
+    {
+        BBFileViewController *theViewController	= [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
+        theViewController.delegate = (id)self;
+        
+        UINavigationController *theNavigationController = [[UINavigationController alloc] initWithRootViewController:theViewController];
+        
+        
+        self.recordedFilesPopover = [[UIPopoverController alloc] initWithContentViewController:theNavigationController];
+        
+        [theViewController release];
+        [theNavigationController release];
+        
+        self.recordedFilesPopover.delegate = self;
+    }
+	[self.recordedFilesPopover setPopoverContentSize:CGSizeMake(320.0f, 480.0f)];
+	//self.recordedFilesPopover.passthroughViews = [NSArray arrayWithObject:self.cwView];
+	[self.recordedFilesPopover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 	
 }
 
+//for BBFileViewControllerDelegate
 - (void)hideFiles {
-	// This is also a delegate action	
 	[self.audioSignalManager play];
-	[recordedFilesPopover dismissPopoverAnimated:YES];
+	[self.recordedFilesPopover dismissPopoverAnimated:YES];
+}
+
+//If the user dismissed by touching outside popover:
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popover {
+	[self.audioSignalManager play];
 }
 
 
-- (IBAction)showLarvaJoltPopover:(UIButton *)sender {
+
+- (IBAction)showLarvaJoltPopover:(UIButton *)sender
+{
     
 	[self.audioSignalManager pause];
     
-    if (!self.larvaJoltController)
+    if (!self.ljvc)
     {
-        self.larvaJoltController = [[LarvaJoltViewController alloc] initWithNibName:@"LarvaJoltViewController" bundle:nil];
-        self.larvaJoltController.delegate = self;
-        self.larvaJoltController.modalPresentationStyle = UIModalPresentationFormSheet;
-        self.larvaJoltController.view.frame = CGRectMake(0, 0, 620, 540);
+        self.ljvc = [[LarvaJoltViewController alloc] initWithNibName:@"LarvaJoltViewController" bundle:nil];
+        self.ljvc.delegate = self;
+        self.ljvc.modalPresentationStyle = UIModalPresentationFormSheet;
+        self.ljvc.view.frame = CGRectMake(0, 0, 620, 540);
 	}
-    [self presentModalViewController:self.larvaJoltController animated:YES];
+    [self presentModalViewController:self.ljvc animated:YES];
     
 }
 
-- (void)hideLarvaJolt {
+//for LarvaJoltViewControllerDelegate
+- (void)hideLarvaJolt
+{
+	[self dismissModalViewControllerAnimated:YES];
 	[self.audioSignalManager play];
 }
-
-- (void)done {
-	[self hideFiles];
-}
-
 
 
 @end

@@ -3,7 +3,8 @@
 //  oScope
 //
 //  Created by Alex Wiltschko on 10/30/09.
-//  Copyright 2009 University of Michigan. All rights reserved.
+//  Modified by Zachary King on 6/27/2011.
+//  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
 #import "ContinuousWaveViewController.h"
