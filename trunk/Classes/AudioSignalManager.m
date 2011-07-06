@@ -964,7 +964,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 - (void)pause {
 	
 	if (!paused) {
-		//OSStatus err = AudioOutputUnitStop(outputAudioUnit);
+		OSStatus err = AudioOutputUnitStop(outputAudioUnit);
 		paused = YES;
 	}
 
