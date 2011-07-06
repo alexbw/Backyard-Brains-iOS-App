@@ -3,7 +3,8 @@
 //  TESTAGAIN
 //
 //  Created by Alex Wiltschko on 9/20/09.
-//  Copyright University of Michigan 2009. All rights reserved.
+//  Modified 7/1/2011 by Zachary King.
+//  Copyright Backyard Brains 2009. All rights reserved.
 //
 
 
@@ -72,6 +73,8 @@ typedef struct {
 	
 }
 
+@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
+
 @property GLint backingHeight;
 @property GLint backingWidth;
 @property GLuint viewFramebuffer;
@@ -86,7 +89,6 @@ typedef struct {
 @property GLfloat waveLineWidth;
 @property int numPointsInWave;
 @property linecolor_s lineColor;
-@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
 
 @property int numHorizontalGridLines;
 @property int numVerticalGridLines;
@@ -102,9 +104,10 @@ typedef struct {
 - (void)drawEverythingToScreen;
 - (void)startAnimation;
 - (void)stopAnimation;
+- (void)autoSetFrame;
 - (void)drawGridLines;
-- (BOOL) createFramebuffer;
-- (void) destroyFramebuffer;
+- (BOOL)createFramebuffer;
+- (void)destroyFramebuffer;
 - (void)toggleVisibilityOfGridAndLabels;
 
 /*

@@ -48,9 +48,17 @@ typedef struct _continuousCallbackData {
 } continuousCallbackData;
 
 
-// C-functions for threshold detection
-
+// C-function for threshold detection
 int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float thresholdValue, BOOL triggerType);
+
+
+@protocol AudioSignalManagerDelegate
+
+@property BOOL didAutoSetFrame;
+- (void)shouldAutoSetFrame;
+
+@end
+
 
 @interface AudioSignalManager : NSObject <UIAlertViewDelegate> {
 
@@ -91,7 +99,10 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 	
 	BOOL hasAudioInput;
 	UInt32 myCallbackType;
-	
+    
+    int nWaitFrames;
+    
+    id <AudioSignalManagerDelegate> delegate;
 	
 }
 
@@ -125,6 +136,9 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 @property BOOL hasAudioInput;
 @property UInt32 myCallbackType;
 
+@property int nWaitFrames;
+
+@property (nonatomic,assign) id <AudioSignalManagerDelegate> delegate;
 
 - (void)ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:(UInt32)callbackType;
 - (id)init;

@@ -28,6 +28,8 @@
 	
 	[self.audioSignalManager fillVertexBufferWithAudioData];	// Grab the audio data
 	
+    
+    
 	if (self.showGrid)
 		[self drawGridLines];
 	

@@ -67,7 +67,7 @@ void sessionPropertyListener(void *                  inClientData,
 //and im sure there is a few more
 void sessionInterruptionListener(void *inClientData, UInt32 inInterruption) {
 
-	//AudioSignalManager *asm = (AudioSignalManager *)inClientData;
+	AudioSignalManager *asm = (AudioSignalManager *)inClientData;
 	
 	if (inInterruption == kAudioSessionBeginInterruption) {
 		NSLog(@"begin interuption");		
@@ -427,6 +427,10 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 @synthesize hasAudioInput;
 @synthesize myCallbackType;
 
+@synthesize nWaitFrames;
+
+@synthesize delegate;
+
 # pragma mark - Initialization
 
 - (id)init {
@@ -451,21 +455,22 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		//first of all setup the adusio session, has nothing to do with understanding the audio graph,
 		//but does set the latency and the listeners.
 		
-		firstStageBuffer	= (SInt16 *)malloc(kNumPointsInFirstBuffer*sizeof(SInt16));
-		secondStageBuffer	= (ringBuffer *)calloc(1, sizeof(ringBuffer));
-		secondStageBuffer->sizeOfBuffer = kNumPointsInWave;
-		secondStageBuffer->lastWrittenIndex = 0;
-		vertexBuffer		= (struct wave_s *)malloc(kNumPointsInVertexBuffer*sizeof(struct wave_s));
+		self.firstStageBuffer	= (SInt16 *)malloc(kNumPointsInFirstBuffer*sizeof(SInt16));
+		self.secondStageBuffer	= (ringBuffer *)calloc(1, sizeof(ringBuffer));
+		self.secondStageBuffer->sizeOfBuffer = kNumPointsInWave;
+		self.secondStageBuffer->lastWrittenIndex = 0;
+		self.vertexBuffer		= (struct wave_s *)malloc(kNumPointsInVertexBuffer*sizeof(struct wave_s));
 
-		triggerSegmentData = (triggeredSegmentHistory *)calloc(1, sizeof(triggeredSegmentHistory));
-		triggerSegmentData->sizeOfMovingAverage = 1;
-		triggerSegmentData->currentSegment = 0; // let's just be explicit.
+		self.triggerSegmentData = (triggeredSegmentHistory *)calloc(1, sizeof(triggeredSegmentHistory));
+		self.triggerSegmentData->sizeOfMovingAverage = 1;
+		self.triggerSegmentData->currentSegment = 0; // let's just be explicit.
 		
-		triggering = NO;
-		triggerType = YES;
+		self.triggering = NO;
+		self.triggerType = YES;
 
-		thresholdValue = 250;
+		self.thresholdValue = 250;
 		
+        self.nWaitFrames = 0;
 		
 		// Grab the gain from the NSUserDefaults THINGYYY
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -833,12 +838,13 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 //							   sizeof(playbackCallbackStruct));
 //	NSAssert(err == noErr, @"Setting input callback failed");
 	
-	/*OSStatus err = AudioUnitSetProperty(outputAudioUnit, 
+	OSStatus err = AudioUnitSetProperty(outputAudioUnit, 
 							   kAudioUnitProperty_SetRenderCallback, 
 							   kAudioUnitScope_Output,
 							   kOutputBus, 
 							   &playbackCallbackStruct, 
-							   sizeof(playbackCallbackStruct));*/
+							   sizeof(playbackCallbackStruct));
+    NSAssert(err == noErr, @"Setting render callback failed");
 
 	self.myCallbackType = callbackType;
 	[self play];
@@ -953,9 +959,27 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		UInt32 firstSampleRequested = secondStageBuffer->lastWrittenIndex - kNumPointsInVertexBuffer;
 		UInt32 buffLen = secondStageBuffer->sizeOfBuffer - 1;
 		
+        //int numNonzeroSamples = 0;
+        //BOOL didSetFrameRequest = NO;
 		for (int i=0; i < kNumPointsInVertexBuffer; ++i) {
 			vertexBuffer[i].y = secondStageBuffer->data[(i + firstSampleRequested) & buffLen];
 		}
+        
+        
+        //if the buffer is nonzero, the view controller needs to set its frame, and the view controller has not already 
+        //  been warned
+        /*if (!didSetFrameRequest && !self.delegate.didAutoSetFrame && numNonzeroSamples > buffLen/4)*/
+        
+        if (self.nWaitFrames == 5)
+        {
+            [delegate shouldAutoSetFrame];
+            self.nWaitFrames += 1;
+        }
+        else if (self.nWaitFrames < 5)
+        {
+            self.nWaitFrames += 1;
+        }
+        
 	}
 }
 
@@ -964,7 +988,8 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 - (void)pause {
 	
 	if (!paused) {
-		//OSStatus err = AudioOutputUnitStop(outputAudioUnit);
+		OSStatus err = AudioOutputUnitStop(outputAudioUnit);
+        NSLog(@"err = %ld", err);
 		paused = YES;
 	}
 

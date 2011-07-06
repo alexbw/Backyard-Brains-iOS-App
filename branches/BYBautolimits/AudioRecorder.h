@@ -24,7 +24,8 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 	void *outBuffer; // this is for storing audio data, it could be of any format/precision.
 	BOOL isRecording;
 	UInt32 bytePosition;
-}
+}               
+
 
 @property (nonatomic, retain) BBFile *bbFile;
 @property (nonatomic, retain) AudioSignalManager *asm;

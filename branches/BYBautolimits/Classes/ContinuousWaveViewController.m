@@ -20,6 +20,9 @@
 
 @synthesize larvaJoltController;
 
+//for AudioSignalManagerDelegate
+@synthesize didAutoSetFrame;
+
 - (void)dealloc {	
     [super dealloc];
 	
@@ -75,32 +78,36 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-		
+
 	self.cwView = (ContinuousWaveView *)[self view];
+    
+    //grab preferences
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
 	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
 	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
 	[self dispersePreferences];		
-	
+    
+	//initialize BOOL
+    self.didAutoSetFrame = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated { 
 	[super viewWillAppear:animated];
 	
+    
     // Grab the stim button setting from the NSUserDefaults THINGYYY
     BOOL enablestim = [[NSUserDefaults standardUserDefaults] boolForKey:@"enablestim"];
-    NSLog(@"==== ENABLE STIM set to: %u", enablestim);
+    //NSLog(@"==== ENABLE STIM set to: %u", enablestim);
     if (enablestim)
-    {
         self.stimButton.hidden = NO;
-    } else {
+    else
         self.stimButton.hidden = YES;
-    }
     
 	
 	[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
 	
 	self.cwView.audioSignalManager = self.audioSignalManager;
+    self.audioSignalManager.delegate = self;
 	[self.cwView.audioSignalManager setVertexBufferXRangeFrom:self.cwView.xMin to:self.cwView.xMax];
 	self.cwView.audioSignalManager.triggering = NO;
 	[self.cwView.audioSignalManager play];
@@ -111,7 +118,6 @@
 
 	self.cwView.minorGridVertexBuffer = (struct wave_s *)malloc(2*4*(self.cwView.numHorizontalGridLines+self.cwView.numVerticalGridLines)*sizeof(struct wave_s));
 	[self.cwView updateMinorGridLines];
-	
 	
 	[self.cwView startAnimation];
     
@@ -165,10 +171,10 @@
 	self.cwView.xBegin = [[preferences valueForKey:@"xBegin"] floatValue];
 	self.cwView.xEnd = [[preferences valueForKey:@"xEnd"] floatValue];
 		
-	self.cwView.yMin = [[preferences valueForKey:@"yMin"] floatValue];
-	self.cwView.yMax = [[preferences valueForKey:@"yMax"] floatValue];	
-	self.cwView.yBegin = [[preferences valueForKey:@"yBegin"] floatValue];
-	self.cwView.yEnd = [[preferences valueForKey:@"yEnd"] floatValue];
+	self.cwView.yMin = [[preferences valueForKey:@"yMin"] floatValue];    //-5 000 000
+	self.cwView.yMax = [[preferences valueForKey:@"yMax"] floatValue];    // 5 000 000
+	self.cwView.yBegin = [[preferences valueForKey:@"yBegin"] floatValue];//-5 000
+	self.cwView.yEnd = [[preferences valueForKey:@"yEnd"] floatValue];    // 5 000
 	
 	self.cwView.numHorizontalGridLines = [[preferences valueForKey:@"numHorizontalGridLines"] intValue];
 	self.cwView.numVerticalGridLines = [[preferences valueForKey:@"numVerticalGridLines"] intValue];
@@ -247,6 +253,46 @@
 	xUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.1f ms", xPerDiv];
 	yUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.2f mV", yPerDiv];
 	
+}
+
+#pragma mark - AudioSignalManagerDelegate
+
+- (void)shouldAutoSetFrame
+{
+     
+    //get a frame
+    ringBuffer *secondStageBuffer = self.audioSignalManager.secondStageBuffer;
+    
+    float theMax = 0, theMin = 0;
+    
+    //find limits
+    for (int i=0; i<secondStageBuffer->sizeOfBuffer; i++) {
+        
+        if (secondStageBuffer->data[i] > theMax)
+            theMax = secondStageBuffer->data[i];
+        else if (secondStageBuffer->data[i] < theMin)
+            theMin = secondStageBuffer->data[i];
+        
+    }
+    
+    //Check for zero values
+    if (theMax && theMin)
+    {
+        float newyMax;
+        //set the window to 120% of the largest value
+        if (fabs(theMax) >= fabs(theMin))
+            newyMax = fabs(theMax) * 1.2f;
+        else
+            newyMax = fabs(theMin) * 1.2f;
+    
+        if ( -newyMax > self.cwView.yMin & -newyMax < 200) {
+            self.cwView.yBegin = -newyMax;
+            self.cwView.yEnd   = newyMax;
+        }
+        
+        [self updateDataLabels];
+
+    }
 }
 
 #pragma mark - Multitouch
