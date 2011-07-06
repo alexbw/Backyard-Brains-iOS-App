@@ -3,7 +3,8 @@
 //  TESTAGAIN
 //
 //  Created by Alex Wiltschko on 9/26/09.
-//  Copyright 2009 University of Michigan. All rights reserved.
+//  Modified by Zachary King on 6/6/2011.
+//  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -100,7 +101,7 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 	BOOL hasAudioInput;
 	UInt32 myCallbackType;
     
-    int nWaitFrames;
+    int nWaitFrames, nTrigWaitFrames;
     
     id <AudioSignalManagerDelegate> delegate;
 	
@@ -137,6 +138,7 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 @property UInt32 myCallbackType;
 
 @property int nWaitFrames;
+@property int nTrigWaitFrames;
 
 @property (nonatomic,assign) id <AudioSignalManagerDelegate> delegate;
 

@@ -77,6 +77,7 @@
 	[self.audioSignalManager changeCallbackTo:kAudioCallbackAverageTrigger];
 	
 	self.triggerView.audioSignalManager = self.audioSignalManager;
+    self.audioSignalManager.delegate = self;
 	[self.triggerView.audioSignalManager setVertexBufferXRangeFrom:self.triggerView.xMin to:self.triggerView.xMax];
 	self.audioSignalManager.triggering = YES;
 	[self.audioSignalManager play];
@@ -245,14 +246,17 @@
         float newyMax;
         //set the window to 120% of the largest value
         if (fabs(theMax) >= fabs(theMin))
-            newyMax = fabs(theMax) * 1.2f;
+            newyMax = fabs(theMax) * 1.5f;
         else
-            newyMax = fabs(theMin) * 1.2f;
+            newyMax = fabs(theMin) * 1.5f;
         
         if ( -newyMax > self.triggerView.yMin & -newyMax < 200) {
             self.triggerView.yBegin = -newyMax;
             self.triggerView.yEnd   = newyMax;
+            
+            audioSignalManager.thresholdValue = newyMax * 0.7f;
         }
+        
         
         [self updateDataLabels];
         

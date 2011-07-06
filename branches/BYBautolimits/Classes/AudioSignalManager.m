@@ -1,9 +1,9 @@
 //
 //  AudioSignalManager.m
-//  TESTAGAIN
 //
 //  Created by Alex Wiltschko on 9/26/09.
-//  Copyright 2009 University of Michigan. All rights reserved.
+//  Modified by Zachary King on 6/6/2011.
+//  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
 #import "AudioSignalManager.h"
@@ -12,6 +12,7 @@
 #define kInputBus 1
 #define eps 0.00001
 #define PI 3.14159265359
+#define kNumWaitFrames 5
 
 
 void sessionPropertyListener(void *                  inClientData,
@@ -427,7 +428,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 @synthesize hasAudioInput;
 @synthesize myCallbackType;
 
-@synthesize nWaitFrames;
+@synthesize nWaitFrames, nTrigWaitFrames;
 
 @synthesize delegate;
 
@@ -471,6 +472,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		self.thresholdValue = 250;
 		
         self.nWaitFrames = 0;
+        self.nTrigWaitFrames = 0;
 		
 		// Grab the gain from the NSUserDefaults THINGYYY
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -950,7 +952,16 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		
 	}
 	
-		
+    //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
+    if (self.nTrigWaitFrames == kNumWaitFrames)
+    {
+        [delegate shouldAutoSetFrame];
+        self.nTrigWaitFrames += 1;
+    }
+    else if (self.nTrigWaitFrames < kNumWaitFrames)
+    {
+        self.nTrigWaitFrames += 1;
+    }
 }
 
 - (void)fillVertexBufferWithAudioData {
@@ -966,16 +977,13 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		}
         
         
-        //if the buffer is nonzero, the view controller needs to set its frame, and the view controller has not already 
-        //  been warned
-        /*if (!didSetFrameRequest && !self.delegate.didAutoSetFrame && numNonzeroSamples > buffLen/4)*/
-        
-        if (self.nWaitFrames == 5)
+        //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
+        if (self.nWaitFrames == kNumWaitFrames)
         {
             [delegate shouldAutoSetFrame];
             self.nWaitFrames += 1;
         }
-        else if (self.nWaitFrames < 5)
+        else if (self.nWaitFrames < kNumWaitFrames)
         {
             self.nWaitFrames += 1;
         }

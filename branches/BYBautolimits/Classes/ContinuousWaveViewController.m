@@ -281,9 +281,9 @@
         float newyMax;
         //set the window to 120% of the largest value
         if (fabs(theMax) >= fabs(theMin))
-            newyMax = fabs(theMax) * 1.2f;
+            newyMax = fabs(theMax) * 1.5f;
         else
-            newyMax = fabs(theMin) * 1.2f;
+            newyMax = fabs(theMin) * 1.5f;
     
         if ( -newyMax > self.cwView.yMin & -newyMax < 200) {
             self.cwView.yBegin = -newyMax;
