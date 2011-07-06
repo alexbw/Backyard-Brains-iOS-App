@@ -67,7 +67,7 @@ void sessionPropertyListener(void *                  inClientData,
 //and im sure there is a few more
 void sessionInterruptionListener(void *inClientData, UInt32 inInterruption) {
 
-	//AudioSignalManager *asm = (AudioSignalManager *)inClientData;
+	AudioSignalManager *asm = (AudioSignalManager *)inClientData;
 	
 	if (inInterruption == kAudioSessionBeginInterruption) {
 		NSLog(@"begin interuption");		
@@ -833,12 +833,12 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 //							   sizeof(playbackCallbackStruct));
 //	NSAssert(err == noErr, @"Setting input callback failed");
 	
-	/*OSStatus err = AudioUnitSetProperty(outputAudioUnit, 
+	OSStatus err = AudioUnitSetProperty(outputAudioUnit, 
 							   kAudioUnitProperty_SetRenderCallback, 
 							   kAudioUnitScope_Output,
 							   kOutputBus, 
 							   &playbackCallbackStruct, 
-							   sizeof(playbackCallbackStruct));*/
+							   sizeof(playbackCallbackStruct));
 
 	self.myCallbackType = callbackType;
 	[self play];
