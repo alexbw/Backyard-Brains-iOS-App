@@ -19,9 +19,6 @@
 
 @synthesize triggerView;
 
-//for AudioSignalManagerDelegate
-@synthesize didAutoSetFrame;
-
 
 - (void)dealloc {	
 		
@@ -52,6 +49,7 @@
 	}
 	
 	th->sizeOfMovingAverage = (int)sender.value;
+    th->movingAverageIncrement = 1;
 }
 
 
@@ -84,6 +82,9 @@
 	self.audioSignalManager.triggering = YES;
 	[self.audioSignalManager play];
 	
+    //Reset wait frames so the view will automatically set the viewing frame
+    self.audioSignalManager.nWaitFrames = 0;
+    self.audioSignalManager.nTrigWaitFrames = 0;
 	
 	[self updateDataLabels];
 	

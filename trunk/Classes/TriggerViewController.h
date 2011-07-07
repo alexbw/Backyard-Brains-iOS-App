@@ -20,9 +20,6 @@
 	IBOutlet UILabel *numAveragesLabel;
 	
 	TriggerView *triggerView;
-    
-    //for AudioSignalManagerDelegate
-    BOOL didAutoSetFrame;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *triggerValueLabel;
@@ -46,7 +43,6 @@
 - (IBAction)updateNumTriggerAverages:(UISlider *)sender;
 
 //for AudioSignalManagerDelegate
-@property BOOL didAutoSetFrame;
 - (void)shouldAutoSetFrame;
 
 @end

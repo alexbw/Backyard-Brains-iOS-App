@@ -22,8 +22,6 @@
 
 @synthesize larvaJoltController;
 
-//for AudioSignalManagerDelegate
-@synthesize didAutoSetFrame;
 
 - (void)dealloc {	
     [super dealloc];
@@ -89,8 +87,6 @@
 	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
 	[self dispersePreferences];		
     
-	//initialize BOOL
-    self.didAutoSetFrame = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated { 
@@ -113,16 +109,21 @@
 	[self.cwView.audioSignalManager setVertexBufferXRangeFrom:self.cwView.xMin to:self.cwView.xMax];
 	self.cwView.audioSignalManager.triggering = NO;
 	[self.cwView.audioSignalManager play];
-	
-	[self updateDataLabels];
+    
+    //Reset wait frames so the view will automatically set the viewing frame
+    self.audioSignalManager.nWaitFrames = 0;
+    self.audioSignalManager.nTrigWaitFrames = 0;
 	
 	self.cwView.gridVertexBuffer = (struct wave_s *)malloc(2*(self.cwView.numHorizontalGridLines+self.cwView.numVerticalGridLines)*sizeof(struct wave_s));
 
-	self.cwView.minorGridVertexBuffer = (struct wave_s *)malloc(2*4*(self.cwView.numHorizontalGridLines+self.cwView.numVerticalGridLines)*sizeof(struct wave_s));
-	[self.cwView updateMinorGridLines];
+	self.cwView.minorGridVertexBuffer =
+        (struct wave_s *)malloc(2*4*(self.cwView.numHorizontalGridLines+self.cwView.numVerticalGridLines)*sizeof(struct wave_s));
+	
+    [self.cwView updateMinorGridLines];
 	
 	[self.cwView startAnimation];
     
+	[self updateDataLabels];
 }
 
 

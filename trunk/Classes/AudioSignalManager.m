@@ -4,6 +4,7 @@
 //  Created by Alex Wiltschko on 9/26/09.
 //  Modified by Zachary King:
 //      6/6/2011 Added delegate and methods to automatically set the viewing frame.
+//               Fixed a logic error in the moving average calculation.
 //  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
@@ -406,7 +407,6 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 @synthesize vertexBuffer;
 @synthesize triggerSegmentData;
 
-
 @synthesize auBufferList;
 @synthesize lastTime;
 @synthesize samplingRate;
@@ -465,6 +465,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 
 		self.triggerSegmentData = (triggeredSegmentHistory *)calloc(1, sizeof(triggeredSegmentHistory));
 		self.triggerSegmentData->sizeOfMovingAverage = 1;
+        self.triggerSegmentData->movingAverageIncrement = 1;
 		self.triggerSegmentData->currentSegment = 0; // let's just be explicit.
 		
 		self.triggering = NO;
@@ -921,10 +922,10 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	
 	triggeredSegmentHistory *th = self.triggerSegmentData;
 //		normfactor += (normfactor < th->sizeOfMovingAverage)?1.0f:0.0f;
-	int normfactor = th->sizeOfMovingAverage;
+	int normfactor = th->movingAverageIncrement; //sizeOfMovingAverage;
 	
 	UInt32 newestIdx = (th->currentSegment);
-	UInt32 oldestIdx = (th->currentSegment - th->sizeOfMovingAverage) % kNumSegmentsInTriggerAverage;
+	UInt32 oldestIdx = (th->currentSegment - th->movingAverageIncrement) % kNumSegmentsInTriggerAverage;
 		
 	UInt32 idx;
 	UInt32 lastWrit;
@@ -939,7 +940,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	
 	
 	// Add in the newest stuff
-	for (int i=0; i < th->sizeOfMovingAverage; ++i) {
+	for (int i=0; i < th->movingAverageIncrement; ++i) {
 		idx = (newestIdx - i) % kNumSegmentsInTriggerAverage;
 		lastWrit = th->lastWrittenSample[idx];
 		lastRead = th->lastReadSample[idx];
@@ -952,15 +953,20 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		}
 		
 	}
+    
+    //increment the moving average until it reaches the desired number
+    if (th->movingAverageIncrement < th->sizeOfMovingAverage)
+        ++th->movingAverageIncrement;
+    
 	
     //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
-    if (self.nTrigWaitFrames == kNumWaitFrames)
+    if (self.nTrigWaitFrames < kNumWaitFrames)
     {
-        [delegate shouldAutoSetFrame];
         self.nTrigWaitFrames += 1;
     }
-    else if (self.nTrigWaitFrames < kNumWaitFrames)
+    else if (self.nTrigWaitFrames == kNumWaitFrames)
     {
+        [delegate shouldAutoSetFrame];
         self.nTrigWaitFrames += 1;
     }
 }
@@ -979,13 +985,13 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
         
         
         //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
-        if (self.nWaitFrames == kNumWaitFrames)
+        if (self.nWaitFrames < kNumWaitFrames)
         {
-            [delegate shouldAutoSetFrame];
             self.nWaitFrames += 1;
         }
-        else if (self.nWaitFrames < kNumWaitFrames)
+        else if (self.nWaitFrames == kNumWaitFrames)
         {
+            [delegate shouldAutoSetFrame];
             self.nWaitFrames += 1;
         }
         

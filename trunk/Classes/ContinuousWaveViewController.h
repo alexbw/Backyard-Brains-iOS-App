@@ -30,9 +30,6 @@
 	AudioRecorder *audioRecorder;
     
     LarvaJoltViewController *larvaJoltController;
-	
-    //for AudioSignalManagerDelegate
-    BOOL didAutoSetFrame;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *recordButton;
@@ -56,7 +53,6 @@
 - (void)pissMyPants;
 
 //for AudioSignalManagerDelegate
-@property BOOL didAutoSetFrame;
 - (void)shouldAutoSetFrame;
 
 @end

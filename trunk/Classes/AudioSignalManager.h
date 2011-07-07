@@ -36,7 +36,10 @@ typedef struct _triggeredSegmentHistory {
 	UInt32 lastReadSample[kNumSegmentsInTriggerAverage];
 	UInt32 lastWrittenSample[kNumSegmentsInTriggerAverage];
 	UInt32 currentSegment;
-	UInt32 sizeOfMovingAverage; // although there are kNumSegmentsInTriggerAverage, we may choose to use a moving average less than that.
+	UInt32 sizeOfMovingAverage; //Although there are kNumSegmentsInTriggerAverage,
+                                // we may choose to use a moving average less than that.
+    UInt32 movingAverageIncrement; //This will start at 1 and increment
+                                   // until sizeOfMovingAverage is reached
 } triggeredSegmentHistory;
 
 struct wave_s {
@@ -56,7 +59,6 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 
 @protocol AudioSignalManagerDelegate
 
-@property BOOL didAutoSetFrame;
 - (void)shouldAutoSetFrame;
 
 @end
