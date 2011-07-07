@@ -91,7 +91,6 @@
 		FACDAD2F1156960C0063FC9B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACDAD2E1156960C0063FC9B /* CoreAudio.framework */; };
 		FACDAD53115696C90063FC9B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACDAD52115696C90063FC9B /* AVFoundation.framework */; };
 		FAE4D1AE1151AD9F00FDCD39 /* AudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE4D1AD1151AD9F00FDCD39 /* AudioRecorder.m */; };
-		FAE77AC71150A60A006B05DA /* AudioConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE77AC61150A60A006B05DA /* AudioConverter.m */; };
 		FAE77ADA1150ABB1006B05DA /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE77AD91150ABB1006B05DA /* MessageUI.framework */; };
 		FAF0528A12BE90FB00568255 /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF0528912BE90FB00568255 /* MainWindow_iPad.xib */; };
 		FAF0528D12BE912700568255 /* ContinuousWaveView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */; };
@@ -244,8 +243,6 @@
 		FACDAD52115696C90063FC9B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		FAE4D1AC1151AD9F00FDCD39 /* AudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecorder.h; sourceTree = "<group>"; };
 		FAE4D1AD1151AD9F00FDCD39 /* AudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecorder.m; sourceTree = "<group>"; };
-		FAE77AC51150A60A006B05DA /* AudioConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioConverter.h; sourceTree = "<group>"; };
-		FAE77AC61150A60A006B05DA /* AudioConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioConverter.m; sourceTree = "<group>"; };
 		FAE77AD91150ABB1006B05DA /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		FAF0528912BE90FB00568255 /* MainWindow_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow_iPad.xib; path = "Resources-iPad/MainWindow_iPad.xib"; sourceTree = "<group>"; };
 		FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContinuousWaveView_iPad.xib; path = "Resources-iPad/ContinuousWaveView_iPad.xib"; sourceTree = "<group>"; };
@@ -431,8 +428,6 @@
 			children = (
 				FA1637E11131F2F8003065AC /* BBFile.h */,
 				FA1637E21131F2F8003065AC /* BBFile.m */,
-				FAE77AC51150A60A006B05DA /* AudioConverter.h */,
-				FAE77AC61150A60A006B05DA /* AudioConverter.m */,
 				FAE4D1AC1151AD9F00FDCD39 /* AudioRecorder.h */,
 				FAE4D1AD1151AD9F00FDCD39 /* AudioRecorder.m */,
 			);
@@ -837,7 +832,6 @@
 				FA88C63811472085006C2FE0 /* BBFileDetailViewController.m in Sources */,
 				FA88C64B114821FF006C2FE0 /* BBFileTitleEditorViewController.m in Sources */,
 				FA88C81911486EAC006C2FE0 /* BBFileCommentEditorViewController.m in Sources */,
-				FAE77AC71150A60A006B05DA /* AudioConverter.m in Sources */,
 				FAE4D1AE1151AD9F00FDCD39 /* AudioRecorder.m in Sources */,
 				FA826D7411557AC4005BE83D /* BBFileDownloadViewController.m in Sources */,
 				FA826DCF115582C1005BE83D /* HTTPServer.m in Sources */,

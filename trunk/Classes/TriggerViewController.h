@@ -3,13 +3,15 @@
 //  oScope
 //
 //  Created by Alex Wiltschko on 10/30/09.
-//  Copyright 2009 University of Michigan. All rights reserved.
+//  Modified by Zachary King
+//      6/6/2011 Added delegate and methods to automatically set the viewing frame.
+//  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
 #import "DrawingViewController.h"
 #import "TriggerView.h"
 
-@interface TriggerViewController : DrawingViewController {
+@interface TriggerViewController : DrawingViewController <AudioSignalManagerDelegate> {
 	
 	// Data labels
 	IBOutlet UILabel *triggerValueLabel;
@@ -18,6 +20,9 @@
 	IBOutlet UILabel *numAveragesLabel;
 	
 	TriggerView *triggerView;
+    
+    //for AudioSignalManagerDelegate
+    BOOL didAutoSetFrame;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *triggerValueLabel;
@@ -39,5 +44,9 @@
 
 - (IBAction)toggleSliderVisiblity:(UIButton *)sender;
 - (IBAction)updateNumTriggerAverages:(UISlider *)sender;
+
+//for AudioSignalManagerDelegate
+@property BOOL didAutoSetFrame;
+- (void)shouldAutoSetFrame;
 
 @end

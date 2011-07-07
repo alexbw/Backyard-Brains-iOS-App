@@ -1,9 +1,10 @@
 //
 //  AudioSignalManager.m
-//  TESTAGAIN
 //
 //  Created by Alex Wiltschko on 9/26/09.
-//  Copyright 2009 University of Michigan. All rights reserved.
+//  Modified by Zachary King:
+//      6/6/2011 Added delegate and methods to automatically set the viewing frame.
+//  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
 #import "AudioSignalManager.h"
@@ -12,6 +13,7 @@
 #define kInputBus 1
 #define eps 0.00001
 #define PI 3.14159265359
+#define kNumWaitFrames 5
 
 
 void sessionPropertyListener(void *                  inClientData,
@@ -427,6 +429,10 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 @synthesize hasAudioInput;
 @synthesize myCallbackType;
 
+@synthesize nWaitFrames, nTrigWaitFrames;
+
+@synthesize delegate;
+
 # pragma mark - Initialization
 
 - (id)init {
@@ -451,21 +457,23 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		//first of all setup the adusio session, has nothing to do with understanding the audio graph,
 		//but does set the latency and the listeners.
 		
-		firstStageBuffer	= (SInt16 *)malloc(kNumPointsInFirstBuffer*sizeof(SInt16));
-		secondStageBuffer	= (ringBuffer *)calloc(1, sizeof(ringBuffer));
-		secondStageBuffer->sizeOfBuffer = kNumPointsInWave;
-		secondStageBuffer->lastWrittenIndex = 0;
-		vertexBuffer		= (struct wave_s *)malloc(kNumPointsInVertexBuffer*sizeof(struct wave_s));
+		self.firstStageBuffer	= (SInt16 *)malloc(kNumPointsInFirstBuffer*sizeof(SInt16));
+		self.secondStageBuffer	= (ringBuffer *)calloc(1, sizeof(ringBuffer));
+		self.secondStageBuffer->sizeOfBuffer = kNumPointsInWave;
+		self.secondStageBuffer->lastWrittenIndex = 0;
+		self.vertexBuffer		= (struct wave_s *)malloc(kNumPointsInVertexBuffer*sizeof(struct wave_s));
 
-		triggerSegmentData = (triggeredSegmentHistory *)calloc(1, sizeof(triggeredSegmentHistory));
-		triggerSegmentData->sizeOfMovingAverage = 1;
-		triggerSegmentData->currentSegment = 0; // let's just be explicit.
+		self.triggerSegmentData = (triggeredSegmentHistory *)calloc(1, sizeof(triggeredSegmentHistory));
+		self.triggerSegmentData->sizeOfMovingAverage = 1;
+		self.triggerSegmentData->currentSegment = 0; // let's just be explicit.
 		
-		triggering = NO;
-		triggerType = YES;
+		self.triggering = NO;
+		self.triggerType = YES;
 
-		thresholdValue = 250;
+		self.thresholdValue = 250;
 		
+        self.nWaitFrames = 0;
+        self.nTrigWaitFrames = 0;
 		
 		// Grab the gain from the NSUserDefaults THINGYYY
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -839,6 +847,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 							   kOutputBus, 
 							   &playbackCallbackStruct, 
 							   sizeof(playbackCallbackStruct));
+    NSAssert(err == noErr, @"Setting render callback failed");
 
 	self.myCallbackType = callbackType;
 	[self play];
@@ -944,7 +953,16 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		
 	}
 	
-		
+    //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
+    if (self.nTrigWaitFrames == kNumWaitFrames)
+    {
+        [delegate shouldAutoSetFrame];
+        self.nTrigWaitFrames += 1;
+    }
+    else if (self.nTrigWaitFrames < kNumWaitFrames)
+    {
+        self.nTrigWaitFrames += 1;
+    }
 }
 
 - (void)fillVertexBufferWithAudioData {
@@ -953,9 +971,24 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		UInt32 firstSampleRequested = secondStageBuffer->lastWrittenIndex - kNumPointsInVertexBuffer;
 		UInt32 buffLen = secondStageBuffer->sizeOfBuffer - 1;
 		
+        //int numNonzeroSamples = 0;
+        //BOOL didSetFrameRequest = NO;
 		for (int i=0; i < kNumPointsInVertexBuffer; ++i) {
 			vertexBuffer[i].y = secondStageBuffer->data[(i + firstSampleRequested) & buffLen];
 		}
+        
+        
+        //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
+        if (self.nWaitFrames == kNumWaitFrames)
+        {
+            [delegate shouldAutoSetFrame];
+            self.nWaitFrames += 1;
+        }
+        else if (self.nWaitFrames < kNumWaitFrames)
+        {
+            self.nWaitFrames += 1;
+        }
+        
 	}
 }
 
@@ -965,6 +998,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	
 	if (!paused) {
 		OSStatus err = AudioOutputUnitStop(outputAudioUnit);
+        NSLog(@"err = %ld", err);
 		paused = YES;
 	}
 

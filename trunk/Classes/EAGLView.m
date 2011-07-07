@@ -3,7 +3,8 @@
 //  TESTAGAIN
 //
 //  Created by Alex Wiltschko on 9/20/09.
-//  Copyright University of Michigan 2009. All rights reserved.
+//  Modified 7/1/2011 by Zachary King.
+//  Copyright Backyard Brains 2009. All rights reserved.
 //
 
 
@@ -21,6 +22,8 @@
 
 @implementation EAGLView
 const int numdashes = 100;
+
+@synthesize audioSignalManager;
 
 @synthesize viewFramebuffer;
 @synthesize backingWidth;
@@ -45,7 +48,6 @@ const int numdashes = 100;
 @synthesize gridVertexBuffer;
 @synthesize minorGridVertexBuffer;
 
-@synthesize audioSignalManager;
 
 @synthesize startIndex;
 @synthesize numPointsToDraw;
@@ -104,6 +106,7 @@ const int numdashes = 100;
     return self;
 	
 }
+
 
 - (void)prepareOpenGLView {
 	// Preliminaries that we need to do in order to draw anything
@@ -229,6 +232,12 @@ const int numdashes = 100;
 
 - (void)stopAnimation {
     [self.animationTimer invalidate];
+}
+
+
+- (void)autoSetFrame
+{
+    
 }
 
 

@@ -3,7 +3,9 @@
 //  oScope
 //
 //  Created by Alex Wiltschko on 10/30/09.
-//  Copyright 2009 University of Michigan. All rights reserved.
+//  Modified by Zachary King
+//      6/6/2011 Added delegate and methods to automatically set the viewing frame.
+//  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
 #import "TriggerViewController.h"
@@ -15,8 +17,11 @@
 @synthesize numAveragesSlider;
 @synthesize numAveragesLabel;
 
-
 @synthesize triggerView;
+
+//for AudioSignalManagerDelegate
+@synthesize didAutoSetFrame;
+
 
 - (void)dealloc {	
 		
@@ -74,6 +79,7 @@
 	[self.audioSignalManager changeCallbackTo:kAudioCallbackAverageTrigger];
 	
 	self.triggerView.audioSignalManager = self.audioSignalManager;
+    self.audioSignalManager.delegate = self;
 	[self.triggerView.audioSignalManager setVertexBufferXRangeFrom:self.triggerView.xMin to:self.triggerView.xMax];
 	self.audioSignalManager.triggering = YES;
 	[self.audioSignalManager play];
@@ -216,6 +222,48 @@
 
 
 
+#pragma mark - AudioSignalManagerDelegate
+
+- (void)shouldAutoSetFrame
+{
+    
+    //get a frame
+    ringBuffer *secondStageBuffer = self.audioSignalManager.secondStageBuffer;
+    
+    float theMax = 0, theMin = 0;
+    
+    //find limits
+    for (int i=0; i<secondStageBuffer->sizeOfBuffer; i++) {
+        
+        if (secondStageBuffer->data[i] > theMax)
+            theMax = secondStageBuffer->data[i];
+        else if (secondStageBuffer->data[i] < theMin)
+            theMin = secondStageBuffer->data[i];
+        
+    }
+    
+    //Check for zero values
+    if (theMax && theMin)
+    {
+        float newyMax;
+        //set the window to 120% of the largest value
+        if (fabs(theMax) >= fabs(theMin))
+            newyMax = fabs(theMax) * 1.5f;
+        else
+            newyMax = fabs(theMin) * 1.5f;
+        
+        if ( -newyMax > self.triggerView.yMin & -newyMax < 200) {
+            self.triggerView.yBegin = -newyMax;
+            self.triggerView.yEnd   = newyMax;
+            
+            audioSignalManager.thresholdValue = newyMax * 0.7f;
+        }
+        
+        
+        [self updateDataLabels];
+        
+    }
+}
 
 
 #pragma mark - Multitouch
@@ -235,32 +283,7 @@
 		[self handlePinchingForTriggerView];
 	}
 	
-//	float viewWidth  = self.triggerView.bounds.size.width;
-//	float viewHeight = self.triggerView.bounds.size.height;
-//		
-//	self.pinchChangeInX /= viewWidth;
-//	self.pinchChangeInY /= viewHeight;
-//	self.pinchChangeInX *= 2.2f;
-//	self.pinchChangeInY *= 2.2f;
-//	
-//	
-//	float newxBegin = self.triggerView.xBegin - self.triggerView.xBegin*self.pinchChangeInX;
-//	float newyBegin = self.triggerView.yBegin - self.triggerView.yBegin*self.pinchChangeInY;
-//	
-//
-//	
-//	if ( newyBegin > self.triggerView.yMin & newyBegin < 200) {
-//		self.triggerView.yBegin = newyBegin;
-//		self.triggerView.yEnd = -newyBegin;
-//	}
-//	
-//	// Make sure we can't scale the x-axis past the number of collected samples,
-//	// and also not less than 10 milliseconds
-//	if ( newxBegin > self.triggerView.xMin & newxBegin <= -10) {
-//		self.triggerView.xBegin = newxBegin;
-//	}
-	
-	[self updateDataLabels];
+    [self updateDataLabels];
 
 	
 }

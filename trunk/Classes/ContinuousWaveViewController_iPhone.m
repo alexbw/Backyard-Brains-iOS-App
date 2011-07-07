@@ -3,7 +3,8 @@
 //  oScope
 //
 //  Created by Alex Wiltschko on 10/30/09.
-//  Modified by Zachary King on 6/27/2011.
+//  Modified by Zachary King
+//      6/27/2011 Added LarvaJolt stimulation controller.
 //  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
