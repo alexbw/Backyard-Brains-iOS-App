@@ -53,8 +53,8 @@
                                                         action:@selector(togglePseudoEditMode)];
         
         
-        self.playImage =        [UIImage imageNamed:@"Play.png"];
-        self.pauseImage =       [UIImage imageNamed:@"Pause.png"];
+        self.playImage =        [UIImage imageNamed:@"play.png"];
+        self.pauseImage =       [UIImage imageNamed:@"pause.png"];
         self.selectedImage =    [UIImage imageNamed:@"selected.png"];
         self.unselectedImage =  [UIImage imageNamed:@"unselected.png"];
 		
