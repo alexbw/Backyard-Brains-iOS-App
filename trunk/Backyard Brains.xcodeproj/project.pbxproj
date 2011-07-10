@@ -14,6 +14,7 @@
 		282CCBFE0DB6C98000C4EA27 /* SecondView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 282CCBFD0DB6C98000C4EA27 /* SecondView.xib */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
+		E912CCDD13CA53FA00CD41C9 /* TickMarks_iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = E912CCDC13CA53FA00CD41C9 /* TickMarks_iPad.png */; };
 		E923442413B96D4D00C17C61 /* ByB-Logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = E923441C13B96D4D00C17C61 /* ByB-Logo-57.png */; };
 		E923442513B96D4D00C17C61 /* Chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = E923441D13B96D4D00C17C61 /* Chevron.png */; };
 		E923442713B96D4D00C17C61 /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = E923441F13B96D4D00C17C61 /* Pause.png */; };
@@ -21,18 +22,16 @@
 		E923442913B96D4D00C17C61 /* RoachDetailIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E923442113B96D4D00C17C61 /* RoachDetailIcon.png */; };
 		E923442A13B96D4D00C17C61 /* ThresholdImage.png in Resources */ = {isa = PBXBuildFile; fileRef = E923442213B96D4D00C17C61 /* ThresholdImage.png */; };
 		E923442B13B96D4D00C17C61 /* WaveImage.png in Resources */ = {isa = PBXBuildFile; fileRef = E923442313B96D4D00C17C61 /* WaveImage.png */; };
+		E96C48B013C7AED600EAD5AA /* selected.png in Resources */ = {isa = PBXBuildFile; fileRef = E96C48AE13C7AED600EAD5AA /* selected.png */; };
+		E96C48B113C7AED600EAD5AA /* unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = E96C48AF13C7AED600EAD5AA /* unselected.png */; };
 		E9AB224D13C550380054209F /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224313C550380054209F /* pause.png */; };
 		E9AB224E13C550380054209F /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224413C550380054209F /* pause@2x.png */; };
 		E9AB224F13C550380054209F /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224513C550380054209F /* play.png */; };
 		E9AB225013C550380054209F /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224613C550380054209F /* play@2x.png */; };
-		E9AB225113C550380054209F /* selected.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224713C550380054209F /* selected.png */; };
 		E9AB225213C550380054209F /* selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224813C550380054209F /* selected@2x.png */; };
 		E9AB225313C550380054209F /* stim.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224913C550380054209F /* stim.png */; };
 		E9AB225413C550380054209F /* stim@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224A13C550380054209F /* stim@2x.png */; };
 		E9AB225513C550380054209F /* unselected.2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224B13C550380054209F /* unselected.2x.png */; };
-		E9AB225613C550380054209F /* unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224C13C550380054209F /* unselected.png */; };
-		E9B7883C13AD3E0B00806699 /* selected.png in Resources */ = {isa = PBXBuildFile; fileRef = E9B7882B13AD3E0B00806699 /* selected.png */; };
-		E9B7884113AD3E0B00806699 /* unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = E9B7883013AD3E0B00806699 /* unselected.png */; };
 		E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */; };
 		E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */; };
 		E9C8B41313638A2E00F0ED8E /* LarvaJoltViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */; };
@@ -105,8 +104,6 @@
 		FAF0528D12BE912700568255 /* ContinuousWaveView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */; };
 		FAF0529012BE924200568255 /* ContinuousWaveViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF0528F12BE924200568255 /* ContinuousWaveViewController_iPad.m */; };
 		FAF052AC12BE937500568255 /* ContinuousWaveViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF052AB12BE937500568255 /* ContinuousWaveViewController_iPhone.m */; };
-		FAF052D212BE950600568255 /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF052D112BE950600568255 /* MainWindow_iPad.xib */; };
-		FAF052D512BE952D00568255 /* ContinuousWaveView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF052D412BE952D00568255 /* ContinuousWaveView_iPad.xib */; };
 		FAF0549712BEA3E000568255 /* TriggerView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */; };
 		FAF70E6F111E21E0009E7EFA /* AudioSignalManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF70E62111E21E0009E7EFA /* AudioSignalManager.m */; };
 		FAF70E70111E21E0009E7EFA /* ContinuousWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF70E64111E21E0009E7EFA /* ContinuousWaveView.m */; };
@@ -136,6 +133,7 @@
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Backyard_Brains-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Backyard_Brains-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		E912CCDC13CA53FA00CD41C9 /* TickMarks_iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TickMarks_iPad.png; path = Images/TickMarks_iPad.png; sourceTree = "<group>"; };
 		E923441C13B96D4D00C17C61 /* ByB-Logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ByB-Logo-57.png"; path = "Images/ByB-Logo-57.png"; sourceTree = "<group>"; };
 		E923441D13B96D4D00C17C61 /* Chevron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Chevron.png; path = Images/Chevron.png; sourceTree = "<group>"; };
 		E923441F13B96D4D00C17C61 /* Pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Pause.png; path = Images/Pause.png; sourceTree = "<group>"; };
@@ -143,18 +141,16 @@
 		E923442113B96D4D00C17C61 /* RoachDetailIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RoachDetailIcon.png; path = Images/RoachDetailIcon.png; sourceTree = "<group>"; };
 		E923442213B96D4D00C17C61 /* ThresholdImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ThresholdImage.png; path = Images/ThresholdImage.png; sourceTree = "<group>"; };
 		E923442313B96D4D00C17C61 /* WaveImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaveImage.png; path = Images/WaveImage.png; sourceTree = "<group>"; };
+		E96C48AE13C7AED600EAD5AA /* selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = selected.png; path = Images/selected.png; sourceTree = "<group>"; };
+		E96C48AF13C7AED600EAD5AA /* unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.png; path = Images/unselected.png; sourceTree = "<group>"; };
 		E9AB224313C550380054209F /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = Images/pause.png; sourceTree = "<group>"; };
 		E9AB224413C550380054209F /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pause@2x.png"; path = "Images/pause@2x.png"; sourceTree = "<group>"; };
 		E9AB224513C550380054209F /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Images/play.png; sourceTree = "<group>"; };
 		E9AB224613C550380054209F /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "play@2x.png"; path = "Images/play@2x.png"; sourceTree = "<group>"; };
-		E9AB224713C550380054209F /* selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = selected.png; path = Images/selected.png; sourceTree = "<group>"; };
 		E9AB224813C550380054209F /* selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "selected@2x.png"; path = "Images/selected@2x.png"; sourceTree = "<group>"; };
 		E9AB224913C550380054209F /* stim.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stim.png; path = Images/stim.png; sourceTree = "<group>"; };
 		E9AB224A13C550380054209F /* stim@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stim@2x.png"; path = "Images/stim@2x.png"; sourceTree = "<group>"; };
 		E9AB224B13C550380054209F /* unselected.2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.2x.png; path = Images/unselected.2x.png; sourceTree = "<group>"; };
-		E9AB224C13C550380054209F /* unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.png; path = Images/unselected.png; sourceTree = "<group>"; };
-		E9B7882B13AD3E0B00806699 /* selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = selected.png; path = Images/selected.png; sourceTree = "<group>"; };
-		E9B7883013AD3E0B00806699 /* unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.png; path = Images/unselected.png; sourceTree = "<group>"; };
 		E9C8B4061363885000F0ED8E /* LarvaJoltAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltAudio.h; sourceTree = "<group>"; };
 		E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltAudio.m; sourceTree = "<group>"; };
 		E9C8B4081363885000F0ED8E /* LarvaJoltViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltViewController.h; sourceTree = "<group>"; };
@@ -268,8 +264,6 @@
 		FAF0528F12BE924200568255 /* ContinuousWaveViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContinuousWaveViewController_iPad.m; path = Classes/ContinuousWaveViewController_iPad.m; sourceTree = "<group>"; };
 		FAF052AA12BE937500568255 /* ContinuousWaveViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContinuousWaveViewController_iPhone.h; path = Classes/ContinuousWaveViewController_iPhone.h; sourceTree = "<group>"; };
 		FAF052AB12BE937500568255 /* ContinuousWaveViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContinuousWaveViewController_iPhone.m; path = Classes/ContinuousWaveViewController_iPhone.m; sourceTree = "<group>"; };
-		FAF052D112BE950600568255 /* MainWindow_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow_iPad.xib; path = "Resources-iPad/MainWindow_iPad.xib"; sourceTree = "<group>"; };
-		FAF052D412BE952D00568255 /* ContinuousWaveView_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContinuousWaveView_iPad.xib; path = "Resources-iPad/ContinuousWaveView_iPad.xib"; sourceTree = "<group>"; };
 		FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TriggerView_iPad.xib; path = "Resources-iPad/TriggerView_iPad.xib"; sourceTree = "<group>"; };
 		FAF70E61111E21E0009E7EFA /* AudioSignalManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioSignalManager.h; path = Classes/AudioSignalManager.h; sourceTree = "<group>"; };
 		FAF70E62111E21E0009E7EFA /* AudioSignalManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioSignalManager.m; path = Classes/AudioSignalManager.m; sourceTree = "<group>"; };
@@ -504,16 +498,15 @@
 				E9AB224413C550380054209F /* pause@2x.png */,
 				E9AB224513C550380054209F /* play.png */,
 				E9AB224613C550380054209F /* play@2x.png */,
-				E9AB224713C550380054209F /* selected.png */,
 				E9AB224813C550380054209F /* selected@2x.png */,
 				E9AB224913C550380054209F /* stim.png */,
 				E9AB224A13C550380054209F /* stim@2x.png */,
 				E9AB224B13C550380054209F /* unselected.2x.png */,
-				E9AB224C13C550380054209F /* unselected.png */,
-				E9B7882B13AD3E0B00806699 /* selected.png */,
-				E9B7883013AD3E0B00806699 /* unselected.png */,
 				FAC9FECD115B070F0004822F /* msLine.png */,
 				FAC9FE34115AFB030004822F /* TickMarks.png */,
+				E912CCDC13CA53FA00CD41C9 /* TickMarks_iPad.png */,
+				E96C48AE13C7AED600EAD5AA /* selected.png */,
+				E96C48AF13C7AED600EAD5AA /* unselected.png */,
 				FAC9FE0D115AE5350004822F /* FileButton.png */,
 				FAC9FE0E115AE5350004822F /* RecordButton.png */,
 				FAC9FE0F115AE5350004822F /* RoundedButtonBackground.png */,
@@ -550,13 +543,11 @@
 				FA50CA88117F9FBC00D0CA5A /* test.xib */,
 				FA13338A111F289D00A89543 /* TriggerView.xib */,
 				FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */,
-				FAF7111E111E57A6009E7EFA /* ContinuousWaveView.xib */,
 				282CCBFD0DB6C98000C4EA27 /* SecondView.xib */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				FAF0528912BE90FB00568255 /* MainWindow_iPad.xib */,
-				FAF052D112BE950600568255 /* MainWindow_iPad.xib */,
+				FAF7111E111E57A6009E7EFA /* ContinuousWaveView.xib */,
 				FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */,
-				FAF052D412BE952D00568255 /* ContinuousWaveView_iPad.xib */,
 				FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */,
 				FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */,
 				FA16389211320CAB003065AC /* BBFileView.xib */,
@@ -803,12 +794,8 @@
 				FA50CA89117F9FBC00D0CA5A /* test.xib in Resources */,
 				FAF0528A12BE90FB00568255 /* MainWindow_iPad.xib in Resources */,
 				FAF0528D12BE912700568255 /* ContinuousWaveView_iPad.xib in Resources */,
-				FAF052D212BE950600568255 /* MainWindow_iPad.xib in Resources */,
-				FAF052D512BE952D00568255 /* ContinuousWaveView_iPad.xib in Resources */,
 				FAF0549712BEA3E000568255 /* TriggerView_iPad.xib in Resources */,
 				E9C8B41313638A2E00F0ED8E /* LarvaJoltViewController.xib in Resources */,
-				E9B7883C13AD3E0B00806699 /* selected.png in Resources */,
-				E9B7884113AD3E0B00806699 /* unselected.png in Resources */,
 				E923442413B96D4D00C17C61 /* ByB-Logo-57.png in Resources */,
 				E923442513B96D4D00C17C61 /* Chevron.png in Resources */,
 				E923442713B96D4D00C17C61 /* Pause.png in Resources */,
@@ -820,12 +807,13 @@
 				E9AB224E13C550380054209F /* pause@2x.png in Resources */,
 				E9AB224F13C550380054209F /* play.png in Resources */,
 				E9AB225013C550380054209F /* play@2x.png in Resources */,
-				E9AB225113C550380054209F /* selected.png in Resources */,
 				E9AB225213C550380054209F /* selected@2x.png in Resources */,
 				E9AB225313C550380054209F /* stim.png in Resources */,
 				E9AB225413C550380054209F /* stim@2x.png in Resources */,
 				E9AB225513C550380054209F /* unselected.2x.png in Resources */,
-				E9AB225613C550380054209F /* unselected.png in Resources */,
+				E96C48B013C7AED600EAD5AA /* selected.png in Resources */,
+				E96C48B113C7AED600EAD5AA /* unselected.png in Resources */,
+				E912CCDD13CA53FA00CD41C9 /* TickMarks_iPad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

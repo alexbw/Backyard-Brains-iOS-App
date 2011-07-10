@@ -57,16 +57,19 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.audioSignalManager = self.delegate.audioSignalManager;
+    
+    //make sure tick marks and scale bars change size with rotation
 	tickMarks.contentMode = UIViewContentModeScaleAspectFit;
 	msLegendImage.contentMode = UIViewContentModeScaleAspectFit;
-	
+    
+	/*
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didRotate:)
 												 name:UIDeviceOrientationDidChangeNotification
-											   object:nil];
+											   object:nil];*/
 	
 }
-
+/*
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	UIInterfaceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
@@ -97,7 +100,7 @@
 		[self fitTickMarksToPortrait];
 	}
 	
-}
+}*/
 
 
 // Override to allow orientations other than the default portrait orientation.
@@ -118,28 +121,38 @@
 	
 	return NO;
 }
-
+/*
 - (void)fitTickMarksToPortrait {
 	NSLog(@"Fitting tick marks to portrait");
 	
+    int tickMarkHeight, msFrameWidth, mVLabelYPos;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        // The device is an iPad running iOS 3.2 or later.
+        //tickMarkHeight = kPortraitHeightWithTabBar_iPad;
+        msFrameWidth = 262;
+        mVLabelYPos = -63;// hand-coded location, this is what looks good
+    }
+    else {
+        //tickMarkHeight = kPortraitHeightWithTabBar;
+        msFrameWidth = 107;
+        mVLabelYPos = -63;
+    }
+    
+    /*Interface builder takes care of this
 	// Resize the tick marks
-	CGRect frame;
-	frame = tickMarks.frame;
-	frame.size.height = portraitHeightWithTabBar;
+	CGRect frame = tickMarks.frame;
+	frame.size.height = tickMarkHeight;
 	tickMarks.frame = frame;
 	
+    /*
 	// Resize the millisecond frame
-	frame = msLegendImage.frame;
-	frame.size.width = 320.0f/3.0f;
-	frame.origin.x = frame.size.width;
+	CGRect frame = msLegendImage.frame;
+    frame.size.width = msFrameWidth;
 	msLegendImage.frame = frame;
 	
-	
 	// Reposition the millivolt label
-	frame = yUnitsPerDivLabel.frame;
-	NSLog(@"Current loc: %f", frame.origin.y);
-	frame.origin.y = -63;
-//	frame.origin.y -= 47; // hand-coded location, this is what looks good
+	CGRect frame = yUnitsPerDivLabel.frame;
+	frame.origin.y = mVLabelYPos; 
 	yUnitsPerDivLabel.frame = frame;
 	
 	[self.view setNeedsDisplay];
@@ -148,23 +161,40 @@
 
 - (void)fitTickMarksToLandscape {
 	NSLog(@"Fitting tick marks to landscape");
+    
+    //int tickMarkHeight;
+    int msFrameWidth, mVLabelYPos;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        // The device is an iPad running iOS 3.2 or later.
+        //tickMarkHeight = kLandscapeHeightWithTabBar_iPad;
+        msFrameWidth = 341;
+        mVLabelYPos = -16;
+    }
+    else {
+        //tickMarkHeight = kLandscapeHeightWithTabBar;
+        msFrameWidth = 160;
+        mVLabelYPos = -16;
+    }
+    
+    /*  Interface builder takes care of this
+	// Resize the tick marks
 	CGRect frame = tickMarks.frame;
-	frame.size.height = landscapeHeightWithTabBar;
+	frame.size.height = tickMarkHeight;
 	tickMarks.frame = frame;
-	
-	frame = msLegendImage.frame;
-	frame.size.width = 480.0f/3.0f;
-	frame.origin.x = frame.size.width;
+    
+    
+	// Resize the millisecond frame
+	CGRect frame = msLegendImage.frame;
+    frame.size.width = msFrameWidth;
 	msLegendImage.frame = frame;
 	
-	frame = yUnitsPerDivLabel.frame;
-	NSLog(@"Current loc: %f", frame.origin.y);
-	frame.origin.y = -16;
-//	frame.origin.y += 47; // hand-coded location, this is what looks good
+	// Reposition the millivolt label
+	CGRect frame = yUnitsPerDivLabel.frame;
+	frame.origin.y = mVLabelYPos; 
 	yUnitsPerDivLabel.frame = frame;	
 	
 	[self.view setNeedsDisplay];
-}
+}*/
 
 - (IBAction)showInfoPanel:(UIButton *)sender {
 	NSLog(@"Showing info panel");

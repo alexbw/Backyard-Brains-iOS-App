@@ -8,8 +8,10 @@
 #import "AudioSignalManager.h"
 
 #define kMaxPixelDistanceToDetectTap 10
-#define portraitHeightWithTabBar 430
-#define landscapeHeightWithTabBar 270
+//#define kPortraitHeightWithTabBar 430
+//#define kPortraitHeightWithTabBar_iPad 974
+//#define kLandscapeHeightWithTabBar 270
+//#define kLandscapeHeightWithTabBar_iPad 736
 
 @protocol DrawingViewControllerDelegate
 
@@ -84,10 +86,10 @@
 - (void)collectPreferences;
 - (void)dispersePreferences;
 
-- (void)didRotate:(NSNotification *)theNotification;
+/*- (void)didRotate:(NSNotification *)theNotification;
 - (void)fitViewToCurrentOrientation;
 - (void)fitTickMarksToLandscape;
-- (void)fitTickMarksToPortrait;
+- (void)fitTickMarksToPortrait;*/
 
 - (IBAction)showInfoPanel:(UIButton *)sender;
 

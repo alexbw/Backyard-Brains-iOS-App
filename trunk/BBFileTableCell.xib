@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">768</int>
-		<string key="IBDocument.SystemVersion">10J869</string>
+		<string key="IBDocument.SystemVersion">10K540</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1294</string>
-		<string key="IBDocument.AppKitVersion">1038.35</string>
+		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -106,7 +106,6 @@
 								<string key="NSFrame">{{203, 17}, {72, 21}}</string>
 								<reference key="NSSuperview" ref="547566442"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -169,7 +168,7 @@
 							<object class="IBUIButton" id="232417654">
 								<reference key="NSNextResponder" ref="547566442"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{4, 16}, {23, 23}}</string>
+								<string key="NSFrame">{{4, 14}, {25, 25}}</string>
 								<reference key="NSSuperview" ref="547566442"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="164829373"/>
@@ -466,7 +465,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">Play.png</string>
-			<string key="NS.object.0">{23, 23}</string>
+			<string key="NS.object.0">{25, 25}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">294</string>
 	</data>
