@@ -74,10 +74,10 @@
 - (void)drawThresholdLine {
 	
 	// Draw solid horizontal line at thresholdValue
-	thresholdLine[0].x = self.xBegin;
-	thresholdLine[1].x = self.xEnd;
-	thresholdLine[0].y = [audioSignalManager thresholdValue];
-	thresholdLine[1].y = [audioSignalManager thresholdValue];
+	self.thresholdLine[0].x = self.xBegin;
+	self.thresholdLine[1].x = self.xEnd;
+	self.thresholdLine[0].y = [audioSignalManager thresholdValue];
+	self.thresholdLine[1].y = [audioSignalManager thresholdValue];
 	
 	// draw dashed vertical line at -0.5 (threshold crossing location)
 //	for (int i=2; i < kNumDashesInVerticalTriggerLine+2; ++i) {
@@ -87,7 +87,7 @@
 	
 	glColor4f(1.0, 0.0, 0.0, 1.0);
 	glLineWidth(1.0);
-	glVertexPointer(2, GL_FLOAT, 0, thresholdLine);
+	glVertexPointer(2, GL_FLOAT, 0, self.thresholdLine);
 	glDrawArrays(GL_LINES, 0, 2+kNumDashesInVerticalTriggerLine);
 
 }

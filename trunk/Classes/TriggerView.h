@@ -11,7 +11,7 @@
 #import "EAGLView.h"
 #import "AudioSignalManager.h"
 
-#define kNumDashesInVerticalTriggerLine 50
+#define kNumDashesInVerticalTriggerLine 0
 
 @interface TriggerView : EAGLView {
 	struct wave_s *thresholdLine;
