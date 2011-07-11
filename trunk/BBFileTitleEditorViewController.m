@@ -47,9 +47,40 @@
 	[super viewWillDisappear:animated];
 	
 	BBFile *file = [delegate file];
-	file.shortname = titleTextField.text;
-    file.filename = titleTextField.text;
-	[file save];
+    
+	//rename file
+    
+	NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *oldFilePath = [docPath stringByAppendingPathComponent:file.filename];
+    
+    //Create a new path
+    NSString *newFilePath = [docPath stringByAppendingPathComponent:titleTextField.text];
+    
+    // Create file manager
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    
+    // For error information
+    NSError *error;
+    
+    // Attempt the move
+    if ([fileMgr moveItemAtPath:oldFilePath toPath:newFilePath error:&error] == YES)
+    {
+        //change title and filename in BBFile
+        file.shortname = titleTextField.text;
+        file.filename = titleTextField.text;
+        NSLog(@"New file path: %@", newFilePath);
+    }
+    else
+    {
+        NSLog(@"Unable to move file: %@", [error localizedDescription]);
+        //Create UIAlertView alert
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error" message:@"File already exists with this name." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil] autorelease];
+        [alert show];
+
+    }
+    
+    
+    [file save];
 }
 
 

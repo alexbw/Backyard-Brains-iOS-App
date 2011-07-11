@@ -46,8 +46,8 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUILabel" id="681983886">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">276</int>
-						<string key="NSFrame">{{20, 202}, {88, 27}}</string>
+						<int key="NSvFlags">300</int>
+						<string key="NSFrame">{{20, 200}, {88, 23}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="193395725"/>
@@ -60,9 +60,9 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">0.00</string>
-						<object class="NSFont" key="IBUIFont" id="876971091">
+						<object class="NSFont" key="IBUIFont" id="801484903">
 							<string key="NSName">Helvetica</string>
-							<double key="NSSize">15</double>
+							<double key="NSSize">18</double>
 							<int key="NSfFlags">16</int>
 						</object>
 						<object class="NSColor" key="IBUITextColor" id="660746685">
@@ -86,7 +86,11 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">0.00</string>
-						<reference key="IBUIFont" ref="876971091"/>
+						<object class="NSFont" key="IBUIFont">
+							<string key="NSName">Helvetica</string>
+							<double key="NSSize">15</double>
+							<int key="NSfFlags">16</int>
+						</object>
 						<reference key="IBUITextColor" ref="660746685"/>
 						<reference key="IBUIHighlightedColor" ref="75281381"/>
 						<int key="IBUIBaselineAdjustment">1</int>
@@ -194,27 +198,10 @@
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="365502823"/>
 					</object>
-					<object class="IBUIImageView" id="581895998">
-						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">276</int>
-						<string key="NSFrameSize">{15, 975}</string>
-						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="243548960"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-						<int key="IBUIContentMode">4</int>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">TickMarks_iPad.png</string>
-						</object>
-					</object>
 					<object class="IBUILabel" id="193395725">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">276</int>
-						<string key="NSFrame">{{20, 482}, {47, 11}}</string>
+						<string key="NSFrame">{{20, 475}, {47, 22}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="174792949"/>
@@ -224,7 +211,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">0 mv</string>
-						<reference key="IBUIFont" ref="876971091"/>
+						<reference key="IBUIFont" ref="801484903"/>
 						<reference key="IBUITextColor" ref="660746685"/>
 						<reference key="IBUIHighlightedColor" ref="75281381"/>
 						<int key="IBUIBaselineAdjustment">1</int>
@@ -277,7 +264,7 @@
 						<string key="NSFrame">{{0, -65}, {768, 64}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="581895998"/>
+						<reference key="NSNextKeyView" ref="730043720"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAwLjIgMAA</bytes>
@@ -298,6 +285,21 @@
 							<reference key="NSColor" ref="203724787"/>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="365502823"/>
+					</object>
+					<object class="IBUIImageView" id="730043720">
+						<reference key="NSNextResponder" ref="191373211"/>
+						<int key="NSvFlags">276</int>
+						<string key="NSFrameSize">{15, 975}</string>
+						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="243548960"/>
+						<int key="IBUIContentMode">4</int>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">TickMarksBig.png</string>
+						</object>
 					</object>
 				</object>
 				<string key="NSFrameSize">{768, 975}</string>
@@ -384,14 +386,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">tickMarks</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="581895998"/>
-					</object>
-					<int key="connectionID">38</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">msLegendImage</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="174792949"/>
@@ -441,6 +435,14 @@
 					</object>
 					<int key="connectionID">56</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">tickMarks</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="730043720"/>
+					</object>
+					<int key="connectionID">58</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -459,7 +461,6 @@
 							<reference ref="1037946227"/>
 							<reference ref="711680055"/>
 							<reference ref="601541161"/>
-							<reference ref="581895998"/>
 							<reference ref="941077163"/>
 							<reference ref="604067761"/>
 							<reference ref="243548960"/>
@@ -467,6 +468,7 @@
 							<reference ref="174792949"/>
 							<reference ref="681983886"/>
 							<reference ref="193395725"/>
+							<reference ref="730043720"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -502,11 +504,6 @@
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">35</int>
-						<reference key="object" ref="581895998"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">39</int>
 						<reference key="object" ref="193395725"/>
 						<reference key="parent" ref="191373211"/>
@@ -537,6 +534,11 @@
 						<reference key="object" ref="1007686232"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">57</int>
+						<reference key="object" ref="730043720"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -552,7 +554,6 @@
 					<string>21.IBPluginDependency</string>
 					<string>30.IBPluginDependency</string>
 					<string>33.IBPluginDependency</string>
-					<string>35.IBPluginDependency</string>
 					<string>39.IBPluginDependency</string>
 					<string>39.IBViewBoundsToFrameTransform</string>
 					<string>40.IBPluginDependency</string>
@@ -561,6 +562,7 @@
 					<string>5.IBViewBoundsToFrameTransform</string>
 					<string>54.IBPluginDependency</string>
 					<string>54.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
+					<string>57.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
@@ -569,7 +571,6 @@
 					<string>UIResponder</string>
 					<string>ContinuousWaveView</string>
 					<string>{{498, 0}, {783, 1006}}</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -588,6 +589,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="0.0"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -602,7 +604,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">56</int>
+			<int key="maxID">58</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -849,7 +851,7 @@
 				<string>FileButton.png</string>
 				<string>RecordButton.png</string>
 				<string>RoundedButtonBackground.png</string>
-				<string>TickMarks_iPad.png</string>
+				<string>TickMarksBig.png</string>
 				<string>msLine.png</string>
 				<string>stim.png</string>
 			</object>
@@ -858,7 +860,7 @@
 				<string>{46, 46}</string>
 				<string>{46, 46}</string>
 				<string>{149, 61}</string>
-				<string>{34, 974}</string>
+				<string>{15, 975}</string>
 				<string>{341, 2}</string>
 				<string>{25, 25}</string>
 			</object>

@@ -61,7 +61,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">0.00</string>
-						<object class="NSFont" key="IBUIFont" id="264430839">
+						<object class="NSFont" key="IBUIFont">
 							<string key="NSName">Helvetica</string>
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
@@ -77,8 +77,8 @@
 					</object>
 					<object class="IBUILabel" id="22643831">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">276</int>
-						<string key="NSFrame">{{4, 341}, {88, 23}}</string>
+						<int key="NSvFlags">300</int>
+						<string key="NSFrame">{{20, 200}, {88, 23}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="844828686"/>
@@ -88,7 +88,11 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">0.00</string>
-						<reference key="IBUIFont" ref="264430839"/>
+						<object class="NSFont" key="IBUIFont" id="755712601">
+							<string key="NSName">Helvetica</string>
+							<double key="NSSize">18</double>
+							<int key="NSfFlags">16</int>
+						</object>
 						<reference key="IBUITextColor" ref="583396700"/>
 						<reference key="IBUIHighlightedColor" ref="75281381"/>
 						<int key="IBUIBaselineAdjustment">1</int>
@@ -96,7 +100,7 @@
 					</object>
 					<object class="IBUIImageView" id="52447997">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">308</int>
+						<int key="NSvFlags">276</int>
 						<string key="NSFrameSize">{15, 975}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
@@ -108,13 +112,13 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">TickMarks.png</string>
+							<string key="NSResourceName">TickMarksBig.png</string>
 						</object>
 					</object>
 					<object class="IBUILabel" id="844828686">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">276</int>
-						<string key="NSFrame">{{4, 463}, {47, 24}}</string>
+						<string key="NSFrame">{{20, 475}, {47, 24}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="915620780"/>
@@ -124,7 +128,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">0 mv</string>
-						<reference key="IBUIFont" ref="264430839"/>
+						<reference key="IBUIFont" ref="755712601"/>
 						<reference key="IBUITextColor" ref="583396700"/>
 						<reference key="IBUIHighlightedColor" ref="75281381"/>
 						<int key="IBUIBaselineAdjustment">1</int>
@@ -142,10 +146,6 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">msLine.png</string>
-						</object>
 					</object>
 					<object class="IBUISlider" id="788665851">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -210,11 +210,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">1x avg</string>
-						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">Helvetica</string>
-							<double key="NSSize">18</double>
-							<int key="NSfFlags">16</int>
-						</object>
+						<reference key="IBUIFont" ref="755712601"/>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAxIDAAA</bytes>
@@ -643,17 +639,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>TickMarks.png</string>
-				<string>msLine.png</string>
-			</object>
-			<object class="NSMutableArray" key="dict.values">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{15, 429}</string>
-				<string>{341, 2}</string>
-			</object>
+			<string key="NS.key.0">TickMarksBig.png</string>
+			<string key="NS.object.0">{15, 975}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">294</string>
 	</data>

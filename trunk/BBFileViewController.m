@@ -221,6 +221,9 @@
 
 - (IBAction)togglePseudoEditMode
 {
+    //stop playing
+    [self stopPlaying];
+    
     self.inPseudoEditMode = !inPseudoEditMode;	
 	[self.theTableView reloadData];
 }
@@ -271,6 +274,7 @@
 -(void)cellActionTriggeredFrom:(BBFileTableCell *) cell
 {
     
+    //Check for pseudo edit mode
     if (inPseudoEditMode)
     {
         
@@ -303,20 +307,25 @@
         
         
     }
-    else
+    else //not in pseudo edit mode
     {
-        if (audioPlayer == nil) 
+        if (audioPlayer == nil)  //if you haven't played anything yet
         {
             [self startPlayingCell:cell];
         }
         else 
         {
-            
-            if (audioPlayer.playing) 
+            //make sure everything is paused
+            if (audioPlayer.playing && cell==self.playingCell)
             {
                 [self pausePlayingCell:cell];
+            }
+            else if (audioPlayer.playing && cell!=self.playingCell)
+            {
+                [self stopPlaying];
+                [self startPlayingCell:cell];
             } 
-            else 
+            else //audioPlayer not playing
             {
                 [self startPlayingCell:cell];
             }
@@ -356,6 +365,7 @@
 		
 		// Fire up an audio player
 		audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+        NSLog(@"File path %@", [docPath stringByAppendingPathComponent:self.file.filename]);
 		NSLog(@"File duration: %f", audioPlayer.duration);
 
 	

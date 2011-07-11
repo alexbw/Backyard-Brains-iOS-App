@@ -14,7 +14,6 @@
 		282CCBFE0DB6C98000C4EA27 /* SecondView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 282CCBFD0DB6C98000C4EA27 /* SecondView.xib */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
-		E912CCDD13CA53FA00CD41C9 /* TickMarks_iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = E912CCDC13CA53FA00CD41C9 /* TickMarks_iPad.png */; };
 		E923442413B96D4D00C17C61 /* ByB-Logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = E923441C13B96D4D00C17C61 /* ByB-Logo-57.png */; };
 		E923442513B96D4D00C17C61 /* Chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = E923441D13B96D4D00C17C61 /* Chevron.png */; };
 		E923442713B96D4D00C17C61 /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = E923441F13B96D4D00C17C61 /* Pause.png */; };
@@ -35,6 +34,7 @@
 		E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */; };
 		E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */; };
 		E9C8B41313638A2E00F0ED8E /* LarvaJoltViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */; };
+		E9E7761713CBA34300AA812C /* TickMarksBig.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E7761613CBA34300AA812C /* TickMarksBig.png */; };
 		FA13338B111F289D00A89543 /* TriggerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA13338A111F289D00A89543 /* TriggerView.xib */; };
 		FA133396111F291000A89543 /* TriggerView.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA133395111F291000A89543 /* TriggerView.plist */; };
 		FA1637641131EBBA003065AC /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1637631131EBBA003065AC /* libsqlite3.0.dylib */; };
@@ -133,7 +133,6 @@
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Backyard_Brains-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Backyard_Brains-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		E912CCDC13CA53FA00CD41C9 /* TickMarks_iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TickMarks_iPad.png; path = Images/TickMarks_iPad.png; sourceTree = "<group>"; };
 		E923441C13B96D4D00C17C61 /* ByB-Logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ByB-Logo-57.png"; path = "Images/ByB-Logo-57.png"; sourceTree = "<group>"; };
 		E923441D13B96D4D00C17C61 /* Chevron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Chevron.png; path = Images/Chevron.png; sourceTree = "<group>"; };
 		E923441F13B96D4D00C17C61 /* Pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Pause.png; path = Images/Pause.png; sourceTree = "<group>"; };
@@ -156,6 +155,7 @@
 		E9C8B4081363885000F0ED8E /* LarvaJoltViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltViewController.h; sourceTree = "<group>"; };
 		E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltViewController.m; sourceTree = "<group>"; };
 		E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LarvaJoltViewController.xib; sourceTree = "<group>"; };
+		E9E7761613CBA34300AA812C /* TickMarksBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TickMarksBig.png; path = Images/TickMarksBig.png; sourceTree = "<group>"; };
 		FA13338A111F289D00A89543 /* TriggerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TriggerView.xib; sourceTree = "<group>"; };
 		FA133395111F291000A89543 /* TriggerView.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TriggerView.plist; sourceTree = "<group>"; };
 		FA1637631131EBBA003065AC /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -504,7 +504,7 @@
 				E9AB224B13C550380054209F /* unselected.2x.png */,
 				FAC9FECD115B070F0004822F /* msLine.png */,
 				FAC9FE34115AFB030004822F /* TickMarks.png */,
-				E912CCDC13CA53FA00CD41C9 /* TickMarks_iPad.png */,
+				E9E7761613CBA34300AA812C /* TickMarksBig.png */,
 				E96C48AE13C7AED600EAD5AA /* selected.png */,
 				E96C48AF13C7AED600EAD5AA /* unselected.png */,
 				FAC9FE0D115AE5350004822F /* FileButton.png */,
@@ -813,7 +813,7 @@
 				E9AB225513C550380054209F /* unselected.2x.png in Resources */,
 				E96C48B013C7AED600EAD5AA /* selected.png in Resources */,
 				E96C48B113C7AED600EAD5AA /* unselected.png in Resources */,
-				E912CCDD13CA53FA00CD41C9 /* TickMarks_iPad.png in Resources */,
+				E9E7761713CBA34300AA812C /* TickMarksBig.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
