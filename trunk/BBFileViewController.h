@@ -95,7 +95,7 @@
 - (void)stopPlaying;
 
 - (void)startUpdateTimer;
-- (NSTimer *)startTimerThread;
+//- (NSTimer *)newTimerThread;
 - (void)updateCurrentTime;
 
 - (void)emailBBFile;

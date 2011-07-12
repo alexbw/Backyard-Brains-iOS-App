@@ -61,11 +61,13 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 @synthesize fileHandle;
 @synthesize timerThread;
 @synthesize isRecording;
+@synthesize aTimer;
 
 - (void)dealloc {
 	
 //	[bbFile release];
 	[asm release];
+    [aTimer release];
 	
 	[super dealloc];
 
@@ -124,6 +126,8 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 
 	OSStatus status = AudioFileCreateWithURL((CFURLRef)fileURL, kAudioFileAIFFType, &destFormat, kAudioFileFlags_EraseFile, &newFileID);
 	self.fileHandle = newFileID;
+    
+    [fileURL release];
 		
     if ( noErr != status ) {
         [NSException raise:@"AudioConverterFailure" format:@"AudioFileCreate failed (status=%s)", status];
@@ -170,19 +174,19 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 # pragma mark - Timer/Thread Handling
 
 - (void)startTimer {
-	self.timerThread = [[NSThread alloc] initWithTarget:self selector:@selector(startTimerThread) object:nil]; //Create a new thread
+	self.timerThread = [[NSThread alloc] initWithTarget:self selector:@selector(newTimerThread) object:nil]; //Create a new thread
 	[self.timerThread start]; //start the thread
 	self.asm.secondStageBuffer->lastWrittenIndex = self.asm.secondStageBuffer->lastReadIndex; 
 	bytePosition = 0;
 }
 
 //the thread starts by sending this message
-- (void)startTimerThread {
+- (void)newTimerThread {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	NSRunLoop* runLoop = [NSRunLoop currentRunLoop];
-	[[NSTimer scheduledTimerWithTimeInterval: kRecordingTimerIntervalInSeconds
+	self.aTimer = [[NSTimer scheduledTimerWithTimeInterval: kRecordingTimerIntervalInSeconds
 									  target: self
-									selector: @selector(timerTick:)
+									selector: @selector(timerTick)
 									userInfo: nil
 									 repeats: YES] retain];
 	
@@ -190,10 +194,10 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 	[pool release];
 }
 
-- (void)timerTick:(NSTimer *)timer {
+- (void)timerTick {
 	
 	if ([self.timerThread isCancelled]) {
-		[timer invalidate];
+		[self.aTimer invalidate];
 		[self.timerThread release];
 		return;
 	}

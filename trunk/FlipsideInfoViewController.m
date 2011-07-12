@@ -40,6 +40,7 @@
 - (IBAction)launchWebsite {
 	NSURL *target = [[NSURL alloc] initWithString:@"http://www.backyardbrains.com"];
 	[[UIApplication sharedApplication] openURL:target];
+    [target release];
 }
 
 - (IBAction)sendEmail {

@@ -211,6 +211,7 @@
 	BBFileDetailViewController *detailViewController = [[BBFileDetailViewController alloc] initWithNibName:@"BBFileDetailView" bundle:nil];
 	detailViewController.delegate = self;
 	[[self navigationController] pushViewController:detailViewController animated:YES];
+    [detailViewController release];
 }
 
 
@@ -237,14 +238,14 @@
     if (inPseudoEditMode)
     {
         [self populateSelectedArray];
-        self.navigationItem.leftBarButtonItem.title = @"Done editing";
+        self.navigationItem.leftBarButtonItem.title = @"Select";
         self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleDone;
     }
     else
     {
         shareFileButton.enabled = NO;
         deleteFileButton.enabled = NO;
-        self.navigationItem.leftBarButtonItem.title = @"Edit...";
+        self.navigationItem.leftBarButtonItem.title = @"Select";
         self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStylePlain;
     }
 }
@@ -366,7 +367,7 @@
 		// Make a URL to the BBFile's audio file
 		NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 		NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[docPath stringByAppendingPathComponent:self.file.filename]];
-		
+        
 		// Fire up an audio player
 		audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
         NSLog(@"File path %@", [docPath stringByAppendingPathComponent:self.file.filename]);
@@ -378,6 +379,7 @@
 		currentPositionInAudioFileSlider.maximumValue = audioPlayer.duration;
 		[self startUpdateTimer];
 	
+        [fileURL release];
 	}	
 
 	
@@ -401,10 +403,10 @@
 	
 	NSLog(@"Stopping play!");
     
-    if (!inPseudoEditMode && audioPlayer.playing)
+    if (!inPseudoEditMode)// && audioPlayer.playing)
     {
         [self.playingCell.actionButton setImage:self.playImage forState:UIControlStateNormal];
-        NSLog(@"Set the image for cell at row: %u", [[self.theTableView indexPathForCell:self.playingCell] row]);
+        //NSLog(@"Set the image for cell at row: %u", [[self.theTableView indexPathForCell:self.playingCell] row]);
 	}
     
 	timeElapsedLabel.text = @"0:00";
@@ -420,14 +422,11 @@
 
 #pragma mark - A Useful Timer
 - (void)startUpdateTimer {
-//	timerThread = [[NSThread alloc] initWithTarget:self selector:@selector(startTimerThread) object:nil]; //Create a new thread
 	timerThread = [[NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(updateCurrentTime) userInfo:nil repeats:YES] retain];
-//	timerThread = [self startTimerThread];
-//	[timerThread start]; //start the thread
 }
 
-//the thread starts by sending this message
-- (NSTimer *)startTimerThread {
+/*//the thread starts by sending this message
+- (NSTimer *)newTimerThread {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	NSRunLoop* runLoop = [NSRunLoop currentRunLoop];
 	NSTimer *thisTimer = [[NSTimer scheduledTimerWithTimeInterval: 0.5f
@@ -440,7 +439,7 @@
 	[pool release];
 	
 	return thisTimer;
-}
+}*/
 
 - (void)updateCurrentTime {
 	currentPositionInAudioFileSlider.value = audioPlayer.currentTime;

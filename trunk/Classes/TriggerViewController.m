@@ -354,9 +354,9 @@
 		float newxEnd = self.triggerView.xEnd + deltaX;
 
 		totalWidthDisplayed = (triggerView.yEnd - triggerView.yBegin);
-		float deltaY = totalWidthDisplayed*self.changeInY;
+		/*float deltaY = totalWidthDisplayed*self.changeInY;
 		float newyBegin = self.triggerView.yBegin - deltaY;
-		float newyEnd = self.triggerView.yEnd - deltaY;
+		float newyEnd = self.triggerView.yEnd - deltaY;*/
 		
 		// Make sure we can't scale the x-axis past the number of collected samples,
 		// and also not less than 10 milliseconds
@@ -370,10 +370,10 @@
 			self.triggerView.xEnd = newxEnd;
 		}
 		
-		beginIsGreaterThanMin = newyBegin > self.triggerView.yMin;
+		/*beginIsGreaterThanMin = newyBegin > self.triggerView.yMin;
 		endIsLessThanMax = newyEnd < self.triggerView.yMax;
 		beginIsBeforeTrigger = newyBegin < self.audioSignalManager.thresholdValue;
-		endIsAftertrigger = newyEnd > self.audioSignalManager.thresholdValue;
+		endIsAftertrigger = newyEnd > self.audioSignalManager.thresholdValue;*/
 		
 	}
 }

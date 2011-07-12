@@ -70,7 +70,7 @@ void sessionPropertyListener(void *                  inClientData,
 //and im sure there are a few more
 void sessionInterruptionListener(void *inClientData, UInt32 inInterruption) {
 
-	AudioSignalManager *asm = (AudioSignalManager *)inClientData;
+	//AudioSignalManager *asm = (AudioSignalManager *)inClientData;
 	
 	if (inInterruption == kAudioSessionBeginInterruption) {
 		NSLog(@"begin interuption");		

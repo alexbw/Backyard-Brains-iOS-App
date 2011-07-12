@@ -56,6 +56,11 @@
 														   nameTextField,
 														   emailTextField, nil];
 						
+        [eventTextField release];
+        [cityTextField release];
+        [numberTextField release];
+        [nameTextField release];
+        [emailTextField release];
 		
     }
     return self;
@@ -153,7 +158,9 @@
 	NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
 	[inputFormatter setDateStyle: NSDateFormatterShortStyle];
 	NSString *dateString = [inputFormatter stringFromDate:[NSDate date]];
-		
+	
+	[inputFormatter release];
+    
 	// Construct the URL string
 	NSMutableString *urlString = [NSMutableString stringWithFormat:@"http://www.backyardbrains.com/SpikeCounter.aspx?Event=%@&City=%@&Number=%@&Name=%@&Email=%@&Date=%@",
 						   [[self.formFields objectAtIndex:0] text],

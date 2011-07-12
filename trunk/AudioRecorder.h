@@ -24,6 +24,7 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 	void *outBuffer; // this is for storing audio data, it could be of any format/precision.
 	BOOL isRecording;
 	UInt32 bytePosition;
+    NSTimer *aTimer;
 }               
 
 
@@ -32,6 +33,7 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 @property AudioFileID fileHandle;
 @property (nonatomic, retain) NSThread *timerThread;
 @property BOOL isRecording;
+@property (nonatomic, retain) NSTimer *aTimer;
 
 - (id)initWithAudioSignalManager:(AudioSignalManager *)asm;
 
@@ -39,8 +41,8 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 - (void)stopRecording;
 
 - (void)startTimer;
-- (void)startTimerThread;
-- (void)timerTick:(NSTimer *)timer;
+- (void)newTimerThread;
+- (void)timerTick;
 
 
 @end
