@@ -4,6 +4,7 @@
 //  Created by Alex Wiltschko on 11/15/09.
 //  Modified by Zachary King
 //      6/6/2011 Added delegate and methods to automatically set the viewing frame.
+//      7/11/2011 Set NumDashes to 0 to quash mysterious red line
 //  Copyright 2009 Backyard Brains. All rights reserved.
 //
 

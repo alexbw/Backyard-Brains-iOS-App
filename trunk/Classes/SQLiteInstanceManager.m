@@ -97,6 +97,10 @@ static SQLiteInstanceManager *sharedSQLiteManager = nil;
 			// Turn on full auto-vacuuming to keep the size of the database down
 			// This setting can be changed per database using the setAutoVacuum instance method
 			[self executeUpdateSQL:@"PRAGMA auto_vacuum=1"];
+            
+            // Set cache size to zero. This will prevent performance slowdowns as the
+            // database gets larger
+            [self executeUpdateSQL:@"PRAGMA CACHE_SIZE=0"];
 			
 		}
 	}

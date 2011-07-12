@@ -18,7 +18,7 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<real>100</real>
+			<integer>1</integer>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>

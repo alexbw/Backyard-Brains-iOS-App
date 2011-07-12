@@ -67,7 +67,7 @@ void sessionPropertyListener(void *                  inClientData,
 
 
 //this listens to interuptions to the audio session, possible interuptions could be the phone ringing, the phone getting locked
-//and im sure there is a few more
+//and im sure there are a few more
 void sessionInterruptionListener(void *inClientData, UInt32 inInterruption) {
 
 	AudioSignalManager *asm = (AudioSignalManager *)inClientData;
@@ -491,6 +491,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		NSNumber *samplingRateValue;
 		NSLog(@"==== DEFAULT SAMPLINGRATE: %@", [defaults valueForKey:@"samplerate"]);
 		NSLog(@"==== DEFAULT GAIN: %@", [defaults valueForKey:@"gain"]);
+        NSLog(@"==== GAIN IN USE: %f", gain);
 		
 		
 		if ((samplingRateValue = [defaults valueForKey:@"samplerate"])) {

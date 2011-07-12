@@ -48,7 +48,7 @@
     [super viewWillAppear:animated];
 	self.navigationItem.title = @"Info";
 	
-	BBFile *thisFile = [delegate file];
+	BBFile *thisFile = delegate.file;
 	
 	// Load up the views!
 	[self setButton:titleButton titleForAllStates:thisFile.shortname];
@@ -63,10 +63,10 @@
 	
 	NSString *commentText = @"You haven't made a comment on this file yet! Tap to enter a comment for your file.";
 
+
+	NSString *fileComment = delegate.file.comment;
 	
-	NSString *fileComment = [[delegate file] comment];
-	
-	[fileComment retain];
+	//[fileComment retain];
 	if (fileComment != nil) {
 		if (![fileComment isEqualToString:@""]) {
 			commentText = fileComment;
@@ -75,7 +75,7 @@
 	[self setButton:commentButton titleForAllStates:commentText];
 	
     [inputFormatter release];
-	[fileComment release];
+	//[fileComment release];
 	
 	
 }
@@ -106,7 +106,7 @@
 
 - (IBAction)pushCommentEditorView:(UIButton *)sender {
 	BBFileCommentEditorViewController *commentViewController = [[BBFileCommentEditorViewController alloc] initWithNibName:@"BBFileCommentEditorView" bundle:nil];
-	self.file = [delegate file];
+	self.file = delegate.file;
 	commentViewController.delegate = self;
 	
 	[[self navigationController] pushViewController:commentViewController animated:YES];

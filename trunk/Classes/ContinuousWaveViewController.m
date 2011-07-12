@@ -15,8 +15,8 @@
 @synthesize recordButton;
 @synthesize stopButton;
 @synthesize fileButton;
-@synthesize audioRecorder;
 @synthesize stimButton;
+@synthesize audioRecorder;
 
 @synthesize cwView;
 
@@ -30,9 +30,11 @@
 	[stopButton release];
 	[fileButton release];
     [stimButton release];
-    if (self.larvaJoltController) {
-        [self.larvaJoltController release];
-    }
+    //[audioRecorder release]; released in stopRecordering:
+    
+    [cwView release];
+    
+    [larvaJoltController release];
 
 }
 
@@ -251,7 +253,6 @@
 
 	float xPerDiv = (self.cwView.xEnd - self.cwView.xBegin)/3.0f;
 	float yPerDiv = (self.cwView.yEnd - self.cwView.yBegin)/(4.0f*self.audioSignalManager.gain*kVoltScaleFactor);
-
 	
 	xUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.1f ms", xPerDiv];
 	yUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.2f mV", yPerDiv];

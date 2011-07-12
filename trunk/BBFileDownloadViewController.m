@@ -13,6 +13,14 @@
 @synthesize delegate;
 
 - (void)viewWillAppear:(BOOL)animated {
+    
+    Class cls = NSClassFromString(@"UIPopoverController");
+	if (cls != nil)
+	{
+		CGSize size = {320, 460}; // size of view in popover, if we're on the iPad
+		self.contentSizeForViewInPopover = size;
+	}
+    
 	[super viewWillAppear:animated];
 
 	[self setupServer];

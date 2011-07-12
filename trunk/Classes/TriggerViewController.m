@@ -213,7 +213,7 @@
 	// Spin through all the UILabels that we have control of, and make 'em better.
 	float xPerDiv = (self.triggerView.xEnd - self.triggerView.xBegin)/3.0f;
 	float yPerDiv = (self.triggerView.yEnd - self.triggerView.yBegin)/(4.0f*self.audioSignalManager.gain*kVoltScaleFactor);
-	
+    
 	NSLog(@"yEnd: %f, yBegin: %f, gain %f, yPerDiv: %f", self.triggerView.yEnd, self.triggerView.yBegin, self.audioSignalManager.gain, yPerDiv);
 	
 	xUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.1f ms", xPerDiv];

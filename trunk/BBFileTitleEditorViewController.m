@@ -46,7 +46,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	
-	BBFile *file = [delegate file];
+	BBFile *file = delegate.file;
     
 	//rename file
     

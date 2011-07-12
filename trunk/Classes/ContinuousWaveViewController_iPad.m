@@ -18,10 +18,8 @@
 - (void)dealloc {	
     [super dealloc];
 	
-    if (self.recordedFilesPopover)
-        [recordedFilesPopover release];
-    if (self.ljvc)
-        [ljvc release];
+    [recordedFilesPopover release];
+    [ljvc release];
 }
 
 - (IBAction)displayInfoPopover:(UIButton *)sender {

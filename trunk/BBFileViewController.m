@@ -35,22 +35,22 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	
 	if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-		theTableView.dataSource = self;
-		theTableView.delegate = self;
-		theTableView.sectionIndexMinimumDisplayRowCount=10;
-		theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+		self.theTableView.dataSource = self;
+		self.theTableView.delegate = self;
+		self.theTableView.sectionIndexMinimumDisplayRowCount=10;
+		self.theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 		
 		self.navigationItem.title = @"Your files";
 		
-		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Done"
 														style: UIBarButtonSystemItemDone
 														target:self
-														action:@selector(done)];
+														action:@selector(done)] autorelease];
         
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit"
                                                         style: UIBarButtonItemStylePlain
                                                         target:self
-                                                        action:@selector(togglePseudoEditMode)];
+                                                        action:@selector(togglePseudoEditMode)] autorelease];
         
         
         self.playImage =        [UIImage imageNamed:@"play.png"];
@@ -72,18 +72,18 @@
 	Class cls = NSClassFromString(@"UIPopoverController");
 	if (cls != nil)
 	{
-		CGSize size = {320, 480}; // size of view in popover, if we're on the iPad
+		CGSize size = {320, 450}; // size of view in popover, if we're on the iPad
 		self.contentSizeForViewInPopover = size;
 	}
 	
 	[super viewWillAppear:animated];
 
-	allFiles = [NSMutableArray arrayWithArray:[BBFile allObjects]];
-	[allFiles retain];
+	self.allFiles = [NSMutableArray arrayWithArray:[BBFile allObjects]];
 	
-	for (BBFile *thisFile in allFiles) {
+    
+	/*for (BBFile *thisFile in allFiles) {
 		[thisFile retain]; 
-	}
+	}*/
     
     self.inPseudoEditMode = NO;
 	
@@ -345,6 +345,10 @@
 
 - (IBAction)positionInFileChanged:(UISlider *)sender {
 	NSLog(@"Position in file changed!");
+    if (audioPlayer.playing)
+    {
+        [self pausePlayingCell:self.playingCell];
+    }
 	audioPlayer.currentTime = sender.value;
 	[self updateCurrentTime];
 }
@@ -397,7 +401,7 @@
 	
 	NSLog(@"Stopping play!");
     
-    if (!inPseudoEditMode)
+    if (!inPseudoEditMode && audioPlayer.playing)
     {
         [self.playingCell.actionButton setImage:self.playImage forState:UIControlStateNormal];
         NSLog(@"Set the image for cell at row: %u", [[self.theTableView indexPathForCell:self.playingCell] row]);
@@ -625,7 +629,7 @@
             NSLog(@"selected index for deletion: %u", i);
             BBFile *fileToShare = [allFiles objectAtIndex:i];
             [allFileNamesToShare addObject:fileToShare.filename];
-            
+            //[fileToShare release]; tk
         }
         
     }
@@ -673,10 +677,12 @@
     [currentPositionInAudioFileSlider release];
 	[allFiles release];
 	[selectedArray release];
+    [playingCell release];
     [playImage release];
     [pauseImage release];
 	[selectedImage release];
 	[unselectedImage release];
+    [file release];
 }
 
 - (void)done
