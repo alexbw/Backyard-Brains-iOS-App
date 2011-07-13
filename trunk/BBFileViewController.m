@@ -47,7 +47,7 @@
 														target:self
 														action:@selector(done)] autorelease];
         
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit"
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Select"
                                                         style: UIBarButtonItemStylePlain
                                                         target:self
                                                         action:@selector(togglePseudoEditMode)] autorelease];
@@ -370,6 +370,11 @@
         
 		// Fire up an audio player
 		audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+        audioPlayer.volume = 1.0; // 0.0 - no volume; 1.0 full volume
+        
+        /*float volume = 1.0f;
+        [[MPMusicPlayerController applicationMusicPlayer] setVolume:volume];*/
+        
         NSLog(@"File path %@", [docPath stringByAppendingPathComponent:self.file.filename]);
 		NSLog(@"File duration: %f", audioPlayer.duration);
 

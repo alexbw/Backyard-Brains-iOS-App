@@ -17,7 +17,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
         
-    #define kGain 1.0f
+    #define kGain 887.0f
     #define kSamplerate 22050.f
     #define kLedcontrolfreq 10000.f
     

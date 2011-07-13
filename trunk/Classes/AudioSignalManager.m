@@ -32,11 +32,14 @@ void sessionPropertyListener(void *                  inClientData,
 		
 		// Uncomment if you want to force an override of the audio output route.
 		// Not particularly recommended.
-//		UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
-//		AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
-//								 sizeof (audioRouteOverride),
-//								 &audioRouteOverride);
+		UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+		AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+								 sizeof (audioRouteOverride),
+								 &audioRouteOverride);
 
+        //because play and record plays back through the top speaker to avoid
+        //feedback from the mic!
+        
 		NSString* routeStr = (NSString*)route;
 		NSLog(@"AudioRoute: %@", routeStr);
 

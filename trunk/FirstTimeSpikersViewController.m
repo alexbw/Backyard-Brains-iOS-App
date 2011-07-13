@@ -35,8 +35,19 @@
 		
 		self.navigationItem.title = @"First time spikers!";
 		
-		
-		CGRect rect = CGRectMake(130.0, 10.0, 200.0, 22.0);
+        CGRect rect;
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            //type you code for iPad
+            rect = CGRectMake(180.0, 10.0, 400.0, 22.0);
+
+        }
+        else
+        {
+            //type you code for iPhone
+            rect = CGRectMake(130.0, 10.0, 200.0, 22.0);
+
+        }
 		UITextField *eventTextField = [[UITextField alloc] initWithFrame:rect];
 		eventTextField.keyboardType = UIKeyboardTypeAlphabet;
 		UITextField *cityTextField = [[UITextField alloc] initWithFrame:rect];
