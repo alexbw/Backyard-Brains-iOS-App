@@ -31,6 +31,8 @@
 		E9AB225313C550380054209F /* stim.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224913C550380054209F /* stim.png */; };
 		E9AB225413C550380054209F /* stim@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224A13C550380054209F /* stim@2x.png */; };
 		E9AB225513C550380054209F /* unselected.2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224B13C550380054209F /* unselected.2x.png */; };
+		E9B8F2D113CDFA0B00D9D582 /* BBFileActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B8F2CF13CDFA0B00D9D582 /* BBFileActionViewController.m */; };
+		E9B8F2D213CDFA0B00D9D582 /* BBFileActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9B8F2D013CDFA0B00D9D582 /* BBFileActionViewController.xib */; };
 		E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */; };
 		E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */; };
 		E9C8B41313638A2E00F0ED8E /* LarvaJoltViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */; };
@@ -58,7 +60,6 @@
 		FA16389311320CAB003065AC /* BBFileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA16389211320CAB003065AC /* BBFileView.xib */; };
 		FA1638A011322CCB003065AC /* BBFileDetailEdit.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA16389F11322CCB003065AC /* BBFileDetailEdit.xib */; };
 		FA163A301134A949003065AC /* BBFileDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA163A2F1134A949003065AC /* BBFileDetailView.xib */; };
-		FA50CA89117F9FBC00D0CA5A /* test.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA50CA88117F9FBC00D0CA5A /* test.xib */; };
 		FA5A8686115E740900E201BC /* FirstTimeSpikersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5A8685115E740900E201BC /* FirstTimeSpikersViewController.m */; };
 		FA5A8688115E749E00E201BC /* FirstTimeSpikersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */; };
 		FA63932A1121043A0072317C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA6393291121043A0072317C /* Settings.bundle */; };
@@ -150,6 +151,9 @@
 		E9AB224913C550380054209F /* stim.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stim.png; path = Images/stim.png; sourceTree = "<group>"; };
 		E9AB224A13C550380054209F /* stim@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stim@2x.png"; path = "Images/stim@2x.png"; sourceTree = "<group>"; };
 		E9AB224B13C550380054209F /* unselected.2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.2x.png; path = Images/unselected.2x.png; sourceTree = "<group>"; };
+		E9B8F2CE13CDFA0B00D9D582 /* BBFileActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBFileActionViewController.h; path = Classes/BBFileActionViewController.h; sourceTree = "<group>"; };
+		E9B8F2CF13CDFA0B00D9D582 /* BBFileActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBFileActionViewController.m; path = Classes/BBFileActionViewController.m; sourceTree = "<group>"; };
+		E9B8F2D013CDFA0B00D9D582 /* BBFileActionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BBFileActionViewController.xib; path = Classes/BBFileActionViewController.xib; sourceTree = "<group>"; };
 		E9C8B4061363885000F0ED8E /* LarvaJoltAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltAudio.h; sourceTree = "<group>"; };
 		E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltAudio.m; sourceTree = "<group>"; };
 		E9C8B4081363885000F0ED8E /* LarvaJoltViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltViewController.h; sourceTree = "<group>"; };
@@ -196,7 +200,6 @@
 		FA16389211320CAB003065AC /* BBFileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BBFileView.xib; sourceTree = "<group>"; };
 		FA16389F11322CCB003065AC /* BBFileDetailEdit.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BBFileDetailEdit.xib; sourceTree = "<group>"; };
 		FA163A2F1134A949003065AC /* BBFileDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BBFileDetailView.xib; sourceTree = "<group>"; };
-		FA50CA88117F9FBC00D0CA5A /* test.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = test.xib; sourceTree = "<group>"; };
 		FA5A8684115E740900E201BC /* FirstTimeSpikersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstTimeSpikersViewController.h; sourceTree = "<group>"; };
 		FA5A8685115E740900E201BC /* FirstTimeSpikersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstTimeSpikersViewController.m; sourceTree = "<group>"; };
 		FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FirstTimeSpikersView.xib; sourceTree = "<group>"; };
@@ -540,14 +543,14 @@
 		FA1636EC1131AEF5003065AC /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
-				FA50CA88117F9FBC00D0CA5A /* test.xib */,
-				FA13338A111F289D00A89543 /* TriggerView.xib */,
-				FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */,
-				282CCBFD0DB6C98000C4EA27 /* SecondView.xib */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				FAF0528912BE90FB00568255 /* MainWindow_iPad.xib */,
 				FAF7111E111E57A6009E7EFA /* ContinuousWaveView.xib */,
 				FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */,
+				FA13338A111F289D00A89543 /* TriggerView.xib */,
+				FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */,
+				E9B8F2D013CDFA0B00D9D582 /* BBFileActionViewController.xib */,
+				282CCBFD0DB6C98000C4EA27 /* SecondView.xib */,
 				FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */,
 				FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */,
 				FA16389211320CAB003065AC /* BBFileView.xib */,
@@ -606,6 +609,8 @@
 			children = (
 				FA88BF041145C477006C2FE0 /* BBFileViewController.h */,
 				FA88BF051145C477006C2FE0 /* BBFileViewController.m */,
+				E9B8F2CE13CDFA0B00D9D582 /* BBFileActionViewController.h */,
+				E9B8F2CF13CDFA0B00D9D582 /* BBFileActionViewController.m */,
 				FA88C20C1146BF6C006C2FE0 /* BBFileTableCell.h */,
 				FA88C20D1146BF6C006C2FE0 /* BBFileTableCell.m */,
 			);
@@ -791,7 +796,6 @@
 				FAC9FECE115B070F0004822F /* msLine.png in Resources */,
 				FAAC43B9115D9A0A00967AA7 /* FlipsideInfoView.xib in Resources */,
 				FA5A8688115E749E00E201BC /* FirstTimeSpikersView.xib in Resources */,
-				FA50CA89117F9FBC00D0CA5A /* test.xib in Resources */,
 				FAF0528A12BE90FB00568255 /* MainWindow_iPad.xib in Resources */,
 				FAF0528D12BE912700568255 /* ContinuousWaveView_iPad.xib in Resources */,
 				FAF0549712BEA3E000568255 /* TriggerView_iPad.xib in Resources */,
@@ -814,6 +818,7 @@
 				E96C48B013C7AED600EAD5AA /* selected.png in Resources */,
 				E96C48B113C7AED600EAD5AA /* unselected.png in Resources */,
 				E9E7761713CBA34300AA812C /* TickMarksBig.png in Resources */,
+				E9B8F2D213CDFA0B00D9D582 /* BBFileActionViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -874,6 +879,7 @@
 				FAF052AC12BE937500568255 /* ContinuousWaveViewController_iPhone.m in Sources */,
 				E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */,
 				E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */,
+				E9B8F2D113CDFA0B00D9D582 /* BBFileActionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,26 +22,20 @@
 	// Data labels
 	IBOutlet UIButton *recordButton;
 	IBOutlet UIButton *stopButton;
-	IBOutlet UIButton *fileButton;
     IBOutlet UIButton *stimButton;
     
 	ContinuousWaveView *cwView;
 	
 	AudioRecorder *audioRecorder;
-    
-    LarvaJoltViewController *larvaJoltController;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *recordButton;
 @property (nonatomic, retain) IBOutlet UIButton *stopButton;
-@property (nonatomic, retain) IBOutlet UIButton *fileButton;
 @property (nonatomic, retain) IBOutlet UIButton *stimButton;
 
 @property (nonatomic, retain) ContinuousWaveView *cwView;
 
 @property (nonatomic, retain) AudioRecorder *audioRecorder;
-
-@property (nonatomic, retain) LarvaJoltViewController *larvaJoltController;
 
 
 - (void)updateDataLabels;
@@ -50,6 +44,9 @@
 
 - (IBAction)startRecording:(UIButton *)sender;
 - (IBAction)stopRecording:(UIButton *)sender;
+
+- (IBAction)startStim:(UIButton *)sender;
+
 - (void)pissMyPants;
 
 //for AudioSignalManagerDelegate

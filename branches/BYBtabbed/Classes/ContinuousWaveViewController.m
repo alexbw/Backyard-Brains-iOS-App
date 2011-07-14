@@ -14,13 +14,11 @@
 
 @synthesize recordButton;
 @synthesize stopButton;
-@synthesize fileButton;
 @synthesize stimButton;
 @synthesize audioRecorder;
 
 @synthesize cwView;
 
-@synthesize larvaJoltController;
 
 
 - (void)dealloc {	
@@ -28,13 +26,11 @@
 	
 	[recordButton release];
 	[stopButton release];
-	[fileButton release];
     [stimButton release];
     //[audioRecorder release]; released in stopRecordering:
     
     [cwView release];
     
-    [larvaJoltController release];
 
 }
 
@@ -70,6 +66,13 @@
 }
 
 
+- (IBAction)startStim:(UIButton *)sender
+{
+    
+}
+
+
+
 - (void)pissMyPants {
 	NSLog(@"I've pissed my pants");
 	
@@ -93,16 +96,6 @@
 
 - (void)viewWillAppear:(BOOL)animated { 
 	[super viewWillAppear:animated];
-	
-    
-    // Grab the stim button setting from the NSUserDefaults THINGYYY
-    BOOL enablestim = [[NSUserDefaults standardUserDefaults] boolForKey:@"enablestim"];
-    //NSLog(@"==== ENABLE STIM set to: %u", enablestim);
-    if (enablestim)
-        self.stimButton.hidden = NO;
-    else
-        self.stimButton.hidden = YES;
-    
 	
 	[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
 	
@@ -368,6 +361,9 @@
 		[self showAllLabels];
 	}
 }
+
+
+
 
 
 @end

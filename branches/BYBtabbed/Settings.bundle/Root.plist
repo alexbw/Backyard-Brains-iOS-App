@@ -54,16 +54,6 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
-			<string>enablestim</string>
-			<key>Title</key>
-			<string>Enable stim.</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
 			<integer>10000</integer>
 			<key>Key</key>
 			<string>ledcontrolfreq</string>
