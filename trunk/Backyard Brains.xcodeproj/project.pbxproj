@@ -31,6 +31,13 @@
 		E9AB225313C550380054209F /* stim.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224913C550380054209F /* stim.png */; };
 		E9AB225413C550380054209F /* stim@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224A13C550380054209F /* stim@2x.png */; };
 		E9AB225513C550380054209F /* unselected.2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224B13C550380054209F /* unselected.2x.png */; };
+		E9B8F2F213CE1D7900D9D582 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E9B8F2F113CE1D7900D9D582 /* Icon.png */; };
+		E9B8F2F413CE1D8000D9D582 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9B8F2F313CE1D8000D9D582 /* Icon@2x.png */; };
+		E9B8F2F613CE1D9700D9D582 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = E9B8F2F513CE1D9700D9D582 /* Icon-72.png */; };
+		E9B8F2FB13CE1E1500D9D582 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = E9B8F2F813CE1E1500D9D582 /* Icon-50.png */; };
+		E9B8F2FC13CE1E1500D9D582 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = E9B8F2F913CE1E1500D9D582 /* Icon-Small.png */; };
+		E9B8F2FD13CE1E1500D9D582 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9B8F2FA13CE1E1500D9D582 /* Icon-Small@2x.png */; };
+		E9C74DF813CE4E000070A39D /* Entitlement.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9C74DF713CE4E000070A39D /* Entitlement.plist */; };
 		E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */; };
 		E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */; };
 		E9C8B41313638A2E00F0ED8E /* LarvaJoltViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */; };
@@ -125,7 +132,6 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* Backyard_BrainsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Backyard_BrainsAppDelegate.h; path = Classes/Backyard_BrainsAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* Backyard_BrainsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Backyard_BrainsAppDelegate.m; path = Classes/Backyard_BrainsAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* BYB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BYB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		282CCBFD0DB6C98000C4EA27 /* SecondView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecondView.xib; sourceTree = "<group>"; };
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -142,6 +148,7 @@
 		E923442313B96D4D00C17C61 /* WaveImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaveImage.png; path = Images/WaveImage.png; sourceTree = "<group>"; };
 		E96C48AE13C7AED600EAD5AA /* selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = selected.png; path = Images/selected.png; sourceTree = "<group>"; };
 		E96C48AF13C7AED600EAD5AA /* unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.png; path = Images/unselected.png; sourceTree = "<group>"; };
+		E9A7C46213CF8CB3007B69EB /* BYB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BYB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9AB224313C550380054209F /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = Images/pause.png; sourceTree = "<group>"; };
 		E9AB224413C550380054209F /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pause@2x.png"; path = "Images/pause@2x.png"; sourceTree = "<group>"; };
 		E9AB224513C550380054209F /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Images/play.png; sourceTree = "<group>"; };
@@ -150,6 +157,13 @@
 		E9AB224913C550380054209F /* stim.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stim.png; path = Images/stim.png; sourceTree = "<group>"; };
 		E9AB224A13C550380054209F /* stim@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stim@2x.png"; path = "Images/stim@2x.png"; sourceTree = "<group>"; };
 		E9AB224B13C550380054209F /* unselected.2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.2x.png; path = Images/unselected.2x.png; sourceTree = "<group>"; };
+		E9B8F2F113CE1D7900D9D582 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		E9B8F2F313CE1D8000D9D582 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		E9B8F2F513CE1D9700D9D582 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		E9B8F2F813CE1E1500D9D582 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
+		E9B8F2F913CE1E1500D9D582 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		E9B8F2FA13CE1E1500D9D582 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		E9C74DF713CE4E000070A39D /* Entitlement.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlement.plist; sourceTree = "<group>"; };
 		E9C8B4061363885000F0ED8E /* LarvaJoltAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltAudio.h; sourceTree = "<group>"; };
 		E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltAudio.m; sourceTree = "<group>"; };
 		E9C8B4081363885000F0ED8E /* LarvaJoltViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltViewController.h; sourceTree = "<group>"; };
@@ -326,7 +340,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* BYB.app */,
+				E9A7C46213CF8CB3007B69EB /* BYB.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -334,6 +348,7 @@
 		29B97314FDCFA39411CA2CEA /* Backyard Brains */ = {
 			isa = PBXGroup;
 			children = (
+				E9C74DF713CE4E000070A39D /* Entitlement.plist */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -370,6 +385,7 @@
 			children = (
 				FA1636EC1131AEF5003065AC /* XIBs */,
 				FA1636E01131AEDC003065AC /* plists */,
+				E9B8F2F713CE1DBF00D9D582 /* Icons */,
 				FA1636DF1131AECC003065AC /* Images */,
 			);
 			name = Resources;
@@ -383,6 +399,19 @@
 				288765070DF74369002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E9B8F2F713CE1DBF00D9D582 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				E9B8F2F813CE1E1500D9D582 /* Icon-50.png */,
+				E9B8F2F913CE1E1500D9D582 /* Icon-Small.png */,
+				E9B8F2FA13CE1E1500D9D582 /* Icon-Small@2x.png */,
+				E9B8F2F513CE1D9700D9D582 /* Icon-72.png */,
+				E9B8F2F313CE1D8000D9D582 /* Icon@2x.png */,
+				E9B8F2F113CE1D7900D9D582 /* Icon.png */,
+			);
+			name = Icons;
 			sourceTree = "<group>";
 		};
 		E9C8B4001363882E00F0ED8E /* LarvaJolt */ = {
@@ -728,7 +757,7 @@
 			);
 			name = "Backyard Brains";
 			productName = "Backyard Brains";
-			productReference = 1D6058910D05DD3D006BFB54 /* BYB.app */;
+			productReference = E9A7C46213CF8CB3007B69EB /* BYB.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -814,6 +843,13 @@
 				E96C48B013C7AED600EAD5AA /* selected.png in Resources */,
 				E96C48B113C7AED600EAD5AA /* unselected.png in Resources */,
 				E9E7761713CBA34300AA812C /* TickMarksBig.png in Resources */,
+				E9B8F2F213CE1D7900D9D582 /* Icon.png in Resources */,
+				E9B8F2F413CE1D8000D9D582 /* Icon@2x.png in Resources */,
+				E9B8F2F613CE1D9700D9D582 /* Icon-72.png in Resources */,
+				E9B8F2FB13CE1E1500D9D582 /* Icon-50.png in Resources */,
+				E9B8F2FC13CE1E1500D9D582 /* Icon-Small.png in Resources */,
+				E9B8F2FD13CE1E1500D9D582 /* Icon-Small@2x.png in Resources */,
+				E9C74DF813CE4E000070A39D /* Entitlement.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,7 +921,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Backyard Brains";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -895,7 +931,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				PRODUCT_NAME = BYB;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "B0208B0E-72EB-42AC-B7C8-B8460396186B";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -907,15 +943,15 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Backyard Brains";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Backyard_Brains_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
-				PRODUCT_NAME = "Backyard Brains";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = BYB;
+				PROVISIONING_PROFILE = "B0208B0E-72EB-42AC-B7C8-B8460396186B";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -951,6 +987,42 @@
 			};
 			name = Release;
 		};
+		E9B8F2FE13CE212200D9D582 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "~/Developer/BYB";
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+			};
+			name = Distribution;
+		};
+		E9B8F2FF13CE212200D9D582 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Backyard Brains";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Backyard_Brains_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
+				PRODUCT_NAME = BYB;
+				PROVISIONING_PROFILE = "B0208B0E-72EB-42AC-B7C8-B8460396186B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Distribution;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -959,6 +1031,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				E9B8F2FF13CE212200D9D582 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -968,6 +1041,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				E9B8F2FE13CE212200D9D582 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

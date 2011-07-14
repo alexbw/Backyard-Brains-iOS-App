@@ -17,10 +17,10 @@
 #define kNumWaitFrames 5
 
 
-void sessionPropertyListener(void *                  inClientData,
+void sessionPropertyListener(void                    *inClientData,
 							 AudioSessionPropertyID  inID,
 							 UInt32                  inDataSize,
-							 const void *            inData){
+							 const void              *inData){
 	
 	AudioSignalManager *asm = (AudioSignalManager *)inClientData;
 
@@ -32,16 +32,76 @@ void sessionPropertyListener(void *                  inClientData,
 		
 		// Uncomment if you want to force an override of the audio output route.
 		// Not particularly recommended.
-		UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
-		AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
-								 sizeof (audioRouteOverride),
-								 &audioRouteOverride);
+		//UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+		//AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+		//						 sizeof (audioRouteOverride),
+		//						 &audioRouteOverride);
 
         //because play and record plays back through the top speaker to avoid
-        //feedback from the mic!
+        //feedback from the mic! See checks below.
         
 		NSString* routeStr = (NSString*)route;
 		NSLog(@"AudioRoute: %@", routeStr);
+        
+        /* Known values of route:
+         * "Headset"
+         * "Headphone"
+         * "Speaker"
+         * "SpeakerAndMicrophone"
+         * "HeadphonesAndMicrophone"
+         * "HeadsetInOut"
+         * "ReceiverAndMicrophone"
+         * "Lineout"
+         */
+        
+        NSRange headphoneRange = [routeStr rangeOfString : @"Headphone"];
+        NSRange headsetRange = [routeStr rangeOfString : @"Headset"];
+        NSRange receiverRange = [routeStr rangeOfString : @"Receiver"];
+        NSRange speakerRange = [routeStr rangeOfString : @"Speaker"];
+        NSRange lineoutRange = [routeStr rangeOfString : @"Lineout"];
+        
+        if (headphoneRange.location != NSNotFound) {
+            // Don't change the route if the headphone is plugged in.
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+            
+        } else if(headsetRange.location != NSNotFound) {
+            // Don't change the route if the headset is plugged in.
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+            
+        } else if (receiverRange.location != NSNotFound) {
+            // Change to play on the speaker
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+            
+        } else if (speakerRange.location != NSNotFound) {
+            // Make sure it's the speaker
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+            
+        } else if (lineoutRange.location != NSNotFound) {
+            // Don't change the route if the lineout is plugged in.
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+        } else {
+            NSLog(@"Unknown audio route.");
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+        }
+        
 
 		UInt32 inputAvailable=0;
 		UInt32 size = sizeof(inputAvailable);
@@ -54,6 +114,7 @@ void sessionPropertyListener(void *                  inClientData,
 			if (asm.paused) {
 				NSLog(@"YARRRRR ME MATEYYYYSSSS");
 				NSLog(@"My callback: %lu", asm.myCallbackType);
+                
 				[asm ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:asm.myCallbackType];
 				[asm play];
 			}
@@ -649,7 +710,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 
 	// Enable IO
 	UInt32 one = 1;
-	err = AudioUnitSetProperty(outputAudioUnit, 
+	err = AudioUnitSetProperty(self.outputAudioUnit, 
 							   kAudioOutputUnitProperty_EnableIO, 
 							   kAudioUnitScope_Input, 
 							   kInputBus, 
@@ -657,7 +718,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 							   sizeof(one));
 	NSAssert(err == noErr, @"Could not enable the Input Scope of Bus 1");
 	
-//	err = AudioUnitSetProperty(outputAudioUnit, 
+//	err = AudioUnitSetProperty(self.outputAudioUnit, 
 //							   kAudioOutputUnitProperty_EnableIO, 
 //							   kAudioUnitScope_Output, 
 //							   kOutputBus, 
@@ -682,7 +743,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	audioFormat.mBytesPerPacket		= 2;
 	audioFormat.mBytesPerFrame		= 2;
 	
-	err = AudioUnitSetProperty(outputAudioUnit, 
+	err = AudioUnitSetProperty(self.outputAudioUnit, 
 							   kAudioUnitProperty_StreamFormat, 
 							   kAudioUnitScope_Output, 
 							   kInputBus, 
@@ -690,7 +751,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 							   sizeof(audioFormat));
 	NSAssert(err == noErr, @"Error setting Output Scope for Bus 1 (from microphone to app)");
 	
-	err = AudioUnitSetProperty(outputAudioUnit, 
+	err = AudioUnitSetProperty(self.outputAudioUnit, 
 							   kAudioUnitProperty_StreamFormat, 
 							   kAudioUnitScope_Input, 
 							   kOutputBus, 
@@ -702,7 +763,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	// Check that we properly set the sampling rate
 	Float64 outSampleRate = 0.0;
 	size = sizeof(Float64);
-	AudioUnitGetProperty (outputAudioUnit,
+	AudioUnitGetProperty (self.outputAudioUnit,
 						  kAudioUnitProperty_SampleRate,
 						  kAudioUnitScope_Output,
 						  kInputBus,
@@ -723,7 +784,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		case kAudioCallbackSingleShotTrigger:
 			playbackCallbackStruct.inputProc = singleShotTriggerCallback;
 			singleShotTriggerCallbackData *sd = (singleShotTriggerCallbackData *)malloc(sizeof(singleShotTriggerCallbackData));
-			sd->au = outputAudioUnit;
+			sd->au = self.outputAudioUnit;
 			sd->ssb = secondStageBuffer;
 			sd->vb = vertexBuffer;
 			sd->asm = self;
@@ -732,7 +793,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		case kAudioCallbackAverageTrigger:
 			playbackCallbackStruct.inputProc = averageTriggerDisplayOutputCallback;
 			averageTriggerCallbackData *td = (averageTriggerCallbackData *)malloc(sizeof(averageTriggerCallbackData));
-			td->au = outputAudioUnit;
+			td->au = self.outputAudioUnit;
 			td->ssb = secondStageBuffer;
 			td->vb = vertexBuffer;
 			td->asm = self;
@@ -743,7 +804,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 			break;
 	}
 	
-//	err = AudioUnitSetProperty(outputAudioUnit, 
+//	err = AudioUnitSetProperty(self.outputAudioUnit, 
 //							   kAudioOutputUnitProperty_SetInputCallback, 
 //							   kAudioUnitScope_Global,
 //							   kInputBus, 
@@ -751,7 +812,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 //							   sizeof(playbackCallbackStruct));
 //	NSAssert(err == noErr, @"Setting input callback failed");
 
-	err = AudioUnitSetProperty(outputAudioUnit, 
+	err = AudioUnitSetProperty(self.outputAudioUnit, 
 							   kAudioUnitProperty_SetRenderCallback, 
 							   kAudioUnitScope_Output,
 							   kOutputBus, 
@@ -769,7 +830,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 //
 //	playThruCallbackStruct.inputProcRefCon = pd;
 //	
-//	err = AudioUnitSetProperty(outputAudioUnit, 
+//	err = AudioUnitSetProperty(self.outputAudioUnit, 
 //							  kAudioUnitProperty_SetRenderCallback, 
 //							  kAudioUnitScope_Global, 
 //							  kOutputBus,
@@ -779,7 +840,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	
 	
 
-	err = AudioUnitInitialize(outputAudioUnit);
+	err = AudioUnitInitialize(self.outputAudioUnit);
 	
 
 	NSLog(@"err = %ld", err);
@@ -818,7 +879,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		case kAudioCallbackSingleShotTrigger:
 			playbackCallbackStruct.inputProc = singleShotTriggerCallback;
 			singleShotTriggerCallbackData *sd = (singleShotTriggerCallbackData *)malloc(sizeof(singleShotTriggerCallbackData));
-			sd->au = outputAudioUnit;
+			sd->au = self.outputAudioUnit;
 			sd->ssb = secondStageBuffer;
 			sd->vb = vertexBuffer;
 			sd->asm = self;
@@ -827,7 +888,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		case kAudioCallbackAverageTrigger:
 			playbackCallbackStruct.inputProc = averageTriggerDisplayOutputCallback;
 			averageTriggerCallbackData *td = (averageTriggerCallbackData *)malloc(sizeof(averageTriggerCallbackData));
-			td->au = outputAudioUnit;
+			td->au = self.outputAudioUnit;
 			td->ssb = secondStageBuffer;
 			td->vb = vertexBuffer;
 			td->asm = self;
@@ -838,7 +899,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 			break;
 	}
 	
-//	OSStatus err = AudioUnitSetProperty(outputAudioUnit, 
+//	OSStatus err = AudioUnitSetProperty(self.outputAudioUnit, 
 //							   kAudioOutputUnitProperty_SetInputCallback, 
 //							   kAudioUnitScope_Global,
 //							   kInputBus, 
@@ -846,7 +907,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 //							   sizeof(playbackCallbackStruct));
 //	NSAssert(err == noErr, @"Setting input callback failed");
 	
-	OSStatus err = AudioUnitSetProperty(outputAudioUnit, 
+	OSStatus err = AudioUnitSetProperty(self.outputAudioUnit, 
 							   kAudioUnitProperty_SetRenderCallback, 
 							   kAudioUnitScope_Output,
 							   kOutputBus, 
@@ -1007,7 +1068,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 - (void)pause {
 	
 	if (!paused) {
-		OSStatus err = AudioOutputUnitStop(outputAudioUnit);
+		OSStatus err = AudioOutputUnitStop(self.outputAudioUnit);
         NSLog(@"err = %ld", err);
 		paused = YES;
 	}
@@ -1025,7 +1086,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	if ( inputAvailable ) {
 		// Set the audio session category for simultaneous play and record
 		if (paused) {
-			OSStatus err = AudioOutputUnitStart(outputAudioUnit);
+			OSStatus err = AudioOutputUnitStart(self.outputAudioUnit);
 			NSLog(@"err = %ld", err);			
 			paused = NO;
 		}

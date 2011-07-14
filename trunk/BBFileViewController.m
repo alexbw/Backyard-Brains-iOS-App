@@ -60,6 +60,7 @@
 		
 		// audioPlayer will remain nil as long as nothing is playing
 		audioPlayer = nil;
+        
 		
     }
     return self;
@@ -346,10 +347,10 @@
 
 - (IBAction)positionInFileChanged:(UISlider *)sender {
 	NSLog(@"Position in file changed!");
-    if (audioPlayer.playing)
+    /*if (audioPlayer.playing)
     {
         [self pausePlayingCell:self.playingCell];
-    }
+    }*/
 	audioPlayer.currentTime = sender.value;
 	[self updateCurrentTime];
 }
@@ -371,10 +372,7 @@
 		// Fire up an audio player
 		audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
         audioPlayer.volume = 1.0; // 0.0 - no volume; 1.0 full volume
-        
-        /*float volume = 1.0f;
-        [[MPMusicPlayerController applicationMusicPlayer] setVolume:volume];*/
-        
+
         NSLog(@"File path %@", [docPath stringByAppendingPathComponent:self.file.filename]);
 		NSLog(@"File duration: %f", audioPlayer.duration);
 

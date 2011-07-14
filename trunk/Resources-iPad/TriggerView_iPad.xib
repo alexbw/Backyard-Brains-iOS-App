@@ -146,6 +146,10 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">msLine.png</string>
+						</object>
 					</object>
 					<object class="IBUISlider" id="788665851">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -639,8 +643,17 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">TickMarksBig.png</string>
-			<string key="NS.object.0">{15, 975}</string>
+			<bool key="EncodedWithXMLCoder">YES</bool>
+			<object class="NSArray" key="dict.sortedKeys">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>TickMarksBig.png</string>
+				<string>msLine.png</string>
+			</object>
+			<object class="NSMutableArray" key="dict.values">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>{15, 975}</string>
+				<string>{341, 2}</string>
+			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">294</string>
 	</data>

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AudioSignalManager.h"
+#import "AVFoundation/AVAudioSession.h"
 #import "DrawingViewController.h"
 #import "BBFileViewController.h"
 
