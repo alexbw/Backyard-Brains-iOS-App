@@ -13,7 +13,7 @@
 //#define kLandscapeHeightWithTabBar 270
 //#define kLandscapeHeightWithTabBar_iPad 736
 
-@protocol DrawingViewControllerDelegate
+@protocol DrawingViewControllerDelegate //This will be BBTabViewController
 
 	@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
 

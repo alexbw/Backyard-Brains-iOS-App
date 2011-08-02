@@ -3,7 +3,7 @@
 //  Backyard Brains
 //
 //  Created by Alex Wiltschko on 3/17/10.
-//  Copyright 2010 University of Michigan. All rights reserved.
+//  Copyright 2010 Backyard Brains. All rights reserved.
 //
 
 #import "AudioRecorder.h"
@@ -90,8 +90,13 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 	rb->lastReadIndex = rb->lastWrittenIndex; // bring things up to speed.
 	isRecording = YES;
 	
-	bbFile = [[BBFile alloc] initWithRecordingFile];
-	[bbFile save];
+	self.bbFile = [[BBFile alloc] initWithRecordingFile];
+	[self.bbFile save];
+	
+	if (self.asm.isStimulating)
+	{
+		self.bbFile.stimLog = 0;
+	};//tk
 	
 	AudioStreamBasicDescription destFormat;
 	AudioStreamBasicDescription sourceFormat;

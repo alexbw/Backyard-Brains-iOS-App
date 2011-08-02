@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,12 +31,30 @@
 		E9AB225313C550380054209F /* stim.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224913C550380054209F /* stim.png */; };
 		E9AB225413C550380054209F /* stim@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224A13C550380054209F /* stim@2x.png */; };
 		E9AB225513C550380054209F /* unselected.2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224B13C550380054209F /* unselected.2x.png */; };
-		E9B8F2D113CDFA0B00D9D582 /* BBFileActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B8F2CF13CDFA0B00D9D582 /* BBFileActionViewController.m */; };
-		E9B8F2D213CDFA0B00D9D582 /* BBFileActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9B8F2D013CDFA0B00D9D582 /* BBFileActionViewController.xib */; };
+		E9B7000313E74D9C0013A1A6 /* TriggerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7000213E74D9C0013A1A6 /* TriggerViewController.m */; };
+		E9B7000F13E754DF0013A1A6 /* DrawingDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7000E13E754DF0013A1A6 /* DrawingDataManager.m */; };
+		E9B7FFCF13E747B00013A1A6 /* AudioPlaybackManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFCE13E747B00013A1A6 /* AudioPlaybackManager.m */; };
+		E9B7FFD713E748AE0013A1A6 /* PlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFD213E748AE0013A1A6 /* PlaybackView.m */; };
+		E9B7FFD813E748AE0013A1A6 /* PlaybackView.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFD313E748AE0013A1A6 /* PlaybackView.plist */; };
+		E9B7FFD913E748AE0013A1A6 /* PlaybackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFD413E748AE0013A1A6 /* PlaybackView.xib */; };
+		E9B7FFDA13E748AE0013A1A6 /* PlaybackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFD613E748AE0013A1A6 /* PlaybackViewController.m */; };
+		E9B7FFDE13E749020013A1A6 /* BBFileActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFDC13E749020013A1A6 /* BBFileActionViewController.m */; };
+		E9B7FFDF13E749020013A1A6 /* BBFileActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFDD13E749020013A1A6 /* BBFileActionViewController.xib */; };
+		E9B7FFE213E749390013A1A6 /* AudioSignalManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFE113E749390013A1A6 /* AudioSignalManager.m */; };
+		E9B7FFED13E7497A0013A1A6 /* ContinuousWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFE413E7497A0013A1A6 /* ContinuousWaveView.m */; };
+		E9B7FFEE13E7497A0013A1A6 /* ContinuousWaveView.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFE513E7497A0013A1A6 /* ContinuousWaveView.plist */; };
+		E9B7FFEF13E7497A0013A1A6 /* ContinuousWaveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFE613E7497A0013A1A6 /* ContinuousWaveView.xib */; };
+		E9B7FFF013E7497A0013A1A6 /* ContinuousWaveViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFE813E7497A0013A1A6 /* ContinuousWaveViewController_iPad.m */; };
+		E9B7FFF113E7497A0013A1A6 /* ContinuousWaveViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFEA13E7497A0013A1A6 /* ContinuousWaveViewController_iPhone.m */; };
+		E9B7FFF213E7497A0013A1A6 /* ContinuousWaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFEC13E7497A0013A1A6 /* ContinuousWaveViewController.m */; };
+		E9B7FFF713E74A970013A1A6 /* DrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFF413E74A970013A1A6 /* DrawingViewController.m */; };
+		E9B7FFF813E74A970013A1A6 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFF613E74A970013A1A6 /* EAGLView.m */; };
+		E9B7FFFE13E74D940013A1A6 /* TriggerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFFB13E74D940013A1A6 /* TriggerView.m */; };
 		E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */; };
 		E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */; };
 		E9C8B41313638A2E00F0ED8E /* LarvaJoltViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */; };
 		E9E7761713CBA34300AA812C /* TickMarksBig.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E7761613CBA34300AA812C /* TickMarksBig.png */; };
+		E9F26C9613E85C84007CA7F8 /* BBFileNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F26C9513E85C83007CA7F8 /* BBFileNavViewController.m */; };
 		FA13338B111F289D00A89543 /* TriggerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA13338A111F289D00A89543 /* TriggerView.xib */; };
 		FA133396111F291000A89543 /* TriggerView.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA133395111F291000A89543 /* TriggerView.plist */; };
 		FA1637641131EBBA003065AC /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1637631131EBBA003065AC /* libsqlite3.0.dylib */; };
@@ -103,22 +121,11 @@
 		FAE77ADA1150ABB1006B05DA /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE77AD91150ABB1006B05DA /* MessageUI.framework */; };
 		FAF0528A12BE90FB00568255 /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF0528912BE90FB00568255 /* MainWindow_iPad.xib */; };
 		FAF0528D12BE912700568255 /* ContinuousWaveView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */; };
-		FAF0529012BE924200568255 /* ContinuousWaveViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF0528F12BE924200568255 /* ContinuousWaveViewController_iPad.m */; };
-		FAF052AC12BE937500568255 /* ContinuousWaveViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF052AB12BE937500568255 /* ContinuousWaveViewController_iPhone.m */; };
 		FAF0549712BEA3E000568255 /* TriggerView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */; };
-		FAF70E6F111E21E0009E7EFA /* AudioSignalManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF70E62111E21E0009E7EFA /* AudioSignalManager.m */; };
-		FAF70E70111E21E0009E7EFA /* ContinuousWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF70E64111E21E0009E7EFA /* ContinuousWaveView.m */; };
-		FAF70E71111E21E0009E7EFA /* ContinuousWaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF70E66111E21E0009E7EFA /* ContinuousWaveViewController.m */; };
-		FAF70E72111E21E0009E7EFA /* DrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF70E68111E21E0009E7EFA /* DrawingViewController.m */; };
-		FAF70E73111E21E0009E7EFA /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF70E6A111E21E0009E7EFA /* EAGLView.m */; };
-		FAF70E74111E21E0009E7EFA /* TriggerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF70E6C111E21E0009E7EFA /* TriggerView.m */; };
-		FAF70E75111E21E0009E7EFA /* TriggerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF70E6E111E21E0009E7EFA /* TriggerViewController.m */; };
 		FAF70E80111E22AA009E7EFA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF70E7F111E22AA009E7EFA /* OpenGLES.framework */; };
 		FAF70E82111E22AA009E7EFA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF70E81111E22AA009E7EFA /* QuartzCore.framework */; };
 		FAF70E8A111E22B4009E7EFA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF70E89111E22B4009E7EFA /* AudioToolbox.framework */; };
 		FAF70EB3111E2385009E7EFA /* BBTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF70EB2111E2385009E7EFA /* BBTabViewController.m */; };
-		FAF7111F111E57A6009E7EFA /* ContinuousWaveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF7111E111E57A6009E7EFA /* ContinuousWaveView.xib */; };
-		FAF71256111E6778009E7EFA /* ContinuousWaveView.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAF71254111E6778009E7EFA /* ContinuousWaveView.plist */; };
 		FAF71257111E6778009E7EFA /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAF71255111E6778009E7EFA /* Entitlements.plist */; };
 /* End PBXBuildFile section */
 
@@ -151,15 +158,49 @@
 		E9AB224913C550380054209F /* stim.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stim.png; path = Images/stim.png; sourceTree = "<group>"; };
 		E9AB224A13C550380054209F /* stim@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stim@2x.png"; path = "Images/stim@2x.png"; sourceTree = "<group>"; };
 		E9AB224B13C550380054209F /* unselected.2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.2x.png; path = Images/unselected.2x.png; sourceTree = "<group>"; };
-		E9B8F2CE13CDFA0B00D9D582 /* BBFileActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBFileActionViewController.h; path = Classes/BBFileActionViewController.h; sourceTree = "<group>"; };
-		E9B8F2CF13CDFA0B00D9D582 /* BBFileActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBFileActionViewController.m; path = Classes/BBFileActionViewController.m; sourceTree = "<group>"; };
-		E9B8F2D013CDFA0B00D9D582 /* BBFileActionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BBFileActionViewController.xib; path = Classes/BBFileActionViewController.xib; sourceTree = "<group>"; };
+		E9B7000113E74D9C0013A1A6 /* TriggerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerViewController.h; sourceTree = "<group>"; };
+		E9B7000213E74D9C0013A1A6 /* TriggerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriggerViewController.m; sourceTree = "<group>"; };
+		E9B7000413E74FCD0013A1A6 /* BBFileActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileActionViewController.h; sourceTree = "<group>"; };
+		E9B7000513E74FCD0013A1A6 /* BBFileActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileActionViewController.m; sourceTree = "<group>"; };
+		E9B7000D13E754DF0013A1A6 /* DrawingDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingDataManager.h; sourceTree = "<group>"; };
+		E9B7000E13E754DF0013A1A6 /* DrawingDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingDataManager.m; sourceTree = "<group>"; };
+		E9B7FFCD13E747B00013A1A6 /* AudioPlaybackManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlaybackManager.h; sourceTree = "<group>"; };
+		E9B7FFCE13E747B00013A1A6 /* AudioPlaybackManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlaybackManager.m; sourceTree = "<group>"; };
+		E9B7FFD113E748AE0013A1A6 /* PlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaybackView.h; sourceTree = "<group>"; };
+		E9B7FFD213E748AE0013A1A6 /* PlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaybackView.m; sourceTree = "<group>"; };
+		E9B7FFD313E748AE0013A1A6 /* PlaybackView.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PlaybackView.plist; sourceTree = "<group>"; };
+		E9B7FFD413E748AE0013A1A6 /* PlaybackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaybackView.xib; sourceTree = "<group>"; };
+		E9B7FFD513E748AE0013A1A6 /* PlaybackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaybackViewController.h; sourceTree = "<group>"; };
+		E9B7FFD613E748AE0013A1A6 /* PlaybackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaybackViewController.m; sourceTree = "<group>"; };
+		E9B7FFDB13E749020013A1A6 /* BBFileActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileActionViewController.h; sourceTree = "<group>"; };
+		E9B7FFDC13E749020013A1A6 /* BBFileActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileActionViewController.m; sourceTree = "<group>"; };
+		E9B7FFDD13E749020013A1A6 /* BBFileActionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBFileActionViewController.xib; sourceTree = "<group>"; };
+		E9B7FFE013E749390013A1A6 /* AudioSignalManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSignalManager.h; sourceTree = "<group>"; };
+		E9B7FFE113E749390013A1A6 /* AudioSignalManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSignalManager.m; sourceTree = "<group>"; };
+		E9B7FFE313E7497A0013A1A6 /* ContinuousWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContinuousWaveView.h; sourceTree = "<group>"; };
+		E9B7FFE413E7497A0013A1A6 /* ContinuousWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContinuousWaveView.m; sourceTree = "<group>"; };
+		E9B7FFE513E7497A0013A1A6 /* ContinuousWaveView.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ContinuousWaveView.plist; sourceTree = "<group>"; };
+		E9B7FFE613E7497A0013A1A6 /* ContinuousWaveView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContinuousWaveView.xib; sourceTree = "<group>"; };
+		E9B7FFE713E7497A0013A1A6 /* ContinuousWaveViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContinuousWaveViewController_iPad.h; sourceTree = "<group>"; };
+		E9B7FFE813E7497A0013A1A6 /* ContinuousWaveViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContinuousWaveViewController_iPad.m; sourceTree = "<group>"; };
+		E9B7FFE913E7497A0013A1A6 /* ContinuousWaveViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContinuousWaveViewController_iPhone.h; sourceTree = "<group>"; };
+		E9B7FFEA13E7497A0013A1A6 /* ContinuousWaveViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContinuousWaveViewController_iPhone.m; sourceTree = "<group>"; };
+		E9B7FFEB13E7497A0013A1A6 /* ContinuousWaveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContinuousWaveViewController.h; sourceTree = "<group>"; };
+		E9B7FFEC13E7497A0013A1A6 /* ContinuousWaveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContinuousWaveViewController.m; sourceTree = "<group>"; };
+		E9B7FFF313E74A970013A1A6 /* DrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingViewController.h; sourceTree = "<group>"; };
+		E9B7FFF413E74A970013A1A6 /* DrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingViewController.m; sourceTree = "<group>"; };
+		E9B7FFF513E74A970013A1A6 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
+		E9B7FFF613E74A970013A1A6 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
+		E9B7FFFA13E74D940013A1A6 /* TriggerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerView.h; sourceTree = "<group>"; };
+		E9B7FFFB13E74D940013A1A6 /* TriggerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriggerView.m; sourceTree = "<group>"; };
 		E9C8B4061363885000F0ED8E /* LarvaJoltAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltAudio.h; sourceTree = "<group>"; };
 		E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltAudio.m; sourceTree = "<group>"; };
 		E9C8B4081363885000F0ED8E /* LarvaJoltViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltViewController.h; sourceTree = "<group>"; };
 		E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltViewController.m; sourceTree = "<group>"; };
 		E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LarvaJoltViewController.xib; sourceTree = "<group>"; };
 		E9E7761613CBA34300AA812C /* TickMarksBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TickMarksBig.png; path = Images/TickMarksBig.png; sourceTree = "<group>"; };
+		E9F26C9413E85C83007CA7F8 /* BBFileNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileNavViewController.h; sourceTree = "<group>"; };
+		E9F26C9513E85C83007CA7F8 /* BBFileNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileNavViewController.m; sourceTree = "<group>"; };
 		FA13338A111F289D00A89543 /* TriggerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TriggerView.xib; sourceTree = "<group>"; };
 		FA133395111F291000A89543 /* TriggerView.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TriggerView.plist; sourceTree = "<group>"; };
 		FA1637631131EBBA003065AC /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -263,32 +304,12 @@
 		FAE77AD91150ABB1006B05DA /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		FAF0528912BE90FB00568255 /* MainWindow_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow_iPad.xib; path = "Resources-iPad/MainWindow_iPad.xib"; sourceTree = "<group>"; };
 		FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContinuousWaveView_iPad.xib; path = "Resources-iPad/ContinuousWaveView_iPad.xib"; sourceTree = "<group>"; };
-		FAF0528E12BE924200568255 /* ContinuousWaveViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContinuousWaveViewController_iPad.h; path = Classes/ContinuousWaveViewController_iPad.h; sourceTree = "<group>"; };
-		FAF0528F12BE924200568255 /* ContinuousWaveViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContinuousWaveViewController_iPad.m; path = Classes/ContinuousWaveViewController_iPad.m; sourceTree = "<group>"; };
-		FAF052AA12BE937500568255 /* ContinuousWaveViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContinuousWaveViewController_iPhone.h; path = Classes/ContinuousWaveViewController_iPhone.h; sourceTree = "<group>"; };
-		FAF052AB12BE937500568255 /* ContinuousWaveViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContinuousWaveViewController_iPhone.m; path = Classes/ContinuousWaveViewController_iPhone.m; sourceTree = "<group>"; };
 		FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TriggerView_iPad.xib; path = "Resources-iPad/TriggerView_iPad.xib"; sourceTree = "<group>"; };
-		FAF70E61111E21E0009E7EFA /* AudioSignalManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioSignalManager.h; path = Classes/AudioSignalManager.h; sourceTree = "<group>"; };
-		FAF70E62111E21E0009E7EFA /* AudioSignalManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioSignalManager.m; path = Classes/AudioSignalManager.m; sourceTree = "<group>"; };
-		FAF70E63111E21E0009E7EFA /* ContinuousWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContinuousWaveView.h; path = Classes/ContinuousWaveView.h; sourceTree = "<group>"; };
-		FAF70E64111E21E0009E7EFA /* ContinuousWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContinuousWaveView.m; path = Classes/ContinuousWaveView.m; sourceTree = "<group>"; };
-		FAF70E65111E21E0009E7EFA /* ContinuousWaveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContinuousWaveViewController.h; path = Classes/ContinuousWaveViewController.h; sourceTree = "<group>"; };
-		FAF70E66111E21E0009E7EFA /* ContinuousWaveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContinuousWaveViewController.m; path = Classes/ContinuousWaveViewController.m; sourceTree = "<group>"; };
-		FAF70E67111E21E0009E7EFA /* DrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DrawingViewController.h; path = Classes/DrawingViewController.h; sourceTree = "<group>"; };
-		FAF70E68111E21E0009E7EFA /* DrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DrawingViewController.m; path = Classes/DrawingViewController.m; sourceTree = "<group>"; };
-		FAF70E69111E21E0009E7EFA /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = Classes/EAGLView.h; sourceTree = "<group>"; };
-		FAF70E6A111E21E0009E7EFA /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EAGLView.m; path = Classes/EAGLView.m; sourceTree = "<group>"; };
-		FAF70E6B111E21E0009E7EFA /* TriggerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TriggerView.h; path = Classes/TriggerView.h; sourceTree = "<group>"; };
-		FAF70E6C111E21E0009E7EFA /* TriggerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TriggerView.m; path = Classes/TriggerView.m; sourceTree = "<group>"; };
-		FAF70E6D111E21E0009E7EFA /* TriggerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TriggerViewController.h; path = Classes/TriggerViewController.h; sourceTree = "<group>"; };
-		FAF70E6E111E21E0009E7EFA /* TriggerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TriggerViewController.m; path = Classes/TriggerViewController.m; sourceTree = "<group>"; };
 		FAF70E7F111E22AA009E7EFA /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		FAF70E81111E22AA009E7EFA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FAF70E89111E22B4009E7EFA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		FAF70EB1111E2385009E7EFA /* BBTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTabViewController.h; path = Classes/BBTabViewController.h; sourceTree = "<group>"; };
 		FAF70EB2111E2385009E7EFA /* BBTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTabViewController.m; path = Classes/BBTabViewController.m; sourceTree = "<group>"; };
-		FAF7111E111E57A6009E7EFA /* ContinuousWaveView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContinuousWaveView.xib; sourceTree = "<group>"; };
-		FAF71254111E6778009E7EFA /* ContinuousWaveView.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ContinuousWaveView.plist; sourceTree = "<group>"; };
 		FAF71255111E6778009E7EFA /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -319,8 +340,8 @@
 			children = (
 				FA826DB7115582A3005BE83D /* CocoaHTTPServer */,
 				FA1637B01131F194003065AC /* SQLitePersistence */,
-				FA1636D31131AE42003065AC /* Data File IO */,
 				FA1636D01131AE1A003065AC /* Audio Input */,
+				FA1636D31131AE42003065AC /* Data File IO */,
 				FA1636D11131AE27003065AC /* Display */,
 			);
 			path = Classes;
@@ -388,6 +409,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E9B7000913E74FD50013A1A6 /* Action View */ = {
+			isa = PBXGroup;
+			children = (
+				E9B7000413E74FCD0013A1A6 /* BBFileActionViewController.h */,
+				E9B7000513E74FCD0013A1A6 /* BBFileActionViewController.m */,
+			);
+			name = "Action View";
+			sourceTree = "<group>";
+		};
+		E9B7FFF913E74ACB0013A1A6 /* Playback View */ = {
+			isa = PBXGroup;
+			children = (
+				E9B7FFD113E748AE0013A1A6 /* PlaybackView.h */,
+				E9B7FFD213E748AE0013A1A6 /* PlaybackView.m */,
+				E9B7FFD513E748AE0013A1A6 /* PlaybackViewController.h */,
+				E9B7FFD613E748AE0013A1A6 /* PlaybackViewController.m */,
+			);
+			name = "Playback View";
+			sourceTree = "<group>";
+		};
 		E9C8B4001363882E00F0ED8E /* LarvaJolt */ = {
 			isa = PBXGroup;
 			children = (
@@ -403,8 +444,8 @@
 		FA1636D01131AE1A003065AC /* Audio Input */ = {
 			isa = PBXGroup;
 			children = (
-				FAF70E61111E21E0009E7EFA /* AudioSignalManager.h */,
-				FAF70E62111E21E0009E7EFA /* AudioSignalManager.m */,
+				E9B7FFE013E749390013A1A6 /* AudioSignalManager.h */,
+				E9B7FFE113E749390013A1A6 /* AudioSignalManager.m */,
 			);
 			name = "Audio Input";
 			path = ..;
@@ -413,29 +454,34 @@
 		FA1636D11131AE27003065AC /* Display */ = {
 			isa = PBXGroup;
 			children = (
-				FA5A8680115E73B600E201BC /* First Time Spikers View */,
-				FAAC43B7115D998C00967AA7 /* Flipside Info View */,
-				FA826D7111557AAC005BE83D /* File Download View */,
-				FA88C61B11471FE3006C2FE0 /* File Detail View */,
-				FA1638611131FF7F003065AC /* File Table View */,
+				E9B7000913E74FD50013A1A6 /* Action View */,
 				FA1636DC1131AE83003065AC /* Tab Controller */,
-				FA1636DE1131AEB2003065AC /* Trigger View */,
 				FA1636DB1131AE70003065AC /* Continuous View */,
-				FA1636DA1131AE62003065AC /* OpenGL */,
-				FA1636D21131AE34003065AC /* Abstract Superclass */,
+				FA1636DE1131AEB2003065AC /* Trigger View */,
+				E9B7FFF913E74ACB0013A1A6 /* Playback View */,
+				FA1638611131FF7F003065AC /* File Table View */,
+				FA88C61B11471FE3006C2FE0 /* File Detail View */,
+				FA826D7111557AAC005BE83D /* File Download View */,
 				E9C8B4001363882E00F0ED8E /* LarvaJolt */,
+				FAAC43B7115D998C00967AA7 /* Flipside Info View */,
+				FA5A8680115E73B600E201BC /* First Time Spikers View */,
+				FA1636D21131AE34003065AC /* Abstract Superclasses */,
 			);
 			name = Display;
 			path = ..;
 			sourceTree = "<group>";
 		};
-		FA1636D21131AE34003065AC /* Abstract Superclass */ = {
+		FA1636D21131AE34003065AC /* Abstract Superclasses */ = {
 			isa = PBXGroup;
 			children = (
-				FAF70E67111E21E0009E7EFA /* DrawingViewController.h */,
-				FAF70E68111E21E0009E7EFA /* DrawingViewController.m */,
+				E9B7FFF313E74A970013A1A6 /* DrawingViewController.h */,
+				E9B7FFF413E74A970013A1A6 /* DrawingViewController.m */,
+				E9B7FFF513E74A970013A1A6 /* EAGLView.h */,
+				E9B7FFF613E74A970013A1A6 /* EAGLView.m */,
+				E9B7000D13E754DF0013A1A6 /* DrawingDataManager.h */,
+				E9B7000E13E754DF0013A1A6 /* DrawingDataManager.m */,
 			);
-			name = "Abstract Superclass";
+			name = "Abstract Superclasses";
 			sourceTree = "<group>";
 		};
 		FA1636D31131AE42003065AC /* Data File IO */ = {
@@ -445,31 +491,24 @@
 				FA1637E21131F2F8003065AC /* BBFile.m */,
 				FAE4D1AC1151AD9F00FDCD39 /* AudioRecorder.h */,
 				FAE4D1AD1151AD9F00FDCD39 /* AudioRecorder.m */,
+				E9B7FFCD13E747B00013A1A6 /* AudioPlaybackManager.h */,
+				E9B7FFCE13E747B00013A1A6 /* AudioPlaybackManager.m */,
 			);
 			name = "Data File IO";
 			path = ..;
 			sourceTree = "<group>";
 		};
-		FA1636DA1131AE62003065AC /* OpenGL */ = {
-			isa = PBXGroup;
-			children = (
-				FAF70E69111E21E0009E7EFA /* EAGLView.h */,
-				FAF70E6A111E21E0009E7EFA /* EAGLView.m */,
-			);
-			name = OpenGL;
-			sourceTree = "<group>";
-		};
 		FA1636DB1131AE70003065AC /* Continuous View */ = {
 			isa = PBXGroup;
 			children = (
-				FAF70E63111E21E0009E7EFA /* ContinuousWaveView.h */,
-				FAF70E64111E21E0009E7EFA /* ContinuousWaveView.m */,
-				FAF70E65111E21E0009E7EFA /* ContinuousWaveViewController.h */,
-				FAF70E66111E21E0009E7EFA /* ContinuousWaveViewController.m */,
-				FAF052AA12BE937500568255 /* ContinuousWaveViewController_iPhone.h */,
-				FAF052AB12BE937500568255 /* ContinuousWaveViewController_iPhone.m */,
-				FAF0528E12BE924200568255 /* ContinuousWaveViewController_iPad.h */,
-				FAF0528F12BE924200568255 /* ContinuousWaveViewController_iPad.m */,
+				E9B7FFE313E7497A0013A1A6 /* ContinuousWaveView.h */,
+				E9B7FFE413E7497A0013A1A6 /* ContinuousWaveView.m */,
+				E9B7FFE713E7497A0013A1A6 /* ContinuousWaveViewController_iPad.h */,
+				E9B7FFE813E7497A0013A1A6 /* ContinuousWaveViewController_iPad.m */,
+				E9B7FFE913E7497A0013A1A6 /* ContinuousWaveViewController_iPhone.h */,
+				E9B7FFEA13E7497A0013A1A6 /* ContinuousWaveViewController_iPhone.m */,
+				E9B7FFEB13E7497A0013A1A6 /* ContinuousWaveViewController.h */,
+				E9B7FFEC13E7497A0013A1A6 /* ContinuousWaveViewController.m */,
 			);
 			name = "Continuous View";
 			sourceTree = "<group>";
@@ -486,10 +525,10 @@
 		FA1636DE1131AEB2003065AC /* Trigger View */ = {
 			isa = PBXGroup;
 			children = (
-				FAF70E6B111E21E0009E7EFA /* TriggerView.h */,
-				FAF70E6C111E21E0009E7EFA /* TriggerView.m */,
-				FAF70E6D111E21E0009E7EFA /* TriggerViewController.h */,
-				FAF70E6E111E21E0009E7EFA /* TriggerViewController.m */,
+				E9B7FFFA13E74D940013A1A6 /* TriggerView.h */,
+				E9B7FFFB13E74D940013A1A6 /* TriggerView.m */,
+				E9B7000113E74D9C0013A1A6 /* TriggerViewController.h */,
+				E9B7000213E74D9C0013A1A6 /* TriggerViewController.m */,
 			);
 			name = "Trigger View";
 			sourceTree = "<group>";
@@ -532,9 +571,10 @@
 		FA1636E01131AEDC003065AC /* plists */ = {
 			isa = PBXGroup;
 			children = (
+				E9B7FFD313E748AE0013A1A6 /* PlaybackView.plist */,
 				8D1107310486CEB800E47090 /* Backyard_Brains-Info.plist */,
+				E9B7FFE513E7497A0013A1A6 /* ContinuousWaveView.plist */,
 				FA133395111F291000A89543 /* TriggerView.plist */,
-				FAF71254111E6778009E7EFA /* ContinuousWaveView.plist */,
 				FAF71255111E6778009E7EFA /* Entitlements.plist */,
 			);
 			name = plists;
@@ -545,22 +585,23 @@
 			children = (
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				FAF0528912BE90FB00568255 /* MainWindow_iPad.xib */,
-				FAF7111E111E57A6009E7EFA /* ContinuousWaveView.xib */,
+				282CCBFD0DB6C98000C4EA27 /* SecondView.xib */,
+				E9B7FFE613E7497A0013A1A6 /* ContinuousWaveView.xib */,
 				FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */,
 				FA13338A111F289D00A89543 /* TriggerView.xib */,
 				FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */,
-				E9B8F2D013CDFA0B00D9D582 /* BBFileActionViewController.xib */,
-				282CCBFD0DB6C98000C4EA27 /* SecondView.xib */,
-				FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */,
-				FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */,
-				FA16389211320CAB003065AC /* BBFileView.xib */,
+				E9B7FFD413E748AE0013A1A6 /* PlaybackView.xib */,
 				FA88BDDF1145B658006C2FE0 /* BBFileNavView.xib */,
+				FA16389211320CAB003065AC /* BBFileView.xib */,
+				E9B7FFDD13E749020013A1A6 /* BBFileActionViewController.xib */,
 				FA163A2F1134A949003065AC /* BBFileDetailView.xib */,
 				FA88C2091146BF4E006C2FE0 /* BBFileTableCell.xib */,
 				FA88C76F114837EE006C2FE0 /* BBFileTitleEditorView.xib */,
 				FA88C81511486E85006C2FE0 /* BBFileCommentEditorView.xib */,
 				FA826D6F11557A80005BE83D /* BBFileDownloadView.xib */,
 				E9C8B41213638A2E00F0ED8E /* LarvaJoltViewController.xib */,
+				FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */,
+				FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -607,6 +648,10 @@
 		FA1638611131FF7F003065AC /* File Table View */ = {
 			isa = PBXGroup;
 			children = (
+				E9F26C9413E85C83007CA7F8 /* BBFileNavViewController.h */,
+				E9F26C9513E85C83007CA7F8 /* BBFileNavViewController.m */,
+				E9B7FFDB13E749020013A1A6 /* BBFileActionViewController.h */,
+				E9B7FFDC13E749020013A1A6 /* BBFileActionViewController.m */,
 				FA88BF041145C477006C2FE0 /* BBFileViewController.h */,
 				FA88BF051145C477006C2FE0 /* BBFileViewController.m */,
 				E9B8F2CE13CDFA0B00D9D582 /* BBFileActionViewController.h */,
@@ -742,10 +787,11 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0410;
 				ORGANIZATIONNAME = "Backyard Brains";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Backyard Brains" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -770,8 +816,6 @@
 			files = (
 				28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */,
 				282CCBFE0DB6C98000C4EA27 /* SecondView.xib in Resources */,
-				FAF7111F111E57A6009E7EFA /* ContinuousWaveView.xib in Resources */,
-				FAF71256111E6778009E7EFA /* ContinuousWaveView.plist in Resources */,
 				FAF71257111E6778009E7EFA /* Entitlements.plist in Resources */,
 				FA13338B111F289D00A89543 /* TriggerView.xib in Resources */,
 				FA133396111F291000A89543 /* TriggerView.plist in Resources */,
@@ -818,7 +862,11 @@
 				E96C48B013C7AED600EAD5AA /* selected.png in Resources */,
 				E96C48B113C7AED600EAD5AA /* unselected.png in Resources */,
 				E9E7761713CBA34300AA812C /* TickMarksBig.png in Resources */,
-				E9B8F2D213CDFA0B00D9D582 /* BBFileActionViewController.xib in Resources */,
+				E9B7FFD813E748AE0013A1A6 /* PlaybackView.plist in Resources */,
+				E9B7FFD913E748AE0013A1A6 /* PlaybackView.xib in Resources */,
+				E9B7FFDF13E749020013A1A6 /* BBFileActionViewController.xib in Resources */,
+				E9B7FFEE13E7497A0013A1A6 /* ContinuousWaveView.plist in Resources */,
+				E9B7FFEF13E7497A0013A1A6 /* ContinuousWaveView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,13 +879,6 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* Backyard_BrainsAppDelegate.m in Sources */,
-				FAF70E6F111E21E0009E7EFA /* AudioSignalManager.m in Sources */,
-				FAF70E70111E21E0009E7EFA /* ContinuousWaveView.m in Sources */,
-				FAF70E71111E21E0009E7EFA /* ContinuousWaveViewController.m in Sources */,
-				FAF70E72111E21E0009E7EFA /* DrawingViewController.m in Sources */,
-				FAF70E73111E21E0009E7EFA /* EAGLView.m in Sources */,
-				FAF70E74111E21E0009E7EFA /* TriggerView.m in Sources */,
-				FAF70E75111E21E0009E7EFA /* TriggerViewController.m in Sources */,
 				FAF70EB3111E2385009E7EFA /* BBTabViewController.m in Sources */,
 				FA1637D11131F1A8003065AC /* NSData-SQLitePersistence.m in Sources */,
 				FA1637D21131F1A8003065AC /* NSDate-SQLitePersistence.m in Sources */,
@@ -875,11 +916,23 @@
 				FA826DF9115588ED005BE83D /* DDData.m in Sources */,
 				FAAC43BC115D9A2200967AA7 /* FlipsideInfoViewController.m in Sources */,
 				FA5A8686115E740900E201BC /* FirstTimeSpikersViewController.m in Sources */,
-				FAF0529012BE924200568255 /* ContinuousWaveViewController_iPad.m in Sources */,
-				FAF052AC12BE937500568255 /* ContinuousWaveViewController_iPhone.m in Sources */,
 				E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */,
 				E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */,
-				E9B8F2D113CDFA0B00D9D582 /* BBFileActionViewController.m in Sources */,
+				E9B7FFCF13E747B00013A1A6 /* AudioPlaybackManager.m in Sources */,
+				E9B7FFD713E748AE0013A1A6 /* PlaybackView.m in Sources */,
+				E9B7FFDA13E748AE0013A1A6 /* PlaybackViewController.m in Sources */,
+				E9B7FFDE13E749020013A1A6 /* BBFileActionViewController.m in Sources */,
+				E9B7FFE213E749390013A1A6 /* AudioSignalManager.m in Sources */,
+				E9B7FFED13E7497A0013A1A6 /* ContinuousWaveView.m in Sources */,
+				E9B7FFF013E7497A0013A1A6 /* ContinuousWaveViewController_iPad.m in Sources */,
+				E9B7FFF113E7497A0013A1A6 /* ContinuousWaveViewController_iPhone.m in Sources */,
+				E9B7FFF213E7497A0013A1A6 /* ContinuousWaveViewController.m in Sources */,
+				E9B7FFF713E74A970013A1A6 /* DrawingViewController.m in Sources */,
+				E9B7FFF813E74A970013A1A6 /* EAGLView.m in Sources */,
+				E9B7FFFE13E74D940013A1A6 /* TriggerView.m in Sources */,
+				E9B7000313E74D9C0013A1A6 /* TriggerViewController.m in Sources */,
+				E9B7000F13E754DF0013A1A6 /* DrawingDataManager.m in Sources */,
+				E9F26C9613E85C84007CA7F8 /* BBFileNavViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -936,7 +989,6 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
@@ -951,7 +1003,6 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};

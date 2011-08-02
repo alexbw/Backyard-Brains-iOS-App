@@ -3,7 +3,9 @@
 //  Backyard Brains
 //
 //  Created by Alex Wiltschko on 3/9/10.
-//  Copyright 2010 University of Michigan. All rights reserved.
+//  Modified by Zachary King:
+//      8/1/2011 Added support for editing multiple files
+//  Copyright 2010 Backyard Brains. All rights reserved.
 //
 
 #import "BBFileDetailViewController.h"
@@ -19,7 +21,8 @@
 @synthesize samplingRateLabel;
 @synthesize gainLabel;
 @synthesize commentButton;
-@synthesize file;
+@synthesize files;
+@synthesize stimLabel;
 
 - (void)dealloc {
 	[titleButton release];
@@ -28,7 +31,8 @@
 	[samplingRateLabel release];
 	[gainLabel release];
 	[commentButton release];
-	[file release];
+	[files release];
+	[stimLabel release];
 	
 	[super dealloc];
 
@@ -46,33 +50,48 @@
 	}
 
     [super viewWillAppear:animated];
-	self.navigationItem.title = @"Info";
+	self.navigationItem.title = @"Details";
 	
-	BBFile *thisFile = delegate.file;
+	self.files = delegate.files;
 	
 	// Load up the views!
-	[self setButton:titleButton titleForAllStates:thisFile.shortname];
-	durationLabel.text = [self stringWithFileLengthFromBBFile:thisFile];
-	
 	NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
 	[inputFormatter setDateFormat:@"'Recorded on' EEEE',' MMM d',' YYYY 'at' h':'mm a"];
-	recordedInfoLabel.text = [inputFormatter stringFromDate:thisFile.date];
-	
-	samplingRateLabel.text = [NSString stringWithFormat:@"%0.0f Hz", thisFile.samplingrate];
-	gainLabel.text = [NSString stringWithFormat:@"%0.0f x", thisFile.gain];
-	
-	NSString *commentText = @"You haven't made a comment on this file yet! Tap to enter a comment for your file.";
 
-
-	NSString *fileComment = delegate.file.comment;
-	
-	//[fileComment retain];
-	if (fileComment != nil) {
-		if (![fileComment isEqualToString:@""]) {
-			commentText = fileComment;
+	if ([self.files count] == 1) {
+        
+		BBFile *file = [self.files objectAtIndex:1];
+		[self setButton:titleButton titleForAllStates:file.shortname];
+		durationLabel.text = [self stringWithFileLengthFromBBFile:file];
+		recordedInfoLabel.text = [inputFormatter stringFromDate:file.date];
+		samplingRateLabel.text = [NSString stringWithFormat:@"%0.0f Hz", file.samplingrate];
+		gainLabel.text = [NSString stringWithFormat:@"%0.0f x", file.gain];
+		NSString *commentText = @"You haven't made a comment on this file yet! Tap to enter a comment for your file.";
+        NSString *fileComment = file.comment;
+        
+        self.stimLabel.text = [NSString stringWithFormat:@"%u", file.hasStim];
+		
+		//[fileComment retain];
+		if (fileComment != nil) {
+			if (![fileComment isEqualToString:@""]) {
+				commentText = fileComment;
+			}
 		}
+        
+        [file release];
+        [self setButton:commentButton titleForAllStates:commentText];
+        
+	} else {
+
+		[self setButton:titleButton titleForAllStates:[NSString stringWithFormat:@"(%i) Files", [self.files count]]];
+		durationLabel.hidden = YES;
+		recordedInfoLabel.hidden = YES;
+		samplingRateLabel.hidden = YES;
+		gainLabel.hidden = YES;
+		stimLabel.hidden =YES;
+		NSString *commentText = @"Edit comment for multiple files";
+        [self setButton:commentButton titleForAllStates:commentText];
 	}
-	[self setButton:commentButton titleForAllStates:commentText];
 	
     [inputFormatter release];
 	//[fileComment release];
@@ -96,7 +115,7 @@
 
 - (IBAction)pushTitleEditorView:(UIButton *)sender {
 	BBFileTitleEditorViewController *titleViewController = [[BBFileTitleEditorViewController alloc] initWithNibName:@"BBFileTitleEditorView" bundle:nil];
-	self.file = [delegate file];
+	self.files = [delegate files];
 	titleViewController.delegate = self;
 	
 	[[self navigationController] pushViewController:titleViewController animated:YES];
@@ -106,7 +125,7 @@
 
 - (IBAction)pushCommentEditorView:(UIButton *)sender {
 	BBFileCommentEditorViewController *commentViewController = [[BBFileCommentEditorViewController alloc] initWithNibName:@"BBFileCommentEditorView" bundle:nil];
-	self.file = delegate.file;
+	self.files = delegate.files;
 	commentViewController.delegate = self;
 	
 	[[self navigationController] pushViewController:commentViewController animated:YES];

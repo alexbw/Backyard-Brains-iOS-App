@@ -11,11 +11,11 @@
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <AudioUnit/AudioUnit.h>
-#import <OpenGLES/ES1/gl.h>
 
+#import "DrawingDataManager.h"
 #import "mach/mach_time.h"
-#import "Constants.h"
 #import "BBFile.h"
+#import "Constants.h"
 
 // AudioSignalManager encapsulates an audio unit graph
 // and callbacks for grabbing audio straight from the mic (headset or external)
@@ -42,11 +42,6 @@ typedef struct _triggeredSegmentHistory {
                                    // until sizeOfMovingAverage is reached
 } triggeredSegmentHistory;
 
-struct wave_s {
-	GLfloat x;
-	GLfloat y;
-};
-
 typedef struct _continuousCallbackData {
 	AudioUnit *au; // audioUnit
 	ringBuffer *ssb; // secondStageBuffer
@@ -57,14 +52,7 @@ typedef struct _continuousCallbackData {
 int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float thresholdValue, BOOL triggerType);
 
 
-@protocol AudioSignalManagerDelegate
-
-- (void)shouldAutoSetFrame;
-
-@end
-
-
-@interface AudioSignalManager : NSObject <UIAlertViewDelegate> {
+@interface AudioSignalManager : DrawingDataManager <UIAlertViewDelegate> {
 
 	// Audio Unit for acquiring single samples from the microphone (headset, I think)
 	
@@ -75,7 +63,6 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 	// We separate these so that we can have a "pause" functionality, where a static signal
 	// is being displayed, while we continuously monitor the incoming audio, ready at a moment's notice to display something new.
 		
-	BOOL paused; 
 	BOOL triggering; // YES - we're in triggering mode
 	BOOL triggered; // YES - the signal has exceeded thresholdValue;
 	BOOL triggerType; // YES - sample must increase after trigger val, NO - sample must decrease after trigger val
@@ -86,8 +73,7 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 	float gain;
 	
 	SInt16 *firstStageBuffer;
-	ringBuffer *secondStageBuffer;
-	struct wave_s *vertexBuffer; // this buffer is for actual display	
+	ringBuffer *secondStageBuffer;	
 	triggeredSegmentHistory *triggerSegmentData;
 		
 	UInt32 firstSampleBeingViewed;
@@ -104,9 +90,11 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 	BOOL hasAudioInput;
 	UInt32 myCallbackType;
     
-    int nWaitFrames, nTrigWaitFrames;
+    int nTrigWaitFrames;
     
-    id <AudioSignalManagerDelegate> delegate;
+    BOOL isStimulating;
+    
+    id <DrawingDataManagerDelegate> delegate;
 	
 }
 
@@ -132,7 +120,6 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 @property UInt32 firstSampleBeingViewed;
 @property UInt32 numSamplesBeingViewed;
 
-@property BOOL paused;
 @property BOOL playThroughEnabled;
 
 @property float gain;
@@ -140,10 +127,11 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 @property BOOL hasAudioInput;
 @property UInt32 myCallbackType;
 
-@property int nWaitFrames;
 @property int nTrigWaitFrames;
 
-@property (nonatomic,assign) id <AudioSignalManagerDelegate> delegate;
+@property BOOL isStimulating;
+
+@property (nonatomic,assign) id <DrawingDataManagerDelegate> delegate;
 
 - (void)ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:(UInt32)callbackType;
 - (id)init;
@@ -151,15 +139,13 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 - (void)setupAudioSession:(UInt32)callbackType;
 - (void)setVertexBufferXRangeFrom:(GLfloat)xBegin to:(GLfloat)xEnd;
 
-- (void)fillVertexBufferWithAudioData;
 - (void)fillVertexBufferWithAverageTriggeredSegments;
 - (void)changeCallbackTo:(int)callbackType;
 
-- (void)pause;
-- (void)play;
-- (void)pauseplay;
-- (void)togglePlaythru;
-
+// Redefined from superclass:
+//- (void)fillVertexBufferWithAudioData;
+//- (void)pause;
+//- (void)play;
 
 @end
 

@@ -3,7 +3,9 @@
 //  Backyard Brains
 //
 //  Created by Alex Wiltschko on 3/9/10.
-//  Copyright 2010 University of Michigan. All rights reserved.
+//  Modified by Zachary King:
+//      8/1/2011 Added support for editing multiple files
+//  Copyright 2010 Backyard Brains. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -12,7 +14,7 @@
 #import "BBFileCommentEditorViewController.h"
 @protocol BBFileDetailDelegate
 	@required
-		@property (nonatomic, retain) BBFile *file;
+		@property (nonatomic, retain) NSArray *files;
 
 	@optional
 		// NONE ARE OPTIONAL ALL ARE REQUIRED ZER VILL BE DISCIPLINE
@@ -31,8 +33,9 @@
 	IBOutlet UILabel *samplingRateLabel;
 	IBOutlet UILabel *gainLabel;
 	IBOutlet UIButton *commentButton;
+	IBOutlet UILabel *stimLabel;
 	
-	BBFile *file;
+	NSArray *files;
 }
 
 @property (assign) id <BBFileDetailDelegate> delegate;
@@ -43,7 +46,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *samplingRateLabel;
 @property (nonatomic, retain) IBOutlet UILabel *gainLabel;
 @property (nonatomic, retain) IBOutlet UIButton *commentButton;
-@property (nonatomic, retain) BBFile *file;
+@property (nonatomic, retain) NSArray *files;
+@property (nonatomic, retain) IBOutlet UILabel *stimLabel; //tk
 
 
 - (void)setButton:(UIButton *)button titleForAllStates:(NSString *)aTitle;

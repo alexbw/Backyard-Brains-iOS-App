@@ -10,11 +10,16 @@
 #import "BBFileTitleEditorViewController.h"
 
 @interface BBFileCommentEditorViewController : UIViewController {
-	id <BBFileTitleEditorDelegate> delegate; // we can reuse the delegate, since it's so simple.
+	
 	IBOutlet UITextView *commentTextView;
+	NSArray *files;
+	id <BBFileTitleEditorDelegate> delegate; // we can reuse the delegate, since it's so simple.
 }
 
-@property (assign) id <BBFileTitleEditorDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UITextView *commentTextView;
+@property (nonatomic, retain) NSArray *files;
+@property (assign) id <BBFileTitleEditorDelegate> delegate;
+
+- (IBAction)done:(UIBarButtonItem *)sender;
 
 @end

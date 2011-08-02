@@ -20,6 +20,7 @@
 @synthesize samplingrate;
 @synthesize gain;
 @synthesize filelength;
+@synthesize hasStim, stimLog;
 
 - (void)dealloc {
 	[filename release];
@@ -54,7 +55,7 @@
 		
 		self.comment = @"";
 
-		
+		self.hasStim = NO;
 		
 		// Grab the sampling rate from NSUserDefaults
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

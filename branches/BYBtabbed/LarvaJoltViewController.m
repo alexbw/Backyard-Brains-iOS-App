@@ -29,6 +29,7 @@
 
 @implementation LarvaJoltViewController
 
+@synthesize delegate;
 @synthesize pulse;
 @synthesize numberFormatter, backgroundTimer, backgroundBlue;
 @synthesize frequencySlider, dutyCycleSlider, pulseTimeSlider;
@@ -221,16 +222,22 @@
 	[self.pulse stopPulse];
 }
 
+- (IBAction)done:(UIBarButtonItem *)sender
+{
+    [self dismissModalViewControllerAnimated:YES];
+    [self.delegate hideLarvaJolt];
+}
+
+
 // ------------------------------------------------------------------------------------------------------------
 // Initiation methods and messages from the system
 //
 
 - (void)setup
 {
-    // Initialize and set objects
-    self.pulse = [[LarvaJoltAudio alloc] init];
+	// Initialize and set objects
+	self.pulse = [[LarvaJoltAudio alloc] init];
     self.pulse.delegate = self;
-    
     
 	self.numberFormatter = [[NSNumberFormatter alloc] init];
 	[self.numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -244,6 +251,23 @@
         
 	NSLog(@"Setup successful.");
 }
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+	if ((self = [super initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil])) {
+		NSLog(@"View initialized.");
+		[self setup];
+	}
+	return self;
+}
+
+- (void)awakeFromNib
+{
+	
+	NSLog(@"Awoke from Nib.");
+	[super awakeFromNib];
+}
+
 
 
 -(void)textFieldDidBeginEditing:(UITextField *)sender
@@ -274,14 +298,9 @@
     }
 }
 
-- (void)viewDidLoad
-{
-    [self setup];
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
 	[super viewWillAppear:animated];
     
     //assign delegates of text fields to control keyboard behavior

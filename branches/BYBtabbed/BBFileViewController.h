@@ -14,8 +14,10 @@
 #import "BBFileActionViewController.h"
 
 
-@interface BBFileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BBFileTableCellDelegate> {//, BBFileActionViewControllerDelegate> {
-	IBOutlet UITableView *theTableView;
+@interface BBFileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BBFileTableCellDelegate, BBFileActionViewControllerDelegate>
+{
+	IBOutlet UINavigationController *navigationController;
+    IBOutlet UITableView *theTableView;
 	
 	NSMutableArray *allFiles;
     
@@ -27,7 +29,7 @@
     
 }
 
-
+@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
 @property (nonatomic, retain) NSMutableArray *allFiles;
 
@@ -40,6 +42,10 @@
 - (void)populateSelectedArray;
 
 - (NSString *)stringWithFileLengthFromBBFile:(BBFile *)thisFile;
+
+//For BBFileActionViewControllerDelegate
+- (NSArray *)returnSelectedFiles;
+
 
 //For BBFileActionViewControllerDelegate
 - (NSArray *)returnSelectedFiles;

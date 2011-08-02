@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1056</int>
-		<string key="IBDocument.SystemVersion">10K540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1294</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.AppKitVersion">1138</string>
+		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">294</string>
+			<string key="NS.object.0">534</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -71,17 +71,17 @@
 				</object>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 				<bool key="IBUIHorizontal">NO</bool>
-				<object class="IBUIViewController" key="IBUISelectedViewController" id="1024858337">
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="765670903">
-						<string key="IBUITitle">View / Record</string>
+				<object class="IBUIViewController" key="IBUISelectedViewController" id="268481961">
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="807309489">
+						<string key="IBUITitle">Threshold</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">WaveImage.png</string>
+							<string key="NSResourceName">ThresholdImage.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
-					<string key="IBUINibName">ContinuousWaveView_iPad</string>
+					<string key="IBUINibName">TriggerView_iPad</string>
 					<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 						<int key="IBUIInterfaceOrientation">1</int>
 						<int key="interfaceOrientation">1</int>
@@ -91,18 +91,17 @@
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<reference ref="1024858337"/>
-					<object class="IBUIViewController" id="268481961">
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="807309489">
-							<string key="IBUITitle">Threshold</string>
+					<object class="IBUIViewController" id="1024858337">
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="765670903">
+							<string key="IBUITitle">View / Record</string>
 							<object class="NSCustomResource" key="IBUIImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">ThresholdImage.png</string>
+								<string key="NSResourceName">WaveImage.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
-						<string key="IBUINibName">TriggerView_iPad</string>
+						<string key="IBUINibName">ContinuousWaveView_iPad</string>
 						<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 							<int key="IBUIInterfaceOrientation">1</int>
 							<int key="interfaceOrientation">1</int>
@@ -110,6 +109,7 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<bool key="IBUIHorizontal">NO</bool>
 					</object>
+					<reference ref="268481961"/>
 				</object>
 				<object class="IBUITabBar" key="IBUITabBar" id="795333663">
 					<reference key="NSNextResponder"/>
@@ -261,9 +261,10 @@
 				<object class="NSArray" key="dict.sortedKeys">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>-1.CustomClassName</string>
+					<string>-1.IBPluginDependency</string>
 					<string>-2.CustomClassName</string>
+					<string>-2.IBPluginDependency</string>
 					<string>106.CustomClassName</string>
-					<string>106.IBEditorWindowLastContentRect</string>
 					<string>106.IBLastUsedUIStatusBarStylesToTargetRuntimesMap</string>
 					<string>106.IBPluginDependency</string>
 					<string>107.IBPluginDependency</string>
@@ -274,7 +275,6 @@
 					<string>110.IBPluginDependency</string>
 					<string>111.IBPluginDependency</string>
 					<string>2.IBAttributePlaceholdersKey</string>
-					<string>2.IBEditorWindowLastContentRect</string>
 					<string>2.IBPluginDependency</string>
 					<string>3.CustomClassName</string>
 					<string>3.IBPluginDependency</string>
@@ -282,9 +282,10 @@
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIApplication</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>UIResponder</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>BBTabViewController</string>
-					<string>{{235, 0}, {783, 1006}}</string>
 					<object class="NSMutableDictionary">
 						<string key="NS.key.0">IBCocoaTouchFramework</string>
 						<integer value="0" key="NS.object.0"/>
@@ -302,7 +303,6 @@
 						<reference key="dict.sortedKeys" ref="0"/>
 						<reference key="dict.values" ref="0"/>
 					</object>
-					<string>{{344, 373}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>Backyard_BrainsAppDelegate</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -348,6 +348,6 @@
 				<string>{30, 30}</string>
 			</object>
 		</object>
-		<string key="IBCocoaTouchPluginVersion">294</string>
+		<string key="IBCocoaTouchPluginVersion">534</string>
 	</data>
 </archive>

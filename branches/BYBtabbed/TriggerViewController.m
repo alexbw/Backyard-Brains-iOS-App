@@ -223,7 +223,7 @@
 
 
 
-#pragma mark - AudioSignalManagerDelegate
+#pragma mark - DrawingDataManagerDelegate
 
 - (void)shouldAutoSetFrame
 {

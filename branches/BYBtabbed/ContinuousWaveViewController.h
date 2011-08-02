@@ -17,7 +17,7 @@
 #import "math.h"
 
 
-@interface ContinuousWaveViewController : DrawingViewController <AudioSignalManagerDelegate> {
+@interface ContinuousWaveViewController : DrawingViewController <DrawingDataManagerDelegate> {
 	
 	// Data labels
 	IBOutlet UIButton *recordButton;
@@ -49,7 +49,7 @@
 
 - (void)pissMyPants;
 
-//for AudioSignalManagerDelegate
+//for DrawingDataManagerDelegate
 - (void)shouldAutoSetFrame;
 
 @end

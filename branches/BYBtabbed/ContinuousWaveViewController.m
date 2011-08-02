@@ -242,7 +242,7 @@
 - (void)updateDataLabels {
 	
 	NSLog(@"yLabel x: %f, y: %f", yUnitsPerDivLabel.frame.origin.x, yUnitsPerDivLabel.frame.origin.y);
-	// Spin through all the UILabels that we have control of, and make 'em better.
+	// Spin through all the UILabels that we have control of, and make em better.
 
 	float xPerDiv = (self.cwView.xEnd - self.cwView.xBegin)/3.0f;
 	float yPerDiv = (self.cwView.yEnd - self.cwView.yBegin)/(4.0f*self.audioSignalManager.gain*kVoltScaleFactor);
@@ -252,7 +252,7 @@
 	
 }
 
-#pragma mark - AudioSignalManagerDelegate
+#pragma mark - DrawingDataManagerDelegate
 
 - (void)shouldAutoSetFrame
 {

@@ -11,10 +11,10 @@
 #define kNumSegmentsInTriggerAverage 100
 
 #define kRecordingTimerIntervalInSeconds 0.1
+#define kPlaybackTimerIntervalInSeconds 0.1
 
 #define kVoltScaleFactor 24.5 // 2^15 * 1.5
 
-#define kNumWaitFrames 5
 
 typedef struct _ringBuffer {
 	UInt32 lastWrittenIndex;

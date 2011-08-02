@@ -11,7 +11,7 @@
 #import "DrawingViewController.h"
 #import "TriggerView.h"
 
-@interface TriggerViewController : DrawingViewController <AudioSignalManagerDelegate> {
+@interface TriggerViewController : DrawingViewController <DrawingDataManagerDelegate> {
 	
 	// Data labels
 	IBOutlet UILabel *triggerValueLabel;
@@ -42,7 +42,7 @@
 - (IBAction)toggleSliderVisiblity:(UIButton *)sender;
 - (IBAction)updateNumTriggerAverages:(UISlider *)sender;
 
-//for AudioSignalManagerDelegate
+//for DrawingDataManagerDelegate
 - (void)shouldAutoSetFrame;
 
 @end

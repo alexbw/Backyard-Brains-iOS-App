@@ -11,8 +11,6 @@
 #import "ContinuousWaveViewController.h"
 #import "BBFileViewController.h"
 #import "FlipsideInfoViewController.h"
-#import "LarvaJoltViewController.h"
-
 
 @interface ContinuousWaveViewController_iPad : ContinuousWaveViewController <UINavigationControllerDelegate, UIPopoverControllerDelegate, FlipsideInfoViewDelegate> {
 	

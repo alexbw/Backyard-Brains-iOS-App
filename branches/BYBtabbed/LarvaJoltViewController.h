@@ -10,8 +10,14 @@
 #import <AudioUnit/AudioUnit.h>
 #import "LarvaJoltAudio.h"
 
+@protocol LarvaJoltViewDelegate
+- (void)hideLarvaJolt;
+@end
+
 @interface LarvaJoltViewController : UIViewController <LarvaJoltAudioDelegate, UITextFieldDelegate>
 {
+	id <LarvaJoltViewDelegate> delegate;
+    
 	LarvaJoltAudio *pulse;
 	
 	NSNumberFormatter *numberFormatter;
@@ -29,6 +35,9 @@
 	
 }
 
+
+@property (assign) id <LarvaJoltViewDelegate> delegate;
+
 @property (nonatomic,retain) LarvaJoltAudio *pulse;
 
 - (void)updateBackgroundColor;
@@ -44,6 +53,7 @@
 - (IBAction)textFieldUpdated:(UITextField *)sender;
 - (IBAction)playPulse:(id)sender;
 - (IBAction)stopPulse:(id)sender;
+- (IBAction)done:(UIBarButtonItem *)sender;
 
 - (void)setup;
 - (void)releaseOutletsAndInstances;

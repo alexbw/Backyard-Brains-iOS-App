@@ -13,6 +13,7 @@
 
 @implementation BBFileViewController
 
+@synthesize navigationController;
 @synthesize theTableView;
 @synthesize allFiles;
 
@@ -25,8 +26,8 @@
 	if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
 		self.theTableView.dataSource = self;
 		self.theTableView.delegate = self;
-		self.theTableView.sectionIndexMinimumDisplayRowCount=10;
-		self.theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+		self.theTableView.sectionIndexMinimumDisplayRowCount=10; //tk
+		self.theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine; //tk
 		
 		self.navigationItem.title = @"Your files";
         
@@ -97,57 +98,78 @@
         //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     
-    cell.delegate = self;
+    if (indexPath.section == 0)
+    {
+        cell.delegate = self;
+    }
 }
 
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	
-    return [allFiles count];
+	if (section == 0) //tk or is it 1?
+	{
+		return [allFiles count];
+	} else if (section == 1) {
+		return 1; //for dropbox settings
+	}
+    return 0;
 }
 
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static int numcellsmade = 0;
-	numcellsmade += 1;
-	
-    static NSString *CellIdentifier = @"BBFileTableCell";    
-    BBFileTableCell *cell = (BBFileTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) 
-    {
+
+
+	if (indexPath.section == 0)//tk or is it 1?
+	{
+		static int numcellsmade = 0;
+		numcellsmade += 1;
 		
-		NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"BBFileTableCell" owner:nil options:nil];
-		
-		for(id currentObject in topLevelObjects)
+		static NSString *CellIdentifier = @"BBFileTableCell";    
+		BBFileTableCell *cell = (BBFileTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) 
 		{
-			if([currentObject isKindOfClass:[BBFileTableCell class]])
+		
+			NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"BBFileTableCell" owner:nil options:nil];
+			
+			for(id currentObject in topLevelObjects)
 			{
-				cell = (BBFileTableCell *)currentObject;
-				break;
+				if([currentObject isKindOfClass:[BBFileTableCell class]])
+				{
+					cell = (BBFileTableCell *)currentObject;
+					break;
+				}
 			}
+		
 		}
 		
-    }
+		BBFile *thisFile = [allFiles objectAtIndex:indexPath.row];
+		
+		if (thisFile.filelength > 0) {
+			cell.lengthname.text = [self stringWithFileLengthFromBBFile:thisFile];
+		} else {
+			cell.lengthname.text = @"";
+		}
+		
+		cell.shortname.text = thisFile.shortname; //[[allFiles objectAtIndex:indexPath.row] shortname];
+		cell.subname.text = thisFile.subname; //[[allFiles objectAtIndex:indexPath.row] subname];
+        
+        return cell;
+	}
+	else if (indexPath.section == 1)
+	{
+		UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+                                 //:"Sync files with Dropbox"];
+        
+        return cell;
+	}
 	
-	BBFile *thisFile = [allFiles objectAtIndex:indexPath.row];
-
-	if (thisFile.filelength > 0) {
-		cell.lengthname.text = [self stringWithFileLengthFromBBFile:thisFile];
-	}
-	else {
-		cell.lengthname.text = @"";
-	}
-
-	cell.shortname.text = thisFile.shortname; //[[allFiles objectAtIndex:indexPath.row] shortname];
-	cell.subname.text = thisFile.subname; //[[allFiles objectAtIndex:indexPath.row] subname];
-    return cell;
+    return NULL;
 }
 
 
@@ -165,14 +187,17 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
 	
-	// Note the BBFile for the particular row that's selected.
-	[selectedArray replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:YES]];
-	
-	// Create the action view controller, load it with the delegate, and push it up onto the stack.
-	BBFileActionViewController *actionViewController = [[BBFileActionViewController alloc] initWithNibName:@"BBFileActionView" bundle:nil];
-	actionViewController.delegate = self;
-	[[self navigationController] pushViewController:actionViewController animated:YES];
-    [actionViewController release];
+	if (indexPath.section == 0)
+		{
+		// Note the BBFile for the particular row that's selected.
+		[selectedArray replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:YES]];
+		
+		// Create the action view controller, load it with the delegate, and push it up onto the stack.
+		BBFileActionViewController *actionViewController = [[BBFileActionViewController alloc] initWithNibName:@"BBFileActionView" bundle:nil];
+		actionViewController.delegate = self;
+		[self.navigationController pushViewController:actionViewController animated:YES];
+		[actionViewController release];
+    }
 }
 
 

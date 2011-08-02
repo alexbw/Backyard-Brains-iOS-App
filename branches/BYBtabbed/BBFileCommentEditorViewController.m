@@ -11,8 +11,9 @@
 
 @implementation BBFileCommentEditorViewController
 
-@synthesize delegate;
 @synthesize commentTextView;
+@synthesize files;
+@synthesize delegate;
 
 - (void)dealloc {
 	[commentTextView release];
@@ -31,13 +32,34 @@
 		self.contentSizeForViewInPopover = size;
 	}
 	
+	
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                        style: UIBarButtonItemStylePlain
+                                                        target:self
+                                                        action:@selector(done)] autorelease];
+    self.navigationItem.leftBarButtonItem.title = @"Cancel";
+    
+	
 	[super viewWillAppear:animated];
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self.commentTextView setText:[[self.delegate file] comment]];
+    
+    self.files = delegate.files;
+    
+    
+	if ([files count] == 1)
+	{
+		BBFile *file = [self.files objectAtIndex:1];
+		[self.commentTextView setText:file.comment];
+        [file release];
+	}
+	else
+	{
+		[self.commentTextView setText:[NSString stringWithFormat:@"Edit comments for (%i) files.", [self.files count]]];
+	}
 	
 	self.navigationItem.title = @"Comment";
 }
@@ -50,11 +72,17 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	
-	BBFile *file = delegate.file;
-	file.comment = commentTextView.text;
-	[file save];
 }
+	
+- (IBAction)done:(UIBarButtonItem *)sender
+{
+	for (BBFile *file in self.files)
+	{
+		file.comment = commentTextView.text;
+		[file save];
+	}
+}
+
 
 
 - (void)didReceiveMemoryWarning {

@@ -10,12 +10,12 @@
 
 #import "AudioSignalManager.h"
 #import "math.h"
+#import "Constants.h"
 #define kOutputBus 0
 #define kInputBus 1
 #define eps 0.00001
 #define PI 3.14159265359
 #define kNumWaitFrames 5
-
 
 void sessionPropertyListener(void *                  inClientData,
 							 AudioSessionPropertyID  inID,
@@ -404,7 +404,6 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 
 @synthesize firstStageBuffer;
 @synthesize secondStageBuffer;
-@synthesize vertexBuffer;
 @synthesize triggerSegmentData;
 
 @synthesize auBufferList;
@@ -421,7 +420,6 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 @synthesize firstSampleBeingViewed;
 @synthesize numSamplesBeingViewed;
 
-@synthesize paused;
 @synthesize playThroughEnabled;
 
 @synthesize gain;
@@ -429,7 +427,9 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 @synthesize hasAudioInput;
 @synthesize myCallbackType;
 
-@synthesize nWaitFrames, nTrigWaitFrames;
+@synthesize nTrigWaitFrames;
+
+@synthesize isStimulating;
 
 @synthesize delegate;
 
@@ -475,6 +475,8 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		
         self.nWaitFrames = 0;
         self.nTrigWaitFrames = 0;
+        
+        self.isStimulating = NO;
 		
 		// Grab the gain from the NSUserDefaults THINGYYY
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -1045,6 +1047,35 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 }
 
 
+#pragma mark - Playback Control methods
+
+
+- (void)playbackStart
+{
+	//load file
+	//initiate timer
+	//fill playbackBuffer
+	
+	
+	      //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
+        if (self.nWaitFrames < kNumWaitFrames)
+        {
+            self.nWaitFrames += 1;
+        }
+        else if (self.nWaitFrames == kNumWaitFrames)
+        {
+            [delegate shouldAutoSetFrame];
+            self.nWaitFrames += 1;
+        }
+  
+}
+
+- (void)playbackStop
+{
+	//stop timer
+	//stop filling playbackBuffer
+}
+
 #pragma mark - UIAlertView Delegate Methods
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -1057,6 +1088,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	//i am not sure if all of these steps are neccessary. or if you just call DisposeAUGraph
 	// TODO: stop audio unit and deallocate it in the dealloc method...
     [super dealloc];
+    //tk have we released the asm properties?
 }
 
 
