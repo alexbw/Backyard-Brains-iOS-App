@@ -49,12 +49,13 @@
 	BBFile *file = delegate.file;
     
 	//rename file
+    NSString *newName = [titleTextField.text  stringByAppendingString:@".aif"];
     
 	NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *oldFilePath = [docPath stringByAppendingPathComponent:file.filename];
     
     //Create a new path
-    NSString *newFilePath = [docPath stringByAppendingPathComponent:titleTextField.text];
+    NSString *newFilePath = [docPath stringByAppendingPathComponent:newName];
     
     // Create file manager
     NSFileManager *fileMgr = [NSFileManager defaultManager];
@@ -67,7 +68,7 @@
     {
         //change title and filename in BBFile
         file.shortname = titleTextField.text;
-        file.filename = titleTextField.text;
+        file.filename = newName;
         NSLog(@"New file path: %@", newFilePath);
     }
     else

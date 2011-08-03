@@ -42,6 +42,8 @@
 - (IBAction)toggleSliderVisiblity:(UIButton *)sender;
 - (IBAction)updateNumTriggerAverages:(UISlider *)sender;
 
+- (void)resetNumTriggerAveragesTo:(int)num;
+
 //for AudioSignalManagerDelegate
 - (void)shouldAutoSetFrame;
 

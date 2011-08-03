@@ -269,7 +269,7 @@ static OSStatus averageTriggerDisplayOutputCallback(void *inRefCon,
 		int indexThresholdCrossing = findThresholdCrossing(incomingAudio, inNumberFrames, [asm thresholdValue], [asm triggerType]);
 		
 		if (indexThresholdCrossing != -1) { 
-			NSLog(@"Crossing at %d... adding to %lu averages", indexThresholdCrossing, th->sizeOfMovingAverage);
+			NSLog(@"Crossing at %d... adding to %lu averages", indexThresholdCrossing, th->movingAverageIncrement);
 
 			isTriggered = YES;
 			haveAllAudio = NO;
@@ -290,6 +290,10 @@ static OSStatus averageTriggerDisplayOutputCallback(void *inRefCon,
 			
 			th->lastReadSample[th->currentSegment] = lastFreshSample;
 			th->lastWrittenSample[th->currentSegment] = 0;
+            
+            //increment the moving average until it reaches the desired number
+            if (th->movingAverageIncrement < th->sizeOfMovingAverage)
+                ++th->movingAverageIncrement;
 		}
 		
 	}
@@ -405,7 +409,9 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 			}
 			
 			asm.lastFreshSample = lastFreshSample;
-			asm.triggered = isTriggered;		
+			asm.triggered = isTriggered;
+            
+            
 			return noErr;
 		}
 	}
@@ -1019,9 +1025,6 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		
 	}
     
-    //increment the moving average until it reaches the desired number
-    if (th->movingAverageIncrement < th->sizeOfMovingAverage)
-        ++th->movingAverageIncrement;
     
 	
     //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
