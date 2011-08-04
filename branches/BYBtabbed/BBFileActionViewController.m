@@ -15,6 +15,7 @@
 @synthesize theTableView;
 @synthesize files;
 @synthesize actionOptions;
+@synthesize fileNamesToShare;
 @synthesize delegate;
 
 
@@ -148,34 +149,55 @@
     
     if ([cell.textLabel.text isEqualToString:@"Play"])
 	{
-		/*PlaybackViewController *pvc = [[PlaybackViewController alloc] initWithNibName:@"PlaybackView" bundle:nil];
+		
+        /*PlaybackViewController *pvc = [[PlaybackViewController alloc] initWithNibName:@"PlaybackView" bundle:nil];
 		[[self navigationController] pushViewController:pvc animated:YES];
 		[pvc release];*/	
+        
 	}
-	else if ([cell.textLabel.text isEqualToString:@"View Details"])// || [cell.textLabel.text isEqualToString:@"Edit details"] )
+	else if ([cell.textLabel.text isEqualToString:@"View Details"])
 	{
+        
 		BBFileDetailViewController *dvc = [[BBFileDetailViewController alloc] initWithNibName:@"BBFileDetailView" bundle:nil];
 		dvc.delegate = self;	
 		[[self navigationController] pushViewController:dvc animated:YES];
 		[dvc release];
+        
 	}
 	else if ([cell.textLabel.text isEqualToString:@"Email"])
 	{
-		//grab from old v.
+        
+		[self emailFiles];
+
 	}
 	else if ([cell.textLabel.text isEqualToString:@"Download"])
 	{
-		//grab from old v.
+        //grab just the filenames
+        NSMutableArray *theFilenames = [[NSMutableArray alloc] initWithObjects:nil];
+		for (BBFile *thisFile in self.files)
+        {
+            [theFilenames addObject:thisFile.filename];
+        }
+        self.fileNamesToShare = (NSArray *)theFilenames;
+        
+        BBFileDownloadViewController *downloadViewController = [[BBFileDownloadViewController alloc] initWithNibName:@"BBFileDownloadView" bundle:nil];
+        downloadViewController.delegate = self;
+        [[self navigationController] pushViewController:downloadViewController animated:YES];
+        [downloadViewController release];
+
 	}
 	else if ([cell.textLabel.text isEqualToString:@"Analyze"])
 	{
+        
 		//SpikeSortViewController *ssvc = [[SpikeSortViewController alloc] initWithNibName:@"SpikeSortView" bundle:nil];
 		//ssvc.delegate = self;
 		//[[self navigationController] pushViewController:ssvc animated:YES];
 		//[ssvc release];
+        
 	}
 	else if ([cell.textLabel.text isEqualToString:@"Delete"])
 	{
+        
         NSString *deleteTitle;
         if ([self.files count] == 1)
             deleteTitle = [NSString stringWithFormat:@"Delete %@?", [[self.files objectAtIndex:0] shortname]];
@@ -191,6 +213,7 @@
         mySheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
         [mySheet showInView:self.view];
         [mySheet release];
+        
     }
 }
 
@@ -208,15 +231,68 @@
 	
 }
 
+- (void)emailFiles {
+	
+	// If we can't send email right now, let the user know about it
+	if (![MFMailComposeViewController canSendMail]) {
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't Send Mail" message:@"Can't send mail right now. Double-check that your email client is set up and you have an internet connection"
+													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		[alert show];    
+		[alert release];
+		
+		return;
+	}
+	
+	MFMailComposeViewController *message = [[MFMailComposeViewController alloc] init];
+	message.mailComposeDelegate = self;
+	
+	[message setSubject:@"A recording from my Backyard Brains app!"];
+    
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    for (BBFile *thisFile in self.files)
+    {
+        NSString *fullFilePath = [docPath stringByAppendingPathComponent:thisFile.filename];
+        NSData *attachmentData = [NSData dataWithContentsOfFile:fullFilePath];
+        [message addAttachmentData:attachmentData mimeType:@"audio/wav" fileName:thisFile.filename];
+        // 32kadpcm
+    }
+    
+    NSMutableString *bodyText = [NSMutableString stringWithFormat:@"<p>I recorded these files:"];
+    for (BBFile *thisFile in self.files)
+    {
+        [bodyText appendFormat:[NSMutableString stringWithFormat:@"<p>\"%@,\" ", thisFile.shortname]];
+        
+        int minutes = (int)floor(thisFile.filelength / 60.0);
+        int seconds = (int)(thisFile.filelength - minutes*60.0);
+        
+        if (minutes > 0) {
+            [bodyText appendFormat: @"which lasted %d minutes and %d seconds.</p>", minutes, seconds];
+        }
+        else {
+            [bodyText appendFormat:@"which lasted %d seconds.</p>", seconds];
+        }
+        
+        
+        [bodyText appendFormat:@"<p>Some other info about the file: <br>Sampling rate: %0.0f<br>", thisFile.samplingrate];
+        [bodyText appendFormat:@"Gain: %0.0f</p>", thisFile.gain];
+        [bodyText appendFormat:@"<p>%@</p>", thisFile.comment];
+    }
+    
+	[message setMessageBody:bodyText isHTML:YES];
+	
+	[self presentModalViewController:message animated:YES];
+	[message release];
+    
+}
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+	[self dismissModalViewControllerAnimated:YES];
+}
 
-- (void)play {}
+- (void)downloadFiles
+{
 
-- (void)editFiles {}
-- (void)emailFiles {}
-- (void)downloadFiles {}
-- (void)analyzeFiles {}
-
-
+}
 
 
 @end

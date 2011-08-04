@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 #import "BBFileDetailViewController.h"
 #import "BBFileTableCell.h"
 #import "PlaybackViewController.h"
-
+#import "BBFileDownloadViewController.h"
 
 @protocol BBFileActionViewControllerDelegate
 @required
@@ -19,11 +21,12 @@
 @end
 
 
-@interface BBFileActionViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, BBFileDetailViewDelegate> {
+@interface BBFileActionViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, BBFileDetailViewDelegate, BBFileDownloadViewControllerDelegate> {
     IBOutlet UITableView *theTableView;
     
     NSArray *files;
     NSArray *actionOptions;
+    NSArray *fileNamesToShare;
     
     id <BBFileActionViewControllerDelegate> delegate;
 }
@@ -35,13 +38,15 @@
 
 @property (nonatomic, assign) id <BBFileActionViewControllerDelegate> delegate;
 
-- (void)play;
-- (void)editFiles;
+
 - (void)emailFiles;
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error;
+
 - (void)downloadFiles;
-- (void)analyzeFiles;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
 
+//For BBFileDownloadViewControllerDelegate
+@property (nonatomic, retain) NSArray *fileNamesToShare;
 
 @end
