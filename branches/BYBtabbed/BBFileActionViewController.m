@@ -14,7 +14,7 @@
 
 @synthesize theTableView;
 @synthesize files;
-
+@synthesize actionOptions;
 @synthesize delegate;
 
 
@@ -26,15 +26,6 @@
 		self.theTableView.sectionIndexMinimumDisplayRowCount=10;
 		self.theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 		
-		self.navigationItem.title = @"Actions";
-		
-		NSMutableArray *actionOptions = [NSMutableArray arrayWithObjects:
-										@"Play",
-										@"Analyze",
-										@"Details",
-										@"Delete",
-										@"Email",
-										@"Download", nil];
     }
     return self;
 }
@@ -60,6 +51,37 @@
     // Do any additional setup after loading the view from its nib.
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.files = self.delegate.files;
+    
+    
+    if ([self.files count] == 1) //single file
+    {
+        self.navigationItem.title = [[self.files objectAtIndex:0] shortname];
+        
+        self.actionOptions = [NSArray arrayWithObjects:
+                              @"View Details",
+                              @"Play",
+                              @"Analyze",
+                              @"Email",
+                              @"Download",
+                              @"Delete", nil];
+    }
+    else //multiple files
+    {
+        self.navigationItem.title = [NSString stringWithFormat:@"%u Files", [self.files count]];
+        
+        self.actionOptions = [NSArray arrayWithObjects:
+                              @"View details",
+                              @"Email",
+                              @"Download",
+                              @"Delete", nil];
+    }
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -78,6 +100,7 @@
 //UITableViewDelegate
 - (void)tableView:(UITableView *)tableView willDisplayCell:(BBFileTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
 }
 
 
@@ -88,7 +111,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //return [allFiles count];
-    return 1;
+    return [self.actionOptions count];
 }
 
 
@@ -96,7 +119,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return nil;
+    // See if there's an existing cell we can reuse
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"actionCell"];
+    if (cell == nil) {
+        // No cell to reuse => create a new one
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"actionCell"] autorelease];
+        
+        // Initialize cell
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        // TODO: Any other initialization that applies to all cells of this type.
+        //       (Possibly create and add subviews, assign tags, etc.)
+    }
+    
+    // Customize cell
+    cell.textLabel.text = [self.actionOptions objectAtIndex:[indexPath row]];
+    
+    return cell;
 }
 
 
@@ -110,16 +148,16 @@
     
     if ([cell.textLabel.text isEqualToString:@"Play"])
 	{
-		PlaybackViewController *pvc = [[PlaybackViewController alloc] initWithNibName:@"PlaybackView" bundle:nil];
+		/*PlaybackViewController *pvc = [[PlaybackViewController alloc] initWithNibName:@"PlaybackView" bundle:nil];
 		[[self navigationController] pushViewController:pvc animated:YES];
-		[pvc release];	
+		[pvc release];*/	
 	}
-	else if ([cell.textLabel.text isEqualToString:@"Details"])
+	else if ([cell.textLabel.text isEqualToString:@"View Details"])// || [cell.textLabel.text isEqualToString:@"Edit details"] )
 	{
 		BBFileDetailViewController *dvc = [[BBFileDetailViewController alloc] initWithNibName:@"BBFileDetailView" bundle:nil];
 		dvc.delegate = self;	
 		[[self navigationController] pushViewController:dvc animated:YES];
-		[dvc release];	
+		[dvc release];
 	}
 	else if ([cell.textLabel.text isEqualToString:@"Email"])
 	{
@@ -138,9 +176,47 @@
 	}
 	else if ([cell.textLabel.text isEqualToString:@"Delete"])
 	{
-		//grab from old v.
-	}	
-
+        NSString *deleteTitle;
+        if ([self.files count] == 1)
+            deleteTitle = [NSString stringWithFormat:@"Delete %@?", [[self.files objectAtIndex:0] shortname]];
+        else
+            deleteTitle = [NSString stringWithFormat:@"Delete %u files?", [self.files count]];
+        
+        UIActionSheet *mySheet = [[UIActionSheet alloc] initWithTitle:deleteTitle
+                                                             delegate:self 
+													cancelButtonTitle:@"No, go back."
+                                               destructiveButtonTitle:@"Yes, delete!" 
+													otherButtonTitles:nil];
+        
+        mySheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+        [mySheet showInView:self.view];
+        [mySheet release];
+    }
 }
+
+//Delete files action sheet
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	
+	switch (buttonIndex) {
+		case 0:
+			[self.delegate deleteTheFiles:self.files];
+            [self.navigationController popViewControllerAnimated:YES];//tk consider reordering
+			break;
+		default:
+			break;
+	}
+	
+}
+
+
+- (void)play {}
+
+- (void)editFiles {}
+- (void)emailFiles {}
+- (void)downloadFiles {}
+- (void)analyzeFiles {}
+
+
+
 
 @end

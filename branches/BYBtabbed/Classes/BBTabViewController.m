@@ -14,6 +14,11 @@
 @synthesize audioSignalManager;
 
 
+- (void)dealloc {
+    [super dealloc];
+    
+    [audioSignalManager release];
+}
 
 - (void)viewDidLoad {
 	self.audioSignalManager = [[AudioSignalManager alloc] initWithCallbackType:kAudioCallbackContinuous];

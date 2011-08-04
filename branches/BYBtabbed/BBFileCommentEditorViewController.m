@@ -13,6 +13,7 @@
 
 @synthesize commentTextView;
 @synthesize files;
+@synthesize ogComment;
 @synthesize delegate;
 
 - (void)dealloc {
@@ -39,6 +40,21 @@
                                                         action:@selector(done)] autorelease];
     self.navigationItem.leftBarButtonItem.title = @"Cancel";
     
+	self.navigationItem.title = @"Comment";
+
+    
+    self.files = delegate.files;
+    
+	if ([files count] == 1)
+	{
+		BBFile *file = [self.files objectAtIndex:0];
+		self.ogComment = file.comment;
+	}
+	else
+	{
+		self.ogComment = [NSString stringWithFormat:@"Edit comments for %u files.", [self.files count]];
+	}
+	[self.commentTextView setText:self.ogComment];
 	
 	[super viewWillAppear:animated];
 }
@@ -46,22 +62,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.files = delegate.files;
-    
-    
-	if ([files count] == 1)
-	{
-		BBFile *file = [self.files objectAtIndex:1];
-		[self.commentTextView setText:file.comment];
-        [file release];
-	}
-	else
-	{
-		[self.commentTextView setText:[NSString stringWithFormat:@"Edit comments for (%i) files.", [self.files count]]];
-	}
-	
-	self.navigationItem.title = @"Comment";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -74,15 +74,19 @@
 	[super viewWillDisappear:animated];
 }
 	
-- (IBAction)done:(UIBarButtonItem *)sender
+- (IBAction)done
 {
-	for (BBFile *file in self.files)
-	{
-		file.comment = commentTextView.text;
-		[file save];
-	}
+    //check that changes have been made
+    if (![self.commentTextView.text isEqualToString:self.ogComment] && ![self.commentTextView.text isEqualToString:@""])
+    {
+        for (BBFile *file in self.files)
+        {
+            file.comment = self.commentTextView.text;
+            [file save];
+        }
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 
 - (void)didReceiveMemoryWarning {

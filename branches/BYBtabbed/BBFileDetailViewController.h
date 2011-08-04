@@ -12,7 +12,7 @@
 #import "BBFile.h"
 #import "BBFileTitleEditorViewController.h"
 #import "BBFileCommentEditorViewController.h"
-@protocol BBFileDetailDelegate
+@protocol BBFileDetailViewDelegate
 	@required
 		@property (nonatomic, retain) NSArray *files;
 
@@ -24,8 +24,8 @@
 
 
 
-@interface BBFileDetailViewController : UIViewController <BBFileTitleEditorDelegate> {
-	id <BBFileDetailDelegate> delegate;
+@interface BBFileDetailViewController : UIViewController <BBFileTitleEditorViewDelegate> {
+	id <BBFileDetailViewDelegate> delegate;
 	
 	IBOutlet UIButton *titleButton;
 	IBOutlet UILabel *durationLabel;
@@ -38,7 +38,7 @@
 	NSArray *files;
 }
 
-@property (assign) id <BBFileDetailDelegate> delegate;
+@property (assign) id <BBFileDetailViewDelegate> delegate;
 
 @property (nonatomic, retain) IBOutlet UIButton *titleButton;
 @property (nonatomic, retain) IBOutlet UILabel *durationLabel;

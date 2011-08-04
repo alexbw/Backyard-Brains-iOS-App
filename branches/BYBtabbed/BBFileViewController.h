@@ -16,7 +16,6 @@
 
 @interface BBFileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BBFileTableCellDelegate, BBFileActionViewControllerDelegate>
 {
-	IBOutlet UINavigationController *navigationController;
     IBOutlet UITableView *theTableView;
 	
 	NSMutableArray *allFiles;
@@ -27,9 +26,9 @@
 	UIImage *unselectedImage;
     NSUInteger lastRowSelected;
     
+    NSArray *files;
 }
 
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
 @property (nonatomic, retain) NSMutableArray *allFiles;
 
@@ -40,14 +39,14 @@
 
 - (IBAction)togglePseudoEditMode;
 - (void)populateSelectedArray;
+- (void)populateSelectedArrayWithSelectionAt:(int)num;
+
+- (void)pushActionView;
 
 - (NSString *)stringWithFileLengthFromBBFile:(BBFile *)thisFile;
 
 //For BBFileActionViewControllerDelegate
-- (NSArray *)returnSelectedFiles;
-
-
-//For BBFileActionViewControllerDelegate
-- (NSArray *)returnSelectedFiles;
+@property (nonatomic, retain) NSArray *files;
+- (void)deleteTheFiles:(NSArray *)theseFiles;
 
 @end

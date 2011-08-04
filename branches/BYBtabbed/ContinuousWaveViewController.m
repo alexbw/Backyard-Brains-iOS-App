@@ -27,7 +27,7 @@
 	[recordButton release];
 	[stopButton release];
     [stimButton release];
-    //[audioRecorder release]; released in stopRecordering:
+    [audioRecorder release]; //released in stopRecordering: too
     
     [cwView release];
     
@@ -47,7 +47,7 @@
 	[UIView commitAnimations];
 	
 	self.audioRecorder = [[AudioRecorder alloc] initWithAudioSignalManager:self.audioSignalManager];
-	[audioRecorder startRecording];
+	[self.audioRecorder startRecording];
 	
 }
 

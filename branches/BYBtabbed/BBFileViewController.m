@@ -13,31 +13,33 @@
 
 @implementation BBFileViewController
 
-@synthesize navigationController;
 @synthesize theTableView;
 @synthesize allFiles;
 
 @synthesize selectedArray;
 @synthesize selectedImage, unselectedImage;
 
+@synthesize inPseudoEditMode;
+
+@synthesize files;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	
 	if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-		self.theTableView.dataSource = self;
-		self.theTableView.delegate = self;
-		self.theTableView.sectionIndexMinimumDisplayRowCount=10; //tk
-		self.theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine; //tk
+		//self.theTableView.dataSource = self;
+		//self.theTableView.delegate = self;
+		//self.theTableView.sectionIndexMinimumDisplayRowCount=10; //tk
+		//self.theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine; //tk
 		
-		self.navigationItem.title = @"Your files";
+		//self.navigationItem.title = @"Your files";
         
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Select"
-                                                        style: UIBarButtonItemStylePlain
-                                                        target:self
-                                                        action:@selector(togglePseudoEditMode)] autorelease];
+        //self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Select"
+        //                                                style: UIBarButtonItemStylePlain
+        //                                                target:self
+        //                                                action:@selector(togglePseudoEditMode)] autorelease];
+
         
-        self.selectedImage =    [UIImage imageNamed:@"selected.png"];
-        self.unselectedImage =  [UIImage imageNamed:@"unselected.png"];
 		
     }
     return self;
@@ -47,9 +49,18 @@
 - (void)viewWillAppear:(BOOL)animated 
 {	
 	[super viewWillAppear:animated];
+    
+    self.selectedImage =    [UIImage imageNamed:@"selected.png"];
+    self.unselectedImage =  [UIImage imageNamed:@"unselected.png"];
+    
+    self.navigationItem.leftBarButtonItem.action = @selector(togglePseudoEditMode);
+    self.navigationItem.leftBarButtonItem.target = self;
+    self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStylePlain;
 
 	self.allFiles = [NSMutableArray arrayWithArray:[BBFile allObjects]];
     self.inPseudoEditMode = NO;
+    
+    [self populateSelectedArray];
 	
 	[theTableView reloadData];
 }
@@ -87,18 +98,7 @@
 //UITableViewDelegate
  - (void)tableView:(UITableView *)tableView willDisplayCell:(BBFileTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (inPseudoEditMode)
-    {
-        [cell.actionButton setImage:self.unselectedImage forState:UIControlStateNormal];
-        //cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    else
-    {
-        // Here, initiate animation to hide selection images
-        //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-    }
-    
-    if (indexPath.section == 0)
+    if ([indexPath indexAtPosition:0] == 0) //section # is 0
     {
         cell.delegate = self;
     }
@@ -115,7 +115,11 @@
 	{
 		return [allFiles count];
 	} else if (section == 1) {
-		return 1; //for dropbox settings
+        
+        if ([self.selectedArray containsObject:[NSNumber numberWithBool:YES]])
+            return 1; //for multiple edit
+        else
+            return 0;
 	}
     return 0;
 }
@@ -125,7 +129,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
 
-	if (indexPath.section == 0)//tk or is it 1?
+	if (indexPath.section == 0)
 	{
 		static int numcellsmade = 0;
 		numcellsmade += 1;
@@ -163,9 +167,15 @@
 	}
 	else if (indexPath.section == 1)
 	{
-		UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-                                 //:"Sync files with Dropbox"];
-        
+		static NSString *CellIdentifier = @"editMultipleCell";    
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil)
+        {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"editMultipleCell"] autorelease];
+
+            cell.textLabel.text = @"Edit multiple files";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
         return cell;
 	}
 	
@@ -185,21 +195,39 @@
 
 
 
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
 	
-	if (indexPath.section == 0)
-		{
+	if ([indexPath indexAtPosition:0] == 0)
+    {
 		// Note the BBFile for the particular row that's selected.
-		[selectedArray replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:YES]];
-		
-		// Create the action view controller, load it with the delegate, and push it up onto the stack.
-		BBFileActionViewController *actionViewController = [[BBFileActionViewController alloc] initWithNibName:@"BBFileActionView" bundle:nil];
-		actionViewController.delegate = self;
-		[self.navigationController pushViewController:actionViewController animated:YES];
-		[actionViewController release];
+        [self populateSelectedArrayWithSelectionAt:indexPath.row];
+        [self pushActionView];
     }
 }
 
+- (void)pushActionView
+{
+    // Create the action view controller, load it with the delegate, and push it up onto the stack.
+    NSMutableArray *theFiles = [[NSMutableArray alloc] initWithObjects:nil];
+    
+    for (int i = 0; i < [self.selectedArray count]; i++)
+    {
+        if ([[self.selectedArray objectAtIndex:i] boolValue])
+        {
+            BBFile *file = [self.allFiles objectAtIndex:i];
+            [theFiles addObject:file];
+        }
+    }
+    self.files = (NSArray *)theFiles;
+    [theFiles release];
+    
+    BBFileActionViewController *actionViewController = [[BBFileActionViewController alloc] initWithNibName:@"BBFileActionView" bundle:nil];
+    actionViewController.delegate = self;
+    
+    [self.navigationController pushViewController:actionViewController animated:YES];
+    [actionViewController release];
+}
 
 
 
@@ -208,33 +236,70 @@
 
 - (IBAction)togglePseudoEditMode
 {
-    self.inPseudoEditMode = !inPseudoEditMode;	
-	[self.theTableView reloadData];
-}
+    //toggle the mode
+    self.inPseudoEditMode = !inPseudoEditMode;
 
-
-//Setter for inPseudoEditMode property
-- (void)setInPseudoEditMode:(BOOL)setting
-{
-    inPseudoEditMode = setting;
+    //reset the selected array
+    [self populateSelectedArray];
     
-    if (inPseudoEditMode)
-    {
-        [self populateSelectedArray];
+    //set up animations
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.25];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    
+    //set new frames
+    if(inPseudoEditMode) {
+                
         self.navigationItem.leftBarButtonItem.title = @"Select";
         self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleDone;
-    }
-    else
-    {
+        
+        for (NSIndexPath *path in self.theTableView.indexPathsForVisibleRows)
+        {
+            if ([path indexAtPosition:0] == 0) //section # is 0
+            {
+                BBFileTableCell *cell = (BBFileTableCell *)[self.theTableView cellForRowAtIndexPath:path];
+
+                
+                CGRect labelRect =  CGRectMake(36, 11, 216, 21);
+                CGRect subRect =    CGRectMake(36, 29, 216, 15);
+                
+                
+                cell.actionButton.hidden = NO;
+                [cell.actionButton setImage:self.unselectedImage forState:normal];
+                [cell.shortname setFrame:labelRect];
+                [cell.subname setFrame:subRect];
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                
+            }
+        }
+        
+    } else { //not in pseudo edit mode
+        
         self.navigationItem.leftBarButtonItem.title = @"Select";
         self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStylePlain;
+        
+        for (NSIndexPath *path in self.theTableView.indexPathsForVisibleRows)
+        {
+            if ([path indexAtPosition:0] == 0) //section # is 0
+            {
+                BBFileTableCell *cell = (BBFileTableCell *)[self.theTableView cellForRowAtIndexPath:path];
+                
+                
+                CGRect labelRect =  CGRectMake(13, 11, 216, 21);
+                CGRect subRect =    CGRectMake(13, 29, 216, 15);
+                
+                cell.actionButton.hidden = YES;
+                [cell.shortname setFrame:labelRect];
+                [cell.subname setFrame:subRect];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+        }
     }
-}
-
-//Getter for inPseudoEditMode property
-- (BOOL)inPseudoEditMode
-{
-    return inPseudoEditMode;
+    
+    //do the animation
+    [UIView commitAnimations];
+    
+	[self.theTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 
@@ -248,34 +313,55 @@
 	[array release];
 }
 
+- (void)populateSelectedArrayWithSelectionAt:(int)num
+{
+    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:[allFiles count]];
+	for (int i=0; i < [allFiles count]; i++)
+    if (num == i)
+        [array addObject:[NSNumber numberWithBool:YES]];
+    else
+        [array addObject:[NSNumber numberWithBool:NO]];
+	self.selectedArray = array;
+	[array release];
+}
 
 
 - (void)cellActionTriggeredFrom:(BBFileTableCell *) cell
 {
+    NSUInteger theRow = [[theTableView indexPathForCell:cell] row];
+    NSLog(@"Cell at row %u", theRow);
     
-    //Check for pseudo edit mode
-    if (inPseudoEditMode)
+    if ([[self.theTableView indexPathForCell:cell] section] == 0)
     {
-        NSUInteger theRow = [[theTableView indexPathForCell:cell] row];
-        NSLog(@"Cell at row %u", theRow);
-        
-        BOOL selected = ![[selectedArray objectAtIndex:theRow] boolValue];
-        [selectedArray replaceObjectAtIndex:theRow withObject:[NSNumber numberWithBool:selected]];
-         
-        NSLog(@"Cell is selected: %i", selected);
-        
-        if (selected)
+        //Check for pseudo edit mode
+        if (inPseudoEditMode)
         {
-            [cell.actionButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
             
-            NSLog(@"Swapped image for selectedImage ");
+            BOOL selected = ![[selectedArray objectAtIndex:theRow] boolValue];
+            [selectedArray replaceObjectAtIndex:theRow withObject:[NSNumber numberWithBool:selected]];
+             
+            NSLog(@"Cell is selected: %i", selected);
+            
+            if (selected)
+            {
+                [cell.actionButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
+                
+                NSLog(@"Swapped image for selectedImage ");
+            } else {
+                [cell.actionButton setImage:self.unselectedImage forState:UIControlStateNormal];
+            }
+            
+            [self.theTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         } else {
-            [cell.actionButton setImage:self.unselectedImage forState:UIControlStateNormal];
+            
+            [self populateSelectedArrayWithSelectionAt:theRow];
+            [self pushActionView];
         }
+    } else {
+        //Select Multiple Button. selectedArray already set.
+        [self pushActionView];
     }
-    
 }
-
 
 
 
@@ -296,20 +382,18 @@
 	
 }
 
-
-#pragma mark - BBFileActionViewControllerDelegate
-- (NSArray *)returnSelectedFiles
+#pragma mark - for BBFileActionViewControllerDelegate
+- (void)deleteTheFiles:(NSArray *)theseFiles
 {
-    NSMutableArray *returnArray;
-    for (int i=0; i < [allFiles count]; i++)
+    for (BBFile *file in theseFiles)
     {
-        if ([selectedArray objectAtIndex:i])
-            [returnArray addObject:[allFiles objectAtIndex:i]];
+        int index = [self.allFiles indexOfObject:file];
+        [[self.allFiles objectAtIndex:index] deleteObject];
+        [self.allFiles removeObjectAtIndex:index];
+        
+        [theTableView reloadData];
     }
-    return returnArray;
 }
-
-
 
 @end
 

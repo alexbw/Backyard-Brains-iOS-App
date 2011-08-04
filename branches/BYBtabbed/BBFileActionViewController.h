@@ -11,16 +11,19 @@
 #import "BBFileTableCell.h"
 #import "PlaybackViewController.h"
 
+
 @protocol BBFileActionViewControllerDelegate
 @required
-- (NSArray *)returnSelectedFiles;
+    @property (nonatomic, retain) NSArray *files;
+    - (void)deleteTheFiles:(NSArray *)files;
 @end
 
 
-@interface BBFileActionViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate> {
+@interface BBFileActionViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, BBFileDetailViewDelegate> {
     IBOutlet UITableView *theTableView;
     
     NSArray *files;
+    NSArray *actionOptions;
     
     id <BBFileActionViewControllerDelegate> delegate;
 }
@@ -28,6 +31,7 @@
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
 
 @property (nonatomic, retain) NSArray *files;
+@property (nonatomic, retain) NSArray *actionOptions;
 
 @property (nonatomic, assign) id <BBFileActionViewControllerDelegate> delegate;
 
@@ -36,6 +40,8 @@
 - (void)emailFiles;
 - (void)downloadFiles;
 - (void)analyzeFiles;
-- (void)deleteFiles;
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
+
 
 @end

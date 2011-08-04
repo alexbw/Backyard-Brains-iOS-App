@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BBFile.h"
 
-@protocol BBFileTitleEditorDelegate
+@protocol BBFileTitleEditorViewDelegate
 	@required
 		@property (nonatomic, retain) NSArray *files;
 
@@ -21,13 +21,15 @@
 @interface BBFileTitleEditorViewController : UIViewController {
 	IBOutlet UITextField *titleTextField;
 	NSArray *files;
-	id <BBFileTitleEditorDelegate> delegate;
+    NSString *ogString;
+	id <BBFileTitleEditorViewDelegate> delegate;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *titleTextField;
 @property (nonatomic, retain) NSArray *files;
-@property (assign) id <BBFileTitleEditorDelegate> delegate;
+@property (nonatomic, retain) NSString *ogString;
+@property (assign) id <BBFileTitleEditorViewDelegate> delegate;
 
-- (IBAction)done:(UIBarButtonItem *)sender;
+- (IBAction)done;
 
 @end

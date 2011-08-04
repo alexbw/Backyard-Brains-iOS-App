@@ -60,7 +60,7 @@
 
 	if ([self.files count] == 1) {
         
-		BBFile *file = [self.files objectAtIndex:1];
+		BBFile *file = [self.files objectAtIndex:0];
 		[self setButton:titleButton titleForAllStates:file.shortname];
 		durationLabel.text = [self stringWithFileLengthFromBBFile:file];
 		recordedInfoLabel.text = [inputFormatter stringFromDate:file.date];
@@ -78,18 +78,17 @@
 			}
 		}
         
-        [file release];
         [self setButton:commentButton titleForAllStates:commentText];
         
 	} else {
 
-		[self setButton:titleButton titleForAllStates:[NSString stringWithFormat:@"(%i) Files", [self.files count]]];
+		[self setButton:titleButton titleForAllStates:[NSString stringWithFormat:@"%u Files", [self.files count]]];
 		durationLabel.hidden = YES;
 		recordedInfoLabel.hidden = YES;
 		samplingRateLabel.hidden = YES;
 		gainLabel.hidden = YES;
 		stimLabel.hidden =YES;
-		NSString *commentText = @"Edit comment for multiple files";
+		NSString *commentText = [NSString stringWithFormat:@"Edit comment for %u files", [self.files count]];
         [self setButton:commentButton titleForAllStates:commentText];
 	}
 	
@@ -115,7 +114,6 @@
 
 - (IBAction)pushTitleEditorView:(UIButton *)sender {
 	BBFileTitleEditorViewController *titleViewController = [[BBFileTitleEditorViewController alloc] initWithNibName:@"BBFileTitleEditorView" bundle:nil];
-	self.files = [delegate files];
 	titleViewController.delegate = self;
 	
 	[[self navigationController] pushViewController:titleViewController animated:YES];
