@@ -11,6 +11,8 @@
 
 @implementation ContinuousWaveView
 
+@synthesize audioSignalManager;
+
 // You must implement this method
 
 - (id)initWithCoder:(NSCoder*)coder {

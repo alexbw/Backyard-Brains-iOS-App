@@ -5,7 +5,7 @@
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
-#import "AudioSignalManager.h"
+#import "DrawingDataManager.h"
 
 #define kMaxPixelDistanceToDetectTap 10
 //#define kPortraitHeightWithTabBar 430
@@ -13,15 +13,16 @@
 //#define kLandscapeHeightWithTabBar 270
 //#define kLandscapeHeightWithTabBar_iPad 736
 
-@protocol DrawingViewControllerDelegate //This will be BBTabViewController
-
-	@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
-
+@protocol DrawingViewControllerDelegate //This will be BBTabViewController or ActionViewController
+@required
+@optional
+    @property (nonatomic, retain) DrawingDataManager *drawingDataManager;
+    @property (nonatomic, retain) NSArray *files;
 @end
 
 
 @interface DrawingViewController : UIViewController {
-	AudioSignalManager *audioSignalManager;
+	DrawingDataManager *drawingDataManager;
 	EAGLView *glView;
 	
 	NSMutableSet *currentTouches;
@@ -49,7 +50,7 @@
 	
 }
 
-@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
+@property (nonatomic, retain) DrawingDataManager *drawingDataManager;
 @property (nonatomic, retain) EAGLView *glView;
 
 @property (nonatomic, retain) NSMutableSet *currentTouches;
@@ -69,7 +70,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *yUnitsPerDivLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *msLegendImage;
 
-@property (nonatomic, retain) id <DrawingViewControllerDelegate> delegate;
+@property (nonatomic, assign) id <DrawingViewControllerDelegate> delegate;
 
 @property (nonatomic, retain) NSDictionary *preferences;
 

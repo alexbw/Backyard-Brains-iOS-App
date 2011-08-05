@@ -9,13 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "EAGLView.h"
 #import "AudioSignalManager.h"
+#import "AudioPlaybackManager.h"
 
 @interface PlaybackView : EAGLView {
-
+    AudioPlaybackManager *apm;
 }
+
+@property (nonatomic, retain) AudioPlaybackManager *apm;
 
 - (void)drawWave;
 - (id)initWithCoder:(NSCoder *)coder;
-- (void)updateMinorGridLines;
 
 @end

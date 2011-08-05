@@ -16,6 +16,7 @@
 @synthesize numAveragesButton;
 @synthesize numAveragesSlider;
 @synthesize numAveragesLabel;
+@synthesize audioSignalManager;
 
 @synthesize triggerView;
 
@@ -64,7 +65,11 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-
+    
+    //Keep both of these around. DDM for the superclass, ASM for self
+    self.drawingDataManager = self.delegate.drawingDataManager;
+	self.audioSignalManager = (AudioSignalManager *)self.drawingDataManager;
+    
 	NSLog(@"View did load");
 	self.triggerView = (TriggerView *)[self view];
 	

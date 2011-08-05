@@ -21,23 +21,27 @@
 @end
 
 
-@interface BBFileActionViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, BBFileDetailViewDelegate, BBFileDownloadViewControllerDelegate> {
+@interface BBFileActionViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, BBFileDetailViewDelegate, BBFileDownloadViewControllerDelegate, DrawingViewControllerDelegate> {
     IBOutlet UITableView *theTableView;
     
-    NSArray *files;
     NSArray *actionOptions;
     NSArray *fileNamesToShare;
     
     id <BBFileActionViewControllerDelegate> delegate;
+    
+    //AudioSignalManager *audioSignalManager;
+    NSArray *files;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
 
-@property (nonatomic, retain) NSArray *files;
 @property (nonatomic, retain) NSArray *actionOptions;
 
 @property (nonatomic, assign) id <BBFileActionViewControllerDelegate> delegate;
 
+//for DrawingViewControllerDelegate
+//@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
+@property (nonatomic, retain) NSArray *files;
 
 - (void)emailFiles;
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error;

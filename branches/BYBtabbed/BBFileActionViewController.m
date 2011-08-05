@@ -13,10 +13,10 @@
 
 
 @synthesize theTableView;
-@synthesize files;
 @synthesize actionOptions;
 @synthesize fileNamesToShare;
 @synthesize delegate;
+@synthesize files;//audioSignalManager, files;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -149,10 +149,13 @@
     
     if ([cell.textLabel.text isEqualToString:@"Play"])
 	{
-		
-        /*PlaybackViewController *pvc = [[PlaybackViewController alloc] initWithNibName:@"PlaybackView" bundle:nil];
+		//get the audiosignalmanager! if we need it
+        
+        PlaybackViewController *pvc = [[PlaybackViewController alloc] initWithNibName:@"PlaybackView" bundle:nil];
+        pvc.delegate = self;
+        pvc.hidesBottomBarWhenPushed = YES;
 		[[self navigationController] pushViewController:pvc animated:YES];
-		[pvc release];*/	
+		[pvc release];
         
 	}
 	else if ([cell.textLabel.text isEqualToString:@"View Details"])

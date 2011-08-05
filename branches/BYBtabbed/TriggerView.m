@@ -16,9 +16,13 @@
 @synthesize thresholdLine;
 @synthesize middleOfWave;
 
+@synthesize audioSignalManager;
+
 // You must implement this method
 
 - (void)dealloc {
+    [audioSignalManager release];
+    
     [super dealloc];
 }
 
@@ -66,8 +70,8 @@
 		
 	glDrawArrays(GL_LINE_STRIP, 0, kNumPointsInVertexBuffer); //self.audioSignalManager.lastFreshSample-startIdx
 	
-	if ( audioSignalManager.lastFreshSample > endIdx ) {
-		audioSignalManager.triggered = NO;
+	if ( self.audioSignalManager.lastFreshSample > endIdx ) {
+		self.audioSignalManager.triggered = NO;
 	}
 }
 
@@ -76,8 +80,8 @@
 	// Draw solid horizontal line at thresholdValue
 	self.thresholdLine[0].x = self.xBegin;
 	self.thresholdLine[1].x = self.xEnd;
-	self.thresholdLine[0].y = [audioSignalManager thresholdValue];
-	self.thresholdLine[1].y = [audioSignalManager thresholdValue];
+	self.thresholdLine[0].y = [self.audioSignalManager thresholdValue];
+	self.thresholdLine[1].y = [self.audioSignalManager thresholdValue];
 	
 	// draw dashed vertical line at -0.5 (threshold crossing location)
 //	for (int i=2; i < kNumDashesInVerticalTriggerLine+2; ++i) {

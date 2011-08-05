@@ -16,6 +16,7 @@
 @synthesize stopButton;
 @synthesize stimButton;
 @synthesize audioRecorder;
+@synthesize audioSignalManager;
 
 @synthesize cwView;
 
@@ -46,7 +47,7 @@
 	[stopButton setFrame:stopButtonRect];	
 	[UIView commitAnimations];
 	
-	self.audioRecorder = [[AudioRecorder alloc] initWithAudioSignalManager:self.audioSignalManager];
+	self.audioRecorder = [[AudioRecorder alloc] initWithAudioSignalManager:(AudioSignalManager *)self.drawingDataManager];
 	[self.audioRecorder startRecording];
 	
 }
@@ -83,7 +84,11 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-
+    
+    //Keep both of these around. DDM for the superclass, ASM for self
+    self.drawingDataManager = self.delegate.drawingDataManager;
+	self.audioSignalManager = (AudioSignalManager *)self.drawingDataManager;
+    
 	self.cwView = (ContinuousWaveView *)[self view];
     
     //grab preferences
@@ -106,8 +111,8 @@
 	[self.cwView.audioSignalManager play];
     
     //Reset wait frames so the view will automatically set the viewing frame
-    self.audioSignalManager.nWaitFrames = 0;
-    self.audioSignalManager.nTrigWaitFrames = 0;
+    self.cwView.audioSignalManager.nWaitFrames = 0;
+    self.cwView.audioSignalManager.nTrigWaitFrames = 0;
 	
 	self.cwView.gridVertexBuffer = (struct wave_s *)malloc(2*(self.cwView.numHorizontalGridLines+self.cwView.numVerticalGridLines)*sizeof(struct wave_s));
 

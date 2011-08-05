@@ -11,18 +11,18 @@
 
 @implementation BBTabViewController
 
-@synthesize audioSignalManager;
+@synthesize drawingDataManager;
 
 
 - (void)dealloc {
     [super dealloc];
     
-    [audioSignalManager release];
+    [drawingDataManager release];
 }
 
 - (void)viewDidLoad {
-	self.audioSignalManager = [[AudioSignalManager alloc] initWithCallbackType:kAudioCallbackContinuous];
-	[self.audioSignalManager play];
+	self.drawingDataManager = [[AudioSignalManager alloc] initWithCallbackType:kAudioCallbackContinuous];
+	[self.drawingDataManager play];
 }
 
 
@@ -47,12 +47,12 @@
 
 # pragma mark - GainViewControllerDelegate Protocol
 - (float) gain {
-    return self.audioSignalManager.gain;
+    return self.drawingDataManager.gain;
 }
 
 - (void) setGain:(float)newGain {
     if (gain != newGain) {
-		self.audioSignalManager.gain = newGain;
+		self.drawingDataManager.gain = newGain;
     }
 }
 

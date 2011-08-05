@@ -20,6 +20,8 @@
 	IBOutlet UILabel *numAveragesLabel;
 	
 	TriggerView *triggerView;
+    
+    AudioSignalManager *audioSignalManager;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *triggerValueLabel;
@@ -28,6 +30,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *numAveragesLabel;
 
 @property (nonatomic, retain) TriggerView *triggerView;
+
+@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
 
 - (void)updateDataLabels;
 - (void)showAllLabels;

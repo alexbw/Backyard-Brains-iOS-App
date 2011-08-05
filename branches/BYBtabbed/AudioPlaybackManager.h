@@ -10,6 +10,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AudioUnit/AudioUnit.h>
 #import <OpenGLES/ES1/gl.h>
+#import <AVFoundation/AVFoundation.h>
 
 #import "DrawingDataManager.h"
 #import "mach/mach_time.h"
@@ -23,12 +24,29 @@
     AudioFileID fileHandle; // should use pure-C for speed.
     int numBytesToRead; 
 	AudioConverterRef audioConverter;
+    
+    // Instance variables that are not properties
+	AVAudioPlayer *audioPlayer;
+	NSTimer *timerThread;
+    
+    UIImage *playImage, *pauseImage;
 }
 
 @property (nonatomic, retain) BBFile *file;
 @property AudioFileID fileHandle;
 
-- (id)initWithFile:(BBFile *)theFile;
+@property (nonatomic, retain) UIImage *playImage, *pauseImage;
+
+- (void)grabNewFile;
+
+- (void)updateCurrentTimeTo:(float)time;
+
+- (void)playPause;
+
+- (void)stop;
+
+- (void)startUpdateTimer;
+- (void)updateCurrentTime;
 
 //Redefined from superclass:
 //- (void)fillVertexBufferWithAudioData;

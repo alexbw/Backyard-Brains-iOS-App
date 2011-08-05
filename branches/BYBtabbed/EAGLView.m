@@ -23,8 +23,6 @@
 @implementation EAGLView
 const int numdashes = 100;
 
-@synthesize audioSignalManager;
-
 @synthesize viewFramebuffer;
 @synthesize backingWidth;
 @synthesize backingHeight;

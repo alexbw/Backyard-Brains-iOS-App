@@ -11,8 +11,12 @@
 #import "AudioSignalManager.h"
 
 @interface ContinuousWaveView : EAGLView {
+    
+    AudioSignalManager *audioSignalManager;
 
 }
+
+@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
 
 - (void)drawWave;
 - (id)initWithCoder:(NSCoder *)coder;

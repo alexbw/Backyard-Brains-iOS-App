@@ -14,29 +14,28 @@
 #import "AudioPlaybackManager.h"
 #import "math.h"
 
-
 @interface PlaybackViewController : DrawingViewController <DrawingDataManagerDelegate>
 {
 	// Data labels
 	IBOutlet UIButton *playPauseButton;
-    IBOutlet UILabel  *titleLabel;
     IBOutlet UISlider *scrubBar;
     IBOutlet UILabel  *elapsedTimeLabel;
     IBOutlet UILabel  *remainingTimeLabel;
     
-	BBFile *bbFile;
+    
+	BBFile *file;
+    
 	PlaybackView *pbView;
 	
 	AudioPlaybackManager *apm;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *playPauseButton;
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UISlider *scrubBar;
 @property (nonatomic, retain) IBOutlet UILabel  *elapsedTimeLabel;
 @property (nonatomic, retain) IBOutlet UILabel  *remainingTimeLabel;
 
-@property (nonatomic, retain) BBFile *bbFile;
+
 @property (nonatomic, retain) PlaybackView *pbView;
 
 @property (nonatomic, retain) AudioPlaybackManager *apm;
@@ -47,7 +46,10 @@
 
 - (IBAction)playPause:(UIButton *)sender;
 
-//for AudioPlaybackManagerDelegate
+- (void)pushTrigger;
+
+//for DrawingDataManagerDelegate
+@property (nonatomic, retain) BBFile *file;
 - (void)shouldAutoSetFrame;
 
 @end

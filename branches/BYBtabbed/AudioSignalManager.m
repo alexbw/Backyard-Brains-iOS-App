@@ -408,7 +408,6 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 
 @synthesize auBufferList;
 @synthesize lastTime;
-@synthesize samplingRate;
 
 @synthesize triggering;
 @synthesize triggered;
@@ -422,7 +421,6 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 
 @synthesize playThroughEnabled;
 
-@synthesize gain;
 
 @synthesize hasAudioInput;
 @synthesize myCallbackType;
@@ -430,8 +428,6 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 @synthesize nTrigWaitFrames;
 
 @synthesize isStimulating;
-
-@synthesize delegate;
 
 # pragma mark - Initialization
 
@@ -483,25 +479,25 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		
 		NSNumber *gainValue;
 		if ((gainValue = [defaults valueForKey:@"gain"])) {
-			gain = [gainValue floatValue];
+			self.gain = [gainValue floatValue];
 		}
 		else {
-			gain = 1.0f;
+			self.gain = 1.0f;
 		}
         
 		
 		NSNumber *samplingRateValue;
 		NSLog(@"==== DEFAULT SAMPLINGRATE: %@", [defaults valueForKey:@"samplerate"]);
 		NSLog(@"==== DEFAULT GAIN: %@", [defaults valueForKey:@"gain"]);
-        NSLog(@"==== GAIN IN USE: %f", gain);
+        NSLog(@"==== GAIN IN USE: %f", self.gain);
 		
 		
 		if ((samplingRateValue = [defaults valueForKey:@"samplerate"])) {
-			samplingRate = (Float64)[samplingRateValue floatValue];
-			NSLog(@"Samplingrate = %f", samplingRate);
+			self.samplingRate = (Float64)[samplingRateValue floatValue];
+			NSLog(@"Samplingrate = %f", self.samplingRate);
 		}
 		else {
-			samplingRate = 44100.0f;	
+			self.samplingRate = 44100.0f;	
 		}
 
 		// Grab the sampling rate from NSUserDefaults

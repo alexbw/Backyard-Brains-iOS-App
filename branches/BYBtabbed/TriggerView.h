@@ -17,11 +17,15 @@
 @interface TriggerView : EAGLView {
 	struct wave_s *thresholdLine;
 	float middleOfWave;
+    
+    AudioSignalManager *audioSignalManager;
 
 }
 
 @property struct wave_s *thresholdLine;
 @property float middleOfWave;
+
+@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
 
 - (void)drawWave;
 - (void)drawThresholdLine;

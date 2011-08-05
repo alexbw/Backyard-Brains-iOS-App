@@ -13,9 +13,8 @@
 @implementation PlaybackViewController
 
 @synthesize playPauseButton;
-@synthesize titleLabel;
 @synthesize scrubBar, elapsedTimeLabel, remainingTimeLabel;
-@synthesize bbFile;
+@synthesize file;
 @synthesize pbView;
 @synthesize apm;
 
@@ -25,8 +24,9 @@
     [super dealloc];
 	
 	[playPauseButton release];
-	//[scrubBar release];
-    //[audioRecorder release]; released in stopRecordering:
+	[scrubBar release];
+    [elapsedTimeLabel release];
+    [remainingTimeLabel release];
     
     [pbView release];
     [apm release];
@@ -34,26 +34,13 @@
 }
 
 
-# pragma mark - IBActions
-
-- (IBAction)startPlaying:(UIButton *)sender {
-
-	self.apm = [[AudioPlaybackManager alloc] initWithFile:self.bbFile];
-	[self.apm startPlayback];
-	
-}
-
-
-- (IBAction)stopPlaying:(UIButton *)sender {
-	[self.apm stopPlayback];
-}
-
 # pragma mark - View Controller Events
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 
 	self.pbView = (PlaybackView *)[self view];
+    
     
     //grab preferences
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
@@ -66,28 +53,50 @@
 - (void)viewWillAppear:(BOOL)animated { //tk move all this crap to DrawingViewConroller
 	[super viewWillAppear:animated];
 	
-	[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
-	
+    self.navigationItem.title = self.file.subname;
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Trigger"
+                                                        style:UIBarButtonItemStylePlain
+                                                        target:self
+                                                        action:@selector(pushTrigger)] autorelease];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    
+    self.file = [delegate.files objectAtIndex:0];
+    
+    if (self.apm == nil)
+        self.apm = [[AudioPlaybackManager alloc] init];
+    self.apm.delegate = self;
+    [self.apm grabNewFile];
+    
+    
+    self.pbView.apm = self.apm;
+    
+    
+ 
+    
+	//[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
+    
 	//self.pbView.audioSignalManager = self.audioSignalManager;
     //self.audioSignalManager.delegate = self;
-	[self.apm setVertexBufferXRangeFrom:self.pbView.xMin to:self.pbView.xMax];
+	//[self.apm setVertexBufferXRangeFrom:self.pbView.xMin to:self.pbView.xMax];
 	//self.pbView.audioSignalManager.triggering = NO;
-	[self.apm startPlayback]; //tk NEW
+	//[self.apm startPlayback]; //tk NEW
     
     //Reset wait frames so the view will automatically set the viewing frame
     self.apm.nWaitFrames = 0;
     //self.audioSignalManager.nTrigWaitFrames = 0;
 	
-	self.pbView.gridVertexBuffer = (struct wave_s *)malloc(2*(self.pbView.numHorizontalGridLines+self.pbView.numVerticalGridLines)*sizeof(struct wave_s));
+	//self.pbView.gridVertexBuffer = (struct wave_s *)malloc(2*(self.pbView.numHorizontalGridLines+self.pbView.numVerticalGridLines)*sizeof(struct wave_s));
 
-	self.pbView.minorGridVertexBuffer =
-        (struct wave_s *)malloc(2*4*(self.pbView.numHorizontalGridLines+self.pbView.numVerticalGridLines)*sizeof(struct wave_s));
+	//self.pbView.minorGridVertexBuffer =
+      //  (struct wave_s *)malloc(2*4*(self.pbView.numHorizontalGridLines+self.pbView.numVerticalGridLines)*sizeof(struct wave_s));
 	
-    [self.pbView updateMinorGridLines];
+    //[self.pbView updateMinorGridLines];
 	
 	[self.pbView startAnimation];
     
 	[self updateDataLabels];
+    
+    
 }
 
 
@@ -97,7 +106,7 @@
 	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
 	[preferences writeToFile:finalPath atomically:YES];
 	[self.pbView stopAnimation];
-	[self.apm pausePlayback];
+	//[self.apm pausePlayback];
 	
 	/*if (audioRecorder != nil) {
 		if (audioRecorder.isRecording == YES) {
@@ -108,6 +117,38 @@
 	}*/
 }
 
+
+# pragma mark - IBActions
+
+/*- (IBAction)startPlaying:(UIButton *)sender {
+ 
+ self.apm = [[AudioPlaybackManager alloc] initWithFile:self.bbFile];
+ [self.apm startPlayback];
+ 
+ }
+ 
+ 
+ - (IBAction)stopPlaying:(UIButton *)sender {
+ [self.apm stopPlayback];
+ }
+ 
+ */
+- (IBAction)playPause:(UIButton *)sender
+{
+    [self.apm playPause];
+}
+
+
+- (IBAction)positionInFileChanged:(UISlider *)sender {
+	NSLog(@"Position in file changed!");
+	[self.apm updateCurrentTimeTo:sender.value];
+}
+
+
+- (void)pushTrigger
+{
+    
+}
 
 
 # pragma mark - Preference Handling
@@ -133,7 +174,7 @@
 	self.pbView.gridColor = tmpGridColor;
 	
 	// Set the limits on what we're drawing
-	self.pbView.xMin = -1000*kNumPointsInVertexBuffer/self.audioSignalManager.samplingRate;	
+	self.pbView.xMin = -1000*kNumPointsInVertexBuffer/self.drawingDataManager.samplingRate;	
 	self.pbView.xMax = [[preferences valueForKey:@"xMax"] floatValue];
 	self.pbView.xBegin = [[preferences valueForKey:@"xBegin"] floatValue];
 	self.pbView.xEnd = [[preferences valueForKey:@"xEnd"] floatValue];
@@ -214,7 +255,7 @@
 	// Spin through all the UILabels that we have control of, and make em better.
 
 	float xPerDiv = (self.pbView.xEnd - self.pbView.xBegin)/3.0f;
-	float yPerDiv = (self.pbView.yEnd - self.pbView.yBegin)/(4.0f*self.audioSignalManager.gain*kVoltScaleFactor);
+	float yPerDiv = (self.pbView.yEnd - self.pbView.yBegin)/(4.0f*self.drawingDataManager.gain*kVoltScaleFactor);
 	
 	xUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.1f ms", xPerDiv];
 	yUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.2f mV", yPerDiv];
@@ -223,9 +264,9 @@
 
 #pragma mark - DrawingDataManagerDelegate
 
-/*- (void)shouldAutoSetFrame
+- (void)shouldAutoSetFrame
 {
-     
+     /*
     //get a frame
     ringBuffer *playbackBuffer = self.audioSignalManager.playbackBuffer; //tk NEW
     
@@ -258,8 +299,8 @@
         
         [self updateDataLabels];
 
-    }
-}*/
+    }*/
+}
 
 #pragma mark - Multitouch
 
@@ -302,7 +343,7 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	[super touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event];
-	[self.pbView updateMinorGridLines];
+	//[self.pbView updateMinorGridLines];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {

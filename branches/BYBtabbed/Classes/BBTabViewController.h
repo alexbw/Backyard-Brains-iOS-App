@@ -20,12 +20,12 @@
 	float gain;
 	
 	// For the DrawingViewControllerDelegate protocol
-	AudioSignalManager *audioSignalManager;
+	DrawingDataManager *drawingDataManager;
 
 }
 
 
-@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
+@property (nonatomic, retain) DrawingDataManager *drawingDataManager;
 @property float gain;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;

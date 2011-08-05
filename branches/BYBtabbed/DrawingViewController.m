@@ -7,7 +7,7 @@
 
 @implementation DrawingViewController
 
-@synthesize audioSignalManager;
+@synthesize drawingDataManager;
 @synthesize glView;
 
 @synthesize currentTouches;
@@ -34,7 +34,7 @@
 
 
 - (void)dealloc {
-	[audioSignalManager release];
+	[drawingDataManager release];
 	[glView release];
 	[currentTouches release];
 	[preferences release];
@@ -56,7 +56,6 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	self.audioSignalManager = self.delegate.audioSignalManager;
     
     //make sure tick marks and scale bars change size with rotation
 	tickMarks.contentMode = UIViewContentModeScaleAspectFit;
@@ -222,7 +221,7 @@
 	self.glView.gridColor = tmpGridColor;
 	
 	// Set the limits on what we're drawing
-	self.glView.xMin = -1000*kNumPointsInVertexBuffer/self.audioSignalManager.samplingRate;
+	self.glView.xMin = -1000*kNumPointsInVertexBuffer/self.drawingDataManager.samplingRate;
 	self.glView.xMax = [[preferences valueForKey:@"xMax"] floatValue];
 	self.glView.xBegin = [[preferences valueForKey:@"xBegin"] floatValue];
 	self.glView.xEnd = [[preferences valueForKey:@"xEnd"] floatValue];

@@ -15,6 +15,11 @@
 @synthesize nWaitFrames;
 @synthesize vertexBuffer;
 
+@synthesize samplingRate;
+@synthesize gain;
+
+@synthesize delegate;
+
 
 - (void)fillVertexBufferWithAudioData
 {

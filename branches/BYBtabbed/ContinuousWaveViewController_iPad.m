@@ -25,19 +25,19 @@
 	[self presentModalViewController:flipController animated:YES];
 	[flipController release];
 	
-	[self.audioSignalManager pause];
+	[self.drawingDataManager pause];
 }
 
 //for FlipsideInfoViewDelegate
 - (void)flipsideIsDone
 {
 	[self dismissModalViewControllerAnimated:YES];
-	[self.audioSignalManager play];
+	[self.drawingDataManager play];
 }
 
 //If the user dismissed by touching outside popover:
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popover {
-	[self.audioSignalManager play];
+	[self.drawingDataManager play];
 }
 
 @end

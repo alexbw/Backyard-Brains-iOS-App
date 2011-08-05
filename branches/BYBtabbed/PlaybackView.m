@@ -11,6 +11,8 @@
 
 @implementation PlaybackView
 
+@synthesize apm;
+
 // You must implement this method
 
 - (id)initWithCoder:(NSCoder*)coder {
@@ -26,7 +28,7 @@
 	
 	[self prepareOpenGLView];
 	
-	[self.audioSignalManager fillVertexBufferWithAudioData];	// Grab the audio data
+	[self.apm fillVertexBufferWithAudioData];	// Grab the audio data
 	
     
     
@@ -44,7 +46,7 @@
 		
 	// Feed the data into the OpenGL context
 	
-	struct wave_s *vb = self.audioSignalManager.vertexBuffer;
+	struct wave_s *vb = self.apm.vertexBuffer;
 		
     glVertexPointer(2, GL_FLOAT, 0, vb);
 
@@ -58,46 +60,6 @@
 	glDrawArrays(GL_LINE_STRIP, 0, kNumPointsInVertexBuffer);
 }
 
-- (void)drawGridLines {
-	[super drawGridLines];
-	return; 
-	
-	glColor4f(gridColor.R/1.5f, gridColor.G/1.5f, gridColor.B/1.5f, gridColor.A);
-	glLineWidth(0.3);
-	
-	glVertexPointer(2, GL_FLOAT, 0, self.minorGridVertexBuffer);
-
-	int minorNumHrzLines = self.numHorizontalGridLines*4;
-	int minorNumVertLines = self.numVerticalGridLines*4;
-	glDrawArrays(GL_LINES, 0, 2*(minorNumHrzLines+minorNumVertLines));
-	
-}
-
-- (void)updateMinorGridLines {
-	int minorNumHrzLines = self.numHorizontalGridLines*4 - 1;
-	int minorNumVertLines = self.numVerticalGridLines*4 - 1;
-	
-	for (int i=0; i < minorNumHrzLines; ++i) {
-		// Fill in the horizontal grid lines
-		GLfloat horzval = self.yBegin + (i+1.0)*(self.yEnd - self.yBegin)/(minorNumHrzLines+1.0);
-		self.minorGridVertexBuffer[i*2].x		= self.xBegin;
-		self.minorGridVertexBuffer[i*2].y		= horzval;
-		self.minorGridVertexBuffer[i*2 + 1].x	= self.xEnd;
-		self.minorGridVertexBuffer[i*2 + 1].y	= horzval;
-	}
-	
-	int idx;
-	for (int i=0; i < minorNumVertLines; ++i) {
-		// Now the vertical lines
-		GLfloat vertval = self.xBegin + (i+1.0)*(self.xEnd - self.xBegin)/(minorNumVertLines+1.0);
-		idx = minorNumHrzLines*2;
-		self.minorGridVertexBuffer[idx + i*2].x		= vertval;
-		self.minorGridVertexBuffer[idx + i*2].y		= self.yBegin;
-		self.minorGridVertexBuffer[idx + i*2 + 1].x	= vertval;
-		self.minorGridVertexBuffer[idx + i*2 + 1].y	= self.yEnd;
-	}		
-	
-}
 
 - (void)dealloc {
     [super dealloc];

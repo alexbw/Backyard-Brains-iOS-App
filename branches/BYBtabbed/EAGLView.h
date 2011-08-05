@@ -34,7 +34,6 @@ typedef struct {
 @interface EAGLView : UIView {
 
 	struct wave_s wave[kNumPointsInWave];
-	AudioSignalManager *audioSignalManager;
 	
     /* The pixel dimensions of the backbuffer */
     GLint backingWidth;
@@ -73,7 +72,6 @@ typedef struct {
 	
 }
 
-@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
 
 @property GLint backingHeight;
 @property GLint backingWidth;

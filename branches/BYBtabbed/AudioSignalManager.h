@@ -70,7 +70,6 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 	UInt32 lastFreshSample;
 	UInt32 numSamplesJustAcquired;
 	
-	float gain;
 	
 	SInt16 *firstStageBuffer;
 	ringBuffer *secondStageBuffer;	
@@ -82,7 +81,6 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 	AudioBufferList auBufferList;
 	
 	Float64 lastTime;
-	Float64 samplingRate;
 	
 	
 	BOOL playThroughEnabled;
@@ -93,8 +91,6 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
     int nTrigWaitFrames;
     
     BOOL isStimulating;
-    
-    id <DrawingDataManagerDelegate> delegate;
 	
 }
 
@@ -103,12 +99,11 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 
 @property SInt16 *firstStageBuffer;
 @property ringBuffer *secondStageBuffer;
-@property struct wave_s *vertexBuffer;
+//@property struct wave_s *vertexBuffer;
 @property triggeredSegmentHistory *triggerSegmentData;
 
 @property AudioBufferList auBufferList;
 @property Float64 lastTime;
-@property Float64 samplingRate;
 
 @property BOOL triggering;
 @property BOOL triggered;
@@ -122,7 +117,6 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 
 @property BOOL playThroughEnabled;
 
-@property float gain;
 
 @property BOOL hasAudioInput;
 @property UInt32 myCallbackType;
@@ -130,8 +124,6 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 @property int nTrigWaitFrames;
 
 @property BOOL isStimulating;
-
-@property (nonatomic,assign) id <DrawingDataManagerDelegate> delegate;
 
 - (void)ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:(UInt32)callbackType;
 - (id)init;

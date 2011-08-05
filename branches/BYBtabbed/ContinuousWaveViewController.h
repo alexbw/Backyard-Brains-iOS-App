@@ -27,6 +27,8 @@
 	ContinuousWaveView *cwView;
 	
 	AudioRecorder *audioRecorder;
+    
+    AudioSignalManager *audioSignalManager;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *recordButton;
@@ -36,6 +38,8 @@
 @property (nonatomic, retain) ContinuousWaveView *cwView;
 
 @property (nonatomic, retain) AudioRecorder *audioRecorder;
+
+@property (nonatomic, retain) AudioSignalManager *audioSignalManager;
 
 
 - (void)updateDataLabels;
