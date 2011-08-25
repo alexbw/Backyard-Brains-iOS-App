@@ -7,41 +7,200 @@
 //
 
 #import "AudioPlaybackManager.h"
+#import "Constants.h"
+
+#define kBarUpdateInterval 0.5f
+#define kNumPointsInPlaybackVertexBuffer 32768
 
 
-UInt32 readSingleChannelRingBufferDataAsSInt16(AudioFileID audioFileID, AudioConverterRef audioConverter, UInt32 bytePosition) {
+SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Float64 seconds) {
 
-    OSStatus status;
+    //int numSamplesToWrite = kNumPointsInWave;
+	
+    AudioFileID audioFileID = THIS->fileHandle;
+    UInt32 ioNumBytes = THIS->numBytesToRead;
+    UInt32 startByte = seconds * THIS->bitRate + THIS->dataOffset;
+    
+    NSLog(@"Data offset: %llu", THIS->dataOffset);
+    NSLog(@"Starting byte is %lu and num of bytes is %lu", startByte, ioNumBytes);
+    
+    void *tempBuffer = malloc(ioNumBytes);
     
 	// Read from audio to file now
-    //status = AudioFileReadBytes( audioFileID, NO, bytePosition, &numBytesToRead, tempBuffer );
-
-  
-    return bytePosition;
+	OSStatus status = AudioFileReadBytes(audioFileID, YES, startByte, &ioNumBytes, tempBuffer);
+    
+	if (status)
+    {
+		NSLog(@"AudioFileReadBytes failed: %ld, with ioNumBytes: %lu", status, ioNumBytes);
+        return nil;
+    }
+    else
+    {
+        
+		NSLog(@"AudioFileReadBytes succeeded with ioNumBytes: %lu", ioNumBytes);
+        if (ioNumBytes > 0) {
+            
+            SInt16 *outBuffer = (SInt16 *)tempBuffer;
+            
+            for (int i=0; i < ioNumBytes/sizeof(SInt16); ++i) {
+                // We've gotta swap each sample's byte order from big endian to host format...
+                outBuffer[i] = CFSwapInt16BigToHost(outBuffer[i]);
+            }
+            
+            return outBuffer;
+            
+        }
+        else 
+        {
+            // stop
+            return nil;
+        }
+    }
+    
 }
+
+/*
+// ***********************
+// AudioQueueOutputCallback function used to push data into the audio queue
+
+static void AQTestBufferCallback(void *inUserData, AudioQueueRef inAQ, AudioQueueBufferRef inCompleteAQBuffer) 
+{
+    AQTestInfo * myInfo = (AQTestInfo *)inUserData;
+    if (myInfo->mDone) return;
+    
+    UInt32 numBytes;
+    UInt32 nPackets = myInfo->mNumPacketsToRead;
+    OSStatus result = AudioFileReadPackets(myInfo->mAudioFile[myInfo->mCurrentAudioFile],      // The audio file from which packets of audio data are to be read.
+                                           false,                   // Set to true to cache the data. Otherwise, set to false.
+                                           &numBytes,               // On output, a pointer to the number of bytes actually returned.
+                                           myInfo->mPacketDescs,    // A pointer to an array of packet descriptions that have been allocated.
+                                           myInfo->mCurrentPacket,  // The packet index of the first packet you want to be returned.
+                                           &nPackets,               // On input, a pointer to the number of packets to read. On output, the number of packets actually read.
+                                           inCompleteAQBuffer->mAudioData); // A pointer to user-allocated memory.
+    if (result) {
+        DebugMessageN1 ("Error reading from file: %d\n", (int)result);
+        exit(1);
+    }
+    
+    // we have some data
+    if (nPackets > 0) {
+        inCompleteAQBuffer->mAudioDataByteSize = numBytes;
+        
+        result = AudioQueueEnqueueBuffer(inAQ,                                  // The audio queue that owns the audio queue buffer.
+                                         inCompleteAQBuffer,                    // The audio queue buffer to add to the buffer queue.
+                                         (myInfo->mPacketDescs ? nPackets : 0), // The number of packets of audio data in the inBuffer parameter. See Docs.
+                                         myInfo->mPacketDescs);                 // An array of packet descriptions. Or NULL. See Docs.
+        if (result) {
+            DebugMessageN1 ("Error enqueuing buffer: %d\n", (int)result);
+            exit(1);
+        }
+        
+        myInfo->mCurrentPacket += nPackets;
+        
+    } else {
+        // **** This ensures that we flush the queue when done -- ensures you get all the data out ****
+        
+        if (!myInfo->mFlushed) {
+            result = AudioQueueFlush(myInfo->mQueue[myInfo->mCurrentAudioFile]);
+            
+            if (result) {
+                DebugMessageN1("AudioQueueFlush failed: %d", (int)result);
+                exit(1);
+            }
+            
+            myInfo->mFlushed = true;
+        }
+        
+        result = AudioQueueStop(myInfo->mQueue[myInfo->mCurrentAudioFile], false);
+        if (result) {
+            DebugMessageN1("AudioQueueStop(false) failed: %d", (int)result);
+            exit(1);
+        }
+        
+        // reading nPackets == 0 is our EOF condition
+        myInfo->mDone = true;
+    }
+}
+*/
+
+
 
 @implementation AudioPlaybackManager
 
 @synthesize file;
 @synthesize fileHandle;
 @synthesize playImage, pauseImage;
+@synthesize numBytesToRead, dataOffset, bitRate;
+@synthesize playing;
+//@synthesize audioPlayer;
 
-- (id)init
+- (id)initWithBBFile:(BBFile *)theFile
 {
     if ((self = [super init]))
     {
-         
-        numBytesToRead = kRecordingTimerIntervalInSeconds*self.file.samplingrate*sizeof(SInt16)*4*file.filelength;
+        self.file = theFile; 
         
-		self.vertexBuffer = (struct wave_s *)malloc(kNumPointsInVertexBuffer*sizeof(struct wave_s));
+		self.vertexBuffer = (struct wave_s *)malloc(kNumPointsInPlaybackVertexBuffer*sizeof(struct wave_s));
+        NSLog(@"Num points in vertex buffer: %d", kNumPointsInPlaybackVertexBuffer);
+        NSLog(@"Size of GLFloat %lu vs. size of SInt16 %lu", sizeof(GLfloat), sizeof(SInt16));
+        
         self.nWaitFrames = 0;
         
-        NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[docPath stringByAppendingPathComponent:file.filename]];
+        self.playing = NO;
         
-        OSStatus status;
-        status = AudioFileOpenURL ((CFURLRef)fileURL, 0x03, 0, &fileHandle); //inFileTypeHint?? just gonna pass 0
-
+        NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[docPath stringByAppendingPathComponent:self.file.filename]];
+        //do i have the file yet?
+        
+        NSLog(@"Full file path: %@", [docPath stringByAppendingPathComponent:self.file.filename]);
+        // Open the audio file, type = AIFF
+        
+        AudioFileID id;
+        OSStatus status = AudioFileOpenURL ((CFURLRef)fileURL, kAudioFileReadWritePermission, kAudioFileAIFFType, &id); //inFileTypeHint?? just gonna pass 0
+        self.fileHandle = id;
+        NSLog(@"Open Audio File status: %@", status);
+        
+        
+        
+        //Get size of read interval
+        UInt64 numBytes = kNumPointsInPlaybackVertexBuffer*sizeof(SInt16);
+        //kNumPointsInWave?
+        //kRecordingTimerIntervalInSeconds*self.file.samplingrate*sizeof(SInt16)*4*file.filelength;
+        self.numBytesToRead = numBytes;
+        //NSLog(@"Num points in wave: %d", kNumPointsInWave);
+        NSLog(@"Num bytes to read: %llu", numBytes);
+        
+        //Get header offset, byte count, bit rate
+        UInt64 outData = 0;
+        UInt32 outDataSize = sizeof(UInt64);
+        AudioFileGetProperty (  self.fileHandle,
+                                kAudioFilePropertyDataOffset,
+                                &outDataSize,
+                                &outData
+                             );
+        self.dataOffset = outData;
+        NSLog(@"Data offset: %llu", outData);
+        
+        outData = 0;
+        outDataSize = sizeof(UInt64);
+        AudioFileGetProperty (  self.fileHandle,
+                                kAudioFilePropertyAudioDataByteCount,
+                              &outDataSize,
+                              &outData
+                              );
+        NSLog(@"Byte count: %llu", outData);
+        
+        /*outData = 0;
+        outDataSize = sizeof(UInt64);
+        AudioFileGetProperty (  self.fileHandle,
+                                kAudioFilePropertyBitRate,
+                                &outDataSize,
+                                &outData
+                              );*/
+        
+        //should be 44100:
+        self.bitRate = self.file.samplingrate*2;
+        NSLog(@"detected Bit Rate: %llu", self.bitRate);
         
         //Just read out all the audio data
         
@@ -59,6 +218,14 @@ UInt32 readSingleChannelRingBufferDataAsSInt16(AudioFileID audioFileID, AudioCon
     return self;
 }
 
+- (void)dealloc
+{
+    [super dealloc];
+    [file release];
+    [playImage release];
+    [pauseImage release];
+}
+
 - (void)grabNewFile
 {
     self.file = delegate.file;
@@ -69,17 +236,47 @@ UInt32 readSingleChannelRingBufferDataAsSInt16(AudioFileID audioFileID, AudioCon
 }
 
 
+# pragma mark - Visual playback methods
+
+
+
 - (void)fillVertexBufferWithAudioData
 {
-    //create a timer
     
-  if (!self.paused) {
-	//bytePosition = readSingleChannelRingBufferDataAsSInt16(self.fileHandle,audioConverter,bytePosition);
-  }
+    if (self.playing) {
+        
+        //get the current time
+        Float64 tNow = audioPlayer.currentTime;
+        NSLog(@"Time now is %f", tNow);
+        
+        //UInt32 startingByte = [self CalculateBytesForTime:tNow];
+
+
+        SInt16 *outBuffer = readSingleChannelRingBufferDataAsSInt16(self, tNow);
+        //NSLog(@"Read is done: %u", isDone);
+        if (outBuffer == nil)
+            [self pause];
+        
+        NSLog(@"size of outBuffer: %lu", sizeof(outBuffer));
+        for (int i = 0; i < self.numBytesToRead/sizeof(SInt16); ++i)
+        {
+            self.vertexBuffer[i].y = outBuffer[i];
+            //NSLog(@"x %f y %f", vertexBuffer[i].x, vertexBuffer[i].y);
+        }
+    }
 }
 
 
-- (void)playPause
+- (void)setVertexBufferXRangeFrom:(GLfloat)xBegin to:(GLfloat)xEnd {
+	for (int i=0; i < kNumPointsInPlaybackVertexBuffer; ++i) {
+		vertexBuffer[i].x = xBegin + i*(xEnd - xBegin)/kNumPointsInPlaybackVertexBuffer;
+	}
+}
+
+
+# pragma mark - Audio playback methods
+
+- (BOOL)playPause
 {
     
     if (audioPlayer == nil)  //if you haven't played anything yet
@@ -90,7 +287,7 @@ UInt32 readSingleChannelRingBufferDataAsSInt16(AudioFileID audioFileID, AudioCon
     else 
     {
         //make sure everything is paused
-        if (audioPlayer.playing)
+        if (self.playing)
         {
             [self pause];
             return NO;
@@ -126,6 +323,7 @@ UInt32 readSingleChannelRingBufferDataAsSInt16(AudioFileID audioFileID, AudioCon
         
 		NSLog(@"Starting the playing");
 		
+        self.delegate.scrubBar.minimumValue = 0;
 		self.delegate.scrubBar.maximumValue = audioPlayer.duration;
 		[self startUpdateTimer];
         
@@ -134,7 +332,7 @@ UInt32 readSingleChannelRingBufferDataAsSInt16(AudioFileID audioFileID, AudioCon
     
 	
 	[audioPlayer play];
-    
+    self.playing = YES;
     
     //Visual
     
@@ -149,6 +347,7 @@ UInt32 readSingleChannelRingBufferDataAsSInt16(AudioFileID audioFileID, AudioCon
     
     //Audio
     [audioPlayer pause];
+    self.playing = NO;
     
     //Visual
     
@@ -170,12 +369,14 @@ UInt32 readSingleChannelRingBufferDataAsSInt16(AudioFileID audioFileID, AudioCon
 	[audioPlayer release];
 	audioPlayer = nil;
     
+    self.playing = NO;
+    
     [self.delegate.playPauseButton setImage:self.playImage forState:UIControlStateNormal];
 }
 
 #pragma mark - A Useful Timer
 - (void)startUpdateTimer {
-	timerThread = [[NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(updateCurrentTime) userInfo:nil repeats:YES] retain];
+	timerThread = [[NSTimer scheduledTimerWithTimeInterval:kBarUpdateInterval target:self selector:@selector(updateCurrentTime) userInfo:nil repeats:YES] retain];
 }
 
 /*//the thread starts by sending this message
@@ -226,10 +427,20 @@ UInt32 readSingleChannelRingBufferDataAsSInt16(AudioFileID audioFileID, AudioCon
      [timerThread invalidate];
      }*/
 	
+    //************************************
+    //Now grab this audio data and present to screen
 	
 }
 
 
+#pragma mark- Helper Functions
+
+- (UInt32)CalculateBytesForTime:(Float64)inSeconds
+{
+    UInt32 startByte = inSeconds * self.bitRate + self.dataOffset;
+    
+    return startByte;
+}
 
 
 

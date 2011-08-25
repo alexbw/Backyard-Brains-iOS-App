@@ -60,4 +60,6 @@ struct wave_s {
 - (void)pause;
 - (void)play;
 
+- (void)setVertexBufferXRangeFrom:(GLfloat)xBegin to:(GLfloat)xEnd;
+
 @end

@@ -129,7 +129,6 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 - (id)init;
 - (id)initWithCallbackType:(UInt32)callbackType;
 - (void)setupAudioSession:(UInt32)callbackType;
-- (void)setVertexBufferXRangeFrom:(GLfloat)xBegin to:(GLfloat)xEnd;
 
 - (void)fillVertexBufferWithAverageTriggeredSegments;
 - (void)changeCallbackTo:(int)callbackType;

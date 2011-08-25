@@ -8,6 +8,7 @@
 
 #import "PlaybackView.h"
 
+#define kNumPointsInPlaybackVertexBuffer 32768
 
 @implementation PlaybackView
 
@@ -57,7 +58,7 @@
 //	glColor4f(self.lineColor.R, self.lineColor.G, self.lineColor.B, self.lineColor.A);	
 	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
 	
-	glDrawArrays(GL_LINE_STRIP, 0, kNumPointsInVertexBuffer);
+	glDrawArrays(GL_LINE_STRIP, 0, kNumPointsInPlaybackVertexBuffer);
 }
 
 

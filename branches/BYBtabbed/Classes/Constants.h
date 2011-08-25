@@ -1,5 +1,6 @@
 #define kNumPointsInWave 131072 // Must be power of two for efficient ring buffer.
 #define kNumPointsInVertexBuffer 65536
+#define kNumPointsInPlaybackVertexBuffer 32768
 #define kNumPointsInTriggerBuffer kNumPointsInVertexBuffer
 #define kNumPointsInFirstBuffer 1024
 #define kMaxWidthToShowWhenTriggeringInMilliseconds 200

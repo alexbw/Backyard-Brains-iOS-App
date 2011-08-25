@@ -10,6 +10,8 @@
 
 #import "PlaybackViewController.h"
 
+#define kNumPointsInPlaybackVertexBuffer 32768
+
 @implementation PlaybackViewController
 
 @synthesize playPauseButton;
@@ -41,10 +43,11 @@
 
 	self.pbView = (PlaybackView *)[self view];
     
+    self.file = [delegate.files objectAtIndex:0];
     
     //grab preferences
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
-	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
+	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"PlaybackView.plist"];
 	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
 	[self dispersePreferences];		
     
@@ -60,29 +63,31 @@
                                                         action:@selector(pushTrigger)] autorelease];
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
-    self.file = [delegate.files objectAtIndex:0];
     
     if (self.apm == nil)
-        self.apm = [[AudioPlaybackManager alloc] init];
+        self.apm = [[AudioPlaybackManager alloc] initWithBBFile:self.file];
     self.apm.delegate = self;
     [self.apm grabNewFile];
     
     
     self.pbView.apm = self.apm;
     
+    //set x values of vertex buffer
+	[self.apm setVertexBufferXRangeFrom:self.pbView.xMin to:self.pbView.xMax];
     
- 
+    //Reset wait frames so the view will automatically set the viewing frame
+    self.apm.nWaitFrames = 0;
+    
+    
+    //Unused stuff from Continuous Wave View:
     
 	//[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
     
 	//self.pbView.audioSignalManager = self.audioSignalManager;
     //self.audioSignalManager.delegate = self;
-	//[self.apm setVertexBufferXRangeFrom:self.pbView.xMin to:self.pbView.xMax];
 	//self.pbView.audioSignalManager.triggering = NO;
 	//[self.apm startPlayback]; //tk NEW
     
-    //Reset wait frames so the view will automatically set the viewing frame
-    self.apm.nWaitFrames = 0;
     //self.audioSignalManager.nTrigWaitFrames = 0;
 	
 	//self.pbView.gridVertexBuffer = (struct wave_s *)malloc(2*(self.pbView.numHorizontalGridLines+self.pbView.numVerticalGridLines)*sizeof(struct wave_s));
@@ -91,6 +96,8 @@
       //  (struct wave_s *)malloc(2*4*(self.pbView.numHorizontalGridLines+self.pbView.numVerticalGridLines)*sizeof(struct wave_s));
 	
     //[self.pbView updateMinorGridLines];
+    
+    
 	
 	[self.pbView startAnimation];
     
@@ -122,7 +129,7 @@
 
 /*- (IBAction)startPlaying:(UIButton *)sender {
  
- self.apm = [[AudioPlaybackManager alloc] initWithFile:self.bbFile];
+ self.apm = [[AudioPlaybackManager alloc] initWithBBFile:self.file];
  [self.apm startPlayback];
  
  }
@@ -174,7 +181,7 @@
 	self.pbView.gridColor = tmpGridColor;
 	
 	// Set the limits on what we're drawing
-	self.pbView.xMin = -1000*kNumPointsInVertexBuffer/self.drawingDataManager.samplingRate;	
+	self.pbView.xMin = -1000*kNumPointsInPlaybackVertexBuffer/self.file.samplingrate;	
 	self.pbView.xMax = [[preferences valueForKey:@"xMax"] floatValue];
 	self.pbView.xBegin = [[preferences valueForKey:@"xBegin"] floatValue];
 	self.pbView.xEnd = [[preferences valueForKey:@"xEnd"] floatValue];

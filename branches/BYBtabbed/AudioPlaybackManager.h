@@ -19,29 +19,43 @@
 
 
 @interface AudioPlaybackManager : DrawingDataManager {
-
+    @protected
     BBFile *file;
-    AudioFileID fileHandle; // should use pure-C for speed.
-    int numBytesToRead; 
+    
 	AudioConverterRef audioConverter;
+    
+    //see: http://stackoverflow.com/questions/1905010/iphone-combine-audio-files
+    
     
     // Instance variables that are not properties
 	AVAudioPlayer *audioPlayer;
 	NSTimer *timerThread;
     
     UIImage *playImage, *pauseImage;
+    
+    BOOL playing;
+    
+    @public
+        AudioFileID fileHandle;
+        UInt64 numBytesToRead, dataOffset, bitRate;
 }
 
 @property (nonatomic, retain) BBFile *file;
 @property AudioFileID fileHandle;
 
+@property UInt64 numBytesToRead, dataOffset, bitRate;
+
 @property (nonatomic, retain) UIImage *playImage, *pauseImage;
+
+@property BOOL playing;
+
+//@property (nonatomic, retain) AVAudioPlayer *audioPlayer;
 
 - (void)grabNewFile;
 
 - (void)updateCurrentTimeTo:(float)time;
 
-- (void)playPause;
+- (BOOL)playPause;
 
 - (void)stop;
 
@@ -52,6 +66,10 @@
 //- (void)fillVertexBufferWithAudioData;
 //- (void)pause;
 //- (void)play;
+
+- (id)initWithBBFile:(BBFile *)theFile;
+- (UInt32)CalculateBytesForTime:(Float64)inSeconds;
+
 
 
 @end
