@@ -48,11 +48,6 @@
 
 }
 
-- (void)awakeFromNib {
-	[super awakeFromNib];	
-	// Preallocate the NSMutableSet tracking touches
-	currentTouches = [[NSMutableSet alloc] initWithCapacity:2];
-}
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -66,10 +61,13 @@
 											 selector:@selector(didRotate:)
 												 name:UIDeviceOrientationDidChangeNotification
 											   object:nil];*/
+
+	// Preallocate the NSMutableSet tracking touches
+	self.currentTouches = [[NSMutableSet alloc] initWithCapacity:2];
 	
 }
-/*
-- (void)viewWillAppear:(BOOL)animated {
+
+/*- (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	UIInterfaceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
 	
@@ -77,6 +75,7 @@
 		[self fitTickMarksToLandscape];
 		
 	}
+    
 	
 }
 

@@ -55,6 +55,7 @@
 
 - (void)viewWillAppear:(BOOL)animated { //tk move all this crap to DrawingViewConroller
 	[super viewWillAppear:animated];
+    
 	
     self.navigationItem.title = self.file.subname;
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Trigger"
@@ -258,14 +259,14 @@
 
 - (void)updateDataLabels {
 	
-	NSLog(@"yLabel x: %f, y: %f", yUnitsPerDivLabel.frame.origin.x, yUnitsPerDivLabel.frame.origin.y);
+	NSLog(@"yLabel x: %f, y: %f", self.yUnitsPerDivLabel.frame.origin.x, self.yUnitsPerDivLabel.frame.origin.y);
 	// Spin through all the UILabels that we have control of, and make em better.
 
 	float xPerDiv = (self.pbView.xEnd - self.pbView.xBegin)/3.0f;
-	float yPerDiv = (self.pbView.yEnd - self.pbView.yBegin)/(4.0f*self.drawingDataManager.gain*kVoltScaleFactor);
+	float yPerDiv = (self.pbView.yEnd - self.pbView.yBegin)/(4.0f*self.file.gain*kVoltScaleFactor);
 	
-	xUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.1f ms", xPerDiv];
-	yUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.2f mV", yPerDiv];
+	self.xUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.1f ms", xPerDiv];
+	self.yUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.2f mV", yPerDiv];
 	
 }
 
@@ -273,19 +274,19 @@
 
 - (void)shouldAutoSetFrame
 {
-     /*
+     
     //get a frame
-    ringBuffer *playbackBuffer = self.audioSignalManager.playbackBuffer; //tk NEW
+    struct wave_s *playbackBuffer = self.apm.vertexBuffer;
     
     float theMax = 0, theMin = 0;
     
     //find limits
-    for (int i=0; i<playbackBuffer->sizeOfBuffer; i++) {
+    for (int i=0; i<kNumPointsInPlaybackVertexBuffer; i++) {
         
-        if (playbackBuffer->data[i] > theMax)
-            theMax = playbackBuffer->data[i];
-        else if (playbackBuffer->data[i] < theMin)
-            theMin = playbackBuffer->data[i];
+        if (playbackBuffer[i].y > theMax)
+            theMax = playbackBuffer[i].y;
+        else if (playbackBuffer[i].y < theMin)
+            theMin = playbackBuffer[i].y;
         
     }
     
@@ -306,7 +307,7 @@
         
         [self updateDataLabels];
 
-    }*/
+    }
 }
 
 #pragma mark - Multitouch

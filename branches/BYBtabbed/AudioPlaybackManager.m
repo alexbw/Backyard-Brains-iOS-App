@@ -11,6 +11,7 @@
 
 #define kBarUpdateInterval 0.5f
 #define kNumPointsInPlaybackVertexBuffer 32768
+#define kNumWaitFrames 5
 
 
 SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Float64 seconds) {
@@ -18,16 +19,25 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
     //int numSamplesToWrite = kNumPointsInWave;
 	
     AudioFileID audioFileID = THIS->fileHandle;
-    UInt32 ioNumBytes = THIS->numBytesToRead;
-    UInt32 startByte = seconds * THIS->bitRate + THIS->dataOffset;
+    UInt32 startByte = seconds * THIS->bitRate;// + THIS->dataOffset;
     
-    NSLog(@"Data offset: %llu", THIS->dataOffset);
-    NSLog(@"Starting byte is %lu and num of bytes is %lu", startByte, ioNumBytes);
+    UInt32 ioNumBytes = kNumPointsInPlaybackVertexBuffer*sizeof(SInt16);
+    if (ioNumBytes > THIS->byteCount)
+        ioNumBytes = THIS->byteCount - startByte;
+    if (ioNumBytes <= 0)
+    {
+        THIS->numBytesRead = 0;
+        return nil;
+    }
     
     void *tempBuffer = malloc(ioNumBytes);
     
+    NSLog(@"Starting byte is %lu and num of bytes is %lu", startByte, ioNumBytes);
+    
+    
 	// Read from audio to file now
 	OSStatus status = AudioFileReadBytes(audioFileID, YES, startByte, &ioNumBytes, tempBuffer);
+    THIS->numBytesRead = ioNumBytes;
     
 	if (status)
     {
@@ -38,6 +48,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
     {
         
 		NSLog(@"AudioFileReadBytes succeeded with ioNumBytes: %lu", ioNumBytes);
+
         if (ioNumBytes > 0) {
             
             SInt16 *outBuffer = (SInt16 *)tempBuffer;
@@ -130,7 +141,8 @@ static void AQTestBufferCallback(void *inUserData, AudioQueueRef inAQ, AudioQueu
 @synthesize file;
 @synthesize fileHandle;
 @synthesize playImage, pauseImage;
-@synthesize numBytesToRead, dataOffset, bitRate;
+@synthesize numBytesRead, dataOffset, bitRate, byteCount;
+@synthesize lastTime;
 @synthesize playing;
 //@synthesize audioPlayer;
 
@@ -162,45 +174,21 @@ static void AQTestBufferCallback(void *inUserData, AudioQueueRef inAQ, AudioQueu
         
         
         
-        //Get size of read interval
-        UInt64 numBytes = kNumPointsInPlaybackVertexBuffer*sizeof(SInt16);
-        //kNumPointsInWave?
-        //kRecordingTimerIntervalInSeconds*self.file.samplingrate*sizeof(SInt16)*4*file.filelength;
-        self.numBytesToRead = numBytes;
-        //NSLog(@"Num points in wave: %d", kNumPointsInWave);
-        NSLog(@"Num bytes to read: %llu", numBytes);
-        
-        //Get header offset, byte count, bit rate
+        //Get byte count
         UInt64 outData = 0;
         UInt32 outDataSize = sizeof(UInt64);
-        AudioFileGetProperty (  self.fileHandle,
-                                kAudioFilePropertyDataOffset,
-                                &outDataSize,
-                                &outData
-                             );
-        self.dataOffset = outData;
-        NSLog(@"Data offset: %llu", outData);
-        
-        outData = 0;
-        outDataSize = sizeof(UInt64);
         AudioFileGetProperty (  self.fileHandle,
                                 kAudioFilePropertyAudioDataByteCount,
                               &outDataSize,
                               &outData
                               );
         NSLog(@"Byte count: %llu", outData);
+        self.byteCount = outData;
         
-        /*outData = 0;
-        outDataSize = sizeof(UInt64);
-        AudioFileGetProperty (  self.fileHandle,
-                                kAudioFilePropertyBitRate,
-                                &outDataSize,
-                                &outData
-                              );*/
         
         //should be 44100:
         self.bitRate = self.file.samplingrate*2;
-        NSLog(@"detected Bit Rate: %llu", self.bitRate);
+        NSLog(@"bit rate: %llu", self.bitRate);
         
         //Just read out all the audio data
         
@@ -233,6 +221,9 @@ static void AQTestBufferCallback(void *inUserData, AudioQueueRef inAQ, AudioQueu
 
 - (void)updateCurrentTimeTo:(float)time
 {
+    audioPlayer.currentTime = time;
+    if (self.playing)
+        [self pause];
 }
 
 
@@ -243,25 +234,54 @@ static void AQTestBufferCallback(void *inUserData, AudioQueueRef inAQ, AudioQueu
 - (void)fillVertexBufferWithAudioData
 {
     
-    if (self.playing) {
+    if (audioPlayer != nil)
+    {
         
         //get the current time
         Float64 tNow = audioPlayer.currentTime;
-        NSLog(@"Time now is %f", tNow);
-        
-        //UInt32 startingByte = [self CalculateBytesForTime:tNow];
-
-
-        SInt16 *outBuffer = readSingleChannelRingBufferDataAsSInt16(self, tNow);
-        //NSLog(@"Read is done: %u", isDone);
-        if (outBuffer == nil)
-            [self pause];
-        
-        NSLog(@"size of outBuffer: %lu", sizeof(outBuffer));
-        for (int i = 0; i < self.numBytesToRead/sizeof(SInt16); ++i)
+        if (tNow != self.lastTime)
         {
-            self.vertexBuffer[i].y = outBuffer[i];
-            //NSLog(@"x %f y %f", vertexBuffer[i].x, vertexBuffer[i].y);
+            NSLog(@"Time now is %f", tNow);
+            
+            SInt16 *outBuffer = readSingleChannelRingBufferDataAsSInt16(self, tNow);
+
+            if (outBuffer == nil)
+            {
+                [self stop];
+                for (int i = 0; i < kNumPointsInPlaybackVertexBuffer; ++i)
+                {
+                    self.vertexBuffer[i].y = 0;
+                }
+            }
+            else
+            {
+                NSLog(@"bytes read out: %llu", self.numBytesRead);
+                
+                for (int i = 0; i < kNumPointsInPlaybackVertexBuffer; ++i)
+                {
+                    self.vertexBuffer[i].y = outBuffer[i];
+                }
+                
+            }
+            self.lastTime = tNow;
+        }
+        
+        //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
+        if (self.nWaitFrames < kNumWaitFrames)
+        {
+            self.nWaitFrames += 1;
+        }
+        else if (self.nWaitFrames == kNumWaitFrames)
+        {
+            [delegate shouldAutoSetFrame];
+            self.nWaitFrames += 1;
+        }
+    }
+    else
+    {
+        for (int i = 0; i < kNumPointsInPlaybackVertexBuffer; ++i)
+        {
+            self.vertexBuffer[i].y = 0;
         }
     }
 }

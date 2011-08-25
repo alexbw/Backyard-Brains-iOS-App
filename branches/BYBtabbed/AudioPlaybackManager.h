@@ -35,19 +35,23 @@
     
     BOOL playing;
     
+    Float64 lastTime;
+    
     @public
         AudioFileID fileHandle;
-        UInt64 numBytesToRead, dataOffset, bitRate;
+        UInt64 numBytesRead, dataOffset, bitRate, byteCount;
 }
 
 @property (nonatomic, retain) BBFile *file;
 @property AudioFileID fileHandle;
 
-@property UInt64 numBytesToRead, dataOffset, bitRate;
+@property UInt64 numBytesRead, dataOffset, bitRate, byteCount;
 
 @property (nonatomic, retain) UIImage *playImage, *pauseImage;
 
 @property BOOL playing;
+
+@property Float64 lastTime;
 
 //@property (nonatomic, retain) AVAudioPlayer *audioPlayer;
 
