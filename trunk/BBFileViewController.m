@@ -43,7 +43,7 @@
 		self.navigationItem.title = @"Your files";
 		
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Done"
-														style: UIBarButtonSystemItemDone
+														style: UIBarButtonItemStyleDone
 														target:self
 														action:@selector(done)] autorelease];
         
@@ -121,7 +121,17 @@
 {
     if (inPseudoEditMode)
     {
-        [cell.actionButton setImage:self.unselectedImage forState:UIControlStateNormal];
+        if ([[self.selectedArray objectAtIndex:[indexPath row]] boolValue])
+        {
+            [cell.actionButton setImage:self.selectedImage forState:UIControlStateNormal];
+        }
+        else
+        {
+            [cell.actionButton setImage:self.unselectedImage forState:UIControlStateNormal];
+        }
+        //move title
+        //remove accessory
+        
         //cell.accessoryType = UITableViewCellAccessoryNone;
     }
     else

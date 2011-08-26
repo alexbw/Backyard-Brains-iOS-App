@@ -53,9 +53,9 @@
 		self.audioSignalManager.vertexBuffer[i].y = 0.0f;
 	}
 	
-    // if num is nil, keep the same moving average
     if (num)
         th->sizeOfMovingAverage = num;
+    // if num is 0, keep the same moving average
     
     th->movingAverageIncrement = 1;
 
@@ -337,10 +337,10 @@
 		self.lastPointOne = pointOne;
 		
 		//Now reset the averaging
-        [self resetNumTriggerAveragesTo:nil]; //nil to keep the current value
+        [self resetNumTriggerAveragesTo:0]; //0 to keep the current value
 		
 	}
-	/*else { Uncomment to enable side-to-side translation
+	/*else { //Uncomment to enable side-to-side translation
 
 		// Find the amount of pinching change relative to the screen size
 		float viewWidth  = self.triggerView.bounds.size.width;
