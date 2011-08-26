@@ -42,6 +42,12 @@
 
 - (IBAction)updateNumTriggerAverages:(UISlider *)sender {
 	self.numAveragesLabel.text = [NSString stringWithFormat:@"%dx avg", (int)sender.value];
+    [self resetNumTriggerAveragesTo:(int)sender.value];
+}
+
+- (void)resetNumTriggerAveragesTo:(int)num
+{
+    
 	triggeredSegmentHistory *th = self.audioSignalManager.triggerSegmentData;
 	// Zero out all the old segments
 	memset(th, 0, sizeof(th));
@@ -49,8 +55,12 @@
 		self.audioSignalManager.vertexBuffer[i].y = 0.0f;
 	}
 	
-	th->sizeOfMovingAverage = (int)sender.value;
+    if (num)
+        th->sizeOfMovingAverage = num;
+    // if num is 0, keep the same moving average
+    
     th->movingAverageIncrement = 1;
+    
 }
 
 
@@ -332,10 +342,11 @@
 		
 		self.lastPointOne = pointOne;
 		
-		
+		//Now reset the averaging
+        [self resetNumTriggerAveragesTo:0]; //0 to keep the current value
 		
 	}
-	else {
+	/*else { //Uncomment to enable side-to-side translation
 
 		// Find the amount of pinching change relative to the screen size
 		float viewWidth  = self.triggerView.bounds.size.width;
@@ -359,9 +370,9 @@
 		float newxEnd = self.triggerView.xEnd + deltaX;
 
 		totalWidthDisplayed = (triggerView.yEnd - triggerView.yBegin);
-		/*float deltaY = totalWidthDisplayed*self.changeInY;
-		float newyBegin = self.triggerView.yBegin - deltaY;
-		float newyEnd = self.triggerView.yEnd - deltaY;*/
+		//float deltaY = totalWidthDisplayed*self.changeInY;
+		//float newyBegin = self.triggerView.yBegin - deltaY;
+		//float newyEnd = self.triggerView.yEnd - deltaY;
 		
 		// Make sure we can't scale the x-axis past the number of collected samples,
 		// and also not less than 10 milliseconds
@@ -375,12 +386,12 @@
 			self.triggerView.xEnd = newxEnd;
 		}
 		
-		/*beginIsGreaterThanMin = newyBegin > self.triggerView.yMin;
-		endIsLessThanMax = newyEnd < self.triggerView.yMax;
-		beginIsBeforeTrigger = newyBegin < self.audioSignalManager.thresholdValue;
-		endIsAftertrigger = newyEnd > self.audioSignalManager.thresholdValue;*/
+		//beginIsGreaterThanMin = newyBegin > self.triggerView.yMin;
+		//endIsLessThanMax = newyEnd < self.triggerView.yMax;
+		//beginIsBeforeTrigger = newyBegin < self.audioSignalManager.thresholdValue;
+		//endIsAftertrigger = newyEnd > self.audioSignalManager.thresholdValue;
 		
-	}
+	}*/
 }
 
 - (void)handlePinchingForTriggerView {

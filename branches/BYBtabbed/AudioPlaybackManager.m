@@ -53,7 +53,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
             
             SInt16 *outBuffer = (SInt16 *)tempBuffer;
             
-            for (int i=0; i < ioNumBytes/sizeof(SInt16); ++i) {
+            for (int i=0; i < ioNumBytes/sizeof(SInt16); ++i) {//tk
                 // We've gotta swap each sample's byte order from big endian to host format...
                 outBuffer[i] = CFSwapInt16BigToHost(outBuffer[i]);
             }
@@ -70,81 +70,17 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
     
 }
 
-/*
-// ***********************
-// AudioQueueOutputCallback function used to push data into the audio queue
-
-static void AQTestBufferCallback(void *inUserData, AudioQueueRef inAQ, AudioQueueBufferRef inCompleteAQBuffer) 
-{
-    AQTestInfo * myInfo = (AQTestInfo *)inUserData;
-    if (myInfo->mDone) return;
-    
-    UInt32 numBytes;
-    UInt32 nPackets = myInfo->mNumPacketsToRead;
-    OSStatus result = AudioFileReadPackets(myInfo->mAudioFile[myInfo->mCurrentAudioFile],      // The audio file from which packets of audio data are to be read.
-                                           false,                   // Set to true to cache the data. Otherwise, set to false.
-                                           &numBytes,               // On output, a pointer to the number of bytes actually returned.
-                                           myInfo->mPacketDescs,    // A pointer to an array of packet descriptions that have been allocated.
-                                           myInfo->mCurrentPacket,  // The packet index of the first packet you want to be returned.
-                                           &nPackets,               // On input, a pointer to the number of packets to read. On output, the number of packets actually read.
-                                           inCompleteAQBuffer->mAudioData); // A pointer to user-allocated memory.
-    if (result) {
-        DebugMessageN1 ("Error reading from file: %d\n", (int)result);
-        exit(1);
-    }
-    
-    // we have some data
-    if (nPackets > 0) {
-        inCompleteAQBuffer->mAudioDataByteSize = numBytes;
-        
-        result = AudioQueueEnqueueBuffer(inAQ,                                  // The audio queue that owns the audio queue buffer.
-                                         inCompleteAQBuffer,                    // The audio queue buffer to add to the buffer queue.
-                                         (myInfo->mPacketDescs ? nPackets : 0), // The number of packets of audio data in the inBuffer parameter. See Docs.
-                                         myInfo->mPacketDescs);                 // An array of packet descriptions. Or NULL. See Docs.
-        if (result) {
-            DebugMessageN1 ("Error enqueuing buffer: %d\n", (int)result);
-            exit(1);
-        }
-        
-        myInfo->mCurrentPacket += nPackets;
-        
-    } else {
-        // **** This ensures that we flush the queue when done -- ensures you get all the data out ****
-        
-        if (!myInfo->mFlushed) {
-            result = AudioQueueFlush(myInfo->mQueue[myInfo->mCurrentAudioFile]);
-            
-            if (result) {
-                DebugMessageN1("AudioQueueFlush failed: %d", (int)result);
-                exit(1);
-            }
-            
-            myInfo->mFlushed = true;
-        }
-        
-        result = AudioQueueStop(myInfo->mQueue[myInfo->mCurrentAudioFile], false);
-        if (result) {
-            DebugMessageN1("AudioQueueStop(false) failed: %d", (int)result);
-            exit(1);
-        }
-        
-        // reading nPackets == 0 is our EOF condition
-        myInfo->mDone = true;
-    }
-}
-*/
-
-
 
 @implementation AudioPlaybackManager
 
 @synthesize file;
-@synthesize fileHandle;
 @synthesize playImage, pauseImage;
-@synthesize numBytesRead, dataOffset, bitRate, byteCount;
+
 @synthesize lastTime;
 @synthesize playing;
-//@synthesize audioPlayer;
+
+@synthesize fileHandle;
+@synthesize numBytesRead, dataOffset, bitRate, byteCount;
 
 - (id)initWithBBFile:(BBFile *)theFile
 {
@@ -154,7 +90,6 @@ static void AQTestBufferCallback(void *inUserData, AudioQueueRef inAQ, AudioQueu
         
 		self.vertexBuffer = (struct wave_s *)malloc(kNumPointsInPlaybackVertexBuffer*sizeof(struct wave_s));
         NSLog(@"Num points in vertex buffer: %d", kNumPointsInPlaybackVertexBuffer);
-        NSLog(@"Size of GLFloat %lu vs. size of SInt16 %lu", sizeof(GLfloat), sizeof(SInt16));
         
         self.nWaitFrames = 0;
         
@@ -204,6 +139,11 @@ static void AQTestBufferCallback(void *inUserData, AudioQueueRef inAQ, AudioQueu
   }
     
     return self;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
 }
 
 - (void)dealloc

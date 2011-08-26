@@ -32,14 +32,78 @@ void sessionPropertyListener(void *                  inClientData,
 		
 		// Uncomment if you want to force an override of the audio output route.
 		// Not particularly recommended.
-//		UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
-//		AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
-//								 sizeof (audioRouteOverride),
-//								 &audioRouteOverride);
-
+        //		UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+        //		AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+        //								 sizeof (audioRouteOverride),
+        //								 &audioRouteOverride);
+        
+        //because play and record plays back through the top speaker to avoid
+        //feedback from the mic! See checks below.
+        
 		NSString* routeStr = (NSString*)route;
 		NSLog(@"AudioRoute: %@", routeStr);
 
+        /* Known values of route:
+         * "Headset"
+         * "Headphone"
+         * "Speaker"
+         * "SpeakerAndMicrophone"
+         * "HeadphonesAndMicrophone"
+         * "HeadsetInOut"
+         * "ReceiverAndMicrophone"
+         * "Lineout"
+         */
+        
+        NSRange headphoneRange = [routeStr rangeOfString : @"Headphone"];
+        NSRange headsetRange = [routeStr rangeOfString : @"Headset"];
+        NSRange receiverRange = [routeStr rangeOfString : @"Receiver"];
+        NSRange speakerRange = [routeStr rangeOfString : @"Speaker"];
+        NSRange lineoutRange = [routeStr rangeOfString : @"Lineout"];
+        
+        if (headphoneRange.location != NSNotFound) {
+            // Don't change the route if the headphone is plugged in.
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+            
+        } else if(headsetRange.location != NSNotFound) {
+            // Don't change the route if the headset is plugged in.
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+            
+        } else if (receiverRange.location != NSNotFound) {
+            // Change to play on the speaker
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+            
+        } else if (speakerRange.location != NSNotFound) {
+            // Make sure it's the speaker
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+            
+        } else if (lineoutRange.location != NSNotFound) {
+            // Don't change the route if the lineout is plugged in.
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+        } else {
+            NSLog(@"Unknown audio route.");
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_None;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                                     sizeof (audioRouteOverride),
+                                     &audioRouteOverride);
+        }
+        
+
+        
 		UInt32 inputAvailable=0;
 		UInt32 size = sizeof(inputAvailable);
 		AudioSessionGetProperty(kAudioSessionProperty_AudioInputAvailable, 
@@ -205,7 +269,7 @@ static OSStatus averageTriggerDisplayOutputCallback(void *inRefCon,
 		int indexThresholdCrossing = findThresholdCrossing(incomingAudio, inNumberFrames, [asm thresholdValue], [asm triggerType]);
 		
 		if (indexThresholdCrossing != -1) { 
-			NSLog(@"Crossing at %d... adding to %lu averages", indexThresholdCrossing, th->sizeOfMovingAverage);
+			NSLog(@"Crossing at %d... adding to %lu averages", indexThresholdCrossing, th->movingAverageIncrement);
 
 			isTriggered = YES;
 			haveAllAudio = NO;
@@ -226,6 +290,10 @@ static OSStatus averageTriggerDisplayOutputCallback(void *inRefCon,
 			
 			th->lastReadSample[th->currentSegment] = lastFreshSample;
 			th->lastWrittenSample[th->currentSegment] = 0;
+            
+            //increment the moving average until it reaches the desired number
+            if (th->movingAverageIncrement < th->sizeOfMovingAverage)
+                ++th->movingAverageIncrement;
 		}
 		
 	}
@@ -644,7 +712,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 
 	// Enable IO
 	UInt32 one = 1;
-	err = AudioUnitSetProperty(outputAudioUnit, 
+	err = AudioUnitSetProperty(self.outputAudioUnit, 
 							   kAudioOutputUnitProperty_EnableIO, 
 							   kAudioUnitScope_Input, 
 							   kInputBus, 
@@ -677,7 +745,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	audioFormat.mBytesPerPacket		= 2;
 	audioFormat.mBytesPerFrame		= 2;
 	
-	err = AudioUnitSetProperty(outputAudioUnit, 
+	err = AudioUnitSetProperty(self.outputAudioUnit, 
 							   kAudioUnitProperty_StreamFormat, 
 							   kAudioUnitScope_Output, 
 							   kInputBus, 
@@ -685,7 +753,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 							   sizeof(audioFormat));
 	NSAssert(err == noErr, @"Error setting Output Scope for Bus 1 (from microphone to app)");
 	
-	err = AudioUnitSetProperty(outputAudioUnit, 
+	err = AudioUnitSetProperty(self.outputAudioUnit, 
 							   kAudioUnitProperty_StreamFormat, 
 							   kAudioUnitScope_Input, 
 							   kOutputBus, 
@@ -697,7 +765,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	// Check that we properly set the sampling rate
 	Float64 outSampleRate = 0.0;
 	size = sizeof(Float64);
-	AudioUnitGetProperty (outputAudioUnit,
+	AudioUnitGetProperty (self.outputAudioUnit,
 						  kAudioUnitProperty_SampleRate,
 						  kAudioUnitScope_Output,
 						  kInputBus,
@@ -718,20 +786,20 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		case kAudioCallbackSingleShotTrigger:
 			playbackCallbackStruct.inputProc = singleShotTriggerCallback;
 			singleShotTriggerCallbackData *sd = (singleShotTriggerCallbackData *)malloc(sizeof(singleShotTriggerCallbackData));
-			sd->au = outputAudioUnit;
-			sd->ssb = secondStageBuffer;
-			sd->vb = vertexBuffer;
+			sd->au = self.outputAudioUnit;
+			sd->ssb = self.secondStageBuffer;
+			sd->vb = self.vertexBuffer;
 			sd->asm = self;
 			playbackCallbackStruct.inputProcRefCon = sd;
 			break;
 		case kAudioCallbackAverageTrigger:
 			playbackCallbackStruct.inputProc = averageTriggerDisplayOutputCallback;
 			averageTriggerCallbackData *td = (averageTriggerCallbackData *)malloc(sizeof(averageTriggerCallbackData));
-			td->au = outputAudioUnit;
-			td->ssb = secondStageBuffer;
-			td->vb = vertexBuffer;
+			td->au = self.outputAudioUnit;
+			td->ssb = self.secondStageBuffer;
+			td->vb = self.vertexBuffer;
 			td->asm = self;
-			td->th = triggerSegmentData;
+			td->th = self.triggerSegmentData;
 			playbackCallbackStruct.inputProcRefCon = td;
 			break;
 		default: // default to continuous readout
@@ -869,7 +937,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 //	static GLfloat normfactor = 0.0;
 	
 
-	
+	 
 	triggeredSegmentHistory *th = self.triggerSegmentData;
 //		normfactor += (normfactor < th->sizeOfMovingAverage)?1.0f:0.0f;
 	int normfactor = th->movingAverageIncrement; //sizeOfMovingAverage;
@@ -903,10 +971,6 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		}
 		
 	}
-    
-    //increment the moving average until it reaches the desired number
-    if (th->movingAverageIncrement < th->sizeOfMovingAverage)
-        ++th->movingAverageIncrement;
     
 	
     //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
@@ -953,7 +1017,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 - (void)pause {
 	
 	if (!paused) {
-		OSStatus err = AudioOutputUnitStop(outputAudioUnit);
+		OSStatus err = AudioOutputUnitStop(self.outputAudioUnit);
         NSLog(@"err = %ld", err);
 		paused = YES;
 	}
@@ -971,7 +1035,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	if ( inputAvailable ) {
 		// Set the audio session category for simultaneous play and record
 		if (paused) {
-			OSStatus err = AudioOutputUnitStart(outputAudioUnit);
+			OSStatus err = AudioOutputUnitStart(self.outputAudioUnit);
 			NSLog(@"err = %ld", err);			
 			paused = NO;
 		}

@@ -1,6 +1,5 @@
 //
 //  AudioSignalManager.h
-//  TESTAGAIN
 //
 //  Created by Alex Wiltschko on 9/26/09.
 //  Modified by Zachary King:
@@ -99,7 +98,6 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 
 @property SInt16 *firstStageBuffer;
 @property ringBuffer *secondStageBuffer;
-//@property struct wave_s *vertexBuffer;
 @property triggeredSegmentHistory *triggerSegmentData;
 
 @property AudioBufferList auBufferList;

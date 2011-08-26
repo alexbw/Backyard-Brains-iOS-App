@@ -10,6 +10,7 @@
 #import "AudioSignalManager.h"
 #import "DrawingViewController.h"
 #import "BBFileViewController.h"
+#import "AVFoundation/AVAudioSession.h"
 
 @interface BBTabViewController : UITabBarController <DrawingViewControllerDelegate> {
 	

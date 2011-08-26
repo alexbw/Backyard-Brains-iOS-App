@@ -49,6 +49,12 @@
 		E9B7FFF713E74A970013A1A6 /* DrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFF413E74A970013A1A6 /* DrawingViewController.m */; };
 		E9B7FFF813E74A970013A1A6 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFF613E74A970013A1A6 /* EAGLView.m */; };
 		E9B7FFFE13E74D940013A1A6 /* TriggerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFFB13E74D940013A1A6 /* TriggerView.m */; };
+		E9BEB4D61407D8ED000D1743 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D01407D8ED000D1743 /* Icon-50.png */; };
+		E9BEB4D71407D8ED000D1743 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D11407D8ED000D1743 /* Icon-72.png */; };
+		E9BEB4D81407D8ED000D1743 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D21407D8ED000D1743 /* Icon-Small.png */; };
+		E9BEB4D91407D8ED000D1743 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D31407D8ED000D1743 /* Icon-Small@2x.png */; };
+		E9BEB4DA1407D8ED000D1743 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D41407D8ED000D1743 /* Icon.png */; };
+		E9BEB4DB1407D8ED000D1743 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D51407D8ED000D1743 /* Icon@2x.png */; };
 		E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */; };
 		E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */; };
 		E9C8B41313638A2E00F0ED8E /* LarvaJoltView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C8B41213638A2E00F0ED8E /* LarvaJoltView.xib */; };
@@ -130,7 +136,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* Backyard_BrainsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Backyard_BrainsAppDelegate.h; path = Classes/Backyard_BrainsAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* Backyard_BrainsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Backyard_BrainsAppDelegate.m; path = Classes/Backyard_BrainsAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* BYB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BYB.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* BYB 1.80.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 1.80.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* Backyard_Brains_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Backyard_Brains_Prefix.pch; sourceTree = "<group>"; };
@@ -189,6 +195,12 @@
 		E9B7FFF613E74A970013A1A6 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
 		E9B7FFFA13E74D940013A1A6 /* TriggerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerView.h; sourceTree = "<group>"; };
 		E9B7FFFB13E74D940013A1A6 /* TriggerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriggerView.m; sourceTree = "<group>"; };
+		E9BEB4D01407D8ED000D1743 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
+		E9BEB4D11407D8ED000D1743 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		E9BEB4D21407D8ED000D1743 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		E9BEB4D31407D8ED000D1743 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		E9BEB4D41407D8ED000D1743 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		E9BEB4D51407D8ED000D1743 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		E9C8B4061363885000F0ED8E /* LarvaJoltAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltAudio.h; sourceTree = "<group>"; };
 		E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltAudio.m; sourceTree = "<group>"; };
 		E9C8B4081363885000F0ED8E /* LarvaJoltViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltViewController.h; sourceTree = "<group>"; };
@@ -343,7 +355,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* BYB.app */,
+				1D6058910D05DD3D006BFB54 /* BYB 1.80.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -420,6 +432,19 @@
 				E9B7FFD613E748AE0013A1A6 /* PlaybackViewController.m */,
 			);
 			name = "Playback View";
+			sourceTree = "<group>";
+		};
+		E9BEB4DC1407D9BF000D1743 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				E9BEB4D01407D8ED000D1743 /* Icon-50.png */,
+				E9BEB4D11407D8ED000D1743 /* Icon-72.png */,
+				E9BEB4D21407D8ED000D1743 /* Icon-Small.png */,
+				E9BEB4D31407D8ED000D1743 /* Icon-Small@2x.png */,
+				E9BEB4D41407D8ED000D1743 /* Icon.png */,
+				E9BEB4D51407D8ED000D1743 /* Icon@2x.png */,
+			);
+			name = Icons;
 			sourceTree = "<group>";
 		};
 		E9C8B4001363882E00F0ED8E /* LarvaJolt */ = {
@@ -529,6 +554,7 @@
 		FA1636DF1131AECC003065AC /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E9BEB4DC1407D9BF000D1743 /* Icons */,
 				E9AB224313C550380054209F /* pause.png */,
 				E9AB224413C550380054209F /* pause@2x.png */,
 				E9AB224513C550380054209F /* play.png */,
@@ -765,7 +791,7 @@
 			);
 			name = "Backyard Brains";
 			productName = "Backyard Brains";
-			productReference = 1D6058910D05DD3D006BFB54 /* BYB.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* BYB 1.80.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -852,6 +878,12 @@
 				E9B7FFDF13E749020013A1A6 /* BBFileActionView.xib in Resources */,
 				E9B7FFEE13E7497A0013A1A6 /* ContinuousWaveView.plist in Resources */,
 				E9B7FFEF13E7497A0013A1A6 /* ContinuousWaveView.xib in Resources */,
+				E9BEB4D61407D8ED000D1743 /* Icon-50.png in Resources */,
+				E9BEB4D71407D8ED000D1743 /* Icon-72.png in Resources */,
+				E9BEB4D81407D8ED000D1743 /* Icon-Small.png in Resources */,
+				E9BEB4D91407D8ED000D1743 /* Icon-Small@2x.png in Resources */,
+				E9BEB4DA1407D8ED000D1743 /* Icon.png in Resources */,
+				E9BEB4DB1407D8ED000D1743 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -937,7 +969,8 @@
 				GCC_PREFIX_HEADER = Backyard_Brains_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
-				PRODUCT_NAME = BYB;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				PRODUCT_NAME = "BYB 1.80";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -957,7 +990,8 @@
 				GCC_PREFIX_HEADER = Backyard_Brains_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
-				PRODUCT_NAME = "Backyard Brains";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				PRODUCT_NAME = BYB;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -973,6 +1007,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
@@ -987,6 +1022,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};

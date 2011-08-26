@@ -8,13 +8,41 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "DrawingViewController.m"
-         timestampString = "335994193.401948"
+         filePath = "AudioPlaybackManager.m"
+         timestampString = "336056903.888673"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "66"
-         endingLineNumber = "66"
-         landmarkName = "-viewDidLoad"
+         startingLineNumber = "56"
+         endingLineNumber = "56"
+         landmarkName = "readSingleChannelRingBufferDataAsSInt16()"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "AudioPlaybackManager.m"
+         timestampString = "336057259.72465"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "87"
+         endingLineNumber = "87"
+         landmarkName = "-initWithBBFile:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "AudioSignalManager.m"
+         timestampString = "336064150.521823"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "953"
+         endingLineNumber = "953"
+         landmarkName = "-fillVertexBufferWithAverageTriggeredSegments"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

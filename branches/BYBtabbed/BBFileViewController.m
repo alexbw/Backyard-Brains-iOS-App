@@ -163,6 +163,23 @@
 		cell.shortname.text = thisFile.shortname; //[[allFiles objectAtIndex:indexPath.row] shortname];
 		cell.subname.text = thisFile.subname; //[[allFiles objectAtIndex:indexPath.row] subname];
         
+        if (self.inPseudoEditMode)
+        {
+            CGRect labelRect =  CGRectMake(36, 11, 216, 21);
+            CGRect subRect =    CGRectMake(36, 29, 216, 15);
+            
+            
+            cell.actionButton.hidden = NO;
+            if ([[self.selectedArray objectAtIndex:[indexPath row]] boolValue])
+                [cell.actionButton setImage:self.selectedImage forState:normal];
+            else
+                [cell.actionButton setImage:self.unselectedImage forState:normal];
+                 
+            [cell.shortname setFrame:labelRect];
+            [cell.subname setFrame:subRect];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        
         return cell;
 	}
 	else if (indexPath.section == 1)
