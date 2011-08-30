@@ -16,7 +16,7 @@
 
 @protocol BBFileActionViewControllerDelegate
 @required
-    @property (nonatomic, retain) NSArray *files;
+    @property (nonatomic, retain) NSArray *filesSelectedForAction;
     - (void)deleteTheFiles:(NSArray *)files;
 @end
 

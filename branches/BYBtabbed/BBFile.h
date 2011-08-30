@@ -42,5 +42,6 @@ typedef struct _stimulationLog {
 @property int stimLog;
 
 - (id)initWithRecordingFile;
+- (id)initWithFilePath:(NSString *)path;
 
 @end

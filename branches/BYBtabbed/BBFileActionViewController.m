@@ -56,7 +56,7 @@
 {
     [super viewWillAppear:animated];
     
-    self.files = self.delegate.files;
+    self.files = self.delegate.filesSelectedForAction;
     
     
     if ([self.files count] == 1) //single file
@@ -182,6 +182,7 @@
             [theFilenames addObject:thisFile.filename];
         }
         self.fileNamesToShare = (NSArray *)theFilenames;
+        [theFilenames release];
         
         BBFileDownloadViewController *downloadViewController = [[BBFileDownloadViewController alloc] initWithNibName:@"BBFileDownloadView" bundle:nil];
         downloadViewController.delegate = self;

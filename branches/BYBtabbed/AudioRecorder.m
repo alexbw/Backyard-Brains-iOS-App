@@ -65,7 +65,7 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 
 - (void)dealloc {
 	
-//	[bbFile release];
+//	[bbFile release]; //released in stopRecording
 	[asm release];
     [aTimer release];
 	
@@ -202,8 +202,8 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 - (void)timerTick {
 	
 	if ([self.timerThread isCancelled]) {
-		[self.aTimer invalidate];
-		[self.timerThread release];
+		[aTimer invalidate];
+		[timerThread release];
 		return;
 	}
 	bytePosition = writeSingleChannelRingBufferDataToFileAsSInt16(self.fileHandle, audioConverter, self.asm.secondStageBuffer, outBuffer, bytePosition);

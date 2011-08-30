@@ -12,13 +12,16 @@
 #import "BBFile.h"
 #import "BBFileTableCell.h"
 #import "BBFileActionViewController.h"
+#import "DropboxSDK.h"
 
 
-@interface BBFileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BBFileTableCellDelegate, BBFileActionViewControllerDelegate>
+@interface BBFileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, BBFileTableCellDelegate, BBFileActionViewControllerDelegate, DBLoginControllerDelegate, DBRestClientDelegate>
 {
     IBOutlet UITableView *theTableView;
+    IBOutlet UIButton *dbStatusBar;
 	
 	NSMutableArray *allFiles;
+    NSArray *filesSelectedForAction;
     
 	NSMutableArray *selectedArray;
 	BOOL inPseudoEditMode;
@@ -26,27 +29,37 @@
 	UIImage *unselectedImage;
     NSUInteger lastRowSelected;
     
-    NSArray *files;
+	NSDictionary *preferences;
+    
+    DBRestClient *restClient;
+    NSString *status;
+    
+    NSArray* filePaths;
+    NSString* filesHash;
+    
+    NSTimer *syncTimer;
+    NSArray *lastFilePaths;
+    
+    NSString *docPath;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
+@property (nonatomic, retain) IBOutlet UIButton *dbStatusBar;
 @property (nonatomic, retain) NSMutableArray *allFiles;
 
 @property (nonatomic, retain) NSMutableArray *selectedArray;
 @property BOOL inPseudoEditMode;
-@property (nonatomic, retain) UIImage *selectedImage;
-@property (nonatomic, retain) UIImage *unselectedImage;
 
 - (IBAction)togglePseudoEditMode;
-- (void)populateSelectedArray;
-- (void)populateSelectedArrayWithSelectionAt:(int)num;
 
-- (void)pushActionView;
-
-- (NSString *)stringWithFileLengthFromBBFile:(BBFile *)thisFile;
 
 //For BBFileActionViewControllerDelegate
-@property (nonatomic, retain) NSArray *files;
-- (void)deleteTheFiles:(NSArray *)theseFiles;
+//@property (nonatomic, retain) NSArray *files;
+//- (void)deleteTheFiles:(NSArray *)theseFiles;
+
+//For DBLoginControllerDelegate
+//- (void)loginControllerDidLogin:(DBLoginController*)controller;
+//- (void)loginControllerDidCancel:(DBLoginController*)controller;
+    
 
 @end

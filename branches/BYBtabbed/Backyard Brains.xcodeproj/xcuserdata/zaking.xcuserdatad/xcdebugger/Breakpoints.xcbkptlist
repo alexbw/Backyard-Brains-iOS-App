@@ -8,14 +8,14 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "AudioPlaybackManager.m"
-         timestampString = "336056903.888673"
+         filePath = "BBFile.m"
+         timestampString = "336428188.206076"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "56"
-         endingLineNumber = "56"
-         landmarkName = "readSingleChannelRingBufferDataAsSInt16()"
-         landmarkType = "7">
+         startingLineNumber = "78"
+         endingLineNumber = "78"
+         landmarkName = "-initWithFilePath:"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
@@ -23,26 +23,26 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "AudioPlaybackManager.m"
-         timestampString = "336057259.72465"
+         timestampString = "336428297.535971"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "87"
-         endingLineNumber = "87"
-         landmarkName = "-initWithBBFile:"
+         startingLineNumber = "273"
+         endingLineNumber = "273"
+         landmarkName = "-play"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "No"
+         shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "AudioSignalManager.m"
-         timestampString = "336064150.521823"
+         filePath = "AudioPlaybackManager.m"
+         timestampString = "336428332.692986"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "953"
-         endingLineNumber = "953"
-         landmarkName = "-fillVertexBufferWithAverageTriggeredSegments"
+         startingLineNumber = "107"
+         endingLineNumber = "107"
+         landmarkName = "-initWithBBFile:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

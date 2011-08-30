@@ -28,7 +28,7 @@
 	[recordButton release];
 	[stopButton release];
     [stimButton release];
-    [audioRecorder release]; //released in stopRecordering: too
+    [audioRecorder release]; //released in stopRecord ing: too
     
     [cwView release];
     

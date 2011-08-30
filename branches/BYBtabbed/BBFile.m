@@ -67,6 +67,31 @@
 	return self;
 }
 
+- (id)initWithFilePath:(NSString *)path
+{
+    if ((self = [super init]))
+    {
+        //get all this from the metadata:
+        self.date = [NSDate date];		
+        
+        
+		self.filename = path;
+		
+		self.shortname = path;
+		
+		self.subname = @"";
+		
+		self.comment = @"";
+        
+		self.hasStim = NO;
+    
+		self.samplingrate   = 0;
+		self.gain           = 0;
+    }
+    
+    return self;
+}
+
 
 - (void)deleteObject {
 	[super deleteObject];

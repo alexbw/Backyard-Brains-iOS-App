@@ -7,6 +7,7 @@
 //
 
 #import "Backyard_BrainsAppDelegate.h"
+#import "DropboxSDK.h"
 
 @class GainViewController;
 
@@ -50,6 +51,13 @@
 	NSLog(@"sample rate = %@", samplerate);
     NSLog(@"led control frequency = %@", ledcontrolfreq);
     
+    //Dropbox code:
+    DBSession* dbSession = 
+    [[[DBSession alloc]
+      initWithConsumerKey:@"gko0ired85ogh0e"
+      consumerSecret:@"vmxyfeju241zqpk"]
+     autorelease];
+    [DBSession setSharedSession:dbSession];
     
 		
 	UIApplication *thisApp = [UIApplication sharedApplication];
