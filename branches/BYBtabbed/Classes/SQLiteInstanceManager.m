@@ -1,4 +1,4 @@
-//
+    //
 //  SQLiteInstanceManager.m
 // ----------------------------------------------------------------------
 // Part of the SQLite Persistent Objects for Cocoa and Cocoa Touch

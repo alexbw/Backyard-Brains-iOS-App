@@ -3,35 +3,15 @@
 //  Backyard Brains
 //
 //  Created by Alex Wiltschko on 2/6/10.
-//  Copyright 2010 University of Michigan. All rights reserved.
+//  Modified by Zachary King
+//      9-15-2011 Most of the code here was moved elsewhere.
+//  Copyright 2010 Backyard Brains. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "AudioSignalManager.h"
-#import "DrawingViewController.h"
-#import "BBFileViewController.h"
-#import "AVFoundation/AVAudioSession.h"
 
-@interface BBTabViewController : UITabBarController <DrawingViewControllerDelegate> {
-	
-	// So the App Delegate can receive tab-change events
-	IBOutlet id <UITabBarDelegate> delegate;
-	
-	// For the GainViewControllerDelegate protocol
-	float gain;
-	
-	// For the DrawingViewControllerDelegate protocol
-	DrawingDataManager *drawingDataManager;
+@interface BBTabViewController : UITabBarController {
 
 }
 
-
-@property (nonatomic, retain) DrawingDataManager *drawingDataManager;
-@property float gain;
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
-
-// gvcdelegate protocol
-- (float) gain;
-- (void) setGain:(float)newGain;
 @end

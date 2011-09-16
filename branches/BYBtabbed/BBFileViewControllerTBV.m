@@ -1,24 +1,21 @@
-//NOTE:
-// This has been replaced by BBFileViewControllerTBV, a subclass of UITableViewController
-
-
-
-
 //
-//  BBFileTableViewController.m
+//  BBFileTableViewControllerTBV.m
 //  Backyard Brains
 //
-//  Created by Alex Wiltschko on 2/21/10.
-//  Modified by Zachary King
-//      7/12/11 Set up everything for new tabbed interface. Removed audio player.
-//  Copyright 2010 Backyard Brains. All rights reserved.
+//  Created by Zachary King on 9-15-2011
+//  Copyright 2011 Backyard Brains. All rights reserved.
 //
+
+
+#import "BBFileViewControllerTBV.h"
+#import "FirstDetailViewController.h"
+#import "SecondDetailViewController.h"
 
 #import "BBFileViewController.h"
 
 #define kSyncWaitTime 10 //seconds
 
-@interface BBFileViewController()
+@interface BBFileViewControllerTBV()
 
 - (void)populateSelectedArray;
 - (void)populateSelectedArrayWithSelectionAt:(int)num;
@@ -51,7 +48,10 @@
 @end
 
 
-@implementation BBFileViewController
+
+
+
+@implementation BBFileViewControllerTBV
 
 
 @synthesize theTableView, dbStatusBar, allFiles;
@@ -65,9 +65,14 @@
 @synthesize restClient;
 @synthesize status, syncTimer, lastFilePaths, docPath;
 
+@synthesize popoverController, splitViewController, rootPopoverButtonItem;
+
+
+#pragma mark - Memory management
 
 - (void)dealloc {
-    [super dealloc];
+    [popoverController release];
+    [rootPopoverButtonItem release];
     [theTableView release];
     [dbStatusBar release];
 	[allFiles release];
@@ -80,43 +85,66 @@
     [status release];
     [syncTimer release];
     [lastFilePaths release];
+    [super dealloc];
 }
 
 
 
-/*- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	
-	if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
 
-		
-    }
-    return self;
+
+#pragma mark -
+#pragma mark View lifecycle
+
+- (void)viewDidLoad {
+    
+    [super viewDidLoad];
+    // Set the content size for the popover: there are just two rows in the table view, so set to rowHeight*2.
+}
+
+-(void) viewDidUnload {
+	[super viewDidUnload];
 	
-}*/
+	self.splitViewController = nil;
+	self.rootPopoverButtonItem = nil;
+}
+
+
 
 - (void)viewWillAppear:(BOOL)animated 
 {	
 	[super viewWillAppear:animated];
     
+    
+    self.theTableView = self.tableView;
+    self.theTableView.rowHeight = 54;
+    
     self.selectedImage =    [UIImage imageNamed:@"selected.png"];
     self.unselectedImage =  [UIImage imageNamed:@"unselected.png"];
     
-    self.navigationItem.leftBarButtonItem.action = @selector(togglePseudoEditMode);
-    self.navigationItem.leftBarButtonItem.target = self;
-    self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStylePlain;
-
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc]
+                                       initWithTitle:@"Select"
+                                               style:UIBarButtonItemStylePlain 
+                                              target:self 
+                                              action:@selector(togglePseudoEditMode)] 
+                            autorelease];
+    
+    
     UIImage *dbImage = [UIImage imageNamed:@"dropbox.png"];
     /*UIButton *dbButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    dbButton.bounds = CGRectMake( 0, 0, dbImage.size.width, dbImage.size.height );
-    [dbButton setImage:dbImage forState:UIControlStateNormal];
-    dbButton.style = UIBarButtonItemStylePlain;
-    dbButton.target = self;
-    dbButton.action = @selector(pushDropboxSettings);
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:dbButton] autorelease];*/
+     dbButton.bounds = CGRectMake( 0, 0, dbImage.size.width, dbImage.size.height );
+     [dbButton setImage:dbImage forState:UIControlStateNormal];
+     dbButton.style = UIBarButtonItemStylePlain;
+     dbButton.target = self;
+     dbButton.action = @selector(pushDropboxSettings);
+     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:dbButton] autorelease];*/
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:dbImage style:UIBarButtonItemStylePlain target:self action:@selector(dbButtonPressed)] autorelease];
     self.navigationItem.rightBarButtonItem.width = dbImage.size.width;
     
 	self.allFiles = [NSMutableArray arrayWithArray:[BBFile allObjects]];
+    
+    self.contentSizeForViewInPopover =
+        CGSizeMake(310.0, (self.tableView.rowHeight * ([self.allFiles count] +1)));
+    
     self.inPseudoEditMode = NO;
     
     [self populateSelectedArray];
@@ -134,7 +162,6 @@
     self.docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
-
 - (void)viewWillDisappear:(BOOL)animated {
 	//[self collectPreferences];
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
@@ -149,48 +176,34 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-	// Release anything that can be recreated in viewDidLoad or on demand.
-	// e.g. self.myOutlet = nil;
+
+#pragma mark -
+#pragma mark Rotation support
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return YES;
+    else
+        return (interfaceOrientation == UIInterfaceOrientationPortrait);
+
 }
 
-#pragma mark Table view methods
 
+#pragma mark -
+#pragma mark Table view data source
 
-//UITableViewDelegate
- - (void)tableView:(UITableView *)tableView willDisplayCell:(BBFileTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([indexPath indexAtPosition:0] == 0) //section # is 0
-    {
-        cell.delegate = self;
-    }
-}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
 
 
-// Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if (section == 0) //tk or is it 1?
-	{
-		return [allFiles count];
-	} else if (section == 1) {
-        
-        if ([self.selectedArray containsObject:[NSNumber numberWithBool:YES]])
-            return 1; //for multiple edit
-        else
-            return 0;
-	}
-    return 0;
-}
 
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-
+    
+    
 	if (indexPath.section == 0)
 	{
 		static int numcellsmade = 0;
@@ -200,7 +213,7 @@
 		BBFileTableCell *cell = (BBFileTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) 
 		{
-		
+            
 			NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"BBFileTableCell" owner:nil options:nil];
 			
 			for(id currentObject in topLevelObjects)
@@ -211,7 +224,7 @@
 					break;
 				}
 			}
-		
+            
 		}
 		
 		BBFile *thisFile = [allFiles objectAtIndex:indexPath.row];
@@ -236,7 +249,7 @@
                 [cell.actionButton setImage:self.selectedImage forState:normal];
             else
                 [cell.actionButton setImage:self.unselectedImage forState:normal];
-                 
+            
             [cell.shortname setFrame:labelRect];
             [cell.subname setFrame:subRect];
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -251,7 +264,7 @@
         if (cell == nil)
         {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"editMultipleCell"] autorelease];
-
+            
             cell.textLabel.text = @"Edit multiple files";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
@@ -260,18 +273,83 @@
 	
     return NULL;
 }
+ 
+
+//UITableViewDelegate
+- (void)tableView:(UITableView *)tableView willDisplayCell:(BBFileTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([indexPath indexAtPosition:0] == 0) //section # is 0
+    {
+        cell.delegate = self;
+    }
+}
+
+// Customize the number of rows in the table view.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	if (section == 0) //tk or is it 1?
+	{
+		return [allFiles count];
+	} else if (section == 1) {
+        
+        if ([self.selectedArray containsObject:[NSNumber numberWithBool:YES]])
+            return 1; //for multiple edit
+        else
+            return 0;
+	}
+    return 0;
+}
 
 
- - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	 
-	 NSLog(@"=== Cell selected! === ");
+
+#pragma mark Table view selection
+
+//Keep this around to control the detail view:::
+/*- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+     //Create and configure a new detail view controller appropriate for the selection.
      
-     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-     
-     [self cellActionTriggeredFrom:(BBFileTableCell *)[tableView cellForRowAtIndexPath:indexPath]];
-	 	 
- }
+    NSUInteger row = indexPath.row;
+    
+    UIViewController <SubstitutableDetailViewController> *detailViewController = nil;
 
+    if (row == 0) {
+        FirstDetailViewController *newDetailViewController = [[FirstDetailViewController alloc] initWithNibName:@"FirstDetailView" bundle:nil];
+        detailViewController = newDetailViewController;
+    }
+
+    if (row == 1) {
+        SecondDetailViewController *newDetailViewController = [[SecondDetailViewController alloc] initWithNibName:@"SecondDetailView" bundle:nil];
+        detailViewController = newDetailViewController;
+    }
+
+    // Update the split view controller's view controllers array.
+    NSArray *viewControllers = [[NSArray alloc] initWithObjects:self.navigationController, detailViewController, nil];
+    splitViewController.viewControllers = viewControllers;
+    [viewControllers release];
+    
+    // Dismiss the popover if it's present.
+    if (popoverController != nil) {
+        [popoverController dismissPopoverAnimated:YES];
+    }
+
+    // Configure the new view controller's popover button (after the view has been displayed and its toolbar/navigation bar has been created).
+    if (rootPopoverButtonItem != nil) {
+        [detailViewController showRootPopoverButtonItem:self.rootPopoverButtonItem];
+    }
+
+    [detailViewController release];
+}*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSLog(@"=== Cell selected! === ");
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+    [self cellActionTriggeredFrom:(BBFileTableCell *)[tableView cellForRowAtIndexPath:indexPath]];
+    
+}
 
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -301,7 +379,7 @@
     self.filesSelectedForAction = (NSArray *)theFiles;
     [theFiles release];
     
-    BBFileActionViewControllerTBV *actionViewController = [[BBFileActionViewControllerTBV alloc] initWithNibName:@"BBFileActionView" bundle:nil];
+    BBFileActionViewControllerTBV *actionViewController = [[BBFileActionViewControllerTBV alloc] init];
     actionViewController.delegate = self;
     
     [self.navigationController pushViewController:actionViewController animated:YES];
@@ -311,14 +389,14 @@
 
 
 
-#pragma mark - Select multiple functions
+#pragma mark Select multiple functions
 
 
 - (IBAction)togglePseudoEditMode
 {
     //toggle the mode
     self.inPseudoEditMode = !inPseudoEditMode;
-
+    
     //reset the selected array
     [self populateSelectedArray];
     
@@ -329,7 +407,7 @@
     
     //set new frames
     if(inPseudoEditMode) {
-                
+        
         self.navigationItem.leftBarButtonItem.title = @"Select";
         self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleDone;
         
@@ -338,7 +416,7 @@
             if ([path indexAtPosition:0] == 0) //section # is 0
             {
                 BBFileTableCell *cell = (BBFileTableCell *)[self.theTableView cellForRowAtIndexPath:path];
-
+                
                 
                 CGRect labelRect =  CGRectMake(36, 11, 216, 21);
                 CGRect subRect =    CGRectMake(36, 29, 216, 15);
@@ -397,10 +475,10 @@
 {
     NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:[allFiles count]];
 	for (int i=0; i < [allFiles count]; i++)
-    if (num == i)
-        [array addObject:[NSNumber numberWithBool:YES]];
-    else
-        [array addObject:[NSNumber numberWithBool:NO]];
+        if (num == i)
+            [array addObject:[NSNumber numberWithBool:YES]];
+        else
+            [array addObject:[NSNumber numberWithBool:NO]];
 	self.selectedArray = array;
 	[array release];
 }
@@ -419,7 +497,7 @@
             
             BOOL selected = ![[selectedArray objectAtIndex:theRow] boolValue];
             [selectedArray replaceObjectAtIndex:theRow withObject:[NSNumber numberWithBool:selected]];
-             
+            
             NSLog(@"Cell is selected: %i", selected);
             
             if (selected)
@@ -442,6 +520,30 @@
         [self pushActionView];
     }
 }
+
+#pragma mark - splitview methods
+
+
+- (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
+    
+    // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
+    barButtonItem.title = @"Root View Controller";
+    self.popoverController = pc;
+    self.rootPopoverButtonItem = barButtonItem;
+    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
+    [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
+}
+
+
+- (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
+    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
+    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
+    self.popoverController = nil;
+    self.rootPopoverButtonItem = nil;
+}
+
 
 
 
@@ -514,7 +616,7 @@
                                                         selector:@selector(dbUpdateTimedOut)
                                                         userInfo:nil
                                                          repeats:NO];
-
+        
     } else {
         [self setStatus:@""];
     }
@@ -540,7 +642,7 @@
 
 
 - (void)setStatus:(NSString *)theStatus { //setter
-
+    
     status = theStatus;
     [self.dbStatusBar setTitle:theStatus forState:UIControlStateNormal];
     if ([theStatus isEqualToString:@""])
@@ -623,9 +725,9 @@
             NSString *fileToLoad = [newPaths objectAtIndex:l];
             [self.restClient loadFile:fileToLoad intoPath:self.docPath];
             BBFile *theFile =
-                [[BBFile alloc] initWithFilePath:
-                    [fileToLoad stringByReplacingOccurrencesOfString:@"/BYB files/"
-                                                          withString:@""]];
+            [[BBFile alloc] initWithFilePath:
+             [fileToLoad stringByReplacingOccurrencesOfString:@"/BYB files/"
+                                                   withString:@""]];
             //Get file length
             NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[self.docPath stringByAppendingPathComponent:fileToLoad]];
             AudioFileID fileHandle;
@@ -697,7 +799,7 @@
 }
 
 - (void)restClient:(DBRestClient*)client loadThumbnailFailedWithError:(NSError*)error {
-   self.status = @"Failed to load thumbnail";
+    self.status = @"Failed to load thumbnail";
 }
 
 - (DBRestClient*)restClient { //getter
@@ -754,6 +856,7 @@
 
 
 @end
+
 
 
 

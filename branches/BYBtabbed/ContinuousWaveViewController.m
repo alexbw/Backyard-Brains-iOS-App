@@ -12,9 +12,7 @@
 
 @implementation ContinuousWaveViewController
 
-@synthesize recordButton;
 @synthesize stopButton;
-@synthesize stimButton;
 @synthesize audioRecorder;
 @synthesize audioSignalManager;
 
@@ -24,10 +22,6 @@
 
 - (void)dealloc {	
     [super dealloc];
-	
-	[recordButton release];
-	[stopButton release];
-    [stimButton release];
     [audioRecorder release]; //released in stopRecord ing: too
     
     [cwView release];

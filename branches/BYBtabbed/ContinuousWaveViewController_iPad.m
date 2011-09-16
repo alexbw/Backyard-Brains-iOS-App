@@ -12,8 +12,25 @@
 
 @implementation ContinuousWaveViewController_iPad
 
-- (void)dealloc {	
+@synthesize toolbar;
+@synthesize recordButton, infoBarButton, stimButton;
+
+
+
+- (void)dealloc {
+    [toolbar release];
+	[recordButton release];
+	[infoBarButton release];
+    [stimButton release];
     [super dealloc];
+}	
+
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    
+	self.toolbar = nil;
 }
 
 - (IBAction)displayInfoPopover:(UIButton *)sender {
@@ -39,5 +56,36 @@
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popover {
 	[self.drawingDataManager play];
 }
+
+#pragma mark -
+#pragma mark Managing the popover
+
+- (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    // Add the popover button to the toolbar.
+    NSMutableArray *itemsArray = [toolbar.items mutableCopy];
+    [itemsArray insertObject:barButtonItem atIndex:0];
+    [toolbar setItems:itemsArray animated:NO];
+    [itemsArray release];
+}
+
+
+- (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    // Remove the popover button from the toolbar.
+    NSMutableArray *itemsArray = [toolbar.items mutableCopy];
+    [itemsArray removeObject:barButtonItem];
+    [toolbar setItems:itemsArray animated:NO];
+    [itemsArray release];
+}
+
+- (IBAction)stopRecording:(UIButton *)sender {
+    [super stopRecording:sender];
+    
+	
+	
+}
+
+
 
 @end

@@ -1,3 +1,9 @@
+//NOTE:
+// This has been replaced by BBFileViewControllerTBV, a subclass of UITableViewController
+ 
+
+
+
 //
 //  BBFileTableViewController.h
 //  Backyard Brains
@@ -11,7 +17,7 @@
 #import <Foundation/Foundation.h>
 #import "BBFile.h"
 #import "BBFileTableCell.h"
-#import "BBFileActionViewController.h"
+#import "BBFileActionViewControllerTBV.h"
 #import "DropboxSDK.h"
 
 

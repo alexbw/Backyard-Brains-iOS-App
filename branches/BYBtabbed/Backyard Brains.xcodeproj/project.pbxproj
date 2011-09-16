@@ -20,8 +20,13 @@
 		E923442913B96D4D00C17C61 /* RoachDetailIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E923442113B96D4D00C17C61 /* RoachDetailIcon.png */; };
 		E923442A13B96D4D00C17C61 /* ThresholdImage.png in Resources */ = {isa = PBXBuildFile; fileRef = E923442213B96D4D00C17C61 /* ThresholdImage.png */; };
 		E923442B13B96D4D00C17C61 /* WaveImage.png in Resources */ = {isa = PBXBuildFile; fileRef = E923442313B96D4D00C17C61 /* WaveImage.png */; };
+		E93FF8B5142315CC00864D38 /* TabDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E93FF8B4142315CC00864D38 /* TabDetailView.xib */; };
 		E96C48B013C7AED600EAD5AA /* selected.png in Resources */ = {isa = PBXBuildFile; fileRef = E96C48AE13C7AED600EAD5AA /* selected.png */; };
 		E96C48B113C7AED600EAD5AA /* unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = E96C48AF13C7AED600EAD5AA /* unselected.png */; };
+		E99325D0142261E700CC76D5 /* TabDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325CB142261E700CC76D5 /* TabDetailViewController.m */; };
+		E99325D1142261E700CC76D5 /* BBFileViewControllerTBV.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325CD142261E700CC76D5 /* BBFileViewControllerTBV.m */; };
+		E99325DF14226FD600CC76D5 /* BBFileActionViewControllerTBV.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325DE14226FD600CC76D5 /* BBFileActionViewControllerTBV.m */; };
+		E99325E61422858200CC76D5 /* BBSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325E51422858200CC76D5 /* BBSplitViewController.m */; };
 		E9AB224D13C550380054209F /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224313C550380054209F /* pause.png */; };
 		E9AB224E13C550380054209F /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224413C550380054209F /* pause@2x.png */; };
 		E9AB224F13C550380054209F /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224513C550380054209F /* play.png */; };
@@ -37,7 +42,6 @@
 		E9B7FFD813E748AE0013A1A6 /* PlaybackView.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFD313E748AE0013A1A6 /* PlaybackView.plist */; };
 		E9B7FFD913E748AE0013A1A6 /* PlaybackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFD413E748AE0013A1A6 /* PlaybackView.xib */; };
 		E9B7FFDA13E748AE0013A1A6 /* PlaybackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFD613E748AE0013A1A6 /* PlaybackViewController.m */; };
-		E9B7FFDE13E749020013A1A6 /* BBFileActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFDC13E749020013A1A6 /* BBFileActionViewController.m */; };
 		E9B7FFDF13E749020013A1A6 /* BBFileActionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFDD13E749020013A1A6 /* BBFileActionView.xib */; };
 		E9B7FFE213E749390013A1A6 /* AudioSignalManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFE113E749390013A1A6 /* AudioSignalManager.m */; };
 		E9B7FFED13E7497A0013A1A6 /* ContinuousWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFE413E7497A0013A1A6 /* ContinuousWaveView.m */; };
@@ -156,7 +160,6 @@
 		FA88BDC51145B115006C2FE0 /* Share_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = FA88BDC11145B115006C2FE0 /* Share_inactive.png */; };
 		FA88BDC71145B34F006C2FE0 /* TransBar.png in Resources */ = {isa = PBXBuildFile; fileRef = FA88BDC61145B34F006C2FE0 /* TransBar.png */; };
 		FA88BDE01145B658006C2FE0 /* BBFileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA88BDDF1145B658006C2FE0 /* BBFileView.xib */; };
-		FA88BF061145C477006C2FE0 /* BBFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA88BF051145C477006C2FE0 /* BBFileViewController.m */; };
 		FA88C20A1146BF4E006C2FE0 /* BBFileTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA88C2091146BF4E006C2FE0 /* BBFileTableCell.xib */; };
 		FA88C20E1146BF6C006C2FE0 /* BBFileTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA88C20D1146BF6C006C2FE0 /* BBFileTableCell.m */; };
 		FA88C63811472085006C2FE0 /* BBFileDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA88C63611472085006C2FE0 /* BBFileDetailViewController.m */; };
@@ -203,8 +206,17 @@
 		E923442113B96D4D00C17C61 /* RoachDetailIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RoachDetailIcon.png; path = Images/RoachDetailIcon.png; sourceTree = "<group>"; };
 		E923442213B96D4D00C17C61 /* ThresholdImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ThresholdImage.png; path = Images/ThresholdImage.png; sourceTree = "<group>"; };
 		E923442313B96D4D00C17C61 /* WaveImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaveImage.png; path = Images/WaveImage.png; sourceTree = "<group>"; };
+		E93FF8B4142315CC00864D38 /* TabDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TabDetailView.xib; sourceTree = "<group>"; };
 		E96C48AE13C7AED600EAD5AA /* selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = selected.png; path = Images/selected.png; sourceTree = "<group>"; };
 		E96C48AF13C7AED600EAD5AA /* unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.png; path = Images/unselected.png; sourceTree = "<group>"; };
+		E99325CA142261E700CC76D5 /* TabDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabDetailViewController.h; sourceTree = "<group>"; };
+		E99325CB142261E700CC76D5 /* TabDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabDetailViewController.m; sourceTree = "<group>"; };
+		E99325CC142261E700CC76D5 /* BBFileViewControllerTBV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileViewControllerTBV.h; sourceTree = "<group>"; };
+		E99325CD142261E700CC76D5 /* BBFileViewControllerTBV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileViewControllerTBV.m; sourceTree = "<group>"; };
+		E99325DD14226FD600CC76D5 /* BBFileActionViewControllerTBV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileActionViewControllerTBV.h; sourceTree = "<group>"; };
+		E99325DE14226FD600CC76D5 /* BBFileActionViewControllerTBV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileActionViewControllerTBV.m; sourceTree = "<group>"; };
+		E99325E41422858200CC76D5 /* BBSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSplitViewController.h; path = Classes/BBSplitViewController.h; sourceTree = "<group>"; };
+		E99325E51422858200CC76D5 /* BBSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSplitViewController.m; path = Classes/BBSplitViewController.m; sourceTree = "<group>"; };
 		E9AB224313C550380054209F /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = Images/pause.png; sourceTree = "<group>"; };
 		E9AB224413C550380054209F /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pause@2x.png"; path = "Images/pause@2x.png"; sourceTree = "<group>"; };
 		E9AB224513C550380054209F /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Images/play.png; sourceTree = "<group>"; };
@@ -227,8 +239,6 @@
 		E9B7FFD413E748AE0013A1A6 /* PlaybackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaybackView.xib; sourceTree = "<group>"; };
 		E9B7FFD513E748AE0013A1A6 /* PlaybackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaybackViewController.h; sourceTree = "<group>"; };
 		E9B7FFD613E748AE0013A1A6 /* PlaybackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaybackViewController.m; sourceTree = "<group>"; };
-		E9B7FFDB13E749020013A1A6 /* BBFileActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileActionViewController.h; sourceTree = "<group>"; };
-		E9B7FFDC13E749020013A1A6 /* BBFileActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileActionViewController.m; sourceTree = "<group>"; };
 		E9B7FFDD13E749020013A1A6 /* BBFileActionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBFileActionView.xib; sourceTree = "<group>"; };
 		E9B7FFE013E749390013A1A6 /* AudioSignalManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSignalManager.h; sourceTree = "<group>"; };
 		E9B7FFE113E749390013A1A6 /* AudioSignalManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSignalManager.m; sourceTree = "<group>"; };
@@ -426,8 +436,6 @@
 		FA88BDC11145B115006C2FE0 /* Share_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Share_inactive.png; path = Images/Share_inactive.png; sourceTree = "<group>"; };
 		FA88BDC61145B34F006C2FE0 /* TransBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TransBar.png; path = Images/TransBar.png; sourceTree = "<group>"; };
 		FA88BDDF1145B658006C2FE0 /* BBFileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BBFileView.xib; sourceTree = "<group>"; };
-		FA88BF041145C477006C2FE0 /* BBFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileViewController.h; sourceTree = "<group>"; };
-		FA88BF051145C477006C2FE0 /* BBFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileViewController.m; sourceTree = "<group>"; };
 		FA88C2091146BF4E006C2FE0 /* BBFileTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BBFileTableCell.xib; sourceTree = "<group>"; };
 		FA88C20C1146BF6C006C2FE0 /* BBFileTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileTableCell.h; sourceTree = "<group>"; };
 		FA88C20D1146BF6C006C2FE0 /* BBFileTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileTableCell.m; sourceTree = "<group>"; };
@@ -559,6 +567,15 @@
 				288765070DF74369002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E99325D41422620700CC76D5 /* Split View */ = {
+			isa = PBXGroup;
+			children = (
+				E99325CA142261E700CC76D5 /* TabDetailViewController.h */,
+				E99325CB142261E700CC76D5 /* TabDetailViewController.m */,
+			);
+			name = "Split View";
 			sourceTree = "<group>";
 		};
 		E9B7000913E74FD50013A1A6 /* Action View */ = {
@@ -746,8 +763,9 @@
 		FA1636D11131AE27003065AC /* Display */ = {
 			isa = PBXGroup;
 			children = (
+				FA1636DC1131AE83003065AC /* Root Views */,
+				E99325D41422620700CC76D5 /* Split View */,
 				E9B7000913E74FD50013A1A6 /* Action View */,
-				FA1636DC1131AE83003065AC /* Tab Controller */,
 				FA1636DB1131AE70003065AC /* Continuous View */,
 				FA1636DE1131AEB2003065AC /* Trigger View */,
 				E9B7FFF913E74ACB0013A1A6 /* Playback View */,
@@ -795,23 +813,25 @@
 			children = (
 				E9B7FFE313E7497A0013A1A6 /* ContinuousWaveView.h */,
 				E9B7FFE413E7497A0013A1A6 /* ContinuousWaveView.m */,
+				E9B7FFEB13E7497A0013A1A6 /* ContinuousWaveViewController.h */,
+				E9B7FFEC13E7497A0013A1A6 /* ContinuousWaveViewController.m */,
 				E9B7FFE713E7497A0013A1A6 /* ContinuousWaveViewController_iPad.h */,
 				E9B7FFE813E7497A0013A1A6 /* ContinuousWaveViewController_iPad.m */,
 				E9B7FFE913E7497A0013A1A6 /* ContinuousWaveViewController_iPhone.h */,
 				E9B7FFEA13E7497A0013A1A6 /* ContinuousWaveViewController_iPhone.m */,
-				E9B7FFEB13E7497A0013A1A6 /* ContinuousWaveViewController.h */,
-				E9B7FFEC13E7497A0013A1A6 /* ContinuousWaveViewController.m */,
 			);
 			name = "Continuous View";
 			sourceTree = "<group>";
 		};
-		FA1636DC1131AE83003065AC /* Tab Controller */ = {
+		FA1636DC1131AE83003065AC /* Root Views */ = {
 			isa = PBXGroup;
 			children = (
 				FAF70EB1111E2385009E7EFA /* BBTabViewController.h */,
 				FAF70EB2111E2385009E7EFA /* BBTabViewController.m */,
+				E99325E41422858200CC76D5 /* BBSplitViewController.h */,
+				E99325E51422858200CC76D5 /* BBSplitViewController.m */,
 			);
-			name = "Tab Controller";
+			name = "Root Views";
 			sourceTree = "<group>";
 		};
 		FA1636DE1131AEB2003065AC /* Trigger View */ = {
@@ -883,6 +903,7 @@
 				FAF0528912BE90FB00568255 /* MainWindow_iPad.xib */,
 				E9B7FFE613E7497A0013A1A6 /* ContinuousWaveView.xib */,
 				FAF0528C12BE912700568255 /* ContinuousWaveView_iPad.xib */,
+				E93FF8B4142315CC00864D38 /* TabDetailView.xib */,
 				FA13338A111F289D00A89543 /* TriggerView.xib */,
 				FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */,
 				E9B7FFD413E748AE0013A1A6 /* PlaybackView.xib */,
@@ -890,6 +911,7 @@
 				FA88BDDF1145B658006C2FE0 /* BBFileView.xib */,
 				E9B7FFDD13E749020013A1A6 /* BBFileActionView.xib */,
 				FA163A2F1134A949003065AC /* BBFileDetailView.xib */,
+				FA16389F11322CCB003065AC /* BBFileDetailEdit.xib */,
 				FA88C2091146BF4E006C2FE0 /* BBFileTableCell.xib */,
 				FA88C76F114837EE006C2FE0 /* BBFileTitleEditorView.xib */,
 				FA88C81511486E85006C2FE0 /* BBFileCommentEditorView.xib */,
@@ -897,7 +919,6 @@
 				E9C8B41213638A2E00F0ED8E /* LarvaJoltView.xib */,
 				FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */,
 				FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */,
-				FA16389F11322CCB003065AC /* BBFileDetailEdit.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -945,10 +966,10 @@
 		FA1638611131FF7F003065AC /* File Table View */ = {
 			isa = PBXGroup;
 			children = (
-				FA88BF041145C477006C2FE0 /* BBFileViewController.h */,
-				FA88BF051145C477006C2FE0 /* BBFileViewController.m */,
-				E9B7FFDB13E749020013A1A6 /* BBFileActionViewController.h */,
-				E9B7FFDC13E749020013A1A6 /* BBFileActionViewController.m */,
+				E99325CC142261E700CC76D5 /* BBFileViewControllerTBV.h */,
+				E99325CD142261E700CC76D5 /* BBFileViewControllerTBV.m */,
+				E99325DD14226FD600CC76D5 /* BBFileActionViewControllerTBV.h */,
+				E99325DE14226FD600CC76D5 /* BBFileActionViewControllerTBV.m */,
 				FA88C20C1146BF6C006C2FE0 /* BBFileTableCell.h */,
 				FA88C20D1146BF6C006C2FE0 /* BBFileTableCell.m */,
 			);
@@ -1092,6 +1113,7 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Backyard Brains */;
 			projectDirPath = "";
@@ -1181,6 +1203,7 @@
 				E9BDF510140827E600899D31 /* db_logo.png in Resources */,
 				E9BDF511140827E600899D31 /* db_logo@2x.png in Resources */,
 				E9BDF51D140BE8D000899D31 /* BBFileViewController.plist in Resources */,
+				E93FF8B5142315CC00864D38 /* TabDetailView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1211,7 +1234,6 @@
 				FA1637DF1131F1A8003065AC /* UIColor-SQLitePersistentObject.m in Sources */,
 				FA1637E01131F1A8003065AC /* UIImage-SQLitePersistence.m in Sources */,
 				FA1637E31131F2F8003065AC /* BBFile.m in Sources */,
-				FA88BF061145C477006C2FE0 /* BBFileViewController.m in Sources */,
 				FA88C20E1146BF6C006C2FE0 /* BBFileTableCell.m in Sources */,
 				FA88C63811472085006C2FE0 /* BBFileDetailViewController.m in Sources */,
 				FA88C64B114821FF006C2FE0 /* BBFileTitleEditorViewController.m in Sources */,
@@ -1235,7 +1257,6 @@
 				E9B7FFCF13E747B00013A1A6 /* AudioPlaybackManager.m in Sources */,
 				E9B7FFD713E748AE0013A1A6 /* PlaybackView.m in Sources */,
 				E9B7FFDA13E748AE0013A1A6 /* PlaybackViewController.m in Sources */,
-				E9B7FFDE13E749020013A1A6 /* BBFileActionViewController.m in Sources */,
 				E9B7FFE213E749390013A1A6 /* AudioSignalManager.m in Sources */,
 				E9B7FFED13E7497A0013A1A6 /* ContinuousWaveView.m in Sources */,
 				E9B7FFF013E7497A0013A1A6 /* ContinuousWaveViewController_iPad.m in Sources */,
@@ -1281,6 +1302,10 @@
 				E9BDF502140827E600899D31 /* NSURL+MPURLParameterAdditions.m in Sources */,
 				E9BDF503140827E600899D31 /* NSURLResponse+Encoding.m in Sources */,
 				E9BDF504140827E600899D31 /* NSString+Dropbox.m in Sources */,
+				E99325D0142261E700CC76D5 /* TabDetailViewController.m in Sources */,
+				E99325D1142261E700CC76D5 /* BBFileViewControllerTBV.m in Sources */,
+				E99325DF14226FD600CC76D5 /* BBFileActionViewControllerTBV.m in Sources */,
+				E99325E61422858200CC76D5 /* BBSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

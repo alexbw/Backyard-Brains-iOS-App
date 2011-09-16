@@ -79,7 +79,7 @@
 		
 		self.shortname = path;
 		
-		self.subname = @"";
+		self.subname = path;
 		
 		self.comment = @"";
         

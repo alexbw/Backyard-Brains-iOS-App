@@ -15,6 +15,10 @@
 
 @synthesize window;
 @synthesize tabBarController;
+@synthesize splitViewController;
+@synthesize rootVC, detailVC;
+@synthesize drawingDataManager;
+
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
         
@@ -51,6 +55,8 @@
 	NSLog(@"sample rate = %@", samplerate);
     NSLog(@"led control frequency = %@", ledcontrolfreq);
     
+    
+    
     //Dropbox code:
     DBSession* dbSession = 
     [[[DBSession alloc]
@@ -59,24 +65,26 @@
      autorelease];
     [DBSession setSharedSession:dbSession];
     
-		
+    
+    
+	self.drawingDataManager = [[AudioSignalManager alloc] initWithCallbackType:kAudioCallbackContinuous];
+	[self.drawingDataManager play];
+    
+    
 	UIApplication *thisApp = [UIApplication sharedApplication];
 	thisApp.idleTimerDisabled = YES;
 
 	
     // Add the tab bar controller's current view as a subview of the window
-	[window addSubview:tabBarController.view];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [window addSubview:splitViewController.view];
+    else
+        [window addSubview:tabBarController.view];
 	
 	// make the window visible
 	[window makeKeyAndVisible];
-
 }
 
-
-// Optional UITabBarControllerDelegate method
-- (void)tabBarController:(BBTabViewController *)tabBarController didSelectViewController:(UIViewController *)viewController {	
-	// Should fire on tab changes
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
@@ -108,6 +116,9 @@
 - (void)dealloc {
     [tabBarController release];
     [window release];
+    [splitViewController release];
+    [rootVC release];
+    [detailVC release];
     [super dealloc];
 }
 

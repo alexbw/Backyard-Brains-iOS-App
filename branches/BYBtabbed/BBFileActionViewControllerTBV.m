@@ -1,31 +1,33 @@
 //
-//  BBFileActionViewController.m
+//  BBFileActionViewControllerTBV.m
 //  Backyard Brains
 //
 //  Created by Zachary King on 7/13/11.
 //  Copyright 2011 Backyard Brains. All rights reserved.
 //
 
-#import "BBFileActionViewController.h"
+#import "BBFileActionViewControllerTBV.h"
 
 
-@implementation BBFileActionViewController
+@implementation BBFileActionViewControllerTBV
 
 
-@synthesize theTableView;
+//@synthesize theTableView;
 @synthesize actionOptions;
 @synthesize fileNamesToShare;
 @synthesize delegate;
 @synthesize files;//audioSignalManager, files;
 
+@synthesize popoverController, splitViewController, rootPopoverButtonItem;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {    
 	if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-		self.theTableView.dataSource = self;
-		self.theTableView.delegate = self;
-		self.theTableView.sectionIndexMinimumDisplayRowCount=10;
-		self.theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+		self.tableView.dataSource = self;
+		self.tableView.delegate = self;
+		self.tableView.sectionIndexMinimumDisplayRowCount=10;
+		self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 		
     }
     return self;
@@ -57,7 +59,12 @@
     [super viewWillAppear:animated];
     
     self.files = self.delegate.filesSelectedForAction;
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        self.splitViewController = self.delegate.splitViewController;
+        self.popoverController = self.delegate.popoverController;
+        self.rootPopoverButtonItem = self.delegate.rootPopoverButtonItem;
+    }
     
     if ([self.files count] == 1) //single file
     {
@@ -84,7 +91,7 @@
     
     
     self.contentSizeForViewInPopover =
-        CGSizeMake(310.0, (self.theTableView.rowHeight * ([self.actionOptions count] +1)));
+        CGSizeMake(310.0, (self.tableView.rowHeight * ([self.actionOptions count] +1)));
 }
 
 - (void)viewDidUnload
@@ -92,12 +99,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark - TableViewDelegate methods
@@ -301,6 +302,40 @@
 {
 
 }
+
+#pragma mark -
+#pragma mark Rotation support
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return YES;
+    else
+        return (interfaceOrientation == UIInterfaceOrientationPortrait);
+
+}
+
+
+- (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
+    
+    // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
+    barButtonItem.title = @"Root View Controller";
+    self.popoverController = pc;
+    self.rootPopoverButtonItem = barButtonItem;
+    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
+    [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
+}
+
+
+- (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
+    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
+    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
+    self.popoverController = nil;
+    self.rootPopoverButtonItem = nil;
+}
+
 
 
 @end

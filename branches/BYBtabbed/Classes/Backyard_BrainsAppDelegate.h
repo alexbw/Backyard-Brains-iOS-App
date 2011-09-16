@@ -10,16 +10,32 @@
 #import "AudioSignalManager.h"
 #import "BBTabViewController.h"
 
-#import "BBFileViewController.h"
+#import "BBFileViewControllerTBV.h"
 #import "FirstTimeSpikersViewController.h"
+#import "DrawingDataManager.h"
+#import "TabDetailViewController.h"
 
-@interface Backyard_BrainsAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
+
+@interface Backyard_BrainsAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UISplitViewControllerDelegate, DrawingViewControllerDelegate> {
     UIWindow *window;
+    
     BBTabViewController *tabBarController;
+    
+    UISplitViewController *splitViewController;
+    BBFileViewControllerTBV *rootVC;
+    TabDetailViewController *detailVC;
+    
+    DrawingDataManager *drawingDataManager;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+
 @property (nonatomic, retain) IBOutlet BBTabViewController *tabBarController;
 
+@property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
+@property (nonatomic, retain) IBOutlet BBFileViewControllerTBV *rootVC;
+@property (nonatomic, retain) IBOutlet TabDetailViewController *detailVC;
+
+@property (nonatomic, retain) IBOutlet DrawingDataManager *drawingDataManager;
 
 @end

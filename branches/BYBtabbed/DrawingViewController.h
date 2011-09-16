@@ -13,7 +13,7 @@
 //#define kLandscapeHeightWithTabBar 270
 //#define kLandscapeHeightWithTabBar_iPad 736
 
-@protocol DrawingViewControllerDelegate //This will be BBTabViewController or ActionViewController
+@protocol DrawingViewControllerDelegate //This will be BBTabViewController or ActionViewController or BBSplitViewController
 @required
 @optional
     @property (nonatomic, retain) DrawingDataManager *drawingDataManager;
@@ -40,7 +40,7 @@
 	
 	NSDictionary *preferences;
 	
-	id <DrawingViewControllerDelegate> delegate;
+	IBOutlet id <DrawingViewControllerDelegate> delegate;
 	
 	IBOutlet UIImageView *tickMarks;
 	IBOutlet UIButton *infoButton;

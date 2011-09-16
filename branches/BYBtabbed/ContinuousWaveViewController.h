@@ -10,36 +10,34 @@
 
 #import "DrawingViewController.h"
 #import "ContinuousWaveView.h"
-#import "BBFileViewController.h"
+#import "BBFileViewControllerTBV.h"
 #import "AudioRecorder.h"
 #import "FlipsideInfoViewController.h"
 #import "LarvaJoltViewController.h"
 #import "math.h"
 
 
-@interface ContinuousWaveViewController : DrawingViewController <DrawingDataManagerDelegate> {
+@interface ContinuousWaveViewController : DrawingViewController <DrawingDataManagerDelegate>
+{
 	
-	// Data labels
-	IBOutlet UIButton *recordButton;
-	IBOutlet UIButton *stopButton;
-    IBOutlet UIButton *stimButton;
     
 	ContinuousWaveView *cwView;
 	
 	AudioRecorder *audioRecorder;
     
     AudioSignalManager *audioSignalManager;
+    
+	IBOutlet UIButton *stopButton;
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *recordButton;
-@property (nonatomic, retain) IBOutlet UIButton *stopButton;
-@property (nonatomic, retain) IBOutlet UIButton *stimButton;
 
 @property (nonatomic, retain) ContinuousWaveView *cwView;
 
 @property (nonatomic, retain) AudioRecorder *audioRecorder;
 
 @property (nonatomic, retain) AudioSignalManager *audioSignalManager;
+
+@property (nonatomic, retain) IBOutlet UIButton *stopButton;
 
 
 - (void)updateDataLabels;

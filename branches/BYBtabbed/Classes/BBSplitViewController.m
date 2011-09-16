@@ -1,19 +1,15 @@
 //
-//  BBTabViewController.m
+//  BBSplitViewController.m
 //  Backyard Brains
 //
-//  Created by Alex Wiltschko on 2/6/10.
-//  Modified by Zachary King
-//      9-15-2011 Most of the code here was moved elsewhere.
-//  Copyright 2010 Backyard Brains. All rights reserved.
+//  Created by Zachary King on 9-15-2011.
+//  Copyright 2011 University of Michigan. All rights reserved.
 //
 
-#import "BBTabViewController.h"
+#import "BBSplitViewController.h"
 
 
-@implementation BBTabViewController
-
-
+@implementation BBSplitViewController
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations

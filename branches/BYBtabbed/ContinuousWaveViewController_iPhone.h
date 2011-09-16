@@ -14,7 +14,13 @@
 
 @interface ContinuousWaveViewController_iPhone : ContinuousWaveViewController <UINavigationControllerDelegate, FlipsideInfoViewDelegate> {
 	
+	// Data labels
+	IBOutlet UIButton *recordButton;
+    IBOutlet UIButton *stimButton;
 }
+
+@property (nonatomic, retain) IBOutlet UIButton *recordButton;
+@property (nonatomic, retain) IBOutlet UIButton *stimButton;
 
 - (IBAction)displayInfoFlipside:(UIButton *)sender;
 
