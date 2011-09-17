@@ -19,6 +19,7 @@
 @synthesize audioSignalManager;
 
 @synthesize triggerView;
+@synthesize toolbar;
 
 
 - (void)dealloc {	
@@ -28,6 +29,7 @@
 	[numAveragesSlider release];
 	[numAveragesLabel release];
 	[audioSignalManager release];
+    [toolbar release];
 	
 	[super dealloc];
 
@@ -522,6 +524,31 @@
 		[self showAllLabels];
 	}
 }
+
+
+
+#pragma mark -
+#pragma mark Managing the popover
+
+- (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    // Add the popover button to the toolbar.
+    NSMutableArray *itemsArray = [self.toolbar.items mutableCopy];
+    [itemsArray insertObject:barButtonItem atIndex:0];
+    [self.toolbar setItems:itemsArray animated:NO];
+    [itemsArray release];
+}
+
+
+- (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    // Remove the popover button from the toolbar.
+    NSMutableArray *itemsArray = [self.toolbar.items mutableCopy];
+    [itemsArray removeObject:barButtonItem];
+    [self.toolbar setItems:itemsArray animated:NO];
+    [itemsArray release];
+}
+
 
 
 @end

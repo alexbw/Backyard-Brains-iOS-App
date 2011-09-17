@@ -8,13 +8,17 @@
 @synthesize toolbar;
 @synthesize tabBarController;
 
+@synthesize drawingDataManager, delegate;
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self.view addSubview:tabBarController.view];
+    [self.view addSubview:self.tabBarController.view];
+    
+    self.drawingDataManager = self.delegate.drawingDataManager;
 }
 
 - (void)viewDidUnload {
@@ -24,20 +28,25 @@
     self.tabBarController = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.tabBarController viewWillAppear:animated];
+}
+
 #pragma mark -
 #pragma mark Managing the popover
 
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
-    //for (int i = 0; i < [self.tabBarController.viewControllers count]; ++i)
-        [[self.tabBarController.viewControllers objectAtIndex:0] showRootPopoverButtonItem:barButtonItem];
+    [[self.tabBarController.viewControllers objectAtIndex:0] showRootPopoverButtonItem:barButtonItem];
+    [[self.tabBarController.viewControllers objectAtIndex:1] showRootPopoverButtonItem:barButtonItem];
 }
 
 
 - (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
-    //for (int i = 0; i < [self.tabBarController.viewControllers count]; ++i)
-        [[self.tabBarController.viewControllers objectAtIndex:0]  invalidateRootPopoverButtonItem:barButtonItem];
+    [[self.tabBarController.viewControllers objectAtIndex:0]  invalidateRootPopoverButtonItem:barButtonItem];
+    [[self.tabBarController.viewControllers objectAtIndex:1]  invalidateRootPopoverButtonItem:barButtonItem];
 
 }
 
@@ -47,6 +56,7 @@
 
 - (void)dealloc {
     [toolbar release];
+    [tabBarController release];
     [super dealloc];
 }	
 

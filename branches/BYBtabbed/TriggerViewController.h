@@ -10,8 +10,9 @@
 
 #import "DrawingViewController.h"
 #import "TriggerView.h"
+#import "BBFileActionViewControllerTBV.h"
 
-@interface TriggerViewController : DrawingViewController <DrawingDataManagerDelegate> {
+@interface TriggerViewController : DrawingViewController <DrawingDataManagerDelegate, SubstitutableDetailViewController> {
 	
 	// Data labels
 	IBOutlet UILabel *triggerValueLabel;
@@ -22,6 +23,8 @@
 	TriggerView *triggerView;
     
     AudioSignalManager *audioSignalManager;
+    
+    UIToolbar *toolbar;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *triggerValueLabel;
@@ -32,6 +35,8 @@
 @property (nonatomic, retain) TriggerView *triggerView;
 
 @property (nonatomic, retain) AudioSignalManager *audioSignalManager;
+
+@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
 
 - (void)updateDataLabels;
 - (void)showAllLabels;

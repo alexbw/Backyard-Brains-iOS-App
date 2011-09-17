@@ -33,6 +33,11 @@
 	self.toolbar = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (IBAction)displayInfoPopover:(UIButton *)sender {
 	
 	FlipsideInfoViewController *flipController = [[FlipsideInfoViewController alloc] initWithNibName:@"FlipsideInfoView" bundle:nil];
@@ -82,7 +87,7 @@
 - (IBAction)stopRecording:(UIButton *)sender {
     [super stopRecording:sender];
     
-	
+    [[(BBFileViewControllerTBV *)self.splitViewController.navigationController.topViewController theTableView] reloadData];
 	
 }
 
