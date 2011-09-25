@@ -304,16 +304,6 @@
 }
 
 #pragma mark -
-#pragma mark Rotation support
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return YES;
-    else
-        return (interfaceOrientation == UIInterfaceOrientationPortrait);
-
-}
 
 
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {

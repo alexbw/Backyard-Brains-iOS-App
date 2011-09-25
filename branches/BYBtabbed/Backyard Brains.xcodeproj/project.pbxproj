@@ -23,6 +23,8 @@
 		E93FF8B5142315CC00864D38 /* TabDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E93FF8B4142315CC00864D38 /* TabDetailView.xib */; };
 		E96C48B013C7AED600EAD5AA /* selected.png in Resources */ = {isa = PBXBuildFile; fileRef = E96C48AE13C7AED600EAD5AA /* selected.png */; };
 		E96C48B113C7AED600EAD5AA /* unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = E96C48AF13C7AED600EAD5AA /* unselected.png */; };
+		E983602E14259EB600200156 /* closeSideBar.png in Resources */ = {isa = PBXBuildFile; fileRef = E983602C14259EB600200156 /* closeSideBar.png */; };
+		E983602F14259EB600200156 /* closeSideBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E983602D14259EB600200156 /* closeSideBar@2x.png */; };
 		E99325D0142261E700CC76D5 /* TabDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325CB142261E700CC76D5 /* TabDetailViewController.m */; };
 		E99325D1142261E700CC76D5 /* BBFileViewControllerTBV.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325CD142261E700CC76D5 /* BBFileViewControllerTBV.m */; };
 		E99325DF14226FD600CC76D5 /* BBFileActionViewControllerTBV.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325DE14226FD600CC76D5 /* BBFileActionViewControllerTBV.m */; };
@@ -105,7 +107,7 @@
 		E9BDF510140827E600899D31 /* db_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BDF4E2140827E600899D31 /* db_logo.png */; };
 		E9BDF511140827E600899D31 /* db_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BDF4E3140827E600899D31 /* db_logo@2x.png */; };
 		E9BDF51314082D4E00899D31 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BDF51214082D4E00899D31 /* Security.framework */; };
-		E9BDF51D140BE8D000899D31 /* BBFileViewController.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BDF51C140BE8CD00899D31 /* BBFileViewController.plist */; };
+		E9BDF51D140BE8D000899D31 /* BBFileViewControllerTBV.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BDF51C140BE8CD00899D31 /* BBFileViewControllerTBV.plist */; };
 		E9BEB4D61407D8ED000D1743 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D01407D8ED000D1743 /* Icon-50.png */; };
 		E9BEB4D71407D8ED000D1743 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D11407D8ED000D1743 /* Icon-72.png */; };
 		E9BEB4D81407D8ED000D1743 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D21407D8ED000D1743 /* Icon-Small.png */; };
@@ -159,7 +161,6 @@
 		FA88BDC41145B115006C2FE0 /* Share_active.png in Resources */ = {isa = PBXBuildFile; fileRef = FA88BDC01145B115006C2FE0 /* Share_active.png */; };
 		FA88BDC51145B115006C2FE0 /* Share_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = FA88BDC11145B115006C2FE0 /* Share_inactive.png */; };
 		FA88BDC71145B34F006C2FE0 /* TransBar.png in Resources */ = {isa = PBXBuildFile; fileRef = FA88BDC61145B34F006C2FE0 /* TransBar.png */; };
-		FA88BDE01145B658006C2FE0 /* BBFileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA88BDDF1145B658006C2FE0 /* BBFileView.xib */; };
 		FA88C20A1146BF4E006C2FE0 /* BBFileTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA88C2091146BF4E006C2FE0 /* BBFileTableCell.xib */; };
 		FA88C20E1146BF6C006C2FE0 /* BBFileTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA88C20D1146BF6C006C2FE0 /* BBFileTableCell.m */; };
 		FA88C63811472085006C2FE0 /* BBFileDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA88C63611472085006C2FE0 /* BBFileDetailViewController.m */; };
@@ -209,6 +210,8 @@
 		E93FF8B4142315CC00864D38 /* TabDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TabDetailView.xib; sourceTree = "<group>"; };
 		E96C48AE13C7AED600EAD5AA /* selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = selected.png; path = Images/selected.png; sourceTree = "<group>"; };
 		E96C48AF13C7AED600EAD5AA /* unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.png; path = Images/unselected.png; sourceTree = "<group>"; };
+		E983602C14259EB600200156 /* closeSideBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closeSideBar.png; sourceTree = "<group>"; };
+		E983602D14259EB600200156 /* closeSideBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closeSideBar@2x.png"; sourceTree = "<group>"; };
 		E99325CA142261E700CC76D5 /* TabDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabDetailViewController.h; sourceTree = "<group>"; };
 		E99325CB142261E700CC76D5 /* TabDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabDetailViewController.m; sourceTree = "<group>"; };
 		E99325CC142261E700CC76D5 /* BBFileViewControllerTBV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileViewControllerTBV.h; sourceTree = "<group>"; };
@@ -350,7 +353,7 @@
 		E9BDF4E2140827E600899D31 /* db_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = db_logo.png; sourceTree = "<group>"; };
 		E9BDF4E3140827E600899D31 /* db_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "db_logo@2x.png"; sourceTree = "<group>"; };
 		E9BDF51214082D4E00899D31 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		E9BDF51C140BE8CD00899D31 /* BBFileViewController.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BBFileViewController.plist; sourceTree = "<group>"; };
+		E9BDF51C140BE8CD00899D31 /* BBFileViewControllerTBV.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BBFileViewControllerTBV.plist; sourceTree = "<group>"; };
 		E9BEB4D01407D8ED000D1743 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
 		E9BEB4D11407D8ED000D1743 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		E9BEB4D21407D8ED000D1743 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -435,7 +438,6 @@
 		FA88BDC01145B115006C2FE0 /* Share_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Share_active.png; path = Images/Share_active.png; sourceTree = "<group>"; };
 		FA88BDC11145B115006C2FE0 /* Share_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Share_inactive.png; path = Images/Share_inactive.png; sourceTree = "<group>"; };
 		FA88BDC61145B34F006C2FE0 /* TransBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TransBar.png; path = Images/TransBar.png; sourceTree = "<group>"; };
-		FA88BDDF1145B658006C2FE0 /* BBFileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BBFileView.xib; sourceTree = "<group>"; };
 		FA88C2091146BF4E006C2FE0 /* BBFileTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BBFileTableCell.xib; sourceTree = "<group>"; };
 		FA88C20C1146BF6C006C2FE0 /* BBFileTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileTableCell.h; sourceTree = "<group>"; };
 		FA88C20D1146BF6C006C2FE0 /* BBFileTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileTableCell.m; sourceTree = "<group>"; };
@@ -879,6 +881,8 @@
 				FA88BDBF1145B115006C2FE0 /* Delete_inactive.png */,
 				FA88BDC01145B115006C2FE0 /* Share_active.png */,
 				FA88BDC11145B115006C2FE0 /* Share_inactive.png */,
+				E983602C14259EB600200156 /* closeSideBar.png */,
+				E983602D14259EB600200156 /* closeSideBar@2x.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -890,7 +894,7 @@
 				E9B7FFE513E7497A0013A1A6 /* ContinuousWaveView.plist */,
 				FA133395111F291000A89543 /* TriggerView.plist */,
 				E9B7FFD313E748AE0013A1A6 /* PlaybackView.plist */,
-				E9BDF51C140BE8CD00899D31 /* BBFileViewController.plist */,
+				E9BDF51C140BE8CD00899D31 /* BBFileViewControllerTBV.plist */,
 				FAF71255111E6778009E7EFA /* Entitlements.plist */,
 			);
 			name = plists;
@@ -908,7 +912,6 @@
 				FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */,
 				E9B7FFD413E748AE0013A1A6 /* PlaybackView.xib */,
 				E9BDF47F14081A6800899D31 /* PlaybackView_iPad.xib */,
-				FA88BDDF1145B658006C2FE0 /* BBFileView.xib */,
 				E9B7FFDD13E749020013A1A6 /* BBFileActionView.xib */,
 				FA163A2F1134A949003065AC /* BBFileDetailView.xib */,
 				FA16389F11322CCB003065AC /* BBFileDetailEdit.xib */,
@@ -1141,7 +1144,6 @@
 				FA88BDC41145B115006C2FE0 /* Share_active.png in Resources */,
 				FA88BDC51145B115006C2FE0 /* Share_inactive.png in Resources */,
 				FA88BDC71145B34F006C2FE0 /* TransBar.png in Resources */,
-				FA88BDE01145B658006C2FE0 /* BBFileView.xib in Resources */,
 				FA88C20A1146BF4E006C2FE0 /* BBFileTableCell.xib in Resources */,
 				FA88C770114837EE006C2FE0 /* BBFileTitleEditorView.xib in Resources */,
 				FA88C81611486E85006C2FE0 /* BBFileCommentEditorView.xib in Resources */,
@@ -1202,8 +1204,10 @@
 				E9BDF50F140827E600899D31 /* db_link_header@2x.png in Resources */,
 				E9BDF510140827E600899D31 /* db_logo.png in Resources */,
 				E9BDF511140827E600899D31 /* db_logo@2x.png in Resources */,
-				E9BDF51D140BE8D000899D31 /* BBFileViewController.plist in Resources */,
+				E9BDF51D140BE8D000899D31 /* BBFileViewControllerTBV.plist in Resources */,
 				E93FF8B5142315CC00864D38 /* TabDetailView.xib in Resources */,
+				E983602E14259EB600200156 /* closeSideBar.png in Resources */,
+				E983602F14259EB600200156 /* closeSideBar@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

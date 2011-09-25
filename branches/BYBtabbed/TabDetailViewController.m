@@ -9,6 +9,7 @@
 @synthesize tabBarController;
 
 @synthesize drawingDataManager, delegate;
+@synthesize fileController;
 
 #pragma mark - View lifecycle
 

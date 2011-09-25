@@ -62,8 +62,8 @@
 	[self.drawingDataManager play];
 }
 
-#pragma mark -
-#pragma mark Managing the popover
+
+#pragma mark - Managing the popover
 
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
@@ -77,7 +77,7 @@
 
 - (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
-    // Remove the popover button from the toolbar.
+    // Remove the popover button from the toolbar. 
     NSMutableArray *itemsArray = [toolbar.items mutableCopy];
     [itemsArray removeObject:barButtonItem];
     [toolbar setItems:itemsArray animated:NO];
@@ -87,7 +87,7 @@
 - (IBAction)stopRecording:(UIButton *)sender {
     [super stopRecording:sender];
     
-    [[(BBFileViewControllerTBV *)self.splitViewController.navigationController.topViewController theTableView] reloadData];
+    [[self.delegate fileController] checkForNewFilesAndReload];
 	
 }
 

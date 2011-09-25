@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AudioToolbox/AudioToolbox.h>
 #import "SQLitePersistentObject.h"
 
 typedef struct _stimulationLog {
@@ -42,6 +43,7 @@ typedef struct _stimulationLog {
 @property int stimLog;
 
 - (id)initWithRecordingFile;
-- (id)initWithFilePath:(NSString *)path;
+- (id)initWithFilename:(NSString *)path;
+
 
 @end

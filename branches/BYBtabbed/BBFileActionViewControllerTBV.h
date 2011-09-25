@@ -14,7 +14,6 @@
 #import "BBFileTableCell.h"
 #import "PlaybackViewController.h"
 #import "BBFileDownloadViewController.h"
-#import "BBFileActionViewControllerTBV.h"
 
 
 @protocol SubstitutableDetailViewController
@@ -48,7 +47,6 @@
     
     id <BBFileActionViewControllerDelegate> delegate;
     
-    //AudioSignalManager *audioSignalManager;
     NSArray *files;
 }
 

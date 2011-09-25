@@ -9,7 +9,6 @@
 #import "Backyard_BrainsAppDelegate.h"
 #import "DropboxSDK.h"
 
-@class GainViewController;
 
 @implementation Backyard_BrainsAppDelegate
 

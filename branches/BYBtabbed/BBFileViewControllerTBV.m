@@ -51,7 +51,10 @@
 @implementation BBFileViewControllerTBV
 
 
-@synthesize theTableView, dbStatusBar, allFiles;
+@synthesize theTableView;
+@synthesize dbStatusBar;
+//@synthesize activityIndicator;
+@synthesize allFiles;
 
 @synthesize selectedArray;
 @synthesize selectedImage, unselectedImage;
@@ -72,6 +75,7 @@
     [rootPopoverButtonItem release];
     [theTableView release];
     [dbStatusBar release];
+    //[activityIndicator release];
 	[allFiles release];
     [filesSelectedForAction release];
 	[selectedArray release];
@@ -127,13 +131,6 @@
     
     
     UIImage *dbImage = [UIImage imageNamed:@"dropbox.png"];
-    /*UIButton *dbButton = [UIButton buttonWithType:UIButtonTypeCustom];
-     dbButton.bounds = CGRectMake( 0, 0, dbImage.size.width, dbImage.size.height );
-     [dbButton setImage:dbImage forState:UIControlStateNormal];
-     dbButton.style = UIBarButtonItemStylePlain;
-     dbButton.target = self;
-     dbButton.action = @selector(pushDropboxSettings);
-     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:dbButton] autorelease];*/
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:dbImage style:UIBarButtonItemStylePlain target:self action:@selector(dbButtonPressed)] autorelease];
     self.navigationItem.rightBarButtonItem.width = dbImage.size.width;
     
@@ -148,11 +145,79 @@
 	
 	[theTableView reloadData];
     
+    
+    self.dbStatusBar = [[UIButton alloc] initWithFrame:CGRectMake(self.theTableView.frame.origin.x, self.navigationController.toolbar.frame.size.height, self.theTableView.frame.size.width, 0)];
+    [self.dbStatusBar setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:1 alpha:0.5]];
+    [self.dbStatusBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    //[self.dbStatusBar setTitle:@"bar" forState:UIControlStateNormal];
+    [self.navigationController.view addSubview:self.dbStatusBar];
+    
+    /*//trick to grab toolbar
+    UIToolbar *toolbar = (UIToolbar *)[self.view viewWithTag:767];
+    NSArray *items = [toolbar items];
+    
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 20.0f)];
+    [activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];    
+    
+    NSArray *newItems = [NSArray arrayWithObjects:[items objectAtIndex:0],[items objectAtIndex:1],[items objectAtIndex:2],
+                         [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator], [items objectAtIndex:3],nil];
+    [toolbar setItems:newItems];
+    [self.activityIndicator startAnimating];*/
+    
+
+    
+    /*UIBarButtonItem *selectButton = [[UIBarButtonItem alloc]
+                                      initWithTitle:@"Select"
+                                      style:UIBarButtonItemStylePlain 
+                                      target:self 
+                                      action:@selector(togglePseudoEditMode)];
+                                     
+    [items addObject:selectButton];
+    [selectButton release];
+    
+    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    //[items addObject:spacer];
+    [spacer release];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0 , 11.0f, self.view.frame.size.width, 21.0f)];
+    [titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:18]];
+    [titleLabel setBackgroundColor:[UIColor clearColor]];
+    [titleLabel setTextColor:[UIColor colorWithRed:157.0/255.0 green:157.0/255.0 blue:157.0/255.0 alpha:1.0]];
+    [titleLabel setText:@"Files"];
+    [titleLabel setTextAlignment:UITextAlignmentCenter];
+    
+    UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
+    [items addObject:title];
+    [title release];
+    [titleLabel release];
+    
+    UIBarButtonItem *spacer2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    //[items addObject:spacer2];
+    [spacer2 release];
+    
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    UIBarButtonItem *indicatorButton = [[UIBarButtonItem alloc] initWithCustomView:indicator];
+    [items addObject:indicatorButton];
+    [indicatorButton release];
+    [indicator release];
+    
+    UIImage *dbImage = [UIImage imageNamed:@"dropbox.png"];
+    UIBarButtonItem *dbButton = [[UIBarButtonItem alloc] initWithImage:dbImage style:UIBarButtonItemStylePlain target:self action:@selector(dbButtonPressed)];
+    dbButton.width = dbImage.size.width;
+    [items addObject:dbButton];
+    [dbImage release];
+    [dbButton release];
+    
+    [self.navigationItem. setItems:items animated:YES];
+    [items release];*/
+    
+    
+    
+    
     //grab preferences
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
-	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewController.plist"];
-	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
-	//[self dispersePreferences];		
+	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewControllerTBV.plist"];
+	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];	
     if ([[self.preferences valueForKey:@"isDBLinked"] boolValue])
         [self dbUpdate];
     
@@ -162,7 +227,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	//[self collectPreferences];
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
-	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewController.plist"];
+	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewControllerTBV.plist"];
 	[preferences writeToFile:finalPath atomically:YES];
 }
 
@@ -174,20 +239,11 @@
 }
 
 
-#pragma mark -
-#pragma mark Rotation support
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return YES;
-    else
-        return (interfaceOrientation == UIInterfaceOrientationPortrait);
-
-}
+#pragma mark - Rotation support
 
 
-#pragma mark -
-#pragma mark Table view data source
+
+#pragma mark - Table view data source
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -296,7 +352,11 @@
     return 0;
 }
 
-
+- (void)checkForNewFilesAndReload
+{
+	self.allFiles = [NSMutableArray arrayWithArray:[BBFile allObjects]];
+    [self.theTableView reloadData];
+}
 
 #pragma mark Table view selection
 
@@ -555,7 +615,7 @@
         UIActionSheet *mySheet = [[UIActionSheet alloc] initWithTitle:@"Dropbox" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect from Dropbox" otherButtonTitles:@"Change login settings", @"Sync with Dropbox", nil];
         
         mySheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-        [mySheet showFromTabBar:self.tabBarController.tabBar];
+        [mySheet showInView:self.view];//showFromTabBar:self.tabBarController.tabBar];
         [mySheet release];
         
     }
@@ -638,6 +698,15 @@
     
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    CGRect dbBarRect = CGRectMake(self.dbStatusBar.frame.origin.x,
+                                  self.theTableView.frame.origin.y,
+                                  self.dbStatusBar.frame.size.width,
+                                  self.dbStatusBar.frame.size.height);
+    [self.dbStatusBar setFrame:dbBarRect];
+}
 
 - (void)setStatus:(NSString *)theStatus { //setter
     
@@ -646,34 +715,34 @@
     if ([theStatus isEqualToString:@""])
     {
         CGRect dbBarRect = CGRectMake(self.dbStatusBar.frame.origin.x,
-                                      self.dbStatusBar.frame.origin.x,
-                                      320, 0);    
-        CGRect tableViewRect = CGRectMake(self.theTableView.frame.origin.x,
-                                          0,
-                                          self.theTableView.frame.size.width,
-                                          self.view.window.frame.size.height);
+                                      self.dbStatusBar.frame.origin.y,
+                                      self.dbStatusBar.frame.size.width, 0);    
+        //CGRect tableViewRect = CGRectMake(self.theTableView.frame.origin.x,
+        //                                  0,
+        //                                  self.theTableView.frame.size.width,
+        //                                  self.view.window.frame.size.height);
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:.25];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [self.dbStatusBar setFrame:dbBarRect];	
-        [self.theTableView setFrame:tableViewRect];
+        //[self.theTableView setFrame:tableViewRect];
         [UIView commitAnimations];
     }
     else
     {
         if (self.dbStatusBar.frame.size.height < 20) {
             CGRect dbBarRect = CGRectMake(self.dbStatusBar.frame.origin.x,
-                                          self.dbStatusBar.frame.origin.x,
-                                          320, 20);    
-            CGRect tableViewRect = CGRectMake(self.theTableView.frame.origin.x,
-                                              20,
-                                              self.theTableView.frame.size.width,
-                                              self.view.window.frame.size.height-20);
+                                          self.dbStatusBar.frame.origin.y,
+                                          self.dbStatusBar.frame.size.width, 20);    
+            //CGRect tableViewRect = CGRectMake(self.theTableView.frame.origin.x,
+            //                                  20,
+            //                                  self.theTableView.frame.size.width,
+            //                                  self.view.window.frame.size.height-20);
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:.25];
             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
             [self.dbStatusBar setFrame:dbBarRect];	
-            [self.theTableView setFrame:tableViewRect];
+            //[self.theTableView setFrame:tableViewRect];
             [UIView commitAnimations];
         }
     }
@@ -716,15 +785,16 @@
     }
     
     
-    for (int l = 0; l < [pathsNeedingDownload count]; ++l)
+    /*for (int l = 0; l < [pathsNeedingDownload count]; ++l)
     {
         if ([[pathsNeedingDownload objectAtIndex:l] boolValue])
         {
             NSString *fileToLoad = [newPaths objectAtIndex:l];
-            [self.restClient loadFile:fileToLoad intoPath:self.docPath];
+            NSString *theFilePath = [self.docPath stringByAppendingPathComponent:fileToLoad]; 
+            [self.restClient loadFile:fileToLoad intoPath:theFilePath];
             BBFile *theFile =
-            [[BBFile alloc] initWithFilePath:
-             [fileToLoad stringByReplacingOccurrencesOfString:@"/BYB files/"
+            [[BBFile alloc] initWithFilename:
+                [fileToLoad stringByReplacingOccurrencesOfString:@"/BYB files/"
                                                    withString:@""]];
             //Get file length
             NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[self.docPath stringByAppendingPathComponent:fileToLoad]];
@@ -741,7 +811,8 @@
             [theFile save];
             [theFile release];
         }
-    }
+    }*/
+    
     self.allFiles = [NSMutableArray arrayWithArray:[BBFile allObjects]];
     [self.theTableView reloadData];
     
@@ -750,9 +821,10 @@
     {
         if ([[filesNeedingUpload objectAtIndex:m] boolValue])
         {
-            NSString *theFilename = [[self.allFiles objectAtIndex:m] filename]; 
+            NSString *file = [[self.allFiles objectAtIndex:m] filename];
+            NSString *theFilePath = [self.docPath stringByAppendingPathComponent:file]; 
             NSString *dbPath = @"/BYB files";
-            [self.restClient uploadFile:theFilename toPath:dbPath fromPath:self.docPath];
+            [self.restClient uploadFile:file toPath:dbPath fromPath:theFilePath];
         }
     }
     

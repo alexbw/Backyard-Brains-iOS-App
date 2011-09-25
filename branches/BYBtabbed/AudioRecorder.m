@@ -91,7 +91,6 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 	isRecording = YES;
 	
 	self.bbFile = [[BBFile alloc] initWithRecordingFile];
-	[self.bbFile save];
 	
 	if (self.asm.isStimulating)
 	{
@@ -147,7 +146,7 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
     }
 	
 	
-	
+    [self.bbFile save];
 
 	[self startTimer];
 	
@@ -162,13 +161,11 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 	UInt32 propertySize = sizeof(seconds);
 	AudioFileGetProperty(self.fileHandle, kAudioFilePropertyEstimatedDuration, &propertySize, &seconds);
 	bbFile.filelength = (float)seconds;
-	
+    
 	AudioFileClose(self.fileHandle);
 	AudioConverterDispose( audioConverter );
 	
 	NSLog(@" Audio file finished");
-
-//	fclose(self.fileHandle);
 	
 	[bbFile save];
 	

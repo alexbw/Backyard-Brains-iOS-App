@@ -8,6 +8,11 @@
 //  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
+#import "PlaybackView.h"
+#import "AudioSignalManager.h"
+#import "AudioPlaybackManager.h"
+#import "math.h"
+
 #import "PlaybackViewController.h"
 
 #define kNumPointsInPlaybackVertexBuffer 32768

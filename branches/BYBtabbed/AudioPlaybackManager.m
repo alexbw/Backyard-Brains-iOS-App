@@ -128,7 +128,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
         //Just read out all the audio data
         
         [fileURL release];
-        
+        AudioFileClose(id);
         
         // audioPlayer will remain nil as long as nothing is playing
         audioPlayer = nil;

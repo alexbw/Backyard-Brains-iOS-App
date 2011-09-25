@@ -3,6 +3,9 @@
 //
 //
 
+#import "DrawingDataManager.h"
+#import "BBFileViewControllerTBV.h"
+
 #import "DrawingViewController.h"
 
 @implementation DrawingViewController

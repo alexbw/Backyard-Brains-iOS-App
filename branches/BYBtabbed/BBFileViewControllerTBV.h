@@ -13,18 +13,19 @@
 #import "BBFileActionViewControllerTBV.h"
 #import "DropboxSDK.h"
 
+@class BBFileViewControllerTBV;
 
 @interface BBFileViewControllerTBV: UITableViewController <UISplitViewControllerDelegate, UIActionSheetDelegate, BBFileTableCellDelegate, BBFileActionViewControllerDelegate, DBLoginControllerDelegate, DBRestClientDelegate>
  {
 	
     UISplitViewController *splitViewController;
-
     UIPopoverController *popoverController;    
     UIBarButtonItem *rootPopoverButtonItem;
      
      
      IBOutlet UITableView *theTableView;
      IBOutlet UIButton *dbStatusBar;
+     //UIActivityIndicatorView *activityIndicator;
      
      NSMutableArray *allFiles;
      NSArray *filesSelectedForAction;
@@ -57,13 +58,15 @@
 
 
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
-@property (nonatomic, retain) IBOutlet UIButton *dbStatusBar;
+@property (nonatomic, retain)  UIButton *dbStatusBar;
+//@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, retain) NSMutableArray *allFiles;
 
 @property (nonatomic, retain) NSMutableArray *selectedArray;
 @property BOOL inPseudoEditMode;
 
 - (IBAction)togglePseudoEditMode;
+- (void)checkForNewFilesAndReload;
 
 
 //For BBFileActionViewControllerDelegate

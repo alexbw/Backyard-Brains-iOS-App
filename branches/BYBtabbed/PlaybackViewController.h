@@ -8,11 +8,11 @@
 //  Copyright 2009 Backyard Brains. All rights reserved.
 //
 
+
 #import "DrawingViewController.h"
-#import "PlaybackView.h"
-#import "AudioSignalManager.h"
-#import "AudioPlaybackManager.h"
-#import "math.h"
+@class PlaybackView;
+@class AudioPlaybackManager;
+
 
 @interface PlaybackViewController : DrawingViewController <DrawingDataManagerDelegate>
 {

@@ -5,7 +5,6 @@
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
-#import "DrawingDataManager.h"
 
 #define kMaxPixelDistanceToDetectTap 10
 //#define kPortraitHeightWithTabBar 430
@@ -13,11 +12,17 @@
 //#define kLandscapeHeightWithTabBar 270
 //#define kLandscapeHeightWithTabBar_iPad 736
 
-@protocol DrawingViewControllerDelegate //This will be BBTabViewController or ActionViewController or BBSplitViewController
+@class BBFileViewControllerTBV;
+
+@protocol DrawingViewControllerDelegate
 @required
 @optional
+//For Live play. This will be BBTabViewController (iPhone) or TabDetailViewController (iPad)
     @property (nonatomic, retain) DrawingDataManager *drawingDataManager;
-    @property (nonatomic, retain) NSArray *files;
+    @property (nonatomic, retain) BBFileViewControllerTBV *fileController; //for iPad
+
+//For Playback. This will be ActionViewControllerTBV
+    @property (nonatomic, retain) NSArray *files; 
 @end
 
 
