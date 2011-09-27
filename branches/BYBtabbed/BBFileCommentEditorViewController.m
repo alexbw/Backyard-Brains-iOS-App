@@ -82,7 +82,7 @@
         for (BBFile *file in self.files)
         {
             file.comment = self.commentTextView.text;
-            [file save];
+            [file updateMetadata];
         }
     }
     [self.navigationController popViewControllerAnimated:YES];

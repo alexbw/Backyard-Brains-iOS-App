@@ -167,7 +167,7 @@ UInt32 writeSingleChannelRingBufferDataToFileAsSInt16(AudioFileID audioFileID, A
 	
 	NSLog(@" Audio file finished");
 	
-	[bbFile save];
+	[bbFile updateMetadata];
 	
 	[bbFile release];
 	

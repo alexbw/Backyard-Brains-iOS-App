@@ -8,7 +8,7 @@
 
 #import "BBFile.h"
 
-
+#define  kDataID 1633969266
 
 @implementation BBFile
 
@@ -67,29 +67,44 @@
 	return self;
 }
 
-- (id)initWithFilename:(NSString *)theFilename
+- (id)initWithFilepath:(NSString *)path
 {
     if ((self = [super init]))
     {
-        //get all this from the metadata:
-        
         NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[docPath stringByAppendingPathComponent:theFilename]];
         
-        NSLog(@"Full file path: %@", [docPath stringByAppendingPathComponent:theFilename]);
+        //in case of renaming, use the name of the file (NSString path)
+        self.filename = [path stringByReplacingOccurrencesOfString:@"docPath" withString:@""];
+        
+        NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:path];
+        
+        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:path];
+        
+        NSLog(@"Full file path: %@", [docPath stringByAppendingPathComponent:self.filename]);
         // Open the audio file, type = AIFF
         AudioFileID id;
-        AudioFileOpenURL ((CFURLRef)fileURL, kAudioFileReadWritePermission, kAudioFileAIFFType, &id); //inFileTypeHint?? just gonna pass 0
+        OSStatus s = AudioFileOpenURL ((CFURLRef)fileURL, kAudioFileReadWritePermission, kAudioFileAIFFType, &id); //inFileTypeHint?? just gonna pass 0
+        if (s !=noErr)
+            NSLog(@"bad times acomin'");
 
-
-        //in case of renaming, use the name of the file (NSString path)
-		self.filename = theFilename;
         
+
+        //Load up the metadata
+        AudioFileOpenURL ((CFURLRef)fileURL, kAudioFileReadWritePermission, kAudioFileAIFFType, &id);     
+        
+        UInt32 dataID = kDataID;
         UInt32 propertySize;
-        AudioFileGetPropertyInfo(id, kAudioFilePropertyInfoDictionary, &propertySize, NULL);
-        CFDictionaryRef dictionary;
-        AudioFileGetProperty(id, kAudioFilePropertyInfoDictionary, &propertySize, &dictionary);
-        NSMutableDictionary *theDict = (NSMutableDictionary*)dictionary;
+        AudioFileGetUserDataSize(id, dataID, 0, &propertySize);
+        void *buffer = malloc(propertySize);
+        OSStatus t = AudioFileGetUserData(id, dataID, 0, &propertySize, &buffer);
+        //UInt32 newTest = (UInt32)buffer;
+        NSDictionary *theDict = (NSDictionary *)buffer;
+        if (t!=noErr)
+            NSLog(@"get property stop");
+        else
+            NSLog(@"get property go");
+        
+        free(buffer);
 
 		self.shortname    = [theDict objectForKey:@"shortname"];
 		self.subname      = [theDict objectForKey:@"subname"];
@@ -101,8 +116,23 @@
 		self.hasStim      = [[theDict objectForKey:@"hasStim"] boolValue];
         self.stimLog      = [[theDict objectForKey:@"stimLog"] intValue];
 
-        [theDict setValue:theFilename forKey:@"filename"];
-        AudioFileSetProperty(id, kAudioFilePropertyInfoDictionary, propertySize, (CFDictionaryRef)theDict);
+        //if the filename has changed, update the metadata
+        if (self.filename != [theDict objectForKey:@"filename"])
+        {
+            NSMutableDictionary *mutDict = [NSMutableDictionary dictionaryWithDictionary:theDict];
+            [mutDict setObject:self.filename forKey:@"filename"];
+            theDict = [NSDictionary dictionaryWithDictionary:mutDict];
+            [mutDict release];
+            
+            UInt32 propertySize = sizeof(theDict);
+            void *inBuffer = (void *)theDict;
+            OSStatus s = AudioFileSetUserData(id, dataID, 0, propertySize, &inBuffer);
+            if (s!=noErr)
+                NSLog(@"Set property error. Kahhhn!!!");
+            else
+                NSLog(@"All systems go");
+        }
+        
         [theDict release];
         AudioFileClose(id);
     }
@@ -124,10 +154,10 @@
 	
 }
 
-- (void)save
+- (void)updateMetadata
 {   
 
-    /*NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[docPath stringByAppendingPathComponent:self.filename]];
     
     
@@ -136,6 +166,14 @@
     // Open the audio file, type = AIFF
     AudioFileID id;
     AudioFileOpenURL ((CFURLRef)fileURL, kAudioFileReadWritePermission, kAudioFileAIFFType, &id); 
+    
+    UInt32 dataID = kDataID;
+    UInt32 numItems = 0;
+    OSStatus r = AudioFileCountUserData ( id, dataID, &numItems );
+    if (r==noErr)
+        NSLog(@"num items:%lu",numItems);
+    if (numItems>0)
+        NSLog(@"METADATA self destruct (bad index)");
 
     
     NSDictionary *theDict = [NSDictionary dictionaryWithObjectsAndKeys:self.filename, @"filename",
@@ -147,34 +185,23 @@
                              self.gain, @"gain",
                              self.filelength, @"filelength",
                              self.hasStim, @"hasStim",
-                             self.stimLog, @"stimLog", nil];   
+                             self.stimLog, @"stimLog", nil]; 
+    //CFDictionaryRef theDictRef = (CFDictionaryRef)theDict;
+    //UInt32 test = 1000000000;
     UInt32 propertySize = sizeof(theDict);
-    AudioFileSetProperty(id, kAudioFilePropertyInfoDictionary, propertySize, (CFDictionaryRef)theDict);
+    void *inBuffer = (void *)theDict;
+    //NSDictionary *testCasting = (NSDictionary *)inBuffer;
+    //OSStatus s = AudioFileSetProperty(id, kAudioFilePropertyInfoDictionary, propertySize, theDictRef);
+    OSStatus s = AudioFileSetUserData(id, dataID, 0, propertySize, &inBuffer);
+    if (s!=noErr)
+        NSLog(@"Set property error. Kahhhn!!!");
+    else
+        NSLog(@"All systems go");
 
     AudioFileClose(id);
     
-    //
-    //TEST CODE
-    // Open the audio file, type = AIFF
-    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:[docPath stringByAppendingPathComponent:self.filename]];
-    
-    AudioFileOpenURL ((CFURLRef)fileURL, kAudioFileReadWritePermission, kAudioFileAIFFType, &id);     
-    
-    //in case of renaming, use the name of the file (NSString path)
-    
-    AudioFileGetPropertyInfo(id, kAudioFilePropertyInfoDictionary, &propertySize, NULL);
-    CFDictionaryRef dictionary;
-    AudioFileGetProperty(id, kAudioFilePropertyInfoDictionary, &propertySize, &dictionary);
-    NSMutableDictionary *newDict = (NSMutableDictionary*)dictionary;
-    
-    AudioFileSetProperty(id, kAudioFilePropertyInfoDictionary, propertySize, (CFDictionaryRef)theDict);
-    [theDict release];
-    AudioFileClose(id);
-    
-    //END TEST CDOE
-    //*/
-    
-    [super save];
+        
+    [self save];
 }
 
 @end

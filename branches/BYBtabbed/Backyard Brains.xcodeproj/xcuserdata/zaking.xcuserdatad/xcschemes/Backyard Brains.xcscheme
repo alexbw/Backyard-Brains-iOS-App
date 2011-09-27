@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "BYB 1.80.app"
+               BuildableName = "BYB 1.80.58.app"
                BlueprintName = "Backyard Brains"
                ReferencedContainer = "container:Backyard Brains.xcodeproj">
             </BuildableReference>
@@ -41,7 +41,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "BYB 1.80.app"
+            BuildableName = "BYB 1.80.58.app"
             BlueprintName = "Backyard Brains"
             ReferencedContainer = "container:Backyard Brains.xcodeproj">
          </BuildableReference>
@@ -60,7 +60,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "BYB 1.80.app"
+            BuildableName = "BYB 1.80.58.app"
             BlueprintName = "Backyard Brains"
             ReferencedContainer = "container:Backyard Brains.xcodeproj">
          </BuildableReference>

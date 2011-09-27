@@ -120,7 +120,7 @@
                 break;
             }
         
-            [file save];
+            [file updateMetadata];
         }
 	}
     

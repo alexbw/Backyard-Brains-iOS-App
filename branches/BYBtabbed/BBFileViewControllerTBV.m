@@ -785,33 +785,17 @@
     }
     
     
-    /*for (int l = 0; l < [pathsNeedingDownload count]; ++l)
+    for (int l = 0; l < [pathsNeedingDownload count]; ++l)
     {
         if ([[pathsNeedingDownload objectAtIndex:l] boolValue])
         {
-            NSString *fileToLoad = [newPaths objectAtIndex:l];
+            NSString *fileToLoadPath = [newPaths objectAtIndex:l];
+            NSString *fileToLoad = [fileToLoadPath stringByReplacingOccurrencesOfString:@"/BYB files/" withString:@""];
             NSString *theFilePath = [self.docPath stringByAppendingPathComponent:fileToLoad]; 
-            [self.restClient loadFile:fileToLoad intoPath:theFilePath];
-            BBFile *theFile =
-            [[BBFile alloc] initWithFilename:
-                [fileToLoad stringByReplacingOccurrencesOfString:@"/BYB files/"
-                                                   withString:@""]];
-            //Get file length
-            NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[self.docPath stringByAppendingPathComponent:fileToLoad]];
-            AudioFileID fileHandle;
-            OSStatus s = AudioFileOpenURL ((CFURLRef)fileURL, kAudioFileReadWritePermission, kAudioFileAIFFType, &fileHandle); //inFileTypeHint?? just gonna pass 0
-            NSLog(@"Open Audio File status: %@", s);
-            NSTimeInterval seconds;
-            UInt32 propertySize = sizeof(seconds);
-            AudioFileGetProperty(fileHandle, kAudioFilePropertyEstimatedDuration, &propertySize, &seconds);
-            theFile.filelength = (float)seconds;
-            
-            AudioFileClose(fileHandle);
-            
-            [theFile save];
-            [theFile release];
+
+            [self.restClient loadFile:fileToLoadPath intoPath:self.docPath];
         }
-    }*/
+    }
     
     self.allFiles = [NSMutableArray arrayWithArray:[BBFile allObjects]];
     [self.theTableView reloadData];
@@ -823,7 +807,7 @@
         {
             NSString *file = [[self.allFiles objectAtIndex:m] filename];
             NSString *theFilePath = [self.docPath stringByAppendingPathComponent:file]; 
-            NSString *dbPath = @"/BYB files";
+            NSString *dbPath = [NSString stringWithString:@"/BYB files"];
             [self.restClient uploadFile:file toPath:dbPath fromPath:theFilePath];
         }
     }
@@ -835,6 +819,15 @@
 
 
 #pragma mark DBRestClientDelegate methods
+
+- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
+{
+    //tk this isn't working right.
+    BBFile *theFile = [[BBFile alloc] initWithFilepath:destPath];
+
+    [theFile save];
+    [theFile release];
+}
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
     [filesHash release];

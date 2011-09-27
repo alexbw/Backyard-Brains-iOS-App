@@ -193,7 +193,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* Backyard_BrainsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Backyard_BrainsAppDelegate.h; path = Classes/Backyard_BrainsAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* Backyard_BrainsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Backyard_BrainsAppDelegate.m; path = Classes/Backyard_BrainsAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* BYB 1.80.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 1.80.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* BYB 1.80.58.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 1.80.58.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* Backyard_Brains_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Backyard_Brains_Prefix.pch; sourceTree = "<group>"; };
@@ -513,7 +513,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* BYB 1.80.app */,
+				1D6058910D05DD3D006BFB54 /* BYB 1.80.58.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1095,7 +1095,7 @@
 			);
 			name = "Backyard Brains";
 			productName = "Backyard Brains";
-			productReference = 1D6058910D05DD3D006BFB54 /* BYB 1.80.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* BYB 1.80.58.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1331,7 +1331,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PRODUCT_NAME = "BYB 1.80";
+				PRODUCT_NAME = "BYB 1.80.58";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
