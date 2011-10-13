@@ -15,6 +15,7 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import "DropboxSDK.h"
 
 
 @protocol BBFileViewControllerDelegate
@@ -23,14 +24,18 @@
 @end
 
 
-@interface BBFileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BBFileDetailDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, BBFileDownloadViewControllerDelegate, BBFileTableCellDelegate> {
+@interface BBFileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BBFileDetailDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, BBFileDownloadViewControllerDelegate, BBFileTableCellDelegate, DBLoginControllerDelegate> {
 	IBOutlet UITableView *theTableView;
+    IBOutlet UIToolbar *toolbar;
 	IBOutlet UIButton *shareFileButton;
 	IBOutlet UIButton *deleteFileButton;
 	IBOutlet UIView *buttonHolderView;
 	IBOutlet UILabel *timeElapsedLabel;
 	IBOutlet UILabel *timeLeftLabel;
 	IBOutlet UISlider *currentPositionInAudioFileSlider;
+    IBOutlet UIBarButtonItem *selectButton;
+    IBOutlet UIBarButtonItem *dropboxButton;
+    IBOutlet UIBarButtonItem *doneButton;
 	
 	NSMutableArray *allFiles;
     
@@ -44,6 +49,8 @@
     
     BBFileTableCell *playingCell;
     
+    UIButton *dbStatusBar;
+    
 	id <BBFileViewControllerDelegate> delegate;
 	
     // Properties required by BBFileDownloadViewControllerDelegate
@@ -55,12 +62,22 @@
     // Instance variables that are not properties
 	AVAudioPlayer *audioPlayer;
 	NSTimer *timerThread;
-
+    NSArray* filePaths;
+    NSString* filesHash;
+    
+    // Private properties
+    NSDictionary *preferences;
+    DBRestClient *restClient;
+    NSString *status;
+    NSTimer *syncTimer;
+    NSArray *lastFilePaths;
+    NSString *docPath;
     
 }
 
 
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
+@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, retain) NSMutableArray *allFiles;
 @property (nonatomic, retain) IBOutlet UIButton *shareFileButton;
 @property (nonatomic, retain) IBOutlet UIButton *deleteFileButton;
@@ -68,6 +85,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *timeElapsedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
 @property (nonatomic, retain) IBOutlet UISlider *currentPositionInAudioFileSlider;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *selectButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *dropboxButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
 
 @property (nonatomic, retain) NSMutableArray *selectedArray;
 @property BOOL inPseudoEditMode;
@@ -77,6 +97,8 @@
 @property (nonatomic, retain) UIImage *unselectedImage;
 
 @property (nonatomic, retain) BBFileTableCell *playingCell;
+
+@property (nonatomic, retain) UIButton *dbStatusBar;
 
 @property (nonatomic, assign) id <BBFileViewControllerDelegate> delegate;
 
@@ -108,6 +130,9 @@
 
 - (IBAction)togglePseudoEditMode;
 - (void)populateSelectedArray;
+
+- (IBAction)dbButtonPressed;
+- (IBAction)done;
 
 // Properties required by the BBFileDetailDelegate protocol
 @property (nonatomic, retain) BBFile *file;

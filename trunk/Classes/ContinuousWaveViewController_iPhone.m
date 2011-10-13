@@ -44,13 +44,11 @@
 	
 	BBFileViewController *theViewController	= [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
 	theViewController.delegate = (id)self;
-	UINavigationController *theNavigationController = [[UINavigationController alloc] initWithRootViewController:theViewController];
 	
-	theNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-	[self presentModalViewController:theNavigationController animated:YES];
+	theViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+	[self presentModalViewController:theViewController animated:YES];
 	
 	[theViewController release];
-	[theNavigationController release];
 	
 }
 

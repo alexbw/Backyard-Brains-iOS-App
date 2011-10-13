@@ -52,13 +52,10 @@
         BBFileViewController *theViewController	= [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
         theViewController.delegate = (id)self;
         
-        UINavigationController *theNavigationController = [[UINavigationController alloc] initWithRootViewController:theViewController];
         
-        
-        self.recordedFilesPopover = [[UIPopoverController alloc] initWithContentViewController:theNavigationController];
+        self.recordedFilesPopover = [[UIPopoverController alloc] initWithContentViewController:theViewController];
         
         [theViewController release];
-        [theNavigationController release];
         
         self.recordedFilesPopover.delegate = self;
     }

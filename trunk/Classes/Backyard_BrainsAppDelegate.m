@@ -58,6 +58,15 @@
 	UIApplication *thisApp = [UIApplication sharedApplication];
 	thisApp.idleTimerDisabled = YES;
 
+    
+    //Dropbox code:
+    DBSession* dbSession = 
+    [[[DBSession alloc]
+      initWithConsumerKey:@"gko0ired85ogh0e"
+      consumerSecret:@"vmxyfeju241zqpk"]
+     autorelease];
+    [DBSession setSharedSession:dbSession];
+    
 	
     // Add the tab bar controller's current view as a subview of the window
 	[window addSubview:tabBarController.view];
