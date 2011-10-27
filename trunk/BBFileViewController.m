@@ -56,6 +56,7 @@
 @synthesize playingCell;
 @synthesize dbStatusBar;
 @synthesize preferences, restClient, status, syncTimer, lastFilePaths, docPath;
+@synthesize triedCreatingFolder;
 
 // Protocol properties
 @synthesize file;
@@ -107,6 +108,17 @@
 	
 	[theTableView reloadData];
     
+    /*make the dropbox button pretty...someone fix this, quick!!!! tk
+    //load the image
+    UIImage *buttonImage = [UIImage imageNamed:@"dropbox.png"];
+    //create the button and assign the image
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:buttonImage forState:UIControlStateNormal];
+    //set the frame of the button to the size of the image (see note below)
+    button.frame = CGRectMake(0, 0, buttonImage.size.width, buttonImage.size.height);
+    self.dropboxButton.customView = button;
+    self.dropboxButton.style = UIBarButtonItemStyleBordered;*/
+    
     //create the status bar
     self.dbStatusBar = [[UIButton alloc] initWithFrame:CGRectMake(self.theTableView.frame.origin.x, self.toolbar.frame.size.height, self.theTableView.frame.size.width, 0)];
     [self.dbStatusBar setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:1 alpha:0.5]];
@@ -120,9 +132,12 @@
     //grab preferences
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
 	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewController.plist"];
-	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];	
-    if ([[self.preferences valueForKey:@"isDBLinked"] boolValue])
-        [self dbUpdate];
+	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
+	//Upload files when viewWillAppear
+    //if ([[self.preferences valueForKey:@"isDBLinked"] boolValue])
+    //    [self dbUpdate];
+    
+    self.triedCreatingFolder = NO;
     
 }
 
@@ -156,7 +171,10 @@
 
 - (IBAction)done;
 {
-    [self dismissModalViewControllerAnimated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [self.delegate hideFiles];
+    else
+        [self dismissModalViewControllerAnimated:YES];
 }
 
 
@@ -807,13 +825,27 @@
 
 - (void)dbUpdateTimedOut
 {
-    [self setStatus:@"Upload failed"];
     [self.syncTimer invalidate];
     [NSTimer scheduledTimerWithTimeInterval:1
                                      target:self
                                    selector:@selector(clearStatus)
                                    userInfo:nil
                                     repeats:NO];
+    //try creating the folder and updating again
+    if (!self.triedCreatingFolder) {
+        [self setStatus:@"Creating folder 'BYB files'"];
+        [self.restClient createFolder:@"BYB files"];
+        self.triedCreatingFolder = YES;
+        self.syncTimer = [NSTimer scheduledTimerWithTimeInterval:kSyncWaitTime
+                                                          target:self
+                                                        selector:@selector(dbUpdateTimedOut)
+                                                        userInfo:nil
+                                                         repeats:NO];
+    }
+    else
+    {
+        [self setStatus:@"Upload failed"];
+    }
 }
 
 - (void)dbStopUpdate
@@ -944,6 +976,7 @@
         }
     }
     
+    
     [self compareBBFilesToNewFilePaths:(NSArray *)newFilePaths];
     self.lastFilePaths = newFilePaths;
 }
@@ -961,6 +994,12 @@
     	restClient.delegate = (id)self;
     }
     return restClient;
+}
+
+
+- (void)restClient:(DBRestClient*)client createdFolder:(DBMetadata*)folder
+{
+    [self dbUpdate];
 }
 
 #pragma mark DBLoginControllerDelegate methods
@@ -1003,12 +1042,7 @@
 	[unselectedImage release];
     [file release];
 }
-/*
-- (void)done
-{
-	NSLog(@"All done?");
-	[self.delegate hideFiles];	
-}*/
+
 
 
 @end

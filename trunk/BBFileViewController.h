@@ -73,6 +73,8 @@
     NSArray *lastFilePaths;
     NSString *docPath;
     
+    BOOL triedCreatingFolder;
+    
 }
 
 
@@ -101,6 +103,8 @@
 @property (nonatomic, retain) UIButton *dbStatusBar;
 
 @property (nonatomic, assign) id <BBFileViewControllerDelegate> delegate;
+
+@property BOOL triedCreatingFolder;
 
 // Properties required by BBFileDownloadViewControllerDelegate
 @property (nonatomic, retain) NSArray *fileNamesToShare;

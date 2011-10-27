@@ -484,7 +484,6 @@
 		29B97314FDCFA39411CA2CEA /* Backyard Brains */ = {
 			isa = PBXGroup;
 			children = (
-				E9BECF3D1446AAB8006CBA34 /* Security.framework */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -521,6 +520,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E9BECF3D1446AAB8006CBA34 /* Security.framework */,
 				FACDAD52115696C90063FC9B /* AVFoundation.framework */,
 				FACDAD2E1156960C0063FC9B /* CoreAudio.framework */,
 				FA826E0011558926005BE83D /* CFNetwork.framework */,
@@ -1230,8 +1230,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Backyard Brains";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Backyard Brains";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary King (824KR8MN8X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary King (824KR8MN8X)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1241,8 +1241,8 @@
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = "BYB 1.72.59";
-				PROVISIONING_PROFILE = "3DAF95D7-C4AF-46A5-9454-CFDB3F59913E";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3DAF95D7-C4AF-46A5-9454-CFDB3F59913E";
+				PROVISIONING_PROFILE = "7AA382DA-155E-4D48-9F1A-12E19FBAACDD";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7AA382DA-155E-4D48-9F1A-12E19FBAACDD";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1254,8 +1254,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Backyard Brains";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Backyard Brains";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary King (824KR8MN8X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary King (824KR8MN8X)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Backyard_Brains_Prefix.pch;
@@ -1263,8 +1263,8 @@
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = BYB;
-				PROVISIONING_PROFILE = "3DAF95D7-C4AF-46A5-9454-CFDB3F59913E";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3DAF95D7-C4AF-46A5-9454-CFDB3F59913E";
+				PROVISIONING_PROFILE = "7AA382DA-155E-4D48-9F1A-12E19FBAACDD";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7AA382DA-155E-4D48-9F1A-12E19FBAACDD";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1329,8 +1329,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Backyard Brains";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Backyard Brains";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zachary King (824KR8MN8X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zachary King (824KR8MN8X)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Backyard_Brains_Prefix.pch;
@@ -1338,8 +1338,8 @@
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = BYB;
-				PROVISIONING_PROFILE = "3DAF95D7-C4AF-46A5-9454-CFDB3F59913E";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3DAF95D7-C4AF-46A5-9454-CFDB3F59913E";
+				PROVISIONING_PROFILE = "7AA382DA-155E-4D48-9F1A-12E19FBAACDD";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7AA382DA-155E-4D48-9F1A-12E19FBAACDD";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
