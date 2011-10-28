@@ -723,14 +723,15 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 							   &one, 
 							   sizeof(one));
 	NSAssert(err == noErr, @"Could not enable the Input Scope of Bus 1");
-	
+
+	//Enabled by default:
 //	err = AudioUnitSetProperty(self.outputAudioUnit, 
 //							   kAudioOutputUnitProperty_EnableIO, 
 //							   kAudioUnitScope_Output, 
 //							   kOutputBus, 
 //							   &one, 
 //							   sizeof(one));
-	NSAssert(err == noErr, @"Could not enable the Output Scope of Bus 0");
+//	NSAssert(err == noErr, @"Could not enable the Output Scope of Bus 0");
 
 	
 	

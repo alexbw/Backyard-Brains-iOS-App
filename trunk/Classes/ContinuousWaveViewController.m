@@ -16,7 +16,10 @@
 @synthesize stopButton;
 @synthesize fileButton;
 @synthesize stimButton;
+@synthesize stimSetupButton;
 @synthesize audioRecorder;
+
+@synthesize fileViewController;
 
 @synthesize cwView;
 
@@ -70,6 +73,11 @@
 }
 
 
+- (IBAction)startStim:(UIButton *)sender
+{
+    
+}
+
 - (void)pissMyPants {
 	NSLog(@"I've pissed my pants");
 	
@@ -93,16 +101,23 @@
 
 - (void)viewWillAppear:(BOOL)animated { 
 	[super viewWillAppear:animated];
-	
+    
+    if (!self.audioSignalManager.paused)
+        [self.audioSignalManager pause];
     
     // Grab the stim button setting from the NSUserDefaults THINGYYY
     BOOL enablestim = [[NSUserDefaults standardUserDefaults] boolForKey:@"enablestim"];
     //NSLog(@"==== ENABLE STIM set to: %u", enablestim);
     if (enablestim)
+    {
         self.stimButton.hidden = NO;
+        self.stimSetupButton.hidden = NO;
+    }
     else
+    {
         self.stimButton.hidden = YES;
-    
+        self.stimSetupButton.hidden = YES;
+    }
 	
 	[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
 	
@@ -110,7 +125,7 @@
     self.audioSignalManager.delegate = self;
 	[self.cwView.audioSignalManager setVertexBufferXRangeFrom:self.cwView.xMin to:self.cwView.xMax];
 	self.cwView.audioSignalManager.triggering = NO;
-	[self.cwView.audioSignalManager play];
+    
     
     //Reset wait frames so the view will automatically set the viewing frame
     self.audioSignalManager.nWaitFrames = 0;
@@ -126,16 +141,24 @@
 	[self.cwView startAnimation];
     
 	[self updateDataLabels];
+    
+	[self.audioSignalManager play];
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
 	[self collectPreferences];
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
 	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
 	[preferences writeToFile:finalPath atomically:YES];
 	[self.cwView stopAnimation];
-	[self.audioSignalManager pause];
+    
+    //NOTE: TriggerView viewWillAppear is called BEFORE viewWillDissappear
+    //SO...cover all exits. pause whenever another view is requested, but not here.
+    //if (!self.audioSignalManager.paused)
+    //    [self.audioSignalManager pause];
 	
 	if (audioRecorder != nil) {
 		if (audioRecorder.isRecording == YES) {
@@ -240,6 +263,7 @@
 
 
 - (void)viewDidUnload {
+    [super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;	
 }

@@ -24,6 +24,9 @@
 	IBOutlet UIButton *stopButton;
 	IBOutlet UIButton *fileButton;
     IBOutlet UIButton *stimButton;
+    IBOutlet UIButton *stimSetupButton;
+    
+    BBFileViewController *fileViewController;
     
 	ContinuousWaveView *cwView;
 	
@@ -36,6 +39,9 @@
 @property (nonatomic, retain) IBOutlet UIButton *stopButton;
 @property (nonatomic, retain) IBOutlet UIButton *fileButton;
 @property (nonatomic, retain) IBOutlet UIButton *stimButton;
+@property (nonatomic, retain) IBOutlet UIButton *stimSetupButton;
+
+@property (nonatomic, retain) BBFileViewController *fileViewController;
 
 @property (nonatomic, retain) ContinuousWaveView *cwView;
 
@@ -50,6 +56,8 @@
 
 - (IBAction)startRecording:(UIButton *)sender;
 - (IBAction)stopRecording:(UIButton *)sender;
+- (IBAction)startStim:(UIButton *)sender;
+
 - (void)pissMyPants;
 
 //for AudioSignalManagerDelegate

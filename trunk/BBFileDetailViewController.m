@@ -80,6 +80,11 @@
 	
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.delegate.theTableView reloadData];
+}
+
 - (NSString *)stringWithFileLengthFromBBFile:(BBFile *)thisFile {
 	int minutes = (int)floor(thisFile.filelength / 60.0);
 	int seconds = (int)(thisFile.filelength - minutes*60.0);

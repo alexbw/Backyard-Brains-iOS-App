@@ -87,6 +87,7 @@
 
 - (void)viewWillAppear:(BOOL)animated 
 {	
+    [super viewWillAppear:animated];
 
 	Class cls = NSClassFromString(@"UIPopoverController");
 	if (cls != nil)
@@ -129,10 +130,6 @@
     //grab the doc path
     self.docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     
-    //grab preferences
-	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
-	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewController.plist"];
-	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
 	//Upload files when viewWillAppear
     //if ([[self.preferences valueForKey:@"isDBLinked"] boolValue])
     //    [self dbUpdate];
@@ -143,13 +140,10 @@
 
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
 	[self stopPlaying];
     
-    
-	//[self collectPreferences];
-	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
-	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewController.plist"];
-	[preferences writeToFile:finalPath atomically:YES];
 
 }
 
@@ -160,9 +154,23 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    //grab preferences
+    NSString *pathStr = [[NSBundle mainBundle] bundlePath];
+    NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewController.plist"];
+    self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
+    NSLog(@"a");
+}
+
 - (void)viewDidUnload {
+    [super viewDidUnload];
 	// Release anything that can be recreated in viewDidLoad or on demand.
 	// e.g. self.myOutlet = nil;
+    
+    NSString *pathStr = [[NSBundle mainBundle] bundlePath];
+	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewController.plist"];
+	[preferences writeToFile:finalPath atomically:YES];
 }
 
 

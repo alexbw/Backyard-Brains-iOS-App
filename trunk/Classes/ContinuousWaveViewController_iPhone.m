@@ -14,7 +14,7 @@
 
 - (void)dealloc {	
     [super dealloc];
-	
+	[fileViewController release];
 
 }
 
@@ -29,6 +29,8 @@
 
 - (IBAction)displayInfoFlipside:(UIButton *)sender {
 	
+    [self.audioSignalManager pause];
+    
 	FlipsideInfoViewController *flipController = [[FlipsideInfoViewController alloc] initWithNibName:@"FlipsideInfoView" bundle:nil];
 	flipController.delegate = self;
 	flipController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -42,13 +44,15 @@
 	
 	[self.audioSignalManager pause];
 	
-	BBFileViewController *theViewController	= [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
-	theViewController.delegate = (id)self;
+    if (!fileViewController)
+    {
+            self.fileViewController = [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
+            self.fileViewController.delegate = (id)self;
 	
-	theViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-	[self presentModalViewController:theViewController animated:YES];
+            self.fileViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    }
+    [self presentModalViewController:self.fileViewController animated:YES];
 	
-	[theViewController release];
 	
 }
 

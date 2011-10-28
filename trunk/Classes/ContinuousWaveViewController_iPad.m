@@ -18,12 +18,15 @@
 - (void)dealloc {	
     [super dealloc];
 	
+    [fileViewController release];
     [recordedFilesPopover release];
     [ljvc release];
 }
 
 - (IBAction)displayInfoPopover:(UIButton *)sender {
 	
+    [self.audioSignalManager pause];
+    
 	FlipsideInfoViewController *flipController = [[FlipsideInfoViewController alloc] initWithNibName:@"FlipsideInfoView" bundle:nil];
 	flipController.delegate = self;
 	flipController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -49,13 +52,16 @@
 	
     if (!self.recordedFilesPopover)
     {
-        BBFileViewController *theViewController	= [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
-        theViewController.delegate = (id)self;
         
+        if (!fileViewController)
+        {
+            self.fileViewController = [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
+            self.fileViewController.delegate = (id)self;
+            
+            self.fileViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        }
         
-        self.recordedFilesPopover = [[UIPopoverController alloc] initWithContentViewController:theViewController];
-        
-        [theViewController release];
+        self.recordedFilesPopover = [[UIPopoverController alloc] initWithContentViewController:self.fileViewController];
         
         self.recordedFilesPopover.delegate = self;
     }

@@ -13,7 +13,7 @@
 @protocol BBFileDetailDelegate
 	@required
 		@property (nonatomic, retain) BBFile *file;
-
+        @property (nonatomic, retain) UITableView *theTableView;
 	@optional
 		// NONE ARE OPTIONAL ALL ARE REQUIRED ZER VILL BE DISCIPLINE
 @end

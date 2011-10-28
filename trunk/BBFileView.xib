@@ -136,7 +136,7 @@
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">Share_active.png</string>
 										</object>
-										<object class="IBUIFontDescription" key="IBUIFontDescription" id="951484672">
+										<object class="IBUIFontDescription" key="IBUIFontDescription" id="927487685">
 											<string key="name">Helvetica-Bold</string>
 											<string key="family">Helvetica</string>
 											<int key="traits">2</int>
@@ -177,7 +177,7 @@
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">Delete_active.png</string>
 										</object>
-										<reference key="IBUIFontDescription" ref="951484672"/>
+										<reference key="IBUIFontDescription" ref="927487685"/>
 										<reference key="IBUIFont" ref="530411764"/>
 									</object>
 									<object class="IBUISlider" id="97399324">
@@ -216,7 +216,7 @@
 										<int key="IBUIBaselineAdjustment">1</int>
 										<float key="IBUIMinimumFontSize">10</float>
 										<int key="IBUITextAlignment">2</int>
-										<object class="IBUIFontDescription" key="IBUIFontDescription" id="94480503">
+										<object class="IBUIFontDescription" key="IBUIFontDescription" id="757174398">
 											<string key="name">Helvetica-Bold</string>
 											<string key="family">Helvetica</string>
 											<int key="traits">2</int>
@@ -249,7 +249,7 @@
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">1</int>
 										<float key="IBUIMinimumFontSize">10</float>
-										<reference key="IBUIFontDescription" ref="94480503"/>
+										<reference key="IBUIFontDescription" ref="757174398"/>
 										<reference key="IBUIFont" ref="982362302"/>
 									</object>
 								</object>

@@ -83,6 +83,9 @@
 - (void)viewWillAppear:(BOOL)animated { 
 	[super viewWillAppear:animated];
 	
+    if (!self.audioSignalManager.paused)
+        [self.audioSignalManager pause];
+    
 	[self.audioSignalManager changeCallbackTo:kAudioCallbackAverageTrigger];
 	
 	self.triggerView.audioSignalManager = self.audioSignalManager;
@@ -118,7 +121,12 @@
 	BOOL err = [preferences writeToFile:finalPath atomically:YES];
 	NSLog(@"Wrote prefernces to file. Successful? %d", err);
 	[self.triggerView stopAnimation];
-	[self.audioSignalManager pause];
+    
+    //NOTE: ContinuousWaveView viewWillAppear is called BEFORE viewWillDissappear
+    //SO...cover all exits. pause whenever another view is requested, but not here.
+    //if (!self.audioSignalManager.paused)
+    //    [self.audioSignalManager pause];
+
 }
 
 - (void)dispersePreferences {
