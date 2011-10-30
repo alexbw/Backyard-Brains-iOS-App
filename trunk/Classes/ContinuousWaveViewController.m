@@ -110,7 +110,7 @@
     //NSLog(@"==== ENABLE STIM set to: %u", enablestim);
     if (enablestim)
     {
-        self.stimButton.hidden = NO;
+        self.stimButton.hidden = YES;
         self.stimSetupButton.hidden = NO;
     }
     else

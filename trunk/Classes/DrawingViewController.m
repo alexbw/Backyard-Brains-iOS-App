@@ -138,13 +138,13 @@
         mVLabelYPos = -63;
     }
     
-    /*Interface builder takes care of this
+    //Interface builder takes care of this
 	// Resize the tick marks
 	CGRect frame = tickMarks.frame;
 	frame.size.height = tickMarkHeight;
 	tickMarks.frame = frame;
 	
-    /*
+    //
 	// Resize the millisecond frame
 	CGRect frame = msLegendImage.frame;
     frame.size.width = msFrameWidth;
@@ -176,7 +176,7 @@
         mVLabelYPos = -16;
     }
     
-    /*  Interface builder takes care of this
+    //  Interface builder takes care of this
 	// Resize the tick marks
 	CGRect frame = tickMarks.frame;
 	frame.size.height = tickMarkHeight;

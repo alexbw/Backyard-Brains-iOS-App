@@ -16,7 +16,7 @@
 #define PI 3.14159265359
 #define kNumWaitFrames 5
 
-
+//change in Audio Route
 void sessionPropertyListener(void                    *inClientData,
 							 AudioSessionPropertyID  inID,
 							 UInt32                  inDataSize,
@@ -465,6 +465,21 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 
 }
 
+# pragma mark - stim play callback
+
+
+static OSStatus playbackCallback(void *inRefCon, 
+                                 AudioUnitRenderActionFlags *ioActionFlags, 
+                                 const AudioTimeStamp *inTimeStamp, 
+                                 UInt32 inBusNumber, 
+                                 UInt32 inNumberFrames, 
+                                 AudioBufferList *ioData) {   
+    // Notes: ioData contains buffers (may be more than one!)
+    // Fill them up as much as you can. Remember to set the size value in each buffer to match how
+    //    much data is in the buffer.
+    
+    return noErr;
+}
 
 # pragma mark - Obj-C Meatyness
 
@@ -826,7 +841,10 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 							   &playbackCallbackStruct, 
 							   sizeof(playbackCallbackStruct));
 	NSAssert(err == noErr, @"Setting input callback failed");
-		
+	
+    //callbackStruct.inputProc = playbackCallback;
+    //callbackStruct.inputProcRefCon = self;
+
 	
 	// Set up the play-through callback
 	// CANT GET THIS TO WORK PROPERLY

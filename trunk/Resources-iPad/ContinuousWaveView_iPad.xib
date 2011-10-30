@@ -254,11 +254,11 @@
 					</object>
 					<object class="IBUIButton" id="270791887">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">289</int>
-						<string key="NSFrame">{{65, 18}, {25, 25}}</string>
+						<int key="NSvFlags">-2147483356</int>
+						<string key="NSFrame">{{23, 19}, {25, 25}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="601541161"/>
+						<reference key="NSNextKeyView" ref="1007686232"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -283,7 +283,7 @@
 						<string key="NSFrameSize">{15, 975}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1007686232"/>
+						<reference key="NSNextKeyView" ref="270791887"/>
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -323,11 +323,11 @@
 					</object>
 					<object class="IBUIButton" id="1007686232">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">289</int>
-						<string key="NSFrame">{{20, 18}, {25, 25}}</string>
+						<int key="NSvFlags">-2147483356</int>
+						<string key="NSFrame">{{66, 18}, {25, 25}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="270791887"/>
+						<reference key="NSNextKeyView" ref="601541161"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -449,7 +449,7 @@
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="270791887"/>
 					</object>
-					<int key="connectionID">61</int>
+					<int key="connectionID">63</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -530,10 +530,10 @@
 							<reference ref="174792949"/>
 							<reference ref="681983886"/>
 							<reference ref="193395725"/>
-							<reference ref="270791887"/>
-							<reference ref="1007686232"/>
 							<reference ref="730043720"/>
 							<reference ref="243548960"/>
+							<reference ref="270791887"/>
+							<reference ref="1007686232"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -672,7 +672,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">62</int>
+			<int key="maxID">63</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

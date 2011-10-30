@@ -947,7 +947,7 @@
     self.allFiles = [NSMutableArray arrayWithArray:[BBFile allObjects]];
     [self.theTableView reloadData];
     
-    int c = 0;
+    __block NSInteger count = 0;
     for (int m = 0; m < [filesNeedingUpload count]; ++m)
     {
         if ([[filesNeedingUpload objectAtIndex:m] boolValue])
@@ -956,12 +956,12 @@
             NSString *theFilePath = [self.docPath stringByAppendingPathComponent:theFile]; 
             NSString *dbPath = [NSString stringWithString:@"/BYB files"];
             [self.restClient uploadFile:theFile toPath:dbPath fromPath:theFilePath];
-            c = c++;
+            ++count;
         }
     }
     
     
-    NSString *uploadStatus = [NSString stringWithFormat:@"Uploaded %d files", c];
+    NSString *uploadStatus = [NSString stringWithFormat:@"Uploaded %d files", count];
     [self setStatus:uploadStatus];
     [self.syncTimer invalidate];
     [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(clearStatus) userInfo:nil repeats:NO];
