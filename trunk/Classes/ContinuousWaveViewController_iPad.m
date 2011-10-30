@@ -13,14 +13,12 @@
 @implementation ContinuousWaveViewController_iPad
 
 @synthesize recordedFilesPopover;
-@synthesize ljvc;
 
 - (void)dealloc {	
     [super dealloc];
 	
     [fileViewController release];
     [recordedFilesPopover release];
-    [ljvc release];
 }
 
 - (IBAction)displayInfoPopover:(UIButton *)sender {
@@ -89,14 +87,16 @@
     
 	[self.audioSignalManager pause];
     
-    if (!self.ljvc)
+    if (!self.larvaJoltController)
     {
-        self.ljvc = [[LarvaJoltViewController alloc] initWithNibName:@"LarvaJoltViewController" bundle:nil];
-        self.ljvc.delegate = self;
-        self.ljvc.modalPresentationStyle = UIModalPresentationFormSheet;
-        self.ljvc.view.frame = CGRectMake(0, 0, 620, 540);
+        self.larvaJoltController = [[LarvaJoltViewController alloc] initWithNibName:@"LarvaJoltViewController" bundle:nil];
+        self.larvaJoltController.delegate = self;
+        self.pulse.delegate = self.larvaJoltController;
+        self.larvaJoltController.modalPresentationStyle = UIModalPresentationFormSheet;
+        self.larvaJoltController.view.frame = CGRectMake(0, 0, 620, 540);
 	}
-    [self presentModalViewController:self.ljvc animated:YES];
+    self.stimButton.enabled = YES;
+    [self presentModalViewController:self.larvaJoltController animated:YES];
     
 }
 

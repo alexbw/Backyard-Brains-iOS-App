@@ -24,6 +24,7 @@
 @synthesize cwView;
 
 @synthesize larvaJoltController;
+@synthesize pulse;
 
 
 - (void)dealloc {	
@@ -38,7 +39,7 @@
     [cwView release];
     
     [larvaJoltController release];
-
+	[pulse release];
 }
 
 
@@ -73,9 +74,12 @@
 }
 
 
-- (IBAction)startStim:(UIButton *)sender
+- (IBAction)startStopStim:(UIButton *)sender
 {
-    
+    if (self.pulse.playing)
+        [self.pulse stopPulse];
+    else
+        [self.pulse playPulse];
 }
 
 - (void)pissMyPants {
@@ -110,8 +114,10 @@
     //NSLog(@"==== ENABLE STIM set to: %u", enablestim);
     if (enablestim)
     {
-        self.stimButton.hidden = YES;
+        self.stimButton.hidden = NO;
         self.stimSetupButton.hidden = NO;
+        if (!self.pulse)
+            self.pulse = [[LarvaJoltAudio alloc] init];
     }
     else
     {

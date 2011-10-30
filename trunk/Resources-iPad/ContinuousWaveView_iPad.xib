@@ -255,7 +255,7 @@
 					<object class="IBUIButton" id="270791887">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">-2147483356</int>
-						<string key="NSFrame">{{23, 19}, {25, 25}}</string>
+						<string key="NSFrame">{{99, 0}, {63, 61}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1007686232"/>
@@ -324,7 +324,7 @@
 					<object class="IBUIButton" id="1007686232">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">-2147483356</int>
-						<string key="NSFrame">{{66, 18}, {25, 25}}</string>
+						<string key="NSFrame">{{12, -1}, {72, 62}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="601541161"/>
@@ -498,6 +498,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">startStopStim:</string>
+						<reference key="source" ref="1007686232"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">64</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showLarvaJoltPopover:</string>
 						<reference key="source" ref="270791887"/>
 						<reference key="destination" ref="372490531"/>
@@ -532,8 +541,8 @@
 							<reference ref="193395725"/>
 							<reference ref="730043720"/>
 							<reference ref="243548960"/>
-							<reference ref="270791887"/>
 							<reference ref="1007686232"/>
+							<reference ref="270791887"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -672,7 +681,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">63</int>
+			<int key="maxID">64</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -693,7 +702,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>startRecording:</string>
-							<string>startStim:</string>
+							<string>startStopStim:</string>
 							<string>stopRecording:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -708,7 +717,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>startRecording:</string>
-							<string>startStim:</string>
+							<string>startStopStim:</string>
 							<string>stopRecording:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -718,7 +727,7 @@
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">startStim:</string>
+								<string key="name">startStopStim:</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBActionInfo">

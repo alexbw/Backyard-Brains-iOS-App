@@ -14,15 +14,13 @@
 #import "LarvaJoltViewController.h"
 
 
-@interface ContinuousWaveViewController_iPad : ContinuousWaveViewController <BBFileViewControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, FlipsideInfoViewDelegate, LarvaJoltViewDelegate> {
+@interface ContinuousWaveViewController_iPad : ContinuousWaveViewController <BBFileViewControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, FlipsideInfoViewDelegate> {
 
 	UIPopoverController *recordedFilesPopover;
-    LarvaJoltViewController *ljvc;
 	
 }
 
 @property (nonatomic, retain) UIPopoverController *recordedFilesPopover;
-@property (nonatomic, retain) LarvaJoltViewController *ljvc;
 
 - (IBAction)displayInfoPopover:(UIButton *)sender;
 - (IBAction)showFilePopover:(UIButton *)sender;

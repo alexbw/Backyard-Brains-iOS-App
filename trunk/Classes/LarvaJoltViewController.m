@@ -30,7 +30,6 @@
 @implementation LarvaJoltViewController
 
 @synthesize delegate;
-@synthesize pulse;
 @synthesize numberFormatter, backgroundTimer, backgroundBlue;
 @synthesize frequencySlider, dutyCycleSlider, pulseTimeSlider;
 @synthesize frequencyField, pulseWidthField, pulseTimeField;
@@ -38,9 +37,7 @@
 
 
 
-
-// -------------------------------------------------
-// Implementation of LarvaJoltAudio delegate protocol.
+#pragma mark - Implementation of LarvaJoltAudio delegate protocol.
 
 
 - (void)pulseIsPlaying
@@ -91,8 +88,8 @@
 }
 
 
-// -------------------------------------------------
-// Implementation of UITextField delegate protocol.
+
+#pragma mark - Implementation of UITextField delegate protocol.
 
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -155,39 +152,39 @@
 {	
     if (source==@"Slider")
     {
-        self.pulse.frequency = self.frequencySlider.value;
-        self.pulse.dutyCycle = self.dutyCycleSlider.value;
-        self.pulse.pulseTime = self.pulseTimeSlider.value;
+        self.delegate.pulse.frequency = self.frequencySlider.value;
+        self.delegate.pulse.dutyCycle = self.dutyCycleSlider.value;
+        self.delegate.pulse.pulseTime = self.pulseTimeSlider.value;
         NSLog(@"Updated from Slider");
     }
     else
     {
-        self.pulse.frequency = [self checkValue:[self.frequencyField.text doubleValue]
+        self.delegate.pulse.frequency = [self checkValue:[self.frequencyField.text doubleValue]
                                          forMin:self.frequencySlider.minimumValue
                                          andMax:self.frequencySlider.maximumValue ];
         
-        self.pulse.dutyCycle =
-          [self checkValue:[self.pulseWidthField.text doubleValue] / 1000 * self.pulse.frequency
+        self.delegate.pulse.dutyCycle =
+          [self checkValue:[self.pulseWidthField.text doubleValue] / 1000 * self.delegate.pulse.frequency
                          forMin: self.dutyCycleSlider.minimumValue
                          andMax: self.dutyCycleSlider.maximumValue ];
         
-        self.pulse.pulseTime = [self checkValue:[self.pulseTimeField.text doubleValue] * 1000
+        self.delegate.pulse.pulseTime = [self checkValue:[self.pulseTimeField.text doubleValue] * 1000
                                              forMin: self.pulseTimeSlider.minimumValue
                                              andMax: self.pulseTimeSlider.maximumValue ];
         
         NSLog(@"Updated from Field");
     }
     
-    self.frequencySlider.value = self.pulse.frequency;
-	NSNumber *num1 = [NSNumber numberWithDouble:self.pulse.frequency];
+    self.frequencySlider.value = self.delegate.pulse.frequency;
+	NSNumber *num1 = [NSNumber numberWithDouble:self.delegate.pulse.frequency];
 	self.frequencyField.text = [self.numberFormatter stringFromNumber:num1];
     
-    self.dutyCycleSlider.value = self.pulse.dutyCycle;
-    NSNumber *num2 = [NSNumber numberWithDouble:(self.pulse.dutyCycle/self.pulse.frequency*1000)];
+    self.dutyCycleSlider.value = self.delegate.pulse.dutyCycle;
+    NSNumber *num2 = [NSNumber numberWithDouble:(self.delegate.pulse.dutyCycle/self.delegate.pulse.frequency*1000)];
 	self.pulseWidthField.text = [self.numberFormatter stringFromNumber:num2];
     
-    self.pulseTimeSlider.value = self.pulse.pulseTime;
-    NSNumber *num3 = [NSNumber numberWithDouble:(self.pulse.pulseTime/1000)];
+    self.pulseTimeSlider.value = self.delegate.pulse.pulseTime;
+    NSNumber *num3 = [NSNumber numberWithDouble:(self.delegate.pulse.pulseTime/1000)];
     self.pulseTimeField.text = [self.numberFormatter stringFromNumber:num3];
 
 }
@@ -214,12 +211,12 @@
 
 - (IBAction)playPulse:(id)sender 
 {
-	[self.pulse playPulse];
+	[self.delegate.pulse playPulse];
 }
 
 - (IBAction)stopPulse:(id)sender 
 {
-	[self.pulse stopPulse];
+	[self.delegate.pulse stopPulse];
 }
 
 - (IBAction)done:(UIBarButtonItem *)sender
@@ -236,9 +233,6 @@
 - (void)setup
 {
 	// Initialize and set objects
-	self.pulse = [[LarvaJoltAudio alloc] init];
-    self.pulse.delegate = self;
-    
 	self.numberFormatter = [[NSNumberFormatter alloc] init];
 	[self.numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     //[self.numberFormatter setMinimumIntegerDigits:1];
@@ -315,7 +309,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:self.view.window]; 
     
     //update the output frequency from the settings menu
-    [self.pulse updateOutputFreq];
+    [self.delegate.pulse updateOutputFreq];
     
     NSLog(@"View will appear");
 }
@@ -343,7 +337,6 @@
 	[pulseTimeSlider release];
 	
 	//release instances
-	[pulse release];
 	[numberFormatter release];
 }
 

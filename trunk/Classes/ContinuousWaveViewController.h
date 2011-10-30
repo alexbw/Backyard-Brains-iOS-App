@@ -14,10 +14,11 @@
 #import "AudioRecorder.h"
 #import "FlipsideInfoViewController.h"
 #import "LarvaJoltViewController.h"
+#import "LarvaJoltAudio.h"
 #import "math.h"
 
 
-@interface ContinuousWaveViewController : DrawingViewController <AudioSignalManagerDelegate> {
+@interface ContinuousWaveViewController : DrawingViewController <AudioSignalManagerDelegate, LarvaJoltViewDelegate> {
 	
 	// Data labels
 	IBOutlet UIButton *recordButton;
@@ -33,6 +34,7 @@
 	AudioRecorder *audioRecorder;
     
     LarvaJoltViewController *larvaJoltController;
+	LarvaJoltAudio *pulse;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *recordButton;
@@ -48,6 +50,8 @@
 @property (nonatomic, retain) AudioRecorder *audioRecorder;
 
 @property (nonatomic, retain) LarvaJoltViewController *larvaJoltController;
+@property (nonatomic, retain) LarvaJoltAudio *pulse;
+
 
 
 - (void)updateDataLabels;
@@ -56,7 +60,7 @@
 
 - (IBAction)startRecording:(UIButton *)sender;
 - (IBAction)stopRecording:(UIButton *)sender;
-- (IBAction)startStim:(UIButton *)sender;
+- (IBAction)startStopStim:(UIButton *)sender;
 
 - (void)pissMyPants;
 

@@ -195,7 +195,7 @@ static OSStatus continuousDisplayOutputCallback(void *inRefCon,
 	
 	AudioSignalManager *asm			= (AudioSignalManager *)inRefCon;
 	ringBuffer *secondStageBuffer	= asm.secondStageBuffer; // secondStageBuffer, our ringBuffer which will hold the audio samples
-	AudioUnit au					= asm.outputAudioUnit; // the audio unit, which we'll use to grab samples
+	AudioUnit au					= asm.audioUnit; // the audio unit, which we'll use to grab samples
 
 	AudioUnitRender(au, ioActionFlags, inTimeStamp, 1, inNumberFrames, ioData);
 	SInt16 *incomingAudio = ioData->mBuffers[0].mData;
@@ -269,7 +269,7 @@ static OSStatus averageTriggerDisplayOutputCallback(void *inRefCon,
 		int indexThresholdCrossing = findThresholdCrossing(incomingAudio, inNumberFrames, [asm thresholdValue], [asm triggerType]);
 		
 		if (indexThresholdCrossing != -1) { 
-			NSLog(@"Crossing at %d... adding to %lu averages", indexThresholdCrossing, th->movingAverageIncrement);
+			//NSLog(@"Crossing at %d... adding to %lu averages", indexThresholdCrossing, th->movingAverageIncrement);
 
 			isTriggered = YES;
 			haveAllAudio = NO;
@@ -395,7 +395,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		
 		int indexThresholdCrossing = findThresholdCrossing(incomingAudio, inNumberFrames, [asm thresholdValue], [asm triggerType]);
 		if (indexThresholdCrossing != -1) { 
-			NSLog(@"Crossing at %d", indexThresholdCrossing);
+			//NSLog(@"Crossing at %d", indexThresholdCrossing);
 			
 			isTriggered = YES;
 			haveAllAudio = NO;
@@ -452,7 +452,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	asm.lastFreshSample = lastFreshSample;
 	asm.triggered = isTriggered;
 	
-	NSLog(@"Playing thru? %d", asm.playThroughEnabled);
+	//NSLog(@"Playing thru? %d", asm.playThroughEnabled);
 	
 	if (!asm.playThroughEnabled) {
 		for (int i=0; i < ioData->mNumberBuffers; ++i) {
@@ -467,7 +467,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 
 # pragma mark - stim play callback
 
-
+/* currently unused. Come back if we need better playback performance
 static OSStatus playbackCallback(void *inRefCon, 
                                  AudioUnitRenderActionFlags *ioActionFlags, 
                                  const AudioTimeStamp *inTimeStamp, 
@@ -479,13 +479,13 @@ static OSStatus playbackCallback(void *inRefCon,
     //    much data is in the buffer.
     
     return noErr;
-}
+}*/
 
 # pragma mark - Obj-C Meatyness
 
 @implementation AudioSignalManager
 
-@synthesize outputAudioUnit;
+@synthesize audioUnit;
 
 @synthesize firstStageBuffer;
 @synthesize secondStageBuffer;
@@ -715,7 +715,7 @@ static OSStatus playbackCallback(void *inRefCon,
 	// Get component
 	AudioComponent outputComponent = AudioComponentFindNext(NULL, &outputDescription);
 	// Get audio units
-	err = AudioComponentInstanceNew(outputComponent, &outputAudioUnit);
+	err = AudioComponentInstanceNew(outputComponent, &audioUnit);
 	NSAssert(err == noErr, @"Could not create audio unit");
 		
 		/*
@@ -729,9 +729,9 @@ static OSStatus playbackCallback(void *inRefCon,
                          -------------------------
 	*/
 
-	// Enable IO
+	// Enable IO for recording
 	UInt32 one = 1;
-	err = AudioUnitSetProperty(self.outputAudioUnit, 
+	err = AudioUnitSetProperty(self.audioUnit, 
 							   kAudioOutputUnitProperty_EnableIO, 
 							   kAudioUnitScope_Input, 
 							   kInputBus, 
@@ -739,14 +739,15 @@ static OSStatus playbackCallback(void *inRefCon,
 							   sizeof(one));
 	NSAssert(err == noErr, @"Could not enable the Input Scope of Bus 1");
 
+    // Enable IO for playback
 	//Enabled by default:
-//	err = AudioUnitSetProperty(self.outputAudioUnit, 
-//							   kAudioOutputUnitProperty_EnableIO, 
-//							   kAudioUnitScope_Output, 
-//							   kOutputBus, 
-//							   &one, 
-//							   sizeof(one));
-//	NSAssert(err == noErr, @"Could not enable the Output Scope of Bus 0");
+	err = AudioUnitSetProperty(self.audioUnit, 
+							   kAudioOutputUnitProperty_EnableIO, 
+							   kAudioUnitScope_Output, 
+							   kOutputBus, 
+							   &one, 
+							   sizeof(one));
+	NSAssert(err == noErr, @"Could not enable the Output Scope of Bus 0");
 
 	
 	
@@ -765,7 +766,8 @@ static OSStatus playbackCallback(void *inRefCon,
 	audioFormat.mBytesPerPacket		= 2;
 	audioFormat.mBytesPerFrame		= 2;
 	
-	err = AudioUnitSetProperty(self.outputAudioUnit, 
+    // Set stream format for recording
+	err = AudioUnitSetProperty(self.audioUnit, 
 							   kAudioUnitProperty_StreamFormat, 
 							   kAudioUnitScope_Output, 
 							   kInputBus, 
@@ -773,79 +775,100 @@ static OSStatus playbackCallback(void *inRefCon,
 							   sizeof(audioFormat));
 	NSAssert(err == noErr, @"Error setting Output Scope for Bus 1 (from microphone to app)");
 	
-	err = AudioUnitSetProperty(self.outputAudioUnit, 
+    // set stream format for playback
+	err = AudioUnitSetProperty(self.audioUnit, 
 							   kAudioUnitProperty_StreamFormat, 
 							   kAudioUnitScope_Input, 
 							   kOutputBus, 
 							   &audioFormat, 
 							   sizeof(audioFormat));
-	NSAssert(err == noErr, @"Error setting Input Scope for Bus 0 (from app to mic)");
+	NSAssert(err == noErr, @"Error setting Input Scope for Bus 0 (from app to speaker)");
 		
 
 	// Check that we properly set the sampling rate
 	Float64 outSampleRate = 0.0;
 	size = sizeof(Float64);
-	AudioUnitGetProperty (self.outputAudioUnit,
+	AudioUnitGetProperty (self.audioUnit,
 						  kAudioUnitProperty_SampleRate,
 						  kAudioUnitScope_Output,
 						  kInputBus,
 						  &outSampleRate,
 						  &size);
-	NSLog(@"===== Output sample rate is now at %f Hz, originally wanted %f", outSampleRate, (Float64)samplingRate);
+	NSLog(@"===== recording sample rate is now at %f Hz, originally wanted %f", outSampleRate, (Float64)samplingRate);
 	
 	
 	
-	
-	// Now set up the input callback
-	AURenderCallbackStruct playbackCallbackStruct;
+	// Now set up the recording callback
+	AURenderCallbackStruct inputCallbackStruct;
 	switch (callbackType) {
 		case kAudioCallbackContinuous:
-			playbackCallbackStruct.inputProc = continuousDisplayOutputCallback;
-			playbackCallbackStruct.inputProcRefCon = self;
+			inputCallbackStruct.inputProc = continuousDisplayOutputCallback;
+			inputCallbackStruct.inputProcRefCon = self;
 			break;
 		case kAudioCallbackSingleShotTrigger:
-			playbackCallbackStruct.inputProc = singleShotTriggerCallback;
+			inputCallbackStruct.inputProc = singleShotTriggerCallback;
 			singleShotTriggerCallbackData *sd = (singleShotTriggerCallbackData *)malloc(sizeof(singleShotTriggerCallbackData));
-			sd->au = self.outputAudioUnit;
+			sd->au = self.audioUnit;
 			sd->ssb = secondStageBuffer;
 			sd->vb = vertexBuffer;
 			sd->asm = self;
-			playbackCallbackStruct.inputProcRefCon = sd;
+			inputCallbackStruct.inputProcRefCon = sd;
 			break;
 		case kAudioCallbackAverageTrigger:
-			playbackCallbackStruct.inputProc = averageTriggerDisplayOutputCallback;
+			inputCallbackStruct.inputProc = averageTriggerDisplayOutputCallback;
 			averageTriggerCallbackData *td = (averageTriggerCallbackData *)malloc(sizeof(averageTriggerCallbackData));
-			td->au = self.outputAudioUnit;
+			td->au = self.audioUnit;
 			td->ssb = secondStageBuffer;
 			td->vb = vertexBuffer;
 			td->asm = self;
 			td->th = triggerSegmentData;
-			playbackCallbackStruct.inputProcRefCon = td;
+			inputCallbackStruct.inputProcRefCon = td;
 			break;
 		default: // default to continuous readout
 			break;
 	}
 	
-//	err = AudioUnitSetProperty(self.outputAudioUnit, 
+    //trying this out:
+//	err = AudioUnitSetProperty(self.audioUnit, 
 //							   kAudioOutputUnitProperty_SetInputCallback, 
 //							   kAudioUnitScope_Global,
 //							   kInputBus, 
-//							   &playbackCallbackStruct, 
-//							   sizeof(playbackCallbackStruct));
-//	NSAssert(err == noErr, @"Setting input callback failed");
+//							   &inputCallbackStruct, 
+//							   sizeof(inputCallbackStruct));
+//	NSAssert(err == noErr, @"Setting recording callback failed");
 
-	err = AudioUnitSetProperty(self.outputAudioUnit, 
+    
+    //Alex had it this way...it worked!?! strange
+	err = AudioUnitSetProperty(self.audioUnit, 
 							   kAudioUnitProperty_SetRenderCallback, 
 							   kAudioUnitScope_Output,
 							   kOutputBus, 
-							   &playbackCallbackStruct, 
-							   sizeof(playbackCallbackStruct));
-	NSAssert(err == noErr, @"Setting input callback failed");
+							   &inputCallbackStruct, 
+							   sizeof(inputCallbackStruct));
+	NSAssert(err == noErr, @"Setting recording callback failed");
 	
-    //callbackStruct.inputProc = playbackCallback;
-    //callbackStruct.inputProcRefCon = self;
+    
+    
+    
+    
+    //new 10/30
+    // Set output callback
+   /* AURenderCallbackStruct playbackCallbackStruct; ...trying something easier!!!!!
+    playbackCallbackStruct.inputProc = playbackCallback;
+    playbackCallbackStruct.inputProcRefCon = self;
+    err= AudioUnitSetProperty(self.audioUnit, 
+                                  kAudioOutputUnitProperty_SetInputCallback, 
+                                  kAudioUnitScope_Global, 
+                                  kInputBus,
+                                  &playbackCallbackStruct, 
+                              sizeof(playbackCallbackStruct));
+	NSAssert(err == noErr, @"Setting playback callback failed");*/
+
 
 	
+    
+    
+    
 	// Set up the play-through callback
 	// CANT GET THIS TO WORK PROPERLY
 //	AURenderCallbackStruct playThruCallbackStruct;
@@ -855,7 +878,7 @@ static OSStatus playbackCallback(void *inRefCon,
 //
 //	playThruCallbackStruct.inputProcRefCon = pd;
 //	
-//	err = AudioUnitSetProperty(self.outputAudioUnit, 
+//	err = AudioUnitSetProperty(self.audioUnit, 
 //							  kAudioUnitProperty_SetRenderCallback, 
 //							  kAudioUnitScope_Global, 
 //							  kOutputBus,
@@ -865,14 +888,10 @@ static OSStatus playbackCallback(void *inRefCon,
 	
 	
 
-	err = AudioUnitInitialize(self.outputAudioUnit);
+	err = AudioUnitInitialize(self.audioUnit);
 	
 
 	NSLog(@"err = %ld", err);
-
-	
-//	
-//	NSAssert(err == noErr, @"Could not initialize audio unit");
 	
 	paused = YES;
 	playThroughEnabled = NO;
@@ -895,49 +914,49 @@ static OSStatus playbackCallback(void *inRefCon,
 	}
 	
 	// Now set up the input callback
-	AURenderCallbackStruct playbackCallbackStruct;
+	AURenderCallbackStruct inputCallbackStruct;
 	switch (callbackType) {
 		case kAudioCallbackContinuous:
-			playbackCallbackStruct.inputProc = continuousDisplayOutputCallback;
-			playbackCallbackStruct.inputProcRefCon = self;
+			inputCallbackStruct.inputProc = continuousDisplayOutputCallback;
+			inputCallbackStruct.inputProcRefCon = self;
 			break;
 		case kAudioCallbackSingleShotTrigger:
-			playbackCallbackStruct.inputProc = singleShotTriggerCallback;
+			inputCallbackStruct.inputProc = singleShotTriggerCallback;
 			singleShotTriggerCallbackData *sd = (singleShotTriggerCallbackData *)malloc(sizeof(singleShotTriggerCallbackData));
-			sd->au = self.outputAudioUnit;
+			sd->au = self.audioUnit;
 			sd->ssb = secondStageBuffer;
 			sd->vb = vertexBuffer;
 			sd->asm = self;
-			playbackCallbackStruct.inputProcRefCon = sd;
+			inputCallbackStruct.inputProcRefCon = sd;
 			break;
 		case kAudioCallbackAverageTrigger:
-			playbackCallbackStruct.inputProc = averageTriggerDisplayOutputCallback;
+			inputCallbackStruct.inputProc = averageTriggerDisplayOutputCallback;
 			averageTriggerCallbackData *td = (averageTriggerCallbackData *)malloc(sizeof(averageTriggerCallbackData));
-			td->au = self.outputAudioUnit;
+			td->au = self.audioUnit;
 			td->ssb = secondStageBuffer;
 			td->vb = vertexBuffer;
 			td->asm = self;
 			td->th = triggerSegmentData;
-			playbackCallbackStruct.inputProcRefCon = td;		
+			inputCallbackStruct.inputProcRefCon = td;		
 			break;
 		default: // default to continuous readout
 			break;
 	}
 	
-//	OSStatus err = AudioUnitSetProperty(self.outputAudioUnit, 
+//	OSStatus err = AudioUnitSetProperty(self.audioUnit, 
 //							   kAudioOutputUnitProperty_SetInputCallback, 
 //							   kAudioUnitScope_Global,
 //							   kInputBus, 
-//							   &playbackCallbackStruct, 
-//							   sizeof(playbackCallbackStruct));
+//							   &inputCallbackStruct, 
+//							   sizeof(inputCallbackStruct));
 //	NSAssert(err == noErr, @"Setting input callback failed");
 	
-	OSStatus err = AudioUnitSetProperty(self.outputAudioUnit, 
+	OSStatus err = AudioUnitSetProperty(self.audioUnit, 
 							   kAudioUnitProperty_SetRenderCallback, 
 							   kAudioUnitScope_Output,
 							   kOutputBus, 
-							   &playbackCallbackStruct, 
-							   sizeof(playbackCallbackStruct));
+							   &inputCallbackStruct, 
+							   sizeof(inputCallbackStruct));
     NSAssert(err == noErr, @"Setting render callback failed");
 
 	self.myCallbackType = callbackType;
@@ -1090,7 +1109,7 @@ static OSStatus playbackCallback(void *inRefCon,
 - (void)pause {
 	
 	if (!paused) {
-		OSStatus err = AudioOutputUnitStop(self.outputAudioUnit);
+		OSStatus err = AudioOutputUnitStop(self.audioUnit);
         NSLog(@"err = %ld", err);
 		paused = YES;
 	}
@@ -1108,7 +1127,7 @@ static OSStatus playbackCallback(void *inRefCon,
 	if ( inputAvailable ) {
 		// Set the audio session category for simultaneous play and record
 		if (paused) {
-			OSStatus err = AudioOutputUnitStart(self.outputAudioUnit);
+			OSStatus err = AudioOutputUnitStart(self.audioUnit);
 			NSLog(@"err = %ld", err);			
 			paused = NO;
 		}

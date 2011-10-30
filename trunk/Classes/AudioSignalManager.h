@@ -68,7 +68,7 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 
 	// Audio Unit for acquiring single samples from the microphone (headset, I think)
 	
-	AudioUnit outputAudioUnit;
+	AudioUnit audioUnit;
 		
 	// We have two separate audio storage buffers, 
 	// One for directly accepting audio samples, and one for holding data ready to be displayed.
@@ -111,7 +111,7 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 }
 
 
-@property AudioUnit outputAudioUnit;
+@property AudioUnit audioUnit;
 
 @property SInt16 *firstStageBuffer;
 @property ringBuffer *secondStageBuffer;

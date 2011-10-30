@@ -43,6 +43,8 @@
 	double pulseProgress;
     double theta;
     double ledControlFreq;
+    
+    BOOL playing;
 	
 }
 
@@ -58,6 +60,8 @@
 @property double pulseProgress;
 @property double theta;
 @property double ledControlFreq;
+
+@property BOOL playing;
 
 - (void)updateOutputFreq;
 

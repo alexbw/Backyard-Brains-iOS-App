@@ -71,8 +71,10 @@
     {
         self.larvaJoltController = [[LarvaJoltViewController alloc] initWithNibName:@"LarvaJoltViewController" bundle:nil];
         self.larvaJoltController.delegate = self;
+        self.pulse.delegate = self.larvaJoltController;
         self.larvaJoltController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     }
+    self.stimButton.enabled = YES;
     [self presentModalViewController:self.larvaJoltController animated:YES];
     
 }

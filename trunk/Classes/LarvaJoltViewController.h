@@ -11,6 +11,9 @@
 #import "LarvaJoltAudio.h"
 
 @protocol LarvaJoltViewDelegate
+@required
+@property (nonatomic, retain) LarvaJoltAudio *pulse;
+@optional
 - (void)hideLarvaJolt;
 @end
 
@@ -18,7 +21,6 @@
 {
 	id <LarvaJoltViewDelegate> delegate;
     
-	LarvaJoltAudio *pulse;
 	
 	NSNumberFormatter *numberFormatter;
     NSTimer *backgroundTimer;
@@ -37,8 +39,6 @@
 
 
 @property (assign) id <LarvaJoltViewDelegate> delegate;
-
-@property (nonatomic,retain) LarvaJoltAudio *pulse;
 
 - (void)updateBackgroundColor;
 

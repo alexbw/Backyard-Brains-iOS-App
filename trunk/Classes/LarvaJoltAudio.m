@@ -106,6 +106,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 @synthesize delegate;
 @synthesize dutyCycle, frequency, amplitude, pulseTime;
 @synthesize sampleRate, pulseProgress, theta, ledControlFreq;
+@synthesize playing;
 
 
 #define defaultSampleRate 44100.0 //Hz
@@ -113,6 +114,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 #define defaultFrequency 1000 //Hz. Period = 1ms
 #define defaultAmplitude 1.00 //units?
 #define defaultLedControlFrequency 10000.f //Hz
+#define defaultPulseTime 10000 //ms
 
 // Designated initializer to set critical parameters
 - (id)init //WithDictionary:(NSDictionary *)dictionary
@@ -126,6 +128,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 		self.dutyCycle		= defaultDutyCycle;  //ON if dutyCycle = 1
 		self.frequency		= defaultFrequency; 
 		self.amplitude		= defaultAmplitude;		
+        self.pulseTime      = defaultPulseTime;
         self.pulseProgress = 0;
         		NSLog(@"pulse initialized.");
 	}
@@ -174,9 +177,11 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 		// Start playback
 		err = AudioOutputUnitStart(toneUnit);
 		NSAssert1(err == noErr, @"Error starting unit: %ld", err);
-	}
+	
     
-    [self.delegate pulseIsPlaying];
+        self.playing = YES;
+        [self.delegate pulseIsPlaying];
+    }
 }
 
 - (void)stopPulse
@@ -191,6 +196,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 		toneUnit = nil;
 	}
     
+    self.playing = NO;
     [self.delegate pulseIsStopped];
 }
 
