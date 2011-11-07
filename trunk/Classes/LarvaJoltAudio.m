@@ -44,9 +44,10 @@ static OSStatus RenderTone(
     #define c1 1.88
     #define c2 0.387
     #define c3 0.00532
-    double pwi = dutyCycleInput/frequency;
-    double pwo = c1*pow(pwi,2) + c2*pwi + c3;
-    double dutyCycle = pwo*frequency;
+    // Adjustment for circuit-specific delay:
+    //double pwi = dutyCycleInput/frequency;
+    //double pwo = c1*pow(pwi,2) + c2*pwi + c3;
+    double dutyCycle = dutyCycleInput; //pwo*frequency;
     NSLog(@"Duty cycle in: %f, duty cycle out: %f", dutyCycleInput, dutyCycle);
     
 	

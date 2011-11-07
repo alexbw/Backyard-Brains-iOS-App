@@ -205,11 +205,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/LarvaJoltViewController.m"
-         timestampString = "341706332.192095"
+         timestampString = "342391593.292334"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "45"
-         endingLineNumber = "45"
+         startingLineNumber = "48"
+         endingLineNumber = "48"
          landmarkName = "-pulseIsPlaying"
          landmarkType = "5">
       </FileBreakpoint>
@@ -219,11 +219,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/LarvaJoltViewController.m"
-         timestampString = "341706333.554331"
+         timestampString = "342391593.292334"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "54"
-         endingLineNumber = "54"
+         startingLineNumber = "57"
+         endingLineNumber = "57"
          landmarkName = "-pulseIsStopped"
          landmarkType = "5">
       </FileBreakpoint>
@@ -281,6 +281,48 @@
          startingLineNumber = "164"
          endingLineNumber = "164"
          landmarkName = "-playPulse"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/LarvaJoltViewController.m"
+         timestampString = "342392825.54969"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "231"
+         endingLineNumber = "231"
+         landmarkName = "-updateViewFrom:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/LarvaJoltViewController.m"
+         timestampString = "342392825.54969"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "239"
+         endingLineNumber = "239"
+         landmarkName = "-checkValue:forMin:andMax:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/LarvaJoltViewController.m"
+         timestampString = "342392825.54969"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "233"
+         endingLineNumber = "233"
+         landmarkName = "-updateViewFrom:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

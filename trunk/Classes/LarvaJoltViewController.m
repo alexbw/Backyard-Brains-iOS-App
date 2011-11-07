@@ -18,9 +18,12 @@
 @property (nonatomic,retain) IBOutlet UISlider *frequencySlider;
 @property (nonatomic,retain) IBOutlet UISlider *dutyCycleSlider;
 @property (nonatomic,retain) IBOutlet UISlider *pulseTimeSlider;
+@property (nonatomic,retain) IBOutlet UISlider *toneFreqSlider;
 @property (nonatomic,retain) IBOutlet UITextField *frequencyField;
 @property (nonatomic,retain) IBOutlet UITextField *pulseWidthField;
 @property (nonatomic,retain) IBOutlet UITextField *pulseTimeField;
+@property (nonatomic,retain) IBOutlet UITextField *toneFreqField;
+@property (nonatomic,retain) IBOutlet UISwitch *constantToneSwitch;
 @property (nonatomic,retain) IBOutlet UIButton *playButton;
 @property (nonatomic,retain) IBOutlet UIButton *stopButton;
 
@@ -31,9 +34,9 @@
 
 @synthesize delegate;
 @synthesize numberFormatter, backgroundTimer, backgroundBlue;
-@synthesize frequencySlider, dutyCycleSlider, pulseTimeSlider;
-@synthesize frequencyField, pulseWidthField, pulseTimeField;
-@synthesize playButton, stopButton;
+@synthesize frequencySlider, dutyCycleSlider, pulseTimeSlider, toneFreqSlider;
+@synthesize frequencyField, pulseWidthField, pulseTimeField, toneFreqField;
+@synthesize playButton, stopButton, constantToneSwitch;
 
 
 
@@ -94,7 +97,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    if ([textField isEqual:self.pulseTimeField])
+    if ([textField isEqual:self.pulseTimeField] || [textField isEqual:self.toneFreqField])
     {
         [self setViewMovedUp:NO];
     }
@@ -109,6 +112,36 @@
 }
 
 
+
+-(void)textFieldDidBeginEditing:(UITextField *)sender
+{
+    if ([sender isEqual:self.pulseTimeField] || [sender isEqual:self.toneFreqField])
+    {
+        //move the main view, so that the keyboard does not hide it.
+        if  (self.view.frame.origin.y >= 0)
+        {
+            [self setViewMovedUp:YES];
+        }
+    }
+}
+
+
+
+- (void)keyboardWillShow:(NSNotification *)notif
+{
+    //keyboard will be shown now. depending for which textfield is active, move up or move down the view appropriately
+    
+    if (([self.pulseTimeField isFirstResponder] || [self.toneFreqField isFirstResponder])
+        && self.view.frame.origin.y >= 0)
+    {
+        [self setViewMovedUp:YES];
+    }
+    else if (!([self.pulseTimeField isFirstResponder] || [self.toneFreqField isFirstResponder])
+             && self.view.frame.origin.y < 0)
+    {
+        [self setViewMovedUp:NO];
+    }
+}
 
 
 
@@ -155,6 +188,7 @@
         self.delegate.pulse.frequency = self.frequencySlider.value;
         self.delegate.pulse.dutyCycle = self.dutyCycleSlider.value;
         self.delegate.pulse.pulseTime = self.pulseTimeSlider.value;
+        self.delegate.pulse.ledControlFreq = self.toneFreqSlider.value;
         NSLog(@"Updated from Slider");
     }
     else
@@ -172,6 +206,12 @@
                                              forMin: self.pulseTimeSlider.minimumValue
                                              andMax: self.pulseTimeSlider.maximumValue ];
         
+        //NSLog(@"tone freq field text: %f", [self.toneFreqField.text doubleValue]);
+        self.delegate.pulse.ledControlFreq =
+                       [ self checkValue:[[self.toneFreqField.text stringByReplacingOccurrencesOfString:@"," withString:@""] doubleValue]
+                                  forMin: self.toneFreqSlider.minimumValue 
+                                  andMax: self.toneFreqSlider.maximumValue ];
+        
         NSLog(@"Updated from Field");
     }
     
@@ -186,7 +226,11 @@
     self.pulseTimeSlider.value = self.delegate.pulse.pulseTime;
     NSNumber *num3 = [NSNumber numberWithDouble:(self.delegate.pulse.pulseTime/1000)];
     self.pulseTimeField.text = [self.numberFormatter stringFromNumber:num3];
-
+    
+    //NSLog(@"led control freq: %f", self.delegate.pulse.ledControlFreq);
+    self.toneFreqSlider.value = self.delegate.pulse.ledControlFreq;
+    NSNumber *num4 = [NSNumber numberWithDouble:self.delegate.pulse.ledControlFreq];
+    self.toneFreqField.text = [self.numberFormatter stringFromNumber:num4];
 }
 
 
@@ -223,6 +267,26 @@
 {
     [self dismissModalViewControllerAnimated:YES];
     [self.delegate hideLarvaJolt];
+}
+
+- (IBAction)toggleConstantTone:(UISwitch *)sender
+{
+    if (sender.on==YES)
+    {
+        self.delegate.pulse.frequency = 0;
+        self.frequencyField.enabled  = NO;
+        self.frequencySlider.enabled = NO;
+        self.pulseWidthField.enabled = NO;
+        self.dutyCycleSlider.enabled = NO;
+    }
+    else
+    {
+        self.frequencyField.enabled  = YES;
+        self.frequencySlider.enabled = YES;
+        self.pulseWidthField.enabled = YES;
+        self.dutyCycleSlider.enabled = YES;
+        [self updateViewFrom:@"Slider"];
+    }
 }
 
 
@@ -264,34 +328,6 @@
 
 
 
--(void)textFieldDidBeginEditing:(UITextField *)sender
-{
-    if ([sender isEqual:self.pulseTimeField])
-    {
-        //move the main view, so that the keyboard does not hide it.
-        if  (self.view.frame.origin.y >= 0)
-        {
-            [self setViewMovedUp:YES];
-        }
-    }
-}
-
-
-
-- (void)keyboardWillShow:(NSNotification *)notif
-{
-    //keyboard will be shown now. depending for which textfield is active, move up or move down the view appropriately
-    
-    if ([self.pulseTimeField isFirstResponder] && self.view.frame.origin.y >= 0)
-    {
-        [self setViewMovedUp:YES];
-    }
-    else if (![self.pulseTimeField isFirstResponder] && self.view.frame.origin.y < 0)
-    {
-        [self setViewMovedUp:NO];
-    }
-}
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -304,12 +340,14 @@
     self.pulseWidthField.delegate = self;
     self.pulseTimeField.returnKeyType = UIReturnKeyDone;
     self.pulseTimeField.delegate = self;
+    self.toneFreqField.returnKeyType = UIReturnKeyDone;
+    self.toneFreqField.delegate = self;
     
     // register for keyboard notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:self.view.window]; 
     
     //update the output frequency from the settings menu
-    [self.delegate.pulse updateOutputFreq];
+    //[self.delegate.pulse updateOutputFreq];
     
     NSLog(@"View will appear");
 }
@@ -335,6 +373,9 @@
 	[frequencySlider release];
 	[dutyCycleSlider release];
 	[pulseTimeSlider release];
+    [toneFreqField release];
+    [toneFreqSlider release];
+    [constantToneSwitch release];
 	
 	//release instances
 	[numberFormatter release];

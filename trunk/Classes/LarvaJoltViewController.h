@@ -29,9 +29,12 @@
 	IBOutlet UISlider *frequencySlider;
 	IBOutlet UISlider *dutyCycleSlider;
     IBOutlet UISlider *pulseTimeSlider;
+    IBOutlet UISlider *toneFreqSlider;
     IBOutlet UITextField *frequencyField;
     IBOutlet UITextField *pulseWidthField;
     IBOutlet UITextField *pulseTimeField;
+    IBOutlet UITextField *toneFreqField;
+    IBOutlet UISwitch *constantToneSwitch;
     IBOutlet UIButton *playButton;
     IBOutlet UIButton *stopButton;
 	
@@ -54,6 +57,7 @@
 - (IBAction)playPulse:(id)sender;
 - (IBAction)stopPulse:(id)sender;
 - (IBAction)done:(UIBarButtonItem *)sender;
+- (IBAction)toggleConstantTone:(UISwitch *)sender;
 
 - (void)setup;
 - (void)releaseOutletsAndInstances;
