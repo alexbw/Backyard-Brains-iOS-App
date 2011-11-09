@@ -6,6 +6,8 @@
 //  Copyright 2011 Zachary King.
 //
 
+#define kOFFSET_FOR_KEYBOARD 110.0
+
 #import "LarvaJoltViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 
@@ -26,6 +28,7 @@
 @property (nonatomic,retain) IBOutlet UISwitch *constantToneSwitch;
 @property (nonatomic,retain) IBOutlet UIButton *playButton;
 @property (nonatomic,retain) IBOutlet UIButton *stopButton;
+@property (nonatomic,retain) IBOutlet UITextField *calibAField, *calibBField, *calibCField;
 
 @end
 
@@ -37,7 +40,7 @@
 @synthesize frequencySlider, dutyCycleSlider, pulseTimeSlider, toneFreqSlider;
 @synthesize frequencyField, pulseWidthField, pulseTimeField, toneFreqField;
 @synthesize playButton, stopButton, constantToneSwitch;
-
+@synthesize calibAField, calibBField, calibCField;
 
 
 #pragma mark - Implementation of LarvaJoltAudio delegate protocol.
@@ -101,13 +104,17 @@
 
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if ([textField isEqual:self.pulseTimeField] || [textField isEqual:self.toneFreqField])
+{/*
+    if ((   [textField isEqual:self.pulseTimeField]
+        || [textField isEqual:self.toneFreqField]
+        || [textField isEqual:self.calibAField]
+        || [textField isEqual:self.calibBField]
+        || [textField isEqual:self.calibCField]  )
+        && self.view.frame.origin.y < 0)
     {
-        [self setViewMovedUp:NO];
-    }
+        [self setViewMovedUp:NO byDist:0];
+    }*/
 }
-
 
 // this helps dismiss the keyboard when the "done" button is clicked
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -120,14 +127,21 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)sender
 {
-    if ([sender isEqual:self.pulseTimeField] || [sender isEqual:self.toneFreqField])
+    /*if  (self.view.frame.origin.y >= 0)
     {
-        //move the main view, so that the keyboard does not hide it.
-        if  (self.view.frame.origin.y >= 0)
+        if ([sender isEqual:self.pulseTimeField] || [sender isEqual:self.toneFreqField])
         {
-            [self setViewMovedUp:YES];
+            //move the main view, so that the keyboard does not hide it.
+        
+                [self setViewMovedUp:YES byDist:kOFFSET_FOR_KEYBOARD];
         }
-    }
+        else if (   [sender isEqual:self.calibAField]
+                 || [sender isEqual:self.calibBField]
+                 || [sender isEqual:self.calibCField] )
+        {
+            [self setViewMovedUp:YES byDist:200];
+        }
+    }*/
 }
 
 
@@ -139,15 +153,29 @@
     if (([self.pulseTimeField isFirstResponder] || [self.toneFreqField isFirstResponder])
         && self.view.frame.origin.y >= 0)
     {
-        [self setViewMovedUp:YES];
+        [self setViewMovedUp:YES byDist:kOFFSET_FOR_KEYBOARD];
     }
-    else if (!([self.pulseTimeField isFirstResponder] || [self.toneFreqField isFirstResponder])
+    else if (!([self.pulseTimeField isFirstResponder]
+               || [self.toneFreqField isFirstResponder]
+               || [self.calibAField isFirstResponder]
+               || [self.calibBField isFirstResponder]
+               || [self.calibCField isFirstResponder])
              && self.view.frame.origin.y < 0)
     {
-        [self setViewMovedUp:NO];
+        [self setViewMovedUp:NO byDist:0];
+    }
+    else if ([self.calibAField isFirstResponder]
+             || [self.calibBField isFirstResponder]
+             || [self.calibCField isFirstResponder])
+    {
+        [self setViewMovedUp:YES byDist:200];
     }
 }
 
+- (void)keyboardWillHide:(NSNotification *)notif
+{
+        [self setViewMovedUp:NO byDist:0];
+}
 
 
 
@@ -156,9 +184,9 @@
 
 
 //method to move the view up/down whenever the keyboard is shown/dismissed
-#define kOFFSET_FOR_KEYBOARD 110.0
 
--(void)setViewMovedUp:(BOOL)movedUp
+
+-(void)setViewMovedUp:(BOOL)movedUp byDist:(UInt32)dist
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.5]; // if you want to slide up the view
@@ -168,14 +196,14 @@
     {
         // 1. move the view's origin up so that the text field that will be hidden come above the keyboard 
         // 2. increase the size of the view so that the area behind the keyboard is covered up.
-        rect.origin.y -= kOFFSET_FOR_KEYBOARD;
-        rect.size.height += kOFFSET_FOR_KEYBOARD;
+        rect.origin.y -= dist;
+        rect.size.height += dist;
     }
     else
     {
         // revert back to the normal state.
-        rect.origin.y += kOFFSET_FOR_KEYBOARD;
-        rect.size.height -= kOFFSET_FOR_KEYBOARD;
+        rect.origin.y = 0;
+        rect.size.height = self.view.frame.size.height;
     }
     NSLog(@"Did move up = %@\n", (movedUp ? @"YES" : @"NO"));
     
@@ -222,6 +250,11 @@
                                   forMin: self.toneFreqSlider.minimumValue 
                                   andMax: self.toneFreqSlider.maximumValue ];
         
+        self.delegate.pulse.calibA = [self.calibAField.text doubleValue];
+        self.delegate.pulse.calibB = [self.calibBField.text doubleValue];
+        self.delegate.pulse.calibC = [self.calibCField.text doubleValue];
+        NSLog(@"calibA: %f calibB: %f calibC: %f", self.delegate.pulse.calibA,
+              self.delegate.pulse.calibB, self.delegate.pulse.calibC);
         NSLog(@"Updated from Field");
     }
     
@@ -244,6 +277,7 @@
     self.toneFreqSlider.value = self.delegate.pulse.ledControlFreq;
     NSNumber *num4 = [NSNumber numberWithDouble:self.delegate.pulse.ledControlFreq];
     self.toneFreqField.text = [self.numberFormatter stringFromNumber:num4];
+    
 }
 
 
@@ -317,6 +351,8 @@
     
     self.backgroundBlue = 0.05;
     
+    
+    
     [self updateViewFrom:@"Slider"];
     NSLog(@"View updated.");
         
@@ -355,9 +391,19 @@
     self.pulseTimeField.delegate = self;
     self.toneFreqField.returnKeyType = UIReturnKeyDone;
     self.toneFreqField.delegate = self;
+    self.calibAField.returnKeyType = UIReturnKeyDone;
+    self.calibAField.delegate = self;
+    self.calibBField.returnKeyType = UIReturnKeyDone;
+    self.calibBField.delegate = self;
+    self.calibCField.returnKeyType = UIReturnKeyDone;
+    self.calibCField.delegate = self;
     
     // register for keyboard notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:self.view.window]; 
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:self.view.window]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:self.view.window];
+    }
     
     //update the output frequency from the settings menu
     //[self.delegate.pulse updateOutputFreq];
@@ -371,7 +417,8 @@
 {
 	[super viewWillDisappear:animated];
     // unregister for keyboard notifications while not visible.
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil]; 
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil]; 
 }
 
 
@@ -391,6 +438,9 @@
     [toneFreqField release];
     [toneFreqSlider release];
     [constantToneSwitch release];
+    [calibAField release];
+    [calibBField release];
+    [calibCField release];
 	
 	//release instances
 	[numberFormatter release];

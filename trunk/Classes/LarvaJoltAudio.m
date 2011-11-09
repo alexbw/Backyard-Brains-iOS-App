@@ -43,6 +43,9 @@ static OSStatus RenderTone(
     double amplitude = lja->amplitude;
     double sampleRate = lja->sampleRate;
     double theta = lja->theta;
+    double calibA = lja->calibA;
+    double calibB = lja->calibB;
+    double calibC = lja->calibC;
     
     if (frequency==0)
     {
@@ -73,9 +76,9 @@ static OSStatus RenderTone(
         //#define c2 0.387
         //#define c3 0.00532
         // Adjustment for circuit-specific delay:
-        //double pwi = dutyCycleInput/frequency;
-        //double pwo = c1*pow(pwi,2) + c2*pwi + c3;
-        double dutyCycle = dutyCycleInput; //pwo*frequency;
+        double pwi = dutyCycleInput/frequency;
+        double pwo = calibA*pow(pwi,2) + calibB*pwi + calibC;
+        double dutyCycle = pwo*frequency;
         //NSLog(@"Duty cycle in: %f, duty cycle out: %f", dutyCycleInput, dutyCycle);
         
         // Generate the samples
@@ -130,6 +133,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 @synthesize dutyCycle, frequency, amplitude, pulseTime;
 @synthesize sampleRate, pulseProgress, theta, ledControlFreq;
 @synthesize playing, timer;
+@synthesize calibA, calibB, calibC;
 
 
 #define defaultSampleRate 44100.0 //Hz
@@ -138,6 +142,9 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 #define defaultAmplitude 1.00 //units?
 #define defaultLedControlFrequency 10000.f //Hz
 #define defaultPulseTime 100000 //ms
+#define defaultCalibA 0
+#define defaultCalibB 1
+#define defaultCalibC 0
 
 // Designated initializer to set critical parameters
 - (id)init //WithDictionary:(NSDictionary *)dictionary
@@ -153,7 +160,11 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 		self.amplitude		= defaultAmplitude;		
         self.pulseTime      = defaultPulseTime;
         self.pulseProgress = 0;
-        		NSLog(@"pulse initialized.");
+        self.calibA = defaultCalibA;
+        self.calibB = defaultCalibB;
+        self.calibC = defaultCalibC;
+        NSLog(@"pulse initialized.");
+
 	}
 	return self;
 }
@@ -162,7 +173,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 - (void)updateOutputFreq
 {
     
-    // Grab the led control frequency from the NSUserDefaults THINGYYY
+    /*// Grab the led control frequency from the NSUserDefaults THINGYYY
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     NSNumber *ledControlFreqValue;
@@ -174,7 +185,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
     }
     
     NSLog(@"==== DEFAULT LEDCONTROLFREQ: %@", [defaults valueForKey:@"ledcontrolfreq"]);
-    
+    */
 
 }
 

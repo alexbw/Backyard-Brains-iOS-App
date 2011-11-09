@@ -62,18 +62,6 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<integer>10000</integer>
-			<key>Key</key>
-			<string>ledcontrolfreq</string>
-			<key>KeyboardType</key>
-			<string>NumbersAndPunctuation</string>
-			<key>Title</key>
-			<string>LED Control Frequency</string>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Root</string>

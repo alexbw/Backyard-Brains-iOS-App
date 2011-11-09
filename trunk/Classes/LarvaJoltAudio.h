@@ -45,6 +45,7 @@
     double ledControlFreq;
     
     BOOL playing;
+    double calibA, calibB, calibC;
     
     NSTimer *timer;
 	
@@ -64,6 +65,8 @@
 @property double ledControlFreq;
 
 @property BOOL playing;
+@property double calibA, calibB, calibC;
+
 @property (nonatomic, retain) NSTimer *timer;
 
 - (void)updateOutputFreq;

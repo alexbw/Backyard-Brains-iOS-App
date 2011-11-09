@@ -38,6 +38,7 @@
     IBOutlet UISwitch *constantToneSwitch;
     IBOutlet UIButton *playButton;
     IBOutlet UIButton *stopButton;
+    IBOutlet UITextField *calibAField, *calibBField, *calibCField;
 	
 }
 
@@ -46,7 +47,7 @@
 
 - (void)updateBackgroundColor;
 
-- (void)setViewMovedUp:(BOOL)movedUp;
+- (void)setViewMovedUp:(BOOL)movedUp byDist:(UInt32)dist;
 
 
 - (void)updateViewFrom:(NSString *)source;
@@ -62,6 +63,9 @@
 
 - (void)setup;
 - (void)releaseOutletsAndInstances;
+
+- (void)keyboardWillShow:(NSNotification *)notif;
+- (void)keyboardWillHide:(NSNotification *)notif;
 
 
 @end
