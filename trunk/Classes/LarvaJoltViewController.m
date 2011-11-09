@@ -50,6 +50,8 @@
     self.playButton.enabled = NO;
     self.stopButton.enabled = YES;
     
+    //self.delegate.stimButton.enabled = NO;
+    
     self.backgroundTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(updateBackgroundColor) userInfo:nil repeats:YES];
 }
 - (void)pulseIsStopped
@@ -58,6 +60,9 @@
     self.pulseTimeSlider.enabled = YES;
     self.playButton.enabled = YES;
     self.stopButton.enabled = NO;
+    
+    //self.delegate.stimButton.enabled = YES;
+    
     [self.backgroundTimer invalidate];
     self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
 }
@@ -185,23 +190,28 @@
 {	
     if (source==@"Slider")
     {
-        self.delegate.pulse.frequency = self.frequencySlider.value;
-        self.delegate.pulse.dutyCycle = self.dutyCycleSlider.value;
+        if (!self.constantToneSwitch.on)
+        {
+            self.delegate.pulse.frequency = self.frequencySlider.value;
+            self.delegate.pulse.dutyCycle = self.dutyCycleSlider.value;
+        }
         self.delegate.pulse.pulseTime = self.pulseTimeSlider.value;
         self.delegate.pulse.ledControlFreq = self.toneFreqSlider.value;
         NSLog(@"Updated from Slider");
     }
     else
     {
-        self.delegate.pulse.frequency = [self checkValue:[self.frequencyField.text doubleValue]
-                                         forMin:self.frequencySlider.minimumValue
-                                         andMax:self.frequencySlider.maximumValue ];
-        
-        self.delegate.pulse.dutyCycle =
-          [self checkValue:[self.pulseWidthField.text doubleValue] / 1000 * self.delegate.pulse.frequency
-                         forMin: self.dutyCycleSlider.minimumValue
-                         andMax: self.dutyCycleSlider.maximumValue ];
-        
+        if (!self.constantToneSwitch.on)
+        {
+            self.delegate.pulse.frequency = [self checkValue:[self.frequencyField.text doubleValue]
+                                             forMin:self.frequencySlider.minimumValue
+                                             andMax:self.frequencySlider.maximumValue ];
+            
+            self.delegate.pulse.dutyCycle =
+              [self checkValue:[self.pulseWidthField.text doubleValue] / 1000 * self.delegate.pulse.frequency
+                             forMin: self.dutyCycleSlider.minimumValue
+                             andMax: self.dutyCycleSlider.maximumValue ];
+        }
         self.delegate.pulse.pulseTime = [self checkValue:[self.pulseTimeField.text doubleValue] * 1000
                                              forMin: self.pulseTimeSlider.minimumValue
                                              andMax: self.pulseTimeSlider.maximumValue ];
@@ -215,13 +225,16 @@
         NSLog(@"Updated from Field");
     }
     
-    self.frequencySlider.value = self.delegate.pulse.frequency;
-	NSNumber *num1 = [NSNumber numberWithDouble:self.delegate.pulse.frequency];
-	self.frequencyField.text = [self.numberFormatter stringFromNumber:num1];
-    
-    self.dutyCycleSlider.value = self.delegate.pulse.dutyCycle;
-    NSNumber *num2 = [NSNumber numberWithDouble:(self.delegate.pulse.dutyCycle/self.delegate.pulse.frequency*1000)];
-	self.pulseWidthField.text = [self.numberFormatter stringFromNumber:num2];
+    if (!self.constantToneSwitch.on)
+    {
+        self.frequencySlider.value = self.delegate.pulse.frequency;
+        NSNumber *num1 = [NSNumber numberWithDouble:self.delegate.pulse.frequency];
+        self.frequencyField.text = [self.numberFormatter stringFromNumber:num1];
+        
+        self.dutyCycleSlider.value = self.delegate.pulse.dutyCycle;
+        NSNumber *num2 = [NSNumber numberWithDouble:(self.delegate.pulse.dutyCycle/self.delegate.pulse.frequency*1000)];
+        self.pulseWidthField.text = [self.numberFormatter stringFromNumber:num2];
+    }
     
     self.pulseTimeSlider.value = self.delegate.pulse.pulseTime;
     NSNumber *num3 = [NSNumber numberWithDouble:(self.delegate.pulse.pulseTime/1000)];
@@ -348,6 +361,8 @@
     
     //update the output frequency from the settings menu
     //[self.delegate.pulse updateOutputFreq];
+    
+    [self updateViewFrom:@"Slider"];
     
     NSLog(@"View will appear");
 }

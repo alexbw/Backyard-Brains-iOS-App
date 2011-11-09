@@ -200,7 +200,7 @@
 		E977CA70144616CC007FF92C /* dropbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox.png; sourceTree = "<group>"; };
 		E977CA71144616CC007FF92C /* dropbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox@2x.png"; sourceTree = "<group>"; };
 		E977CA7914462028007FF92C /* ButtonsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ButtonsView.xib; sourceTree = "<group>"; };
-		E9A7C46213CF8CB3007B69EB /* BYB 1.801.66.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 1.801.66.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9A7C46213CF8CB3007B69EB /* BYB 1.801.67.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 1.801.67.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9AB224313C550380054209F /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = Images/pause.png; sourceTree = "<group>"; };
 		E9AB224413C550380054209F /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pause@2x.png"; path = "Images/pause@2x.png"; sourceTree = "<group>"; };
 		E9AB224513C550380054209F /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Images/play.png; sourceTree = "<group>"; };
@@ -478,7 +478,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E9A7C46213CF8CB3007B69EB /* BYB 1.801.66.app */,
+				E9A7C46213CF8CB3007B69EB /* BYB 1.801.67.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1021,7 +1021,7 @@
 			);
 			name = "Backyard Brains";
 			productName = "Backyard Brains";
-			productReference = E9A7C46213CF8CB3007B69EB /* BYB 1.801.66.app */;
+			productReference = E9A7C46213CF8CB3007B69EB /* BYB 1.801.67.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1243,7 +1243,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "BYB 1.801.66";
+				PRODUCT_NAME = "BYB 1.801.67";
 				PROVISIONING_PROFILE = "81145473-CD7E-412F-9DC5-541716F39E01";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;

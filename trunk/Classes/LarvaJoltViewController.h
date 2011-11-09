@@ -15,6 +15,7 @@
 @property (nonatomic, retain) LarvaJoltAudio *pulse;
 @optional
 - (void)hideLarvaJolt;
+@property (nonatomic,retain) IBOutlet UIButton *stimButton;
 @end
 
 @interface LarvaJoltViewController : UIViewController <LarvaJoltAudioDelegate, UITextFieldDelegate>
