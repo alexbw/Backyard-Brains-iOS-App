@@ -3,7 +3,7 @@
 //  LarvaJolt
 //
 //  Created by Zachary King on 1/29/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Backyard Brains. All rights reserved.
 //
 //Adapted from:
 //  Created by Matt Gallagher on 2010/10/20.
@@ -45,6 +45,8 @@
     double ledControlFreq;
     
     BOOL playing;
+    
+    NSTimer *timer;
 	
 }
 
@@ -62,6 +64,7 @@
 @property double ledControlFreq;
 
 @property BOOL playing;
+@property (nonatomic, retain) NSTimer *timer;
 
 - (void)updateOutputFreq;
 

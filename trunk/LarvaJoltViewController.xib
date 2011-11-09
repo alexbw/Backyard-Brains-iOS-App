@@ -251,7 +251,7 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">1</string>
+						<string key="IBUIText">100</string>
 						<int key="IBUIBorderStyle">3</int>
 						<object class="NSColor" key="IBUITextColor" id="419800649">
 							<int key="NSColorSpace">3</int>
@@ -280,7 +280,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<float key="IBUIValue">1000</float>
+						<float key="IBUIValue">100000</float>
 						<float key="IBUIMinValue">100</float>
 						<float key="IBUIMaxValue">100000</float>
 					</object>

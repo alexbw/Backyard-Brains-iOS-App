@@ -3,7 +3,7 @@
 //  LarvaJolt
 //
 //  Created by Zachary King on 1/29/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Backyard Brains. All rights reserved.
 //
 //Adapted from:
 //  Created by Matt Gallagher on 2010/10/20.
@@ -32,59 +32,81 @@ static OSStatus RenderTone(
 	// Get the tone parameters out of the view controller
 	LarvaJoltAudio *lja = (LarvaJoltAudio *)inRefCon;
 	
-    double sampleRate = lja->sampleRate;
-	double pulseProgress = lja->pulseProgress;	//progress in pulse from 0.0 - 1.0
-	double amplitude = lja->amplitude;
+    
+    // This is a mono tone generator so we only need the first buffer
+    const int channel = 0;
+    Float32 *buffer = (Float32 *)ioData->mBuffers[channel].mData;
+
+    
     double frequency = lja->frequency;
-    double dutyCycleInput = lja->dutyCycle;
-    double theta = lja->theta;
     double outputFrequency = lja->ledControlFreq;
+    double amplitude = lja->amplitude;
+    double sampleRate = lja->sampleRate;
+    double theta = lja->theta;
     
-    //6.12 optimization parameters
-    #define c1 1.88
-    #define c2 0.387
-    #define c3 0.00532
-    // Adjustment for circuit-specific delay:
-    //double pwi = dutyCycleInput/frequency;
-    //double pwo = c1*pow(pwi,2) + c2*pwi + c3;
-    double dutyCycle = dutyCycleInput; //pwo*frequency;
-    NSLog(@"Duty cycle in: %f, duty cycle out: %f", dutyCycleInput, dutyCycle);
-    
-	
-	// This is a mono tone generator so we only need the first buffer
-	const int channel = 0;
-	Float32 *buffer = (Float32 *)ioData->mBuffers[channel].mData;
-    
-    // Generate the samples
-	for (UInt32 frame = 0; frame < inNumberFrames; frame++) {
-		
-    
-        // Model a biphasic pulse with first, positive pulse at pulseProgress = 0.0 and interpulse gap = 0
-        if ( (pulseProgress >= 0) && (pulseProgress < dutyCycle) ) {
+    if (frequency==0)
+    {
+        // Generate the samples
+        for (UInt32 frame = 0; frame < inNumberFrames; frame++)
+        {
             buffer[frame] = sin(theta)*amplitude;
-        } else {
-            buffer[frame] = 0;
-        }
-    
-        pulseProgress += (1 / sampleRate * frequency);
-        if (pulseProgress > 1.0)
-        {
-            pulseProgress -= 1.0;
-        }
-    
-        theta += (2 * M_PI / sampleRate * outputFrequency);
-        if (theta > 2 * M_PI)
-        {
-            theta -= 2 * M_PI;
-        }
             
-        
-        // Store the theta back in the view controller
-        lja->pulseProgress = pulseProgress;
-        lja->theta = theta;
-        
+            theta += (2 * M_PI / sampleRate * outputFrequency);
+            if (theta > 2 * M_PI)
+            {
+                theta -= 2 * M_PI;
+            }
+            
+            // Store the theta back in the view controller
+            lja->theta = theta;
+            
+        }
     }
+    else
+    {
         
+        double pulseProgress = lja->pulseProgress;	//progress in pulse from 0.0 - 1.0
+        double dutyCycleInput = lja->dutyCycle;
+        
+        //6.12 optimization parameters
+        //#define c1 1.88
+        //#define c2 0.387
+        //#define c3 0.00532
+        // Adjustment for circuit-specific delay:
+        //double pwi = dutyCycleInput/frequency;
+        //double pwo = c1*pow(pwi,2) + c2*pwi + c3;
+        double dutyCycle = dutyCycleInput; //pwo*frequency;
+        //NSLog(@"Duty cycle in: %f, duty cycle out: %f", dutyCycleInput, dutyCycle);
+        
+        // Generate the samples
+        for (UInt32 frame = 0; frame < inNumberFrames; frame++)
+        {
+            // Model a biphasic pulse with first, positive pulse at pulseProgress = 0.0 and interpulse gap = 0
+            if ( (pulseProgress >= 0) && (pulseProgress < dutyCycle) ) {
+                buffer[frame] = sin(theta)*amplitude;
+            } else {
+                buffer[frame] = 0;
+            }
+        
+            pulseProgress += (1 / sampleRate * frequency);
+            if (pulseProgress > 1.0)
+            {
+                pulseProgress -= 1.0;
+            }
+        
+            theta += (2 * M_PI / sampleRate * outputFrequency);
+            if (theta > 2 * M_PI)
+            {
+                theta -= 2 * M_PI;
+            }
+                
+            
+            // Store the theta back in the view controller
+            lja->pulseProgress = pulseProgress;
+            lja->theta = theta;
+            
+        }
+    }
 	return noErr;
         
 }
@@ -107,7 +129,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 @synthesize delegate;
 @synthesize dutyCycle, frequency, amplitude, pulseTime;
 @synthesize sampleRate, pulseProgress, theta, ledControlFreq;
-@synthesize playing;
+@synthesize playing, timer;
 
 
 #define defaultSampleRate 44100.0 //Hz
@@ -115,7 +137,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 #define defaultFrequency 1000 //Hz. Period = 1ms
 #define defaultAmplitude 1.00 //units?
 #define defaultLedControlFrequency 10000.f //Hz
-#define defaultPulseTime 10000 //ms
+#define defaultPulseTime 100000 //ms
 
 // Designated initializer to set critical parameters
 - (id)init //WithDictionary:(NSDictionary *)dictionary
@@ -163,7 +185,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 	{
         
         //create timer
-        [NSTimer scheduledTimerWithTimeInterval:self.pulseTime/1000
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:self.pulseTime/1000
                                          target:self
                                        selector:@selector(stopPulse)
                                        userInfo:nil
@@ -199,6 +221,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
     
     self.playing = NO;
     [self.delegate pulseIsStopped];
+    [self.timer invalidate];
 }
 
 

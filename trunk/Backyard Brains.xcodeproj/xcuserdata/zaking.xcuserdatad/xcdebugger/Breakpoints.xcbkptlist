@@ -8,196 +8,14 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController.m"
-         timestampString = "341706349.079359"
+         filePath = "Classes/LarvaJoltAudio.m"
+         timestampString = "342485903.826403"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "96"
-         endingLineNumber = "96"
-         landmarkName = "-viewDidLoad"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController.m"
-         timestampString = "341707533.588817"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "183"
-         endingLineNumber = "183"
-         landmarkName = "-dispersePreferences"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController.m"
-         timestampString = "341707533.588817"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "221"
-         endingLineNumber = "221"
-         landmarkName = "-collectPreferences"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController.m"
-         timestampString = "341707533.588817"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "264"
-         endingLineNumber = "264"
-         landmarkName = "-didReceiveMemoryWarning"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController.m"
-         timestampString = "341707533.588817"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "272"
-         endingLineNumber = "272"
-         landmarkName = "-viewDidUnload"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController.m"
-         timestampString = "341707533.588817"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "150"
-         endingLineNumber = "150"
-         landmarkName = "-viewWillAppear:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/AudioSignalManager.m"
-         timestampString = "341704463.228471"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "891"
-         endingLineNumber = "891"
-         landmarkName = "-setupAudioSession:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController_iPhone.m"
-         timestampString = "341538375.227881"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "62"
-         endingLineNumber = "62"
-         landmarkName = "-hideFiles"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController.m"
-         timestampString = "341707533.588817"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "167"
-         endingLineNumber = "167"
-         landmarkName = "-viewWillDisappear:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/TriggerViewController.m"
-         timestampString = "341538159.168161"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "89"
-         endingLineNumber = "89"
-         landmarkName = "-viewWillAppear:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "BBFileViewController.m"
-         timestampString = "341699945.109071"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "955"
-         endingLineNumber = "955"
-         landmarkName = "-compareBBFilesToNewFilePaths:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "BBFileViewController.m"
-         timestampString = "341700120.436917"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "965"
-         endingLineNumber = "965"
-         landmarkName = "-compareBBFilesToNewFilePaths:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "BBFileViewController.m"
-         timestampString = "341700284.178935"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "959"
-         endingLineNumber = "959"
-         landmarkName = "-compareBBFilesToNewFilePaths:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController.m"
-         timestampString = "341706349.079359"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "117"
-         endingLineNumber = "117"
-         landmarkName = "-viewWillAppear:"
-         landmarkType = "5">
+         startingLineNumber = "50"
+         endingLineNumber = "50"
+         landmarkName = "RenderTone()"
+         landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -205,7 +23,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/LarvaJoltViewController.m"
-         timestampString = "342391593.292334"
+         timestampString = "342486843.004942"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "48"
@@ -219,7 +37,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/LarvaJoltViewController.m"
-         timestampString = "342391593.292334"
+         timestampString = "342486916.546768"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "57"
@@ -228,58 +46,98 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController.m"
-         timestampString = "341706461.427487"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "79"
-         endingLineNumber = "79"
-         landmarkName = "-startStopStim:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/LarvaJoltAudio.m"
-         timestampString = "341707157.677788"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "161"
-         endingLineNumber = "161"
-         landmarkName = "-playPulse"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ContinuousWaveViewController.m"
-         timestampString = "341706780.959364"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "82"
-         endingLineNumber = "82"
-         landmarkName = "-startStopStim:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "Classes/LarvaJoltAudio.m"
-         timestampString = "341707157.677788"
+         filePath = "Classes/LarvaJoltViewController.m"
+         timestampString = "342486947.629945"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "164"
-         endingLineNumber = "164"
+         startingLineNumber = "276"
+         endingLineNumber = "276"
+         landmarkName = "-toggleConstantTone:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/LarvaJoltAudio.m"
+         timestampString = "342491225.630246"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "118"
+         endingLineNumber = "118"
+         landmarkName = "ToneInterruptionListener()"
+         landmarkType = "7">
+         <Locations>
+            <Location
+               shouldBeEnabled = "Yes"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "-[LarvaJoltAudio delegate]"
+               urlString = "file://localhost/Users/zaking/Dropbox/Developer/BYB/trunk/Classes/../Classes/LarvaJoltAudio.m"
+               timestampString = "342491716.540963"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "129"
+               endingLineNumber = "129">
+            </Location>
+            <Location
+               shouldBeEnabled = "Yes"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "-[LarvaJoltAudio setDelegate:]"
+               urlString = "file://localhost/Users/zaking/Dropbox/Developer/BYB/trunk/Classes/../Classes/LarvaJoltAudio.m"
+               timestampString = "342491716.541272"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "129"
+               endingLineNumber = "129">
+            </Location>
+         </Locations>
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/LarvaJoltAudio.m"
+         timestampString = "342491228.521968"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "147"
+         endingLineNumber = "147"
+         landmarkName = "-init"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/LarvaJoltAudio.m"
+         timestampString = "342491233.88377"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "166"
+         endingLineNumber = "166"
+         landmarkName = "-updateOutputFreq"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/LarvaJoltAudio.m"
+         timestampString = "342491238.573704"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "188"
+         endingLineNumber = "188"
          landmarkName = "-playPulse"
          landmarkType = "5">
       </FileBreakpoint>
@@ -288,13 +146,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "Classes/LarvaJoltViewController.m"
-         timestampString = "342392825.54969"
+         filePath = "Classes/LarvaJoltAudio.m"
+         timestampString = "342491245.58745"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "231"
-         endingLineNumber = "231"
-         landmarkName = "-updateViewFrom:"
+         startingLineNumber = "216"
+         endingLineNumber = "216"
+         landmarkName = "-stopPulse"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -303,26 +161,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/LarvaJoltViewController.m"
-         timestampString = "342392825.54969"
+         timestampString = "342491445.382094"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "239"
-         endingLineNumber = "239"
-         landmarkName = "-checkValue:forMin:andMax:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/LarvaJoltViewController.m"
-         timestampString = "342392825.54969"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "233"
-         endingLineNumber = "233"
-         landmarkName = "-updateViewFrom:"
+         startingLineNumber = "263"
+         endingLineNumber = "263"
+         landmarkName = "-stopPulse:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
