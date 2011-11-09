@@ -520,6 +520,7 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="382230143"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<int key="IBUIBarStyle">1</int>
 						<object class="NSArray" key="IBUIItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUINavigationItem" id="625091883">

@@ -17,14 +17,17 @@
 @interface ContinuousWaveViewController_iPad : ContinuousWaveViewController <BBFileViewControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, FlipsideInfoViewDelegate> {
 
 	UIPopoverController *recordedFilesPopover;
+    UIPopoverController *larvaJoltPopover;
 	
 }
 
 @property (nonatomic, retain) UIPopoverController *recordedFilesPopover;
+@property (nonatomic, retain) UIPopoverController *larvaJoltPopover;
 
 - (IBAction)displayInfoPopover:(UIButton *)sender;
 - (IBAction)showFilePopover:(UIButton *)sender;
 - (IBAction)showLarvaJoltPopover:(UIButton *)sender;
+
 
 //for BBFileViewControllerDelegate
 - (void)hideFiles;

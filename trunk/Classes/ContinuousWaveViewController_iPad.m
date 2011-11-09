@@ -12,13 +12,14 @@
 
 @implementation ContinuousWaveViewController_iPad
 
-@synthesize recordedFilesPopover;
+@synthesize recordedFilesPopover, larvaJoltPopover;
 
 - (void)dealloc {	
     [super dealloc];
 	
     [fileViewController release];
     [recordedFilesPopover release];
+    [larvaJoltPopover release];
 }
 
 - (IBAction)displayInfoPopover:(UIButton *)sender {
@@ -56,7 +57,7 @@
             self.fileViewController = [[BBFileViewController alloc] initWithNibName:@"BBFileView" bundle:nil];
             self.fileViewController.delegate = (id)self;
             
-            self.fileViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            //self.fileViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         }
         
         self.recordedFilesPopover = [[UIPopoverController alloc] initWithContentViewController:self.fileViewController];
@@ -87,23 +88,34 @@
     
 	[self.audioSignalManager pause];
     
-    if (!self.larvaJoltController)
+    if (!self.larvaJoltPopover)
     {
-        self.larvaJoltController = [[LarvaJoltViewController alloc] initWithNibName:@"LarvaJoltViewController" bundle:nil];
-        self.larvaJoltController.delegate = self;
-        self.pulse.delegate = self.larvaJoltController;
-        self.larvaJoltController.modalPresentationStyle = UIModalPresentationFormSheet;
-        self.larvaJoltController.view.frame = CGRectMake(0, 0, 620, 540);
-	}
-    self.stimButton.enabled = YES;
-    [self presentModalViewController:self.larvaJoltController animated:YES];
+        if (!self.larvaJoltController)
+        {
+            self.larvaJoltController = [[LarvaJoltViewController alloc] initWithNibName:@"LarvaJoltViewController" bundle:nil];
+            self.larvaJoltController.delegate = self;
+            self.pulse.delegate = self.larvaJoltController;
+            //self.larvaJoltController.modalPresentationStyle = UIModalPresentationFormSheet;
+            //self.larvaJoltController.view.frame = CGRectMake(0, 0, 620, 540);
+        }
+        
+        self.larvaJoltPopover = [[UIPopoverController alloc] initWithContentViewController:self.larvaJoltController];
+        self.larvaJoltPopover.delegate = self;
+    }
+    
+    //self.stimButton.enabled = YES;
+    //[self presentModalViewController:self.larvaJoltController animated:YES];
+	[self.larvaJoltPopover setPopoverContentSize:CGSizeMake(320.0f, 480.0f)];
+	[self.larvaJoltPopover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
     
 }
 
 //for LarvaJoltViewControllerDelegate
 - (void)hideLarvaJolt
 {
-	[self dismissModalViewControllerAnimated:YES];
+	//[self dismissModalViewControllerAnimated:YES];
+    [self.larvaJoltPopover dismissPopoverAnimated:YES];
 	[self.audioSignalManager play];
 }
 

@@ -133,7 +133,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 
 
 #define defaultSampleRate 44100.0 //Hz
-#define defaultDutyCycle 1
+#define defaultDutyCycle 0.5
 #define defaultFrequency 1000 //Hz. Period = 1ms
 #define defaultAmplitude 1.00 //units?
 #define defaultLedControlFrequency 10000.f //Hz
