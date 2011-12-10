@@ -160,6 +160,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 		self.amplitude		= defaultAmplitude;		
         self.pulseTime      = defaultPulseTime;
         self.pulseProgress = 0;
+        self.ledControlFreq = defaultLedControlFrequency;
         self.calibA = defaultCalibA;
         self.calibB = defaultCalibB;
         self.calibC = defaultCalibC;

@@ -11,7 +11,6 @@
 #import "LarvaJoltAudio.h"
 
 @protocol LarvaJoltViewDelegate
-- (void)hideLarvaJolt;
 @end
 
 @interface LarvaJoltViewController : UIViewController <LarvaJoltAudioDelegate, UITextFieldDelegate>

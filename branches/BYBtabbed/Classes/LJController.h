@@ -12,28 +12,29 @@
 @protocol LarvaJoltViewDelegate
 @required
 @property (nonatomic, retain) LarvaJoltAudio *pulse;
-@optional
-- (void)hideLarvaJolt;
-@property (nonatomic,retain) IBOutlet UIButton *stimButton;
 @end
 
 @interface LJController : UIViewController <LarvaJoltAudioDelegate, UITextFieldDelegate> 
 {
-    id <LarvaJoltViewDelegate> delegate;
+    IBOutlet id <LarvaJoltViewDelegate> delegate;
     
     
 	NSNumberFormatter *numberFormatter;
     NSTimer *backgroundTimer;	
     
     double backgroundBlue;
+    IBOutlet UIButton *playButton;
+    IBOutlet UIButton *stopButton;
 
 }
 
-@property (assign) id <LarvaJoltViewDelegate> delegate;
+@property (assign) IBOutlet id <LarvaJoltViewDelegate> delegate;
 
 @property (nonatomic,retain) NSNumberFormatter *numberFormatter;
 @property (nonatomic,retain) NSTimer *backgroundTimer;
 @property double backgroundBlue;
+@property (nonatomic,retain) IBOutlet UIButton *playButton;
+@property (nonatomic,retain) IBOutlet UIButton *stopButton;
 
 
 - (IBAction)sliderMoved:(UISlider *)sender;

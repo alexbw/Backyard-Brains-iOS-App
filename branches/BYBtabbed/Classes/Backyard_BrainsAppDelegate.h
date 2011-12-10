@@ -7,16 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AudioSignalManager.h"
-#import "BBTabViewController.h"
 
-#import "BBFileViewControllerTBV.h"
-#import "FirstTimeSpikersViewController.h"
-#import "DrawingDataManager.h"
-#import "TabDetailViewController.h"
+#import "DrawingViewController.h"
+#import "LarvaJoltViewController.h"
 
+@class BBTabViewController;
+@class AudioSignalManager;
+@class BBFileViewControllerTBV;
+@class TabDetailViewController;
+@class DrawingDataManager;
+@class LarvaJoltAudio;
 
-@interface Backyard_BrainsAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UISplitViewControllerDelegate, DrawingViewControllerDelegate> {
+@interface Backyard_BrainsAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UISplitViewControllerDelegate, DrawingViewControllerDelegate, LarvaJoltViewDelegate> {
     UIWindow *window;
     
     BBTabViewController *tabBarController;
@@ -26,6 +28,8 @@
     TabDetailViewController *detailVC;
     
     DrawingDataManager *drawingDataManager;
+    
+	LarvaJoltAudio *pulse;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -37,5 +41,6 @@
 @property (nonatomic, retain) IBOutlet TabDetailViewController *detailVC;
 
 @property (nonatomic, retain) IBOutlet DrawingDataManager *drawingDataManager;
+@property (nonatomic, retain) LarvaJoltAudio *pulse;
 
 @end

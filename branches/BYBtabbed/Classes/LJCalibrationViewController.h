@@ -14,8 +14,6 @@
     IBOutlet UISlider *toneFreqSlider;
     IBOutlet UITextField *toneFreqField;
     IBOutlet UITextField *calibAField, *calibBField, *calibCField;
-    IBOutlet UIButton *playButton;
-    IBOutlet UIButton *stopButton;
 }
 
 - (IBAction)done:(UIBarButtonItem *)sender;

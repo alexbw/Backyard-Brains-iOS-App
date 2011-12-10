@@ -1,8 +1,9 @@
 
 
 #import <UIKit/UIKit.h>
-#import "ContinuousWaveViewController_iPad.h"
-#import "TriggerViewController.h"
+#import "BBFileActionViewControllerTBV.h"
+
+@class DrawingDataManager;
 
 @interface TabDetailViewController : UIViewController <SubstitutableDetailViewController, DrawingViewControllerDelegate> {
 

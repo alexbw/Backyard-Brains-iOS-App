@@ -1,11 +1,12 @@
 //
 //  EAGLView.h
-//  TESTAGAIN
 //
 //  Created by Alex Wiltschko on 9/20/09.
 //  Modified 7/1/2011 by Zachary King.
 //  Copyright Backyard Brains 2009. All rights reserved.
 //
+//  Superclass with subclasses ContinuousWaveView, TriggerView, PlaybackView
+
 
 
 #import <UIKit/UIKit.h>

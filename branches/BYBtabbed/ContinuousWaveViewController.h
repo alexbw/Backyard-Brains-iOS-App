@@ -13,7 +13,6 @@
 #import "BBFileViewControllerTBV.h"
 #import "AudioRecorder.h"
 #import "FlipsideInfoViewController.h"
-#import "LarvaJoltViewController.h"
 #import "math.h"
 
 
@@ -38,7 +37,6 @@
 @property (nonatomic, retain) AudioSignalManager *audioSignalManager;
 
 @property (nonatomic, retain) IBOutlet UIButton *stopButton;
-
 
 - (void)updateDataLabels;
 - (void)showAllLabels;

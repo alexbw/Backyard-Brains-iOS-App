@@ -8,7 +8,7 @@
 
 #import "Backyard_BrainsAppDelegate.h"
 #import "DropboxSDK.h"
-
+#import "BBTabViewController.h"
 
 @implementation Backyard_BrainsAppDelegate
 
@@ -17,43 +17,35 @@
 @synthesize splitViewController;
 @synthesize rootVC, detailVC;
 @synthesize drawingDataManager;
-
+@synthesize pulse;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
         
-    #define kGain 1.0f
+    #define kGain 887.0f
     #define kSamplerate 22050.f
-    #define kLedcontrolfreq 10000.f
     
 	//Register defaults. Necessary for proper initializaiton of preferences.
     NSDictionary *def = [NSDictionary dictionaryWithObjectsAndKeys:
                          @"gain", [NSNumber numberWithFloat:kGain],
                          @"samplerate", [NSNumber numberWithFloat:kSamplerate],
-                         @"ledcontrolfreq", [NSNumber numberWithFloat:kLedcontrolfreq],
                          nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:def];
     
 	//Check current values
     NSNumber *gain = [[NSUserDefaults standardUserDefaults] objectForKey:@"gain"];
 	NSNumber *samplerate = [[NSUserDefaults standardUserDefaults] objectForKey:@"samplerate"];
-    NSNumber *ledcontrolfreq = [[NSUserDefaults standardUserDefaults] objectForKey:@"ledcontrolfreq"];
     if (!gain) {
 		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:kGain] forKey:@"gain"];
 	}
 	if (!samplerate) {
 		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:kSamplerate] forKey:@"samplerate"];
 	}
-    if (!ledcontrolfreq) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:kLedcontrolfreq] forKey:@"ledcontrolfreq"];
-    }
     
     //Save changes
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	
 	NSLog(@"gain = %@", gain);
 	NSLog(@"sample rate = %@", samplerate);
-    NSLog(@"led control frequency = %@", ledcontrolfreq);
-    
     
     
     //Dropbox code:
@@ -69,6 +61,7 @@
 	self.drawingDataManager = [[AudioSignalManager alloc] initWithCallbackType:kAudioCallbackContinuous];
 	[self.drawingDataManager play];
     
+    self.pulse = [[LarvaJoltAudio alloc] init];
     
 	UIApplication *thisApp = [UIApplication sharedApplication];
 	thisApp.idleTimerDisabled = YES;

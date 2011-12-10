@@ -6,18 +6,6 @@
 	<array>
 		<dict>
 			<key>DefaultValue</key>
-			<integer>0</integer>
-			<key>Key</key>
-			<string></string>
-			<key>MaximumValue</key>
-			<integer>0</integer>
-			<key>MinimumValue</key>
-			<integer>0</integer>
-			<key>Type</key>
-			<string>PSSliderSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
 			<integer>1</integer>
 			<key>IsSecure</key>
 			<false/>
@@ -51,18 +39,6 @@
 				<integer>22050</integer>
 				<integer>44100</integer>
 			</array>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<integer>10000</integer>
-			<key>Key</key>
-			<string>ledcontrolfreq</string>
-			<key>KeyboardType</key>
-			<string>NumbersAndPunctuation</string>
-			<key>Title</key>
-			<string>LED Control Frequency</string>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>

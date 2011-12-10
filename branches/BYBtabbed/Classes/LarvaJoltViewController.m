@@ -21,8 +21,6 @@
 @property (nonatomic,retain) IBOutlet UITextField *pulseWidthField;
 @property (nonatomic,retain) IBOutlet UITextField *pulseTimeField;
 @property (nonatomic,retain) IBOutlet UISwitch *constantToneSwitch;
-@property (nonatomic,retain) IBOutlet UIButton *playButton;
-@property (nonatomic,retain) IBOutlet UIButton *stopButton;
 
 @end
 
@@ -31,7 +29,7 @@
 
 @synthesize frequencySlider, dutyCycleSlider, pulseTimeSlider;
 @synthesize frequencyField, pulseWidthField, pulseTimeField;
-@synthesize playButton, stopButton, constantToneSwitch;
+@synthesize constantToneSwitch;
 
 
 #pragma mark - Implementation of LarvaJoltAudio delegate protocol.
@@ -39,26 +37,18 @@
 
 - (void)pulseIsPlaying
 {
+    [super pulseIsPlaying];
+    
     self.pulseTimeField.enabled = NO;
     self.pulseTimeSlider.enabled = NO;
-    self.playButton.enabled = NO;
-    self.stopButton.enabled = YES;
     
-    //self.delegate.stimButton.enabled = NO;
-    
-    self.backgroundTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(updateBackgroundColor) userInfo:nil repeats:YES];
 }
 - (void)pulseIsStopped
 {
+    [super pulseIsStopped];
+    
     self.pulseTimeField.enabled = YES;
     self.pulseTimeSlider.enabled = YES;
-    self.playButton.enabled = YES;
-    self.stopButton.enabled = NO;
-    
-    //self.delegate.stimButton.enabled = YES;
-    
-    [self.backgroundTimer invalidate];
-    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
 }
 
 
@@ -199,13 +189,6 @@
 }
 
 
-
-- (IBAction)done:(UIBarButtonItem *)sender
-{
-    [self dismissModalViewControllerAnimated:YES];
-    [self.delegate hideLarvaJolt];
-}
-
 - (IBAction)toggleConstantTone:(UISwitch *)sender
 {
     if (sender.on==YES)
@@ -230,6 +213,8 @@
 {
     LJCalibrationViewController *LJCalibrationView = [[LJCalibrationViewController alloc] initWithNibName:@"LJCalibrationView" bundle:nil];
     
+    LJCalibrationView.delegate = self.delegate;
+    
     [LJCalibrationView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     [self presentModalViewController:LJCalibrationView animated:YES];
 }
@@ -239,46 +224,19 @@
 // Initiation methods and messages from the system
 //
 
-- (void)setup
-{
-	// Initialize and set objects
-	self.numberFormatter = [[NSNumberFormatter alloc] init];
-	[self.numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    //[self.numberFormatter setMinimumIntegerDigits:1];
-    [self.numberFormatter setMaximumFractionDigits:1];
-    
-    self.backgroundBlue = 0.05;
-    
-    
-    
-    [self updateViewFrom:@"Slider"];
-    NSLog(@"View updated.");
-    
-	NSLog(@"Setup successful.");
-}
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+/*- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
 	if ((self = [super initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil])) {
 		NSLog(@"View initialized.");
 		[self setup];
 	}
 	return self;
-}
+}*/
 
-- (void)awakeFromNib
+- (void)viewDidLoad
 {
-	
-	NSLog(@"Awoke from Nib.");
-	[super awakeFromNib];
-}
-
-
-
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
+    [super viewDidLoad];
     
     //assign delegates of text fields to control keyboard behavior
     self.frequencyField.returnKeyType = UIReturnKeyDone;
@@ -287,31 +245,7 @@
     self.pulseWidthField.delegate = self;
     self.pulseTimeField.returnKeyType = UIReturnKeyDone;
     self.pulseTimeField.delegate = self;
-    
-    // register for keyboard notifications
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:self.view.window]; 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:self.view.window];
-    }
-    
-    //update the output frequency from the settings menu
-    //[self.delegate.pulse updateOutputFreq];
-    
-    [self updateViewFrom:@"Slider"];
-    
-    NSLog(@"View will appear");
 }
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-    // unregister for keyboard notifications while not visible.
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil]; 
-}
-
-
 
 
 

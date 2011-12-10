@@ -9,6 +9,7 @@
 //
 
 #import "ContinuousWaveViewController.h"
+#import "LarvaJoltAudio.h"
 
 @implementation ContinuousWaveViewController
 
@@ -62,8 +63,11 @@
 
 
 - (IBAction)startStim:(UIButton *)sender
-{
-    
+{    
+    if (self.delegate.pulse.playing)
+        [self.delegate.pulse stopPulse];
+    else
+        [self.delegate.pulse playPulse];
 }
 
 
@@ -95,7 +99,7 @@
 
 - (void)viewWillAppear:(BOOL)animated { 
 	[super viewWillAppear:animated];
-	
+    
 	[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
 	
 	self.cwView.audioSignalManager = self.audioSignalManager;

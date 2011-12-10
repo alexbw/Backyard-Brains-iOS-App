@@ -23,12 +23,9 @@
     IBOutlet UITextField *pulseWidthField;
     IBOutlet UITextField *pulseTimeField;
     IBOutlet UISwitch *constantToneSwitch;
-    IBOutlet UIButton *playButton;
-    IBOutlet UIButton *stopButton;
 	
 }
 
-- (IBAction)done:(UIBarButtonItem *)sender;
 - (IBAction)toggleConstantTone:(UISwitch *)sender;
 - (IBAction)openCalibrationView:(UIBarButtonItem *)sender;
 

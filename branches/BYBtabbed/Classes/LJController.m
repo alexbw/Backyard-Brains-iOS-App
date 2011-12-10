@@ -15,6 +15,7 @@
 @synthesize delegate;
 @synthesize backgroundBlue;
 @synthesize numberFormatter, backgroundTimer;
+@synthesize playButton, stopButton;
 
 
 #pragma mark - Implementation of LarvaJoltAudio delegate protocol.
@@ -22,10 +23,21 @@
 
 - (void)pulseIsPlaying
 {    
+    if (![self.backgroundTimer isValid])
+        self.backgroundTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(updateBackgroundColor) userInfo:nil repeats:YES];
+    
+    self.playButton.enabled = NO;
+    self.stopButton.enabled = YES;
 }
 
 - (void)pulseIsStopped
 {
+    if ([self.backgroundTimer isValid])
+        [self.backgroundTimer invalidate];
+    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
+    
+    self.playButton.enabled = YES;
+    self.stopButton.enabled = NO;
 }
 
 
@@ -128,9 +140,62 @@
 }
 
 
-- (void)setup{}
+
+- (void)setup
+{
+	// Initialize and set objects
+	self.numberFormatter = [[NSNumberFormatter alloc] init];
+	[self.numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    //[self.numberFormatter setMinimumIntegerDigits:1];
+    [self.numberFormatter setMaximumFractionDigits:1];
+    
+    self.backgroundBlue = 0.05;
+    
+	NSLog(@"Setup successful.");
+}
+
 - (void)releaseOutletsAndInstances{}
 
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+    
+    // register for keyboard notifications
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:self.view.window]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:self.view.window];
+    }
+    
+    self.delegate.pulse.delegate = self;
+    
+    if ([self.delegate.pulse playing])
+        [self pulseIsPlaying];
+    else
+        [self pulseIsStopped];
+    
+    //update the output frequency from the settings menu
+    //[self.delegate.pulse updateOutputFreq];
+    
+    [self updateViewFrom:@"Slider"];
+    
+    NSLog(@"View will appear");
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self pulseIsStopped];
+    
+    // unregister for keyboard notifications while not visible.
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil]; 
+}
+
+- (void)viewDidLoad
+{
+    [self setup];
+}
 
 
 @end

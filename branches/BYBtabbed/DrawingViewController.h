@@ -1,10 +1,20 @@
 //
+//  DrawingDataManager.h
+//  Backyard Brains
+//
+//  Created by Zachary King on 8/1/11.
+//  Copyright 2011 Backyard Brains. All rights reserved.
+//
+//  Superclass with subclasses ContinuousWaveViewController, TriggerViewController, 
+//      PlaybackViewController
+//
 
 #import <UIKit/UIKit.h>
 #import "EAGLView.h"
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
+
 
 #define kMaxPixelDistanceToDetectTap 10
 //#define kPortraitHeightWithTabBar 430
@@ -13,16 +23,19 @@
 //#define kLandscapeHeightWithTabBar_iPad 736
 
 @class BBFileViewControllerTBV;
+@class LarvaJoltAudio;
 
 @protocol DrawingViewControllerDelegate
 @required
 @optional
-//For Live play. This will be BBTabViewController (iPhone) or TabDetailViewController (iPad)
+//For Live play. This will be the AppDelegate
     @property (nonatomic, retain) DrawingDataManager *drawingDataManager;
+    @property (nonatomic, retain) LarvaJoltAudio *pulse;
     @property (nonatomic, retain) BBFileViewControllerTBV *fileController; //for iPad
 
 //For Playback. This will be ActionViewControllerTBV
     @property (nonatomic, retain) NSArray *files; 
+
 @end
 
 

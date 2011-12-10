@@ -10,8 +10,6 @@
 
 @interface LJCalibrationViewController ()
 
-    @property (nonatomic,retain) IBOutlet UIButton *playButton;
-    @property (nonatomic,retain) IBOutlet UIButton *stopButton;
     @property (nonatomic,retain) IBOutlet UITextField *calibAField, *calibBField, *calibCField;
     @property (nonatomic,retain) IBOutlet UISlider *toneFreqSlider;
     @property (nonatomic,retain) IBOutlet UITextField *toneFreqField;
@@ -22,29 +20,8 @@
 
 @implementation LJCalibrationViewController
 
-@synthesize playButton, stopButton;
 @synthesize calibAField, calibBField, calibCField;
 @synthesize toneFreqSlider, toneFreqField;
-
-#pragma mark - Implementation of LarvaJoltAudio delegate protocol.
-
-
-- (void)pulseIsPlaying
-{    
-    self.playButton.enabled = NO;
-    self.stopButton.enabled = YES;
-    
-    self.backgroundTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(updateBackgroundColor) userInfo:nil repeats:YES];
-}
-
-- (void)pulseIsStopped
-{
-    self.playButton.enabled = YES;
-    self.stopButton.enabled = NO;
-    
-    [self.backgroundTimer invalidate];
-    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
-}
 
 #pragma mark - IBActions
 
@@ -104,9 +81,9 @@
 
 #pragma mark - view lifecycle
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidLoad
 {
-	[super viewWillAppear:animated];
+    [super viewDidLoad];
     
     //assign delegates of text fields to control keyboard behavior
     self.toneFreqField.returnKeyType = UIReturnKeyDone;
@@ -117,30 +94,7 @@
     self.calibBField.delegate = self;
     self.calibCField.returnKeyType = UIReturnKeyDone;
     self.calibCField.delegate = self;
-    
-    // register for keyboard notifications
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:self.view.window]; 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:self.view.window];
-    }
-    
-    //update the output frequency from the settings menu
-    //[self.delegate.pulse updateOutputFreq];
-    
-    [self updateViewFrom:@"Slider"];
-    
-    NSLog(@"View will appear");
 }
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-    // unregister for keyboard notifications while not visible.
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil]; 
-}
-
 
 
 - (void)releaseOutletsAndInstances
