@@ -3,7 +3,7 @@
 //  LarvaJolt
 //
 //  Created by Zachary King on 1/29/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Backyard Brains. All rights reserved.
 //
 //Adapted from:
 //  Created by Matt Gallagher on 2010/10/20.
@@ -32,7 +32,7 @@
 	id <LarvaJoltAudioDelegate> delegate;
     
 	AudioComponentInstance toneUnit; 
-		
+    
 @public					// req'd by render function
     double dutyCycle;
 	double frequency;
@@ -43,6 +43,11 @@
 	double pulseProgress;
     double theta;
     double ledControlFreq;
+    
+    BOOL playing;
+    double calibA, calibB, calibC;
+    
+    NSTimer *timer;
 	
 }
 
@@ -58,6 +63,11 @@
 @property double pulseProgress;
 @property double theta;
 @property double ledControlFreq;
+
+@property BOOL playing;
+@property double calibA, calibB, calibC;
+
+@property (nonatomic, retain) NSTimer *timer;
 
 - (void)updateOutputFreq;
 

@@ -74,7 +74,9 @@
         NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         
         //in case of renaming, use the name of the file (NSString path)
-        self.filename = [path stringByReplacingOccurrencesOfString:@"docPath" withString:@""];
+        self.filename = [path stringByReplacingOccurrencesOfString:
+                                  [docPath stringByAppendingString:@"/"]
+                                                        withString:@""];
         
         NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:path];
         
@@ -98,42 +100,50 @@
         void *buffer = malloc(propertySize);
         OSStatus t = AudioFileGetUserData(id, dataID, 0, &propertySize, &buffer);
         //UInt32 newTest = (UInt32)buffer;
-        NSDictionary *theDict = (NSDictionary *)buffer;
-        if (t!=noErr)
-            NSLog(@"get property stop");
-        else
-            NSLog(@"get property go");
+        //if ([(NSDictionary *)buffer respondsToSelector:@selector(objectForKey:)])
+        //{
+            NSDictionary *theDict = [NSDictionary dictionaryWithDictionary:(NSDictionary *)buffer];
+            if (t!=noErr)
+                NSLog(@"get property stop");
+            else
+                NSLog(@"get property go");
+            
+            //[theDict retain];
+            self.shortname    = [theDict objectForKey:@"shortname"];
+            self.subname      = [theDict objectForKey:@"subname"];
+            self.comment      = [theDict objectForKey:@"comment"];
+            self.date         = [theDict objectForKey:@"date"];		
+            self.samplingrate = [[theDict objectForKey:@"samplingrate"] floatValue];
+            self.gain         = [[theDict objectForKey:@"gain"] floatValue];
+            self.filelength   = [[theDict objectForKey:@"filelength"] floatValue];
+            self.hasStim      = [[theDict objectForKey:@"hasStim"] boolValue];
+            self.stimLog      = [[theDict objectForKey:@"stimLog"] intValue];
+
+            //if the filename has changed, update the metadata
+            if (self.filename != [theDict objectForKey:@"filename"])
+            {
+                NSMutableDictionary *mutDict = [NSMutableDictionary dictionaryWithDictionary:theDict];
+                [mutDict setObject:self.filename forKey:@"filename"];
+                theDict = [NSDictionary dictionaryWithDictionary:mutDict];
+                [mutDict release];
+                
+                UInt32 propertySize = sizeof(theDict);
+                void *inBuffer = (void *)theDict;
+                OSStatus s = AudioFileSetUserData(id, dataID, 0, propertySize, &inBuffer);
+                if (s!=noErr)
+                    NSLog(@"Set property error. Kahhhn!!!");
+                else
+                    NSLog(@"All systems go");
+            }
+            
+        //}
+        //else
+        //{
+            //make up some metadata here
+        //    NSLog(@"File has no metadata");
+       // }
         
         free(buffer);
-
-		self.shortname    = [theDict objectForKey:@"shortname"];
-		self.subname      = [theDict objectForKey:@"subname"];
-		self.comment      = [theDict objectForKey:@"comment"];
-        self.date         = [theDict objectForKey:@"date"];		
-        self.samplingrate = [[theDict objectForKey:@"samplingrate"] floatValue];
-        self.gain         = [[theDict objectForKey:@"gain"] floatValue];
-        self.filelength   = [[theDict objectForKey:@"filelength"] floatValue];
-		self.hasStim      = [[theDict objectForKey:@"hasStim"] boolValue];
-        self.stimLog      = [[theDict objectForKey:@"stimLog"] intValue];
-
-        //if the filename has changed, update the metadata
-        if (self.filename != [theDict objectForKey:@"filename"])
-        {
-            NSMutableDictionary *mutDict = [NSMutableDictionary dictionaryWithDictionary:theDict];
-            [mutDict setObject:self.filename forKey:@"filename"];
-            theDict = [NSDictionary dictionaryWithDictionary:mutDict];
-            [mutDict release];
-            
-            UInt32 propertySize = sizeof(theDict);
-            void *inBuffer = (void *)theDict;
-            OSStatus s = AudioFileSetUserData(id, dataID, 0, propertySize, &inBuffer);
-            if (s!=noErr)
-                NSLog(@"Set property error. Kahhhn!!!");
-            else
-                NSLog(@"All systems go");
-        }
-        
-        [theDict release];
         AudioFileClose(id);
     }
     

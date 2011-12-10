@@ -116,8 +116,11 @@
 		E9BEB4DB1407D8ED000D1743 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D51407D8ED000D1743 /* Icon@2x.png */; };
 		E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */; };
 		E9C8B40E1363885000F0ED8E /* LarvaJoltViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */; };
-		E9C8B41313638A2E00F0ED8E /* LarvaJoltView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C8B41213638A2E00F0ED8E /* LarvaJoltView.xib */; };
 		E9E7761713CBA34300AA812C /* TickMarksBig.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E7761613CBA34300AA812C /* TickMarksBig.png */; };
+		E9FAD21B1492F65300CBCB1D /* LarvaJoltView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9FAD21A1492F65300CBCB1D /* LarvaJoltView.xib */; };
+		E9FAD21D1492F72200CBCB1D /* LJCalibrationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9FAD21C1492F72100CBCB1D /* LJCalibrationView.xib */; };
+		E9FAD2201492FA1000CBCB1D /* LJCalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FAD21F1492FA1000CBCB1D /* LJCalibrationViewController.m */; };
+		E9FAD2231492FA7E00CBCB1D /* LJController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FAD2221492FA7E00CBCB1D /* LJController.m */; };
 		FA13338B111F289D00A89543 /* TriggerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA13338A111F289D00A89543 /* TriggerView.xib */; };
 		FA133396111F291000A89543 /* TriggerView.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA133395111F291000A89543 /* TriggerView.plist */; };
 		FA1637641131EBBA003065AC /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1637631131EBBA003065AC /* libsqlite3.0.dylib */; };
@@ -364,8 +367,13 @@
 		E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltAudio.m; sourceTree = "<group>"; };
 		E9C8B4081363885000F0ED8E /* LarvaJoltViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LarvaJoltViewController.h; sourceTree = "<group>"; };
 		E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltViewController.m; sourceTree = "<group>"; };
-		E9C8B41213638A2E00F0ED8E /* LarvaJoltView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LarvaJoltView.xib; sourceTree = "<group>"; };
 		E9E7761613CBA34300AA812C /* TickMarksBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TickMarksBig.png; path = Images/TickMarksBig.png; sourceTree = "<group>"; };
+		E9FAD21A1492F65300CBCB1D /* LarvaJoltView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LarvaJoltView.xib; sourceTree = "<group>"; };
+		E9FAD21C1492F72100CBCB1D /* LJCalibrationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LJCalibrationView.xib; sourceTree = "<group>"; };
+		E9FAD21E1492FA1000CBCB1D /* LJCalibrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJCalibrationViewController.h; sourceTree = "<group>"; };
+		E9FAD21F1492FA1000CBCB1D /* LJCalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJCalibrationViewController.m; sourceTree = "<group>"; };
+		E9FAD2211492FA7E00CBCB1D /* LJController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJController.h; sourceTree = "<group>"; };
+		E9FAD2221492FA7E00CBCB1D /* LJController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJController.m; sourceTree = "<group>"; };
 		FA13338A111F289D00A89543 /* TriggerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TriggerView.xib; sourceTree = "<group>"; };
 		FA133395111F291000A89543 /* TriggerView.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TriggerView.plist; sourceTree = "<group>"; };
 		FA1637631131EBBA003065AC /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -745,8 +753,12 @@
 			children = (
 				E9C8B4061363885000F0ED8E /* LarvaJoltAudio.h */,
 				E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */,
+				E9FAD2211492FA7E00CBCB1D /* LJController.h */,
+				E9FAD2221492FA7E00CBCB1D /* LJController.m */,
 				E9C8B4081363885000F0ED8E /* LarvaJoltViewController.h */,
 				E9C8B4091363885000F0ED8E /* LarvaJoltViewController.m */,
+				E9FAD21E1492FA1000CBCB1D /* LJCalibrationViewController.h */,
+				E9FAD21F1492FA1000CBCB1D /* LJCalibrationViewController.m */,
 			);
 			name = LarvaJolt;
 			path = Classes;
@@ -919,7 +931,8 @@
 				FA88C76F114837EE006C2FE0 /* BBFileTitleEditorView.xib */,
 				FA88C81511486E85006C2FE0 /* BBFileCommentEditorView.xib */,
 				FA826D6F11557A80005BE83D /* BBFileDownloadView.xib */,
-				E9C8B41213638A2E00F0ED8E /* LarvaJoltView.xib */,
+				E9FAD21A1492F65300CBCB1D /* LarvaJoltView.xib */,
+				E9FAD21C1492F72100CBCB1D /* LJCalibrationView.xib */,
 				FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */,
 				FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */,
 			);
@@ -1104,7 +1117,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Backyard Brains";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Backyard Brains" */;
@@ -1158,7 +1171,6 @@
 				FAF0528A12BE90FB00568255 /* MainWindow_iPad.xib in Resources */,
 				FAF0528D12BE912700568255 /* ContinuousWaveView_iPad.xib in Resources */,
 				FAF0549712BEA3E000568255 /* TriggerView_iPad.xib in Resources */,
-				E9C8B41313638A2E00F0ED8E /* LarvaJoltView.xib in Resources */,
 				E923442413B96D4D00C17C61 /* ByB-Logo-57.png in Resources */,
 				E923442513B96D4D00C17C61 /* Chevron.png in Resources */,
 				E923442713B96D4D00C17C61 /* Pause.png in Resources */,
@@ -1208,6 +1220,8 @@
 				E93FF8B5142315CC00864D38 /* TabDetailView.xib in Resources */,
 				E983602E14259EB600200156 /* closeSideBar.png in Resources */,
 				E983602F14259EB600200156 /* closeSideBar@2x.png in Resources */,
+				E9FAD21B1492F65300CBCB1D /* LarvaJoltView.xib in Resources */,
+				E9FAD21D1492F72200CBCB1D /* LJCalibrationView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1310,6 +1324,8 @@
 				E99325D1142261E700CC76D5 /* BBFileViewControllerTBV.m in Sources */,
 				E99325DF14226FD600CC76D5 /* BBFileActionViewControllerTBV.m in Sources */,
 				E99325E61422858200CC76D5 /* BBSplitViewController.m in Sources */,
+				E9FAD2201492FA1000CBCB1D /* LJCalibrationViewController.m in Sources */,
+				E9FAD2231492FA7E00CBCB1D /* LJController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1328,7 +1344,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Backyard_Brains_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = "BYB 1.80.58";
@@ -1349,7 +1365,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Backyard_Brains_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = BYB;

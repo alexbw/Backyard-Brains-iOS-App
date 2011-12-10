@@ -127,7 +127,10 @@
 	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
 	[preferences writeToFile:finalPath atomically:YES];
 	[self.cwView stopAnimation];
-	[self.audioSignalManager pause];
+    //NOTE: TriggerViewController viewWillAppear is called BEFORE viewWillDissappear
+    //SO...cover all exits. pause if a view is requested that is not CW.
+    if (self.cwView.audioSignalManager.delegate == self) //only true is CW was not opened
+        [self.cwView.audioSignalManager pause];
 	
 	if (audioRecorder != nil) {
 		if (audioRecorder.isRecording == YES) {

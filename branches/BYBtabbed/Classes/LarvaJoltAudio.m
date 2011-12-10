@@ -3,7 +3,7 @@
 //  LarvaJolt
 //
 //  Created by Zachary King on 1/29/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Backyard Brains. All rights reserved.
 //
 //Adapted from:
 //  Created by Matt Gallagher on 2010/10/20.
@@ -20,72 +20,98 @@
 
 // Audio Unit render callback function
 static OSStatus RenderTone(
-	void						*inRefCon,		//programmatic context
-	AudioUnitRenderActionFlags 	*ioActionFlags, //can hint that there is no audio playing
-	const AudioTimeStamp 		*inTimeStamp,	//time at which callback was invoked
-	UInt32 						inBusNumber,	//audio unit bus that invoked callback
-	UInt32 						inNumberFrames, //number of audio frames being requested
-	AudioBufferList 			*ioData			//audio data buffers that must be filled
-	)
+                           void						*inRefCon,		//programmatic context
+                           AudioUnitRenderActionFlags 	*ioActionFlags, //can hint that there is no audio playing
+                           const AudioTimeStamp 		*inTimeStamp,	//time at which callback was invoked
+                           UInt32 						inBusNumber,	//audio unit bus that invoked callback
+                           UInt32 						inNumberFrames, //number of audio frames being requested
+                           AudioBufferList 			*ioData			//audio data buffers that must be filled
+                           )
 
 {
 	// Get the tone parameters out of the view controller
 	LarvaJoltAudio *lja = (LarvaJoltAudio *)inRefCon;
 	
-    double sampleRate = lja->sampleRate;
-	double pulseProgress = lja->pulseProgress;	//progress in pulse from 0.0 - 1.0
-	double amplitude = lja->amplitude;
+    
+    // This is a mono tone generator so we only need the first buffer
+    const int channel = 0;
+    Float32 *buffer = (Float32 *)ioData->mBuffers[channel].mData;
+    
+    
     double frequency = lja->frequency;
-    double dutyCycleInput = lja->dutyCycle;
-    double theta = lja->theta;
     double outputFrequency = lja->ledControlFreq;
+    double amplitude = lja->amplitude;
+    double sampleRate = lja->sampleRate;
+    double theta = lja->theta;
+    double calibA = lja->calibA;
+    double calibB = lja->calibB;
+    double calibC = lja->calibC;
     
-    //6.12 optimization parameters
-    #define c1 1.88
-    #define c2 0.387
-    #define c3 0.00532
-    double pwi = dutyCycleInput/frequency;
-    double pwo = c1*pow(pwi,2) + c2*pwi + c3;
-    double dutyCycle = pwo*frequency;
-    NSLog(@"Duty cycle in: %f, duty cycle out: %f", dutyCycleInput, dutyCycle);
-    
-	
-	// This is a mono tone generator so we only need the first buffer
-	const int channel = 0;
-	Float32 *buffer = (Float32 *)ioData->mBuffers[channel].mData;
-    
-    // Generate the samples
-	for (UInt32 frame = 0; frame < inNumberFrames; frame++) {
-		
-    
-        // Model a biphasic pulse with first, positive pulse at pulseProgress = 0.0 and interpulse gap = 0
-        if ( (pulseProgress >= 0) && (pulseProgress < dutyCycle) ) {
+    if (frequency==0)
+    {
+        // Generate the samples
+        for (UInt32 frame = 0; frame < inNumberFrames; frame++)
+        {
             buffer[frame] = sin(theta)*amplitude;
-        } else {
-            buffer[frame] = 0;
-        }
-    
-        pulseProgress += (1 / sampleRate * frequency);
-        if (pulseProgress > 1.0)
-        {
-            pulseProgress -= 1.0;
-        }
-    
-        theta += (2 * M_PI / sampleRate * outputFrequency);
-        if (theta > 2 * M_PI)
-        {
-            theta -= 2 * M_PI;
-        }
             
-        
-        // Store the theta back in the view controller
-        lja->pulseProgress = pulseProgress;
-        lja->theta = theta;
-        
+            theta += (2 * M_PI / sampleRate * outputFrequency);
+            if (theta > 2 * M_PI)
+            {
+                theta -= 2 * M_PI;
+            }
+            
+            // Store the theta back in the view controller
+            lja->theta = theta;
+            
+        }
     }
+    else
+    {
         
+        double pulseProgress = lja->pulseProgress;	//progress in pulse from 0.0 - 1.0
+        double dutyCycleInput = lja->dutyCycle;
+        
+        //6.12 optimization parameters
+        //#define c1 1.88
+        //#define c2 0.387
+        //#define c3 0.00532
+        // Adjustment for circuit-specific delay:
+        double pwi = dutyCycleInput/frequency;
+        double pwo = calibA*pow(pwi,2) + calibB*pwi + calibC;
+        double dutyCycle = pwo*frequency;
+        //NSLog(@"Duty cycle in: %f, duty cycle out: %f", dutyCycleInput, dutyCycle);
+        
+        // Generate the samples
+        for (UInt32 frame = 0; frame < inNumberFrames; frame++)
+        {
+            // Model a biphasic pulse with first, positive pulse at pulseProgress = 0.0 and interpulse gap = 0
+            if ( (pulseProgress >= 0) && (pulseProgress < dutyCycle) ) {
+                buffer[frame] = sin(theta)*amplitude;
+            } else {
+                buffer[frame] = 0;
+            }
+            
+            pulseProgress += (1 / sampleRate * frequency);
+            if (pulseProgress > 1.0)
+            {
+                pulseProgress -= 1.0;
+            }
+            
+            theta += (2 * M_PI / sampleRate * outputFrequency);
+            if (theta > 2 * M_PI)
+            {
+                theta -= 2 * M_PI;
+            }
+            
+            
+            // Store the theta back in the view controller
+            lja->pulseProgress = pulseProgress;
+            lja->theta = theta;
+            
+        }
+    }
 	return noErr;
-        
+    
 }
 
 
@@ -106,18 +132,24 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 @synthesize delegate;
 @synthesize dutyCycle, frequency, amplitude, pulseTime;
 @synthesize sampleRate, pulseProgress, theta, ledControlFreq;
+@synthesize playing, timer;
+@synthesize calibA, calibB, calibC;
 
 
 #define defaultSampleRate 44100.0 //Hz
-#define defaultDutyCycle 1
+#define defaultDutyCycle 0.5
 #define defaultFrequency 1000 //Hz. Period = 1ms
 #define defaultAmplitude 1.00 //units?
 #define defaultLedControlFrequency 10000.f //Hz
+#define defaultPulseTime 100000 //ms
+#define defaultCalibA 0
+#define defaultCalibB 1
+#define defaultCalibC 0
 
 // Designated initializer to set critical parameters
 - (id)init //WithDictionary:(NSDictionary *)dictionary
 {
-
+    
 	if ((self = [super init])) {
 		self.sampleRate = defaultSampleRate; // Hertz
 		
@@ -126,8 +158,13 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 		self.dutyCycle		= defaultDutyCycle;  //ON if dutyCycle = 1
 		self.frequency		= defaultFrequency; 
 		self.amplitude		= defaultAmplitude;		
+        self.pulseTime      = defaultPulseTime;
         self.pulseProgress = 0;
-        		NSLog(@"pulse initialized.");
+        self.calibA = defaultCalibA;
+        self.calibB = defaultCalibB;
+        self.calibC = defaultCalibC;
+        NSLog(@"pulse initialized.");
+        
 	}
 	return self;
 }
@@ -136,20 +173,20 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 - (void)updateOutputFreq
 {
     
-    // Grab the led control frequency from the NSUserDefaults THINGYYY
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    /*// Grab the led control frequency from the NSUserDefaults THINGYYY
+     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+     
+     NSNumber *ledControlFreqValue;
+     if ((ledControlFreqValue = [defaults valueForKey:@"ledcontrolfreq"])) {
+     self.ledControlFreq = (Float64)[ledControlFreqValue floatValue];
+     }
+     else {
+     self.ledControlFreq = defaultLedControlFrequency;
+     }
+     
+     NSLog(@"==== DEFAULT LEDCONTROLFREQ: %@", [defaults valueForKey:@"ledcontrolfreq"]);
+     */
     
-    NSNumber *ledControlFreqValue;
-    if ((ledControlFreqValue = [defaults valueForKey:@"ledcontrolfreq"])) {
-        self.ledControlFreq = (Float64)[ledControlFreqValue floatValue];
-    }
-    else {
-        self.ledControlFreq = defaultLedControlFrequency;
-    }
-    
-    NSLog(@"==== DEFAULT LEDCONTROLFREQ: %@", [defaults valueForKey:@"ledcontrolfreq"]);
-    
-
 }
 
 
@@ -159,11 +196,11 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 	{
         
         //create timer
-        [NSTimer scheduledTimerWithTimeInterval:self.pulseTime/1000
-                                         target:self
-                                       selector:@selector(stopPulse)
-                                       userInfo:nil
-                                        repeats:NO];
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:self.pulseTime/1000
+                                                      target:self
+                                                    selector:@selector(stopPulse)
+                                                    userInfo:nil
+                                                     repeats:NO];
         
 		[self createToneUnit];
 		
@@ -174,9 +211,11 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 		// Start playback
 		err = AudioOutputUnitStart(toneUnit);
 		NSAssert1(err == noErr, @"Error starting unit: %ld", err);
-	}
-    
-    [self.delegate pulseIsPlaying];
+        
+        
+        self.playing = YES;
+        [self.delegate pulseIsPlaying];
+    }
 }
 
 - (void)stopPulse
@@ -191,7 +230,9 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 		toneUnit = nil;
 	}
     
+    self.playing = NO;
     [self.delegate pulseIsStopped];
+    [self.timer invalidate];
 }
 
 
@@ -208,16 +249,16 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 	
 	// Get the default playback output unit
 	AudioComponent defaultOutput = AudioComponentFindNext(
-										NULL, 
-										&defaultOutputDescription
-								   );
+                                                          NULL, 
+                                                          &defaultOutputDescription
+                                                          );
 	NSAssert(defaultOutput, @"Can't find default output");
-
+    
 	
 	// Create a new unit based on this that we'll use for output
 	OSErr err = AudioComponentInstanceNew(
-					defaultOutput, 
-					&toneUnit);
+                                          defaultOutput, 
+                                          &toneUnit);
 	NSAssert1(toneUnit, @"Error creating unit: %ld", err);
 	
     
@@ -240,7 +281,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 	streamFormat.mSampleRate = self.sampleRate;
 	streamFormat.mFormatID = kAudioFormatLinearPCM;
 	streamFormat.mFormatFlags =	//maybe use kAudioFormatFlagsAudioUnitCanonical when switching to stereo
-		kAudioFormatFlagsNativeFloatPacked | kAudioFormatFlagIsNonInterleaved;
+    kAudioFormatFlagsNativeFloatPacked | kAudioFormatFlagIsNonInterleaved;
 	streamFormat.mBytesPerPacket = four_bytes_per_float;
 	streamFormat.mFramesPerPacket = 1;	
 	streamFormat.mBytesPerFrame = four_bytes_per_float;		

@@ -8,15 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <AudioUnit/AudioUnit.h>
-#import "LarvaJoltAudio.h"
+#import "LJController.h"
+#import "LJCalibrationViewController.h"
 
-@interface LarvaJoltViewController : UIViewController <LarvaJoltAudioDelegate, UITextFieldDelegate>
+
+@interface LarvaJoltViewController : LJController
 {
-	LarvaJoltAudio *pulse;
-	
-	NSNumberFormatter *numberFormatter;
-    NSTimer *backgroundTimer;
-    double backgroundBlue;
+    
 	
 	IBOutlet UISlider *frequencySlider;
 	IBOutlet UISlider *dutyCycleSlider;
@@ -24,29 +22,18 @@
     IBOutlet UITextField *frequencyField;
     IBOutlet UITextField *pulseWidthField;
     IBOutlet UITextField *pulseTimeField;
+    IBOutlet UISwitch *constantToneSwitch;
     IBOutlet UIButton *playButton;
     IBOutlet UIButton *stopButton;
 	
 }
 
-@property (nonatomic,retain) LarvaJoltAudio *pulse;
+- (IBAction)done:(UIBarButtonItem *)sender;
+- (IBAction)toggleConstantTone:(UISwitch *)sender;
+- (IBAction)openCalibrationView:(UIBarButtonItem *)sender;
 
-- (void)updateBackgroundColor;
-
-- (void)setViewMovedUp:(BOOL)movedUp;
-
-
-- (void)updateViewFrom:(NSString *)source;
-
-- (double)checkValue:(double)value forMin:(double)min andMax:(double)max;
-
-- (IBAction)sliderMoved:(UISlider *)sender;
-- (IBAction)textFieldUpdated:(UITextField *)sender;
-- (IBAction)playPulse:(id)sender;
-- (IBAction)stopPulse:(id)sender;
-
-- (void)setup;
-- (void)releaseOutletsAndInstances;
+- (void)keyboardWillShow:(NSNotification *)notif;
+- (void)keyboardWillHide:(NSNotification *)notif;
 
 
 @end

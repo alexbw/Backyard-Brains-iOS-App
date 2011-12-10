@@ -126,7 +126,11 @@
 	BOOL err = [preferences writeToFile:finalPath atomically:YES];
 	NSLog(@"Wrote prefernces to file. Successful? %d", err);
 	[self.triggerView stopAnimation];
-	[self.audioSignalManager pause];
+    
+    //NOTE: ContinuousWaveView viewWillAppear is called BEFORE viewWillDissappear
+    //SO...cover all exits. pause if a view is requested that is not CW.
+    if (self.audioSignalManager.delegate == self) //only true is CW was not opened
+        [self.audioSignalManager pause];
 }
 
 - (void)dispersePreferences {

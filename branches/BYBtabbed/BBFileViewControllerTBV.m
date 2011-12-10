@@ -793,7 +793,7 @@
             NSString *fileToLoad = [fileToLoadPath stringByReplacingOccurrencesOfString:@"/BYB files/" withString:@""];
             NSString *theFilePath = [self.docPath stringByAppendingPathComponent:fileToLoad]; 
 
-            [self.restClient loadFile:fileToLoadPath intoPath:self.docPath];
+            [self.restClient loadFile:fileToLoadPath intoPath:theFilePath];
         }
     }
     
@@ -823,10 +823,16 @@
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
 {
     //tk this isn't working right.
-    BBFile *theFile = [[BBFile alloc] initWithFilepath:destPath];
+    NSString *extension = [destPath substringFromIndex:[destPath length]-4];
+    BOOL isAiff = [extension isEqualToString:@".aif"];
+    if (isAiff)
+    {
+        BBFile *theFile = [[BBFile alloc] initWithFilepath:destPath];
+        
+        [theFile save];
+        [theFile release];
+    }
 
-    [theFile save];
-    [theFile release];
 }
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
