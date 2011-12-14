@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>isDBLinked</key>
-	<integer>0</integer>
+	<false/>
 </dict>
 </plist>

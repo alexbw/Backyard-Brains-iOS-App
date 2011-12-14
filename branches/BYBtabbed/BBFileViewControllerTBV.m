@@ -51,8 +51,7 @@
 @implementation BBFileViewControllerTBV
 
 
-@synthesize theTableView;
-@synthesize dbStatusBar;
+@synthesize theTableView, toolbar;
 //@synthesize activityIndicator;
 @synthesize allFiles;
 
@@ -66,6 +65,9 @@
 @synthesize status, syncTimer, lastFilePaths, docPath;
 
 @synthesize popoverController, splitViewController, rootPopoverButtonItem;
+
+@synthesize dbStatusBar, triedCreatingFolder;
+@synthesize filesHash;
 
 
 #pragma mark - Memory management
@@ -86,6 +88,7 @@
     [status release];
     [syncTimer release];
     [lastFilePaths release];
+    [filesHash release];
     [super dealloc];
 }
 
@@ -99,7 +102,11 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    // Set the content size for the popover: there are just two rows in the table view, so set to rowHeight*2.
+    
+    //grab preferences
+    NSString *pathStr = [[NSBundle mainBundle] bundlePath];
+    NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewController.plist"];
+    self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
 }
 
 -(void) viewDidUnload {
@@ -107,6 +114,12 @@
 	
 	self.splitViewController = nil;
 	self.rootPopoverButtonItem = nil;
+    
+    //save preferences
+    NSString *pathStr = [[NSBundle mainBundle] bundlePath];
+	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewController.plist"];
+	[self.preferences writeToFile:finalPath atomically:YES];
+
 }
 
 
@@ -146,96 +159,28 @@
 	[theTableView reloadData];
     
     
-    self.dbStatusBar = [[UIButton alloc] initWithFrame:CGRectMake(self.theTableView.frame.origin.x, self.navigationController.toolbar.frame.size.height, self.theTableView.frame.size.width, 0)];
+    //create the status bar
+    self.dbStatusBar = [[UIButton alloc] initWithFrame:CGRectMake(self.theTableView.frame.origin.x, self.toolbar.frame.size.height, self.theTableView.frame.size.width, 0)];
     [self.dbStatusBar setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:1 alpha:0.5]];
     [self.dbStatusBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     //[self.dbStatusBar setTitle:@"bar" forState:UIControlStateNormal];
-    [self.navigationController.view addSubview:self.dbStatusBar];
-    
-    /*//trick to grab toolbar
-    UIToolbar *toolbar = (UIToolbar *)[self.view viewWithTag:767];
-    NSArray *items = [toolbar items];
-    
-    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 20.0f)];
-    [activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];    
-    
-    NSArray *newItems = [NSArray arrayWithObjects:[items objectAtIndex:0],[items objectAtIndex:1],[items objectAtIndex:2],
-                         [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator], [items objectAtIndex:3],nil];
-    [toolbar setItems:newItems];
-    [self.activityIndicator startAnimating];*/
-    
+    [self.view addSubview:self.dbStatusBar];
 
-    
-    /*UIBarButtonItem *selectButton = [[UIBarButtonItem alloc]
-                                      initWithTitle:@"Select"
-                                      style:UIBarButtonItemStylePlain 
-                                      target:self 
-                                      action:@selector(togglePseudoEditMode)];
-                                     
-    [items addObject:selectButton];
-    [selectButton release];
-    
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    //[items addObject:spacer];
-    [spacer release];
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0 , 11.0f, self.view.frame.size.width, 21.0f)];
-    [titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:18]];
-    [titleLabel setBackgroundColor:[UIColor clearColor]];
-    [titleLabel setTextColor:[UIColor colorWithRed:157.0/255.0 green:157.0/255.0 blue:157.0/255.0 alpha:1.0]];
-    [titleLabel setText:@"Files"];
-    [titleLabel setTextAlignment:UITextAlignmentCenter];
-    
-    UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
-    [items addObject:title];
-    [title release];
-    [titleLabel release];
-    
-    UIBarButtonItem *spacer2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    //[items addObject:spacer2];
-    [spacer2 release];
-    
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    UIBarButtonItem *indicatorButton = [[UIBarButtonItem alloc] initWithCustomView:indicator];
-    [items addObject:indicatorButton];
-    [indicatorButton release];
-    [indicator release];
-    
-    UIImage *dbImage = [UIImage imageNamed:@"dropbox.png"];
-    UIBarButtonItem *dbButton = [[UIBarButtonItem alloc] initWithImage:dbImage style:UIBarButtonItemStylePlain target:self action:@selector(dbButtonPressed)];
-    dbButton.width = dbImage.size.width;
-    [items addObject:dbButton];
-    [dbImage release];
-    [dbButton release];
-    
-    [self.navigationItem. setItems:items animated:YES];
-    [items release];*/
-    
-    
-    
-    
-    //grab preferences
-	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
-	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewControllerTBV.plist"];
-	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];	
-    if ([[self.preferences valueForKey:@"isDBLinked"] boolValue])
-        [self dbUpdate];
+    //grab the doc path
+    self.docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+
+    self.triedCreatingFolder = NO;
     
     self.docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
+
 - (void)viewWillDisappear:(BOOL)animated {
-	//[self collectPreferences];
-	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
-	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewControllerTBV.plist"];
-	[preferences writeToFile:finalPath atomically:YES];
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 
@@ -607,12 +552,12 @@
 
 #pragma mark - DropBox methods
 
-- (void)dbButtonPressed
+- (IBAction)dbButtonPressed
 {
     if ([[self.preferences valueForKey:@"isDBLinked"] boolValue])
     {
         //push action sheet
-        UIActionSheet *mySheet = [[UIActionSheet alloc] initWithTitle:@"Dropbox" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect from Dropbox" otherButtonTitles:@"Change login settings", @"Sync with Dropbox", nil];
+        UIActionSheet *mySheet = [[UIActionSheet alloc] initWithTitle:@"Dropbox" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect from Dropbox" otherButtonTitles:@"Change login settings", @"Upload now", nil];
         
         mySheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
         [mySheet showInView:self.view];//showFromTabBar:self.tabBarController.tabBar];
@@ -627,30 +572,12 @@
 {
     DBLoginController* controller = [[DBLoginController new] autorelease];
     controller.delegate = self;
-    [self.navigationController pushViewController:controller animated:YES];
+    UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
+    
+    [self presentModalViewController:nav animated:YES];
     
 }
 
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if ([actionSheet.title isEqualToString:@"Dropbox"])
-    {
-        switch (buttonIndex) {
-            case 0:
-                [self dbDisconnect];
-                break;
-            case 1:
-                [self pushDropboxSettings];
-                break;
-            case 2:
-                [self dbUpdate];
-                break;
-            default:
-                break;
-        }
-    }
-}
 
 - (void)dbDisconnect
 {
@@ -663,7 +590,7 @@
 {
     if ([[self.preferences valueForKey:@"isDBLinked"] boolValue])
     {
-        [self setStatus:@"Syncing with dropbox..."];
+        [self setStatus:@"Uploading to dropbox..."];
         
         [self.restClient loadMetadata:@"/BYB files" withHash:filesHash];
         
@@ -682,13 +609,27 @@
 
 - (void)dbUpdateTimedOut
 {
-    [self setStatus:@"Sync failed"];
     [self.syncTimer invalidate];
     [NSTimer scheduledTimerWithTimeInterval:1
                                      target:self
                                    selector:@selector(clearStatus)
                                    userInfo:nil
                                     repeats:NO];
+    //try creating the folder and updating again
+    if (!self.triedCreatingFolder) {
+        [self setStatus:@"Creating folder 'BYB files'"];
+        [self.restClient createFolder:@"BYB files"];
+        self.triedCreatingFolder = YES;
+        self.syncTimer = [NSTimer scheduledTimerWithTimeInterval:kSyncWaitTime
+                                                          target:self
+                                                        selector:@selector(dbUpdateTimedOut)
+                                                        userInfo:nil
+                                                         repeats:NO];
+    }
+    else
+    {
+        [self setStatus:@"Upload failed"];
+    }
 }
 
 - (void)dbStopUpdate
@@ -757,10 +698,7 @@
 - (void)compareBBFilesToNewFilePaths:(NSArray *)newPaths
 {
     
-    NSMutableArray *pathsNeedingDownload = [NSMutableArray arrayWithCapacity:[newPaths count]];
     NSMutableArray *filesNeedingUpload   = [NSMutableArray arrayWithCapacity:[self.allFiles count]];
-    for (int i = 0; i < [newPaths count]; ++i)
-        [pathsNeedingDownload addObject:[NSNumber numberWithBool:NO]]; //assume no downloads
     for (int i = 0; i < [self.allFiles count]; ++i)
         [filesNeedingUpload addObject:[NSNumber numberWithBool:YES]];  //assume all uploads
     
@@ -772,47 +710,35 @@
         for (int m = 0; m < [self.allFiles count]; ++m)
         {
             // if there is a match
-            if ([[[self.allFiles objectAtIndex:m] filename] isEqualToString:[newPaths objectAtIndex:l]])
+            if ([[[self.allFiles objectAtIndex:m] filename] isEqualToString:[[newPaths objectAtIndex:l] stringByReplacingOccurrencesOfString:@"/BYB files/" withString:@""]])
             {
                 match = TRUE;
                 [filesNeedingUpload replaceObjectAtIndex:m withObject:[NSNumber numberWithBool:NO]]; //don't upload that file
             }
         }
         
-        // if no matches found
-        if (!match)
-            [pathsNeedingDownload replaceObjectAtIndex:l withObject:[NSNumber numberWithBool:YES]]; //download this path
     }
     
-    
-    for (int l = 0; l < [pathsNeedingDownload count]; ++l)
-    {
-        if ([[pathsNeedingDownload objectAtIndex:l] boolValue])
-        {
-            NSString *fileToLoadPath = [newPaths objectAtIndex:l];
-            NSString *fileToLoad = [fileToLoadPath stringByReplacingOccurrencesOfString:@"/BYB files/" withString:@""];
-            NSString *theFilePath = [self.docPath stringByAppendingPathComponent:fileToLoad]; 
-
-            [self.restClient loadFile:fileToLoadPath intoPath:theFilePath];
-        }
-    }
     
     self.allFiles = [NSMutableArray arrayWithArray:[BBFile allObjects]];
     [self.theTableView reloadData];
     
-    
+    __block NSInteger count = 0;
     for (int m = 0; m < [filesNeedingUpload count]; ++m)
     {
         if ([[filesNeedingUpload objectAtIndex:m] boolValue])
         {
-            NSString *file = [[self.allFiles objectAtIndex:m] filename];
-            NSString *theFilePath = [self.docPath stringByAppendingPathComponent:file]; 
+            NSString *theFile = [[self.allFiles objectAtIndex:m] filename];
+            NSString *theFilePath = [self.docPath stringByAppendingPathComponent:theFile]; 
             NSString *dbPath = [NSString stringWithString:@"/BYB files"];
-            [self.restClient uploadFile:file toPath:dbPath fromPath:theFilePath];
+            [self.restClient uploadFile:theFile toPath:dbPath fromPath:theFilePath];
+            ++count;
         }
     }
     
-    [self setStatus:@"Sync complete"];
+    
+    NSString *uploadStatus = [NSString stringWithFormat:@"Uploaded %d files", count];
+    [self setStatus:uploadStatus];
     [self.syncTimer invalidate];
     [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(clearStatus) userInfo:nil repeats:NO];
 }
@@ -820,20 +746,6 @@
 
 #pragma mark DBRestClientDelegate methods
 
-- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath
-{
-    //tk this isn't working right.
-    NSString *extension = [destPath substringFromIndex:[destPath length]-4];
-    BOOL isAiff = [extension isEqualToString:@".aif"];
-    if (isAiff)
-    {
-        BBFile *theFile = [[BBFile alloc] initWithFilepath:destPath];
-        
-        [theFile save];
-        [theFile release];
-    }
-
-}
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
     [filesHash release];
@@ -848,6 +760,7 @@
         }
     }
     
+    
     [self compareBBFilesToNewFilePaths:(NSArray *)newFilePaths];
     self.lastFilePaths = newFilePaths;
 }
@@ -858,26 +771,57 @@
     NSLog(@"Metadata unchanged");
 }
 
-- (void)restClient:(DBRestClient*)client loadMetadataFailedWithError:(NSError*)error {
-    NSLog(@"restClient:loadMetadataFailedWithError: %@", [error localizedDescription]);
-    self.status = @"Load metadata failed";
-}
-
-- (void)restClient:(DBRestClient*)client loadedThumbnail:(NSString*)destPath {
-    self.status = @"Loaded thumbnail";
-}
-
-- (void)restClient:(DBRestClient*)client loadThumbnailFailedWithError:(NSError*)error {
-    self.status = @"Failed to load thumbnail";
-}
 
 - (DBRestClient*)restClient { //getter
     if (restClient == nil) {
     	restClient = [[DBRestClient alloc] initWithSession: [DBSession sharedSession]];
-    	restClient.delegate = self;
+    	restClient.delegate = (id)self;
     }
     return restClient;
 }
+
+
+- (void)restClient:(DBRestClient*)client createdFolder:(DBMetadata*)folder
+{
+    [self dbUpdate];
+}
+
+#pragma mark DBLoginControllerDelegate methods
+
+- (void)loginControllerDidLogin:(DBLoginController*)controller {
+    [controller.navigationController dismissModalViewControllerAnimated:YES];
+    self.preferences = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"isDBLinked"];
+    NSLog(@"Dropbox is linked!");
+    [self dbUpdate];
+}
+
+- (void)loginControllerDidCancel:(DBLoginController*)controller {
+    [controller.navigationController dismissModalViewControllerAnimated:YES];
+    [self dbUpdate];
+}
+
+#pragma mark - Action Sheet delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	
+    if ([actionSheet.title isEqualToString:@"Dropbox"])
+    {
+        switch (buttonIndex) {
+            case 0:
+                [self dbDisconnect];
+                break;
+            case 1:
+                [self pushDropboxSettings];
+                break;
+            case 2:
+                [self dbUpdate];
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 
 
 #pragma mark - Helper functions
@@ -908,20 +852,6 @@
         [theTableView reloadData];
     }
 }
-
-
-#pragma mark DBLoginControllerDelegate methods
-
-- (void)loginControllerDidLogin:(DBLoginController*)controller {
-    self.preferences = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"isDBLinked"];
-    NSLog(@"Dropbox is linked!");
-    [self dbUpdate];
-}
-
-- (void)loginControllerDidCancel:(DBLoginController*)controller {
-    [self dbUpdate];
-}
-
 
 
 @end

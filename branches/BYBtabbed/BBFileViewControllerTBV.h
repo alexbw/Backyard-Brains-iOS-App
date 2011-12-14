@@ -18,7 +18,7 @@
 @interface BBFileViewControllerTBV: UITableViewController <UISplitViewControllerDelegate, UIActionSheetDelegate, BBFileTableCellDelegate, BBFileActionViewControllerDelegate, DBLoginControllerDelegate, DBRestClientDelegate>
  {
 	
-    UISplitViewController *splitViewController;
+    /*UISplitViewController *splitViewController;
     UIPopoverController *popoverController;    
     UIBarButtonItem *rootPopoverButtonItem;
      
@@ -47,7 +47,7 @@
      NSTimer *syncTimer;
      NSArray *lastFilePaths;
      
-     NSString *docPath;
+     NSString *docPath;*/
 
 }
 
@@ -58,24 +58,21 @@
 
 
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
-@property (nonatomic, retain)  UIButton *dbStatusBar;
+@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
 //@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, retain) NSMutableArray *allFiles;
 
 @property (nonatomic, retain) NSMutableArray *selectedArray;
 @property BOOL inPseudoEditMode;
 
+@property (nonatomic, retain) UIButton *dbStatusBar;
+@property BOOL triedCreatingFolder;
+
+@property (nonatomic, retain) NSString *filesHash;
+
+
 - (IBAction)togglePseudoEditMode;
 - (void)checkForNewFilesAndReload;
-
-
-//For BBFileActionViewControllerDelegate
-//@property (nonatomic, retain) NSArray *files;
-//- (void)deleteTheFiles:(NSArray *)theseFiles;
-
-//For DBLoginControllerDelegate
-//- (void)loginControllerDidLogin:(DBLoginController*)controller;
-//- (void)loginControllerDidCancel:(DBLoginController*)controller;
 
 
 @end

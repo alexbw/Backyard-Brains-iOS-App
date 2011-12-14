@@ -44,7 +44,6 @@
 		E9B7FFD813E748AE0013A1A6 /* PlaybackView.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFD313E748AE0013A1A6 /* PlaybackView.plist */; };
 		E9B7FFD913E748AE0013A1A6 /* PlaybackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFD413E748AE0013A1A6 /* PlaybackView.xib */; };
 		E9B7FFDA13E748AE0013A1A6 /* PlaybackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFD613E748AE0013A1A6 /* PlaybackViewController.m */; };
-		E9B7FFDF13E749020013A1A6 /* BBFileActionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFDD13E749020013A1A6 /* BBFileActionView.xib */; };
 		E9B7FFE213E749390013A1A6 /* AudioSignalManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFE113E749390013A1A6 /* AudioSignalManager.m */; };
 		E9B7FFED13E7497A0013A1A6 /* ContinuousWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B7FFE413E7497A0013A1A6 /* ContinuousWaveView.m */; };
 		E9B7FFEE13E7497A0013A1A6 /* ContinuousWaveView.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9B7FFE513E7497A0013A1A6 /* ContinuousWaveView.plist */; };
@@ -198,7 +197,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* Backyard_BrainsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Backyard_BrainsAppDelegate.h; path = Classes/Backyard_BrainsAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* Backyard_BrainsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Backyard_BrainsAppDelegate.m; path = Classes/Backyard_BrainsAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* BYB 2.0.71.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 2.0.71.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* BYB 2.0.72.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 2.0.72.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* Backyard_Brains_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Backyard_Brains_Prefix.pch; sourceTree = "<group>"; };
@@ -247,7 +246,6 @@
 		E9B7FFD413E748AE0013A1A6 /* PlaybackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaybackView.xib; sourceTree = "<group>"; };
 		E9B7FFD513E748AE0013A1A6 /* PlaybackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaybackViewController.h; sourceTree = "<group>"; };
 		E9B7FFD613E748AE0013A1A6 /* PlaybackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaybackViewController.m; sourceTree = "<group>"; };
-		E9B7FFDD13E749020013A1A6 /* BBFileActionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBFileActionView.xib; sourceTree = "<group>"; };
 		E9B7FFE013E749390013A1A6 /* AudioSignalManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSignalManager.h; sourceTree = "<group>"; };
 		E9B7FFE113E749390013A1A6 /* AudioSignalManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSignalManager.m; sourceTree = "<group>"; };
 		E9B7FFE313E7497A0013A1A6 /* ContinuousWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContinuousWaveView.h; sourceTree = "<group>"; };
@@ -525,7 +523,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* BYB 2.0.71.app */,
+				1D6058910D05DD3D006BFB54 /* BYB 2.0.72.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -930,7 +928,6 @@
 				FAF0549612BEA3E000568255 /* TriggerView_iPad.xib */,
 				E9B7FFD413E748AE0013A1A6 /* PlaybackView.xib */,
 				E9BDF47F14081A6800899D31 /* PlaybackView_iPad.xib */,
-				E9B7FFDD13E749020013A1A6 /* BBFileActionView.xib */,
 				FA163A2F1134A949003065AC /* BBFileDetailView.xib */,
 				FA16389F11322CCB003065AC /* BBFileDetailEdit.xib */,
 				FA88C2091146BF4E006C2FE0 /* BBFileTableCell.xib */,
@@ -1114,7 +1111,7 @@
 			);
 			name = "Backyard Brains";
 			productName = "Backyard Brains";
-			productReference = 1D6058910D05DD3D006BFB54 /* BYB 2.0.71.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* BYB 2.0.72.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1197,7 +1194,6 @@
 				E9E7761713CBA34300AA812C /* TickMarksBig.png in Resources */,
 				E9B7FFD813E748AE0013A1A6 /* PlaybackView.plist in Resources */,
 				E9B7FFD913E748AE0013A1A6 /* PlaybackView.xib in Resources */,
-				E9B7FFDF13E749020013A1A6 /* BBFileActionView.xib in Resources */,
 				E9B7FFEE13E7497A0013A1A6 /* ContinuousWaveView.plist in Resources */,
 				E9B7FFEF13E7497A0013A1A6 /* ContinuousWaveView.xib in Resources */,
 				E9BEB4D61407D8ED000D1743 /* Icon-50.png in Resources */,
@@ -1355,7 +1351,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PRODUCT_NAME = "BYB 2.0.71";
+				PRODUCT_NAME = "BYB 2.0.72";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1376,7 +1372,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PRODUCT_NAME = "BYB 2.0.71";
+				PRODUCT_NAME = "BYB 2.0.72";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
