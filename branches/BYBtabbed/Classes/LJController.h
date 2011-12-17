@@ -14,46 +14,35 @@
 @property (nonatomic, retain) LarvaJoltAudio *pulse;
 @end
 
-@interface LJController : UIViewController <LarvaJoltAudioDelegate, UITextFieldDelegate> 
-{
-    IBOutlet id <LarvaJoltViewDelegate> delegate;
-    
-    
-	NSNumberFormatter *numberFormatter;
-    NSTimer *backgroundTimer;	
-    
-    double backgroundBlue;
-    IBOutlet UIButton *playButton;
-    IBOutlet UIButton *stopButton;
+@class ToneStimViewController, iPodStimViewController;
 
-}
+
+@interface LJController : UIViewController <LarvaJoltAudioDelegate>
+
 
 @property (assign) IBOutlet id <LarvaJoltViewDelegate> delegate;
 
-@property (nonatomic,retain) NSNumberFormatter *numberFormatter;
 @property (nonatomic,retain) NSTimer *backgroundTimer;
 @property double backgroundBlue;
+
 @property (nonatomic,retain) IBOutlet UIButton *playButton;
 @property (nonatomic,retain) IBOutlet UIButton *stopButton;
 
+@property (nonatomic, retain) ToneStimViewController *opticalVC;
+@property (nonatomic, retain) ToneStimViewController *toneVC;
+@property (nonatomic, retain) iPodStimViewController *iPodVC;
+@property (nonatomic, retain) ToneStimViewController *calibrationVC;
+@property (nonatomic, retain) UIViewController *currentController;
 
-- (IBAction)sliderMoved:(UISlider *)sender;
-- (IBAction)textFieldUpdated:(UITextField *)sender;
-- (void)updateViewFrom:(NSString *)source;
+@property (nonatomic, retain) IBOutlet UIView *theContainerView;
+
+- (IBAction)selectorSelected:(id)sender;
+- (void)switchToController:(UIViewController *)newCtl;
+
 
 - (IBAction)playPulse:(id)sender;
 - (IBAction)stopPulse:(id)sender;
 
-
-- (double)checkValue:(double)value forMin:(double)min andMax:(double)max;
-
-
 - (void)updateBackgroundColor;
-
-- (void)setViewMovedUp:(BOOL)movedUp byDist:(UInt32)dist;
-
-
-- (void)setup;
-- (void)releaseOutletsAndInstances;
 
 @end

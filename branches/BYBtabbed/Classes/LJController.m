@@ -7,15 +7,98 @@
 //
 
 #import "LJController.h"
-
+#import "ToneStimViewController.h"
+#import "iPodStimViewController.h"
 
 
 @implementation LJController
 
 @synthesize delegate;
+
 @synthesize backgroundBlue;
-@synthesize numberFormatter, backgroundTimer;
+
+@synthesize backgroundTimer;
 @synthesize playButton, stopButton;
+@synthesize toneVC, iPodVC, opticalVC, calibrationVC;
+@synthesize currentController;
+
+@synthesize theContainerView;
+
+
+#pragma mark - view lifecycle
+
+- (void)dealloc
+{
+    [super dealloc];
+    
+    [playButton release];
+    [stopButton release];
+    [backgroundTimer release];
+    [toneVC release];
+    [iPodVC release];
+    [opticalVC release];
+    [calibrationVC release];
+    [currentController release];
+    [theContainerView release];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+
+    self.delegate.pulse.delegate = self;
+    
+    if ([self.delegate.pulse playing])
+        [self pulseIsPlaying];
+    else
+        [self pulseIsStopped];
+    
+    [self switchToController:self.toneVC];
+    
+    NSLog(@"View will appear");
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self pulseIsStopped];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // Initialize and set objects
+    if (self.toneVC==nil)
+    {
+        self.toneVC = [[ToneStimViewController alloc]
+                       initWithNibName:@"ToneStimView" bundle:nil];
+        self.toneVC.viewTypeString = @"Tone";
+        self.toneVC.delegate = self.delegate;
+    }
+    if (self.opticalVC==nil)
+    {
+        self.opticalVC = [[ToneStimViewController alloc]
+                          initWithNibName:@"OpticalStimView" bundle:nil];
+        self.opticalVC.viewTypeString = @"Optical";
+        self.opticalVC.delegate = self.delegate;
+    }
+    if (self.iPodVC==nil)
+    {
+        self.iPodVC = [[iPodStimViewController alloc]
+                         initWithNibName:@"iPodStimView" bundle:nil];
+        self.iPodVC.delegate = self.delegate;
+    }
+    if (self.calibrationVC==nil)
+    {
+        self.calibrationVC = [[ToneStimViewController alloc]
+                              initWithNibName:@"LJCalibrationView" bundle:nil];
+        self.calibrationVC.viewTypeString = @"Calibration";
+        self.calibrationVC.delegate = self.delegate;
+    }
+    
+    self.backgroundBlue = 0.05;
+    
+}
 
 
 #pragma mark - Implementation of LarvaJoltAudio delegate protocol.
@@ -28,37 +111,54 @@
     
     self.playButton.enabled = NO;
     self.stopButton.enabled = YES;
+    
+    [(id <LarvaJoltAudioDelegate>)self.currentController pulseIsPlaying];
 }
 
 - (void)pulseIsStopped
 {
     if ([self.backgroundTimer isValid])
         [self.backgroundTimer invalidate];
-    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
+    UIColor *thisBlack =  [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
+    self.view.backgroundColor = thisBlack;
+    self.currentController.view.backgroundColor = thisBlack;
     
     self.playButton.enabled = YES;
     self.stopButton.enabled = NO;
+    
+    [(id <LarvaJoltAudioDelegate>)self.currentController pulseIsStopped];
 }
 
+#pragma mark - segmented control
+
+- (IBAction)selectorSelected:(id)sender
+{
+    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+    int selectedIndex = [segmentedControl selectedSegmentIndex];
+    if (selectedIndex==0)
+        [self switchToController:(UIViewController *)self.toneVC];
+    else if (selectedIndex==1)
+        [self switchToController:(UIViewController *)self.iPodVC];
+    else if (selectedIndex==2)
+        [self switchToController:(UIViewController *)self.opticalVC];
+    else if (selectedIndex==3)
+        [self switchToController:(UIViewController *)self.calibrationVC];
+}
+
+- (void)switchToController:(UIViewController *)newCtl
+{
+    if(newCtl == self.currentController)
+        return;
+    if([self.currentController isViewLoaded])
+        [self.currentController.view removeFromSuperview];
+    
+    if(newCtl != nil)
+        [self.theContainerView addSubview:newCtl.view];
+    
+    self.currentController = newCtl;
+}
 
 #pragma mark - methods
-
-- (IBAction)sliderMoved:(UISlider *)sender
-{
-	[self updateViewFrom:@"Slider"];
-}
-
-
-- (IBAction)textFieldUpdated:(UITextField *)sender
-{
-    [self updateViewFrom:@"Field"];
-}
-
-- (void)updateViewFrom:(NSString *)source 
-{
-
-}
-
 
 - (IBAction)playPulse:(id)sender 
 {
@@ -68,14 +168,6 @@
 - (IBAction)stopPulse:(id)sender 
 {
 	[self.delegate.pulse stopPulse];
-}
-
-
-- (double)checkValue:(double)value forMin:(double)min andMax:(double)max
-{
-    if (value >= min && value <= max)   { return value; }
-    else if (value < min)               { return min; }
-    else                                { return max; }
 }
 
 
@@ -106,96 +198,11 @@
         self.backgroundBlue = blue;
     }
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.05 green:0.05 blue:blue alpha:1];  
+    UIColor *thisBlue = [UIColor colorWithRed:0.05 green:0.05 blue:blue alpha:1];  
+    self.view.backgroundColor = thisBlue;
+    self.currentController.view.backgroundColor = thisBlue;
 }
 
-
-//method to move the view up/down whenever the keyboard is shown/dismissed
-
-
--(void)setViewMovedUp:(BOOL)movedUp byDist:(UInt32)dist
-{
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5]; // if you want to slide up the view
-    
-    CGRect rect = self.view.frame;
-    if (movedUp)
-    {
-        // 1. move the view's origin up so that the text field that will be hidden come above the keyboard 
-        // 2. increase the size of the view so that the area behind the keyboard is covered up.
-        rect.origin.y -= dist;
-        rect.size.height += dist;
-    }
-    else
-    {
-        // revert back to the normal state.
-        rect.origin.y = 0;
-        rect.size.height = self.view.frame.size.height;
-    }
-    NSLog(@"Did move up = %@\n", (movedUp ? @"YES" : @"NO"));
-    
-    self.view.frame = rect;
-    
-    [UIView commitAnimations];
-}
-
-
-
-- (void)setup
-{
-	// Initialize and set objects
-	self.numberFormatter = [[NSNumberFormatter alloc] init];
-	[self.numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    //[self.numberFormatter setMinimumIntegerDigits:1];
-    [self.numberFormatter setMaximumFractionDigits:1];
-    
-    self.backgroundBlue = 0.05;
-    
-	NSLog(@"Setup successful.");
-}
-
-- (void)releaseOutletsAndInstances{}
-
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-    
-    // register for keyboard notifications
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:self.view.window]; 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:self.view.window];
-    }
-    
-    self.delegate.pulse.delegate = self;
-    
-    if ([self.delegate.pulse playing])
-        [self pulseIsPlaying];
-    else
-        [self pulseIsStopped];
-    
-    //update the output frequency from the settings menu
-    //[self.delegate.pulse updateOutputFreq];
-    
-    [self updateViewFrom:@"Slider"];
-    
-    NSLog(@"View will appear");
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [self pulseIsStopped];
-    
-    // unregister for keyboard notifications while not visible.
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil]; 
-}
-
-- (void)viewDidLoad
-{
-    [self setup];
-}
 
 
 @end

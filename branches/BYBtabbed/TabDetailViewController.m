@@ -5,11 +5,12 @@
 
 @implementation TabDetailViewController
 
-@synthesize toolbar;
+
 @synthesize tabBarController;
 
 @synthesize drawingDataManager, delegate;
 @synthesize fileController;
+@synthesize navigationController;
 
 #pragma mark - View lifecycle
 
@@ -25,7 +26,6 @@
 - (void)viewDidUnload {
 	[super viewDidUnload];
 	
-	self.toolbar = nil;
     self.tabBarController = nil;
 }
 
@@ -34,20 +34,19 @@
     [self.tabBarController viewWillAppear:animated];
 }
 
-#pragma mark -
-#pragma mark Managing the popover
+#pragma mark - Managing the popover
 
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
-    
-    [[self.tabBarController.viewControllers objectAtIndex:0] showRootPopoverButtonItem:barButtonItem];
-    [[self.tabBarController.viewControllers objectAtIndex:1] showRootPopoverButtonItem:barButtonItem];
+
+    [[self.tabBarController.viewControllers objectAtIndex:0] showFileButton];
+    [[self.tabBarController.viewControllers objectAtIndex:1] showFileButton];
 }
 
 
 - (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
-    
-    [[self.tabBarController.viewControllers objectAtIndex:0]  invalidateRootPopoverButtonItem:barButtonItem];
-    [[self.tabBarController.viewControllers objectAtIndex:1]  invalidateRootPopoverButtonItem:barButtonItem];
+
+    [[self.tabBarController.viewControllers objectAtIndex:0]  hideFileButton];
+    [[self.tabBarController.viewControllers objectAtIndex:1]  hideFileButton];
 
 }
 
@@ -56,11 +55,16 @@
 #pragma mark - Memory management
 
 - (void)dealloc {
-    [toolbar release];
     [tabBarController release];
     [super dealloc];
 }	
 
+- (BOOL)splitViewController:(UISplitViewController *)svc
+   shouldHideViewController:(UIViewController *)vc
+              inOrientation:(UIInterfaceOrientation)orientation
+{
+    return YES;
+}
 
 
 @end

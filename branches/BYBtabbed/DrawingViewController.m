@@ -34,6 +34,7 @@
 
 @synthesize delegate;
 
+@synthesize fileButton;
 
 
 - (void)dealloc {
@@ -196,6 +197,36 @@
 	
 	[self.view setNeedsDisplay];
 }*/
+
+
+#pragma mark - Managing the popover
+
+
+- (IBAction)showFilePopover:(UIButton *)sender {
+    
+   /* NSArray *controllers = self.delegate.splitViewController.viewControllers;
+    UIViewController *rootViewController = [controllers objectAtIndex:0];
+    
+    UIView *rootView = rootViewController.view;
+    CGRect rootFrame = rootView.frame;
+    rootFrame.origin.x += rootFrame.size.width;
+    
+    [UIView beginAnimations:@"showView" context:NULL];
+    rootView.frame = rootFrame;
+    [UIView commitAnimations];*/
+    
+}
+
+- (void)hideFileButton {
+    
+    self.fileButton.hidden = YES;
+}
+
+
+- (void)showFileButton {
+
+    self.fileButton.hidden = YES;
+}
 
 - (IBAction)showInfoPanel:(UIButton *)sender {
 	NSLog(@"Showing info panel");

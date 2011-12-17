@@ -33,22 +33,8 @@
 @end
 
 
-@interface BBFileActionViewControllerTBV : UITableViewController  <UISplitViewControllerDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, BBFileDetailViewDelegate, BBFileDownloadViewControllerDelegate, DrawingViewControllerDelegate>
-{
-    
-    UISplitViewController *splitViewController;
-    UIPopoverController *popoverController;    
-    UIBarButtonItem *rootPopoverButtonItem;
-    
-    //IBOutlet UITableView *theTableView;
-    
-    NSArray *actionOptions;
-    NSArray *fileNamesToShare;
-    
-    id <BBFileActionViewControllerDelegate> delegate;
-    
-    NSArray *files;
-}
+@interface BBFileActionViewControllerTBV : UITableViewController  <UISplitViewControllerDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, BBFileDetailViewDelegate, BBFileDownloadViewControllerDelegate, DrawingViewControllerDelegate> {}
+
 
 //@property (nonatomic, retain) IBOutlet UITableView *theTableView;
 

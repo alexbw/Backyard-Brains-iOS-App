@@ -18,6 +18,7 @@
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <AudioUnit/AudioUnit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 
 @class LarvaJoltAudio;
@@ -29,9 +30,6 @@
 
 
 @interface LarvaJoltAudio : NSObject {
-	id <LarvaJoltAudioDelegate> delegate;
-    
-	AudioComponentInstance toneUnit; 
     
 @public					// req'd by render function
     double dutyCycle;
@@ -44,14 +42,13 @@
     double theta;
     double ledControlFreq;
     
-    BOOL playing;
     double calibA, calibB, calibC;
-    
-    NSTimer *timer;
 	
 }
 
 @property (assign) id <LarvaJoltAudioDelegate> delegate;
+
+@property AudioComponentInstance toneUnit;
 
 @property double dutyCycle;
 @property double frequency;
@@ -65,11 +62,11 @@
 @property double ledControlFreq;
 
 @property BOOL playing;
+@property BOOL songSelected;
 @property double calibA, calibB, calibC;
 
 @property (nonatomic, retain) NSTimer *timer;
 
-- (void)updateOutputFreq;
 
 - (void)createToneUnit;
 

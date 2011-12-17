@@ -80,7 +80,7 @@
         
         NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:path];
         
-        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:path];
+        //BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:path];
         
         NSLog(@"Full file path: %@", [docPath stringByAppendingPathComponent:self.filename]);
         // Open the audio file, type = AIFF

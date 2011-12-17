@@ -130,9 +130,10 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 @implementation LarvaJoltAudio
 
 @synthesize delegate;
+@synthesize toneUnit;
 @synthesize dutyCycle, frequency, amplitude, pulseTime;
 @synthesize sampleRate, pulseProgress, theta, ledControlFreq;
-@synthesize playing, timer;
+@synthesize playing, songSelected, timer;
 @synthesize calibA, calibB, calibC;
 
 
@@ -171,51 +172,37 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 }
 
 
-- (void)updateOutputFreq
-{
-    
-    /*// Grab the led control frequency from the NSUserDefaults THINGYYY
-     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-     
-     NSNumber *ledControlFreqValue;
-     if ((ledControlFreqValue = [defaults valueForKey:@"ledcontrolfreq"])) {
-     self.ledControlFreq = (Float64)[ledControlFreqValue floatValue];
-     }
-     else {
-     self.ledControlFreq = defaultLedControlFrequency;
-     }
-     
-     NSLog(@"==== DEFAULT LEDCONTROLFREQ: %@", [defaults valueForKey:@"ledcontrolfreq"]);
-     */
-    
-}
-
 
 - (void)playPulse
 {
-	if (!toneUnit)
-	{
+    if (self.songSelected) {
         
-        //create timer
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:self.pulseTime/1000
-                                                      target:self
-                                                    selector:@selector(stopPulse)
-                                                    userInfo:nil
-                                                     repeats:NO];
-        
-		[self createToneUnit];
-		
-		// Stop changing parameters on the unit
-		OSErr err = AudioUnitInitialize(toneUnit);
-		NSAssert1(err == noErr, @"Error initializing unit: %ld", err);
-		
-		// Start playback
-		err = AudioOutputUnitStart(toneUnit);
-		NSAssert1(err == noErr, @"Error starting unit: %ld", err);
-        
-        
-        self.playing = YES;
-        [self.delegate pulseIsPlaying];
+    }
+    else
+    {
+        if (!toneUnit)
+        {
+            //create timer
+            self.timer = [NSTimer scheduledTimerWithTimeInterval:self.pulseTime/1000
+                                                          target:self
+                                                        selector:@selector(stopPulse)
+                                                        userInfo:nil
+                                                         repeats:NO];
+            
+            [self createToneUnit];
+            
+            // Stop changing parameters on the unit
+            OSErr err = AudioUnitInitialize(toneUnit);
+            NSAssert1(err == noErr, @"Error initializing unit: %ld", err);
+            
+            // Start playback
+            err = AudioOutputUnitStart(toneUnit);
+            NSAssert1(err == noErr, @"Error starting unit: %ld", err);
+            
+            
+            self.playing = YES;
+            [self.delegate pulseIsPlaying];
+        }
     }
 }
 

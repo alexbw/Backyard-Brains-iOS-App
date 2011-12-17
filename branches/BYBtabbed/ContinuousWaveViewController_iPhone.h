@@ -10,7 +10,7 @@
 
 #import "ContinuousWaveViewController.h"
 #import "FlipsideInfoViewController.h"
-#import "LarvaJoltViewController.h"
+
 
 @interface ContinuousWaveViewController_iPhone : ContinuousWaveViewController <UINavigationControllerDelegate, FlipsideInfoViewDelegate> {
 	

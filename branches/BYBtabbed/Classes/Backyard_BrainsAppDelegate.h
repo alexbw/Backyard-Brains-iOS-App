@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "DrawingViewController.h"
-#import "LarvaJoltViewController.h"
+#import "LJController.h"
 
 @class BBTabViewController;
 @class AudioSignalManager;

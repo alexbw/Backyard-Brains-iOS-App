@@ -32,6 +32,7 @@
     @property (nonatomic, retain) DrawingDataManager *drawingDataManager;
     @property (nonatomic, retain) LarvaJoltAudio *pulse;
     @property (nonatomic, retain) BBFileViewControllerTBV *fileController; //for iPad
+    @property (nonatomic, retain) UINavigationController *navigationController; //for iPad
 
 //For Playback. This will be ActionViewControllerTBV
     @property (nonatomic, retain) NSArray *files; 
@@ -92,6 +93,8 @@
 
 @property (nonatomic, retain) NSDictionary *preferences;
 
+@property (nonatomic, retain) IBOutlet UIButton *fileButton;
+
 
 - (void)dealloc;
 
@@ -112,6 +115,9 @@
 
 - (IBAction)showInfoPanel:(UIButton *)sender;
 
+- (IBAction)showFilePopover:(UIButton *)sender;
+- (void)hideFileButton;
+- (void)showFileButton;
 
 @end
 

@@ -20,6 +20,17 @@
 
 @synthesize popoverController, splitViewController, rootPopoverButtonItem;
 
+- (void)dealloc
+{
+    [super dealloc];
+    [actionOptions release];
+    [fileNamesToShare release];
+    [files release];
+    [popoverController release];
+    [splitViewController release];
+    [rootPopoverButtonItem release];
+}
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {    
@@ -33,10 +44,7 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -73,7 +81,7 @@
         self.actionOptions = [NSArray arrayWithObjects:
                               @"View Details",
                               @"Play",
-                              @"Analyze",
+                              //@"Analyze",
                               @"Email",
                               @"Download",
                               @"Delete", nil];
@@ -83,7 +91,7 @@
         self.navigationItem.title = [NSString stringWithFormat:@"%u Files", [self.files count]];
         
         self.actionOptions = [NSArray arrayWithObjects:
-                              @"View details",
+                              @"View Details",
                               @"Email",
                               @"Download",
                               @"Delete", nil];

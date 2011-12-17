@@ -15,41 +15,7 @@
 
 @class BBFileViewControllerTBV;
 
-@interface BBFileViewControllerTBV: UITableViewController <UISplitViewControllerDelegate, UIActionSheetDelegate, BBFileTableCellDelegate, BBFileActionViewControllerDelegate, DBLoginControllerDelegate, DBRestClientDelegate>
- {
-	
-    /*UISplitViewController *splitViewController;
-    UIPopoverController *popoverController;    
-    UIBarButtonItem *rootPopoverButtonItem;
-     
-     
-     IBOutlet UITableView *theTableView;
-     IBOutlet UIButton *dbStatusBar;
-     //UIActivityIndicatorView *activityIndicator;
-     
-     NSMutableArray *allFiles;
-     NSArray *filesSelectedForAction;
-     
-     NSMutableArray *selectedArray;
-     BOOL inPseudoEditMode;
-     UIImage *selectedImage;
-     UIImage *unselectedImage;
-     NSUInteger lastRowSelected;
-     
-     NSDictionary *preferences;
-     
-     DBRestClient *restClient;
-     NSString *status;
-     
-     NSArray* filePaths;
-     NSString* filesHash;
-     
-     NSTimer *syncTimer;
-     NSArray *lastFilePaths;
-     
-     NSString *docPath;*/
-
-}
+@interface BBFileViewControllerTBV: UITableViewController <UISplitViewControllerDelegate, UIActionSheetDelegate, BBFileTableCellDelegate, BBFileActionViewControllerDelegate, DBLoginControllerDelegate, DBRestClientDelegate> {}
 
 @property (nonatomic, assign) IBOutlet UISplitViewController *splitViewController;
 
