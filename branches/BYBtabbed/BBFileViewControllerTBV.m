@@ -107,6 +107,32 @@
     NSString *pathStr = [[NSBundle mainBundle] bundlePath];
     NSString *finalPath = [pathStr stringByAppendingPathComponent:@"BBFileViewController.plist"];
     self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
+    
+    
+    self.theTableView = self.tableView;
+    self.theTableView.rowHeight = 54;
+    
+    if (self.selectedImage==nil)
+        self.selectedImage = [UIImage imageNamed:@"selected.png"];
+    if (self.unselectedImage==nil)
+        self.unselectedImage =  [UIImage imageNamed:@"unselected.png"];
+    
+    //create the status bar
+    if (self.dbStatusBar==nil)
+    {
+        self.dbStatusBar = [[UIButton alloc] initWithFrame:CGRectMake(self.theTableView.frame.origin.x, self.toolbar.frame.size.height, self.theTableView.frame.size.width, 0)];
+        [self.dbStatusBar setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:1 alpha:0.5]];
+        [self.dbStatusBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        //[self.dbStatusBar setTitle:@"bar" forState:UIControlStateNormal];
+        [self.view addSubview:self.dbStatusBar];
+    }
+    
+    //grab the doc path
+    self.docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    self.triedCreatingFolder = NO;
+    
+    self.docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
 -(void) viewDidUnload {
@@ -129,23 +155,20 @@
 	[super viewWillAppear:animated];
     
     
-    self.theTableView = self.tableView;
-    self.theTableView.rowHeight = 54;
     
-    self.selectedImage =    [UIImage imageNamed:@"selected.png"];
-    self.unselectedImage =  [UIImage imageNamed:@"unselected.png"];
-    
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc]
+    if (self.navigationItem.leftBarButtonItem.action==nil)
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc]
                                        initWithTitle:@"Select"
                                                style:UIBarButtonItemStylePlain 
                                               target:self 
                                               action:@selector(togglePseudoEditMode)] 
                             autorelease];
     
-    
-    UIImage *dbImage = [UIImage imageNamed:@"dropbox.png"];
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:dbImage style:UIBarButtonItemStylePlain target:self action:@selector(dbButtonPressed)] autorelease];
-    self.navigationItem.rightBarButtonItem.width = dbImage.size.width;
+    if (self.navigationItem.rightBarButtonItem==nil) {
+        UIImage *dbImage = [UIImage imageNamed:@"dropbox.png"];
+        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:dbImage style:UIBarButtonItemStylePlain target:self action:@selector(dbButtonPressed)] autorelease];
+        self.navigationItem.rightBarButtonItem.width = dbImage.size.width;
+    }
     
 	self.allFiles = [NSMutableArray arrayWithArray:[BBFile allObjects]];
     
@@ -157,21 +180,7 @@
     [self populateSelectedArray];
 	
 	[theTableView reloadData];
-    
-    
-    //create the status bar
-    self.dbStatusBar = [[UIButton alloc] initWithFrame:CGRectMake(self.theTableView.frame.origin.x, self.toolbar.frame.size.height, self.theTableView.frame.size.width, 0)];
-    [self.dbStatusBar setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:1 alpha:0.5]];
-    [self.dbStatusBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    //[self.dbStatusBar setTitle:@"bar" forState:UIControlStateNormal];
-    [self.view addSubview:self.dbStatusBar];
 
-    //grab the doc path
-    self.docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-
-    self.triedCreatingFolder = NO;
-    
-    self.docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
 
