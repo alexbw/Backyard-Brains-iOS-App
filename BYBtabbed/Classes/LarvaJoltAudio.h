@@ -32,18 +32,19 @@
 @interface LarvaJoltAudio : NSObject {
     
 @public					// req'd by render function
-    double dutyCycle;
-	double frequency;
-	double amplitude; 
-    double pulseTime;
+    double _dutyCycle;
+	double _frequency;
+	double _amplitude; 
+    double _pulseTime;
 	
-	double sampleRate;
-	double pulseProgress;
-    double theta;
-    double ledControlFreq;
+	double _sampleRate;
+	double _pulseProgress;
+    double _theta;
+    double _ledControlFreq;
     
-    double calibA, calibB, calibC;
+    double _calibA, _calibB, _calibC;
 	
+    BOOL _songSelected;
 }
 
 @property (assign) id <LarvaJoltAudioDelegate> delegate;
@@ -63,9 +64,13 @@
 
 @property BOOL playing;
 @property BOOL songSelected;
+@property (nonatomic,retain) MPMediaItemCollection *playlist;
+@property int songNowPlaying;
+
 @property double calibA, calibB, calibC;
 
 @property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic, retain) MPMusicPlayerController* appMusicPlayer;
 
 
 - (void)createToneUnit;

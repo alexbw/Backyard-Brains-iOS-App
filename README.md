@@ -21,3 +21,9 @@ Version 1.8.0
 Version 1.8.1 [Released: Dec 12, 2011]
 -----------------------------------
 -Updated stimulation settings for the optogenetics rig. More info on backyard optogenetics at backyardbrains.com.
+
+Coming Soon!
+-----------------------------------
+-Visual playback
+-Various stimulation options
+-New streamlined interface

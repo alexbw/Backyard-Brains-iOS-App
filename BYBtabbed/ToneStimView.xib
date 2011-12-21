@@ -50,8 +50,8 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<float key="IBUIValue">20</float>
-						<float key="IBUIMinValue">10</float>
-						<float key="IBUIMaxValue">100</float>
+						<float key="IBUIMinValue">20</float>
+						<float key="IBUIMaxValue">500</float>
 					</object>
 					<object class="IBUISlider" id="799068468">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -243,7 +243,7 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">100</string>
+						<string key="IBUIText">continuous</string>
 						<int key="IBUIBorderStyle">3</int>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">3</int>

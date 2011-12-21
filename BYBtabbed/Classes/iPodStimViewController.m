@@ -10,22 +10,33 @@
 
 @implementation iPodStimViewController
 
-@synthesize delegate;
-@synthesize theTableView;
-@synthesize songNames;
+@synthesize delegate        = _delegate;
+@synthesize ljController    = _ljController;
+@synthesize theTableView    = _theTableView;
+@synthesize songNames       = _songNames;
+@synthesize songArtists     = _songArtists;
 
 #pragma mark - view lifecycle
 
 - (void)dealloc
 {
-    [theTableView release];
+    [_theTableView release];
+    [_songNames release];
+    [_songArtists release];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
     //tell LarvaJolt to prep for a song
+    //if (self.delegate.pulse.playing)
+      //  [self.delegate.pulse stopPulse];
     self.delegate.pulse.songSelected = YES;
 }
 
@@ -43,13 +54,28 @@
     NSLocalizedString (@"Add songs to play",
                        "Prompt in media item picker");
     
-    [self presentModalViewController: picker animated: YES];
+    //[picker setModalPresentationStyle:UIModalPresentationFullScreen];
+    [self.ljController presentModalViewController:picker animated:YES];
     [picker release];
 }
 
 - (void)updateTableWithCollection:(MPMediaItemCollection *)collection 
 {
-    self.songNames = [collection valueForKey:@""];
+    self.delegate.pulse.playlist = collection;
+    self.delegate.pulse.songNowPlaying = 0;
+    
+    NSArray *songs = [NSArray arrayWithArray:collection.items];
+    self.songNames = [NSArray array];
+    self.songArtists = [NSArray array];
+    for (int i =0; i < songs.count; ++i)
+    {
+        self.songNames = 
+            [self.songNames arrayByAddingObject:[[songs objectAtIndex:i]
+                                                 valueForKey:MPMediaItemPropertyTitle]];
+        self.songArtists =
+            [self.songArtists arrayByAddingObject:[[songs objectAtIndex:i]
+                                                 valueForKey:MPMediaItemPropertyArtist]];
+    }
     
     [self.theTableView reloadData];
 }
@@ -58,15 +84,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ((self.songNames.count > 0) && (indexPath.row <= self.songNames.count-1))
+    if (self.songNames.count > 0 && indexPath.row < self.songNames.count)
     {
         NSString *thisSong = [self.songNames objectAtIndex:indexPath.row];
         UITableViewCell *cell = [self.theTableView dequeueReusableCellWithIdentifier:thisSong];
         if (cell == nil)
         {
-            UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:thisSong] autorelease];
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:thisSong] autorelease];
+            cell.textLabel.text = thisSong;
+            cell.detailTextLabel.text = [self.songArtists objectAtIndex:indexPath.row];
         }
-        cell.textLabel.text = thisSong;
         return cell;
     }
     else
@@ -91,25 +118,28 @@
 
 - (void)pulseIsPlaying
 {
-
+    
+    UITableViewCell *playingCell = [self.theTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.delegate.pulse.songNowPlaying inSection:0]];
+    playingCell.selected = YES;
 }
 - (void)pulseIsStopped
 {
-
+    UITableViewCell *playingCell = [self.theTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.delegate.pulse.songNowPlaying inSection:0]];
+    playingCell.selected = NO;
 }
 
 #pragma mark - Implementation of MPMediaPickerControllerDelegate
 
-- (void) mediaPicker: (MPMediaPickerController *) mediaPicker
-   didPickMediaItems: (MPMediaItemCollection *) collection {
+- (void) mediaPicker:(MPMediaPickerController *)mediaPicker
+   didPickMediaItems:(MPMediaItemCollection *)collection {
     
-    [self dismissModalViewControllerAnimated:YES];
+    [mediaPicker dismissModalViewControllerAnimated:YES];
     [self updateTableWithCollection:collection];
 }
 
-- (void) mediaPickerDidCancel: (MPMediaPickerController *) mediaPicker {
+- (void) mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
     
-    [self dismissModalViewControllerAnimated:YES];
+    [mediaPicker dismissModalViewControllerAnimated:YES];
 }
 
 

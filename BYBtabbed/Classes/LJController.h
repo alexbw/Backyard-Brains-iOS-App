@@ -36,7 +36,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView *theContainerView;
 
-- (IBAction)selectorSelected:(id)sender;
+- (IBAction)selectorSelected:(UISegmentedControl *)segmentedControl;
 - (void)switchToController:(UIViewController *)newCtl;
 
 

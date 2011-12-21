@@ -114,7 +114,10 @@
     }
     
     //No longer playing a song
-    self.delegate.pulse.songSelected = NO;
+    //if (self.delegate.pulse.songSelected == YES) {
+        self.delegate.pulse.songSelected = NO;
+      //  [self.delegate.pulse stopPulse];
+   // }
 
     [self updateViewFrom:@"Slider" fromView:self.viewTypeString];
 }

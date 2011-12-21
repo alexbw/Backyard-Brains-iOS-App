@@ -38,14 +38,14 @@ static OSStatus RenderTone(
     Float32 *buffer = (Float32 *)ioData->mBuffers[channel].mData;
     
     
-    double frequency = lja->frequency;
-    double outputFrequency = lja->ledControlFreq;
-    double amplitude = lja->amplitude;
-    double sampleRate = lja->sampleRate;
-    double theta = lja->theta;
-    double calibA = lja->calibA;
-    double calibB = lja->calibB;
-    double calibC = lja->calibC;
+    double frequency = lja->_frequency;
+    double outputFrequency = lja->_ledControlFreq;
+    double amplitude = lja->_amplitude;
+    double sampleRate = lja->_sampleRate;
+    double theta = lja->_theta;
+    double calibA = lja->_calibA;
+    double calibB = lja->_calibB;
+    double calibC = lja->_calibC;
     
     if (frequency==0)
     {
@@ -61,15 +61,15 @@ static OSStatus RenderTone(
             }
             
             // Store the theta back in the view controller
-            lja->theta = theta;
+            lja->_theta = theta;
             
         }
     }
     else
     {
         
-        double pulseProgress = lja->pulseProgress;	//progress in pulse from 0.0 - 1.0
-        double dutyCycleInput = lja->dutyCycle;
+        double pulseProgress = lja->_pulseProgress;	//progress in pulse from 0.0 - 1.0
+        double dutyCycleInput = lja->_dutyCycle;
         
         //6.12 optimization parameters
         //#define c1 1.88
@@ -105,8 +105,8 @@ static OSStatus RenderTone(
             
             
             // Store the theta back in the view controller
-            lja->pulseProgress = pulseProgress;
-            lja->theta = theta;
+            lja->_pulseProgress = pulseProgress;
+            lja->_theta = theta;
             
         }
     }
@@ -129,12 +129,25 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 
 @implementation LarvaJoltAudio
 
-@synthesize delegate;
-@synthesize toneUnit;
-@synthesize dutyCycle, frequency, amplitude, pulseTime;
-@synthesize sampleRate, pulseProgress, theta, ledControlFreq;
-@synthesize playing, songSelected, timer;
-@synthesize calibA, calibB, calibC;
+@synthesize delegate        = _delegate;
+@synthesize toneUnit        = _toneUnit;
+@synthesize dutyCycle       = _dutyCycle;
+@synthesize frequency       = _frequency;
+@synthesize amplitude       = _amplitude;
+@synthesize pulseTime       = _pulseTime;
+@synthesize sampleRate      = _sampleRate;
+@synthesize pulseProgress   = _pulseProgress;
+@synthesize theta           = _theta;
+@synthesize ledControlFreq  = _ledControlFreq;
+@synthesize playing         = _playing;
+@dynamic songSelected;
+@synthesize timer           = _timer;
+@synthesize calibA          = _calibA;
+@synthesize calibB          = _calibB;
+@synthesize calibC          = _calibC;
+@synthesize playlist        = _playlist;
+@synthesize songNowPlaying  = _songNowPlaying;
+@synthesize appMusicPlayer  = _appMusicPlayer;
 
 
 #define defaultSampleRate 44100.0 //Hz
@@ -176,11 +189,18 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 - (void)playPulse
 {
     if (self.songSelected) {
-        
+        if (self.appMusicPlayer==nil) {
+            self.appMusicPlayer =
+                [MPMusicPlayerController applicationMusicPlayer];
+        }
+        [self.appMusicPlayer setShuffleMode: MPMusicShuffleModeOff];
+        [self.appMusicPlayer setRepeatMode: MPMusicRepeatModeNone];
+        [self.appMusicPlayer setQueueWithItemCollection:self.playlist];
+        [self.appMusicPlayer play];
     }
     else
     {
-        if (!toneUnit)
+        if (!self.toneUnit)
         {
             //create timer
             self.timer = [NSTimer scheduledTimerWithTimeInterval:self.pulseTime/1000
@@ -192,11 +212,11 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
             [self createToneUnit];
             
             // Stop changing parameters on the unit
-            OSErr err = AudioUnitInitialize(toneUnit);
+            OSErr err = AudioUnitInitialize(self.toneUnit);
             NSAssert1(err == noErr, @"Error initializing unit: %ld", err);
             
             // Start playback
-            err = AudioOutputUnitStart(toneUnit);
+            err = AudioOutputUnitStart(self.toneUnit);
             NSAssert1(err == noErr, @"Error starting unit: %ld", err);
             
             
@@ -210,18 +230,31 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 {
     NSLog(@"Stopping pulse");
     
-	if (toneUnit)
+	if (self.toneUnit)
 	{
-		AudioOutputUnitStop(toneUnit);
-		AudioUnitUninitialize(toneUnit);
-		AudioComponentInstanceDispose(toneUnit);
-		toneUnit = nil;
+		AudioOutputUnitStop(self.toneUnit);
+		AudioUnitUninitialize(self.toneUnit);
+		AudioComponentInstanceDispose(self.toneUnit);
+		self.toneUnit = nil;
 	}
     
     self.playing = NO;
     [self.delegate pulseIsStopped];
     [self.timer invalidate];
 }
+
+- (void)setSongSelected:(BOOL)theSong
+{
+    _songSelected = theSong;
+    if (self.playing)
+        [self stopPulse];
+}
+
+- (BOOL)songSelected
+{
+    return _songSelected;
+}
+
 
 
 - (void)createToneUnit
@@ -246,15 +279,15 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 	// Create a new unit based on this that we'll use for output
 	OSErr err = AudioComponentInstanceNew(
                                           defaultOutput, 
-                                          &toneUnit);
-	NSAssert1(toneUnit, @"Error creating unit: %ld", err);
+                                          &_toneUnit);
+	NSAssert1(self.toneUnit, @"Error creating unit: %ld", err);
 	
     
 	// Set our tone rendering function on the unit
 	AURenderCallbackStruct input;
 	input.inputProc = RenderTone;
 	input.inputProcRefCon = self;
-	err = AudioUnitSetProperty(toneUnit, 
+	err = AudioUnitSetProperty(self.toneUnit, 
 							   kAudioUnitProperty_SetRenderCallback, 
 							   kAudioUnitScope_Input,
 							   0, 
@@ -275,7 +308,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 	streamFormat.mBytesPerFrame = four_bytes_per_float;		
 	streamFormat.mChannelsPerFrame = 1;	//2 for stereo
 	streamFormat.mBitsPerChannel = four_bytes_per_float * eight_bits_per_byte;
-	err = AudioUnitSetProperty (toneUnit,
+	err = AudioUnitSetProperty (self.toneUnit,
 								kAudioUnitProperty_StreamFormat,
 								kAudioUnitScope_Input,
 								0,

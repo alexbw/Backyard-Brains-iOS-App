@@ -42,6 +42,42 @@
     [theContainerView release];
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self=[super initWithCoder:aDecoder])
+    {
+        // Initialize and set objects
+        if (self.toneVC==nil)
+        {
+            self.toneVC = [[ToneStimViewController alloc]
+                           initWithNibName:@"ToneStimView" bundle:nil];
+            self.toneVC.viewTypeString = @"Tone";        
+        }
+        if (self.opticalVC==nil)
+        {
+            self.opticalVC = [[ToneStimViewController alloc]
+                              initWithNibName:@"OpticalStimView" bundle:nil];
+            self.opticalVC.viewTypeString = @"Optical";
+        }
+        if (self.iPodVC==nil)
+        {
+            self.iPodVC = [[iPodStimViewController alloc]
+                           initWithNibName:@"iPodStimView" bundle:nil];        
+        }
+        if (self.calibrationVC==nil)
+        {
+            self.calibrationVC = [[ToneStimViewController alloc]
+                                  initWithNibName:@"LJCalibrationView" bundle:nil];
+            self.calibrationVC.viewTypeString = @"Calibration";        
+        }
+        
+        
+        
+        self.backgroundBlue = 0.05;
+    }
+    return self;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
@@ -53,7 +89,6 @@
     else
         [self pulseIsStopped];
     
-    [self switchToController:self.toneVC];
     
     NSLog(@"View will appear");
 }
@@ -67,36 +102,15 @@
 {
     [super viewDidLoad];
     
-    // Initialize and set objects
-    if (self.toneVC==nil)
-    {
-        self.toneVC = [[ToneStimViewController alloc]
-                       initWithNibName:@"ToneStimView" bundle:nil];
-        self.toneVC.viewTypeString = @"Tone";
-        self.toneVC.delegate = self.delegate;
-    }
-    if (self.opticalVC==nil)
-    {
-        self.opticalVC = [[ToneStimViewController alloc]
-                          initWithNibName:@"OpticalStimView" bundle:nil];
-        self.opticalVC.viewTypeString = @"Optical";
-        self.opticalVC.delegate = self.delegate;
-    }
-    if (self.iPodVC==nil)
-    {
-        self.iPodVC = [[iPodStimViewController alloc]
-                         initWithNibName:@"iPodStimView" bundle:nil];
-        self.iPodVC.delegate = self.delegate;
-    }
-    if (self.calibrationVC==nil)
-    {
-        self.calibrationVC = [[ToneStimViewController alloc]
-                              initWithNibName:@"LJCalibrationView" bundle:nil];
-        self.calibrationVC.viewTypeString = @"Calibration";
-        self.calibrationVC.delegate = self.delegate;
-    }
-    
-    self.backgroundBlue = 0.05;
+    self.toneVC.delegate        = self.delegate;
+    self.opticalVC.delegate     = self.delegate;
+    self.iPodVC.delegate        = self.delegate;
+    self.iPodVC.ljController    = self;
+    self.calibrationVC.delegate = self.delegate;
+
+
+
+    [self switchToController:self.toneVC];
     
 }
 
@@ -131,18 +145,20 @@
 
 #pragma mark - segmented control
 
-- (IBAction)selectorSelected:(id)sender
+- (IBAction)selectorSelected:(UISegmentedControl *)segmentedControl
 {
-    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
-    int selectedIndex = [segmentedControl selectedSegmentIndex];
-    if (selectedIndex==0)
+    NSString *selectedOption =
+        [segmentedControl titleForSegmentAtIndex:[segmentedControl selectedSegmentIndex]];
+    if ([selectedOption isEqualToString:@"Tone"])
         [self switchToController:(UIViewController *)self.toneVC];
-    else if (selectedIndex==1)
+    else if ([selectedOption isEqualToString:@"iPod"])
         [self switchToController:(UIViewController *)self.iPodVC];
-    else if (selectedIndex==2)
+    else if ([selectedOption isEqualToString:@"Optical"])
         [self switchToController:(UIViewController *)self.opticalVC];
-    else if (selectedIndex==3)
+    else if ([selectedOption isEqualToString:@"Setup"])
         [self switchToController:(UIViewController *)self.calibrationVC];
+    else if ([selectedOption isEqualToString:@"Pulse"])
+        return;
 }
 
 - (void)switchToController:(UIViewController *)newCtl
@@ -153,7 +169,10 @@
         [self.currentController.view removeFromSuperview];
     
     if(newCtl != nil)
+    {
         [self.theContainerView addSubview:newCtl.view];
+        [self.theContainerView bringSubviewToFront:newCtl.view];
+    }
     
     self.currentController = newCtl;
 }

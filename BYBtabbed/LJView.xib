@@ -125,7 +125,7 @@
 					<object class="IBUISegmentedControl" id="339851327">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{10, 12}, {300, 30}}</string>
+						<string key="NSFrame">{{6, 10}, {307, 30}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="798023296"/>
@@ -138,9 +138,9 @@
 						<object class="NSArray" key="IBSegmentTitles">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>Tone</string>
+							<string>Pulse</string>
 							<string>iPod</string>
 							<string>Optical</string>
-							<string>Setup</string>
 						</object>
 						<object class="NSMutableArray" key="IBSegmentWidths">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -248,7 +248,7 @@
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">13</int>
 					</object>
-					<int key="connectionID">143</int>
+					<int key="connectionID">146</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -280,8 +280,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="525491227"/>
 							<reference ref="798023296"/>
-							<reference ref="339851327"/>
 							<reference ref="557645478"/>
+							<reference ref="339851327"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -296,13 +296,16 @@
 						<reference key="parent" ref="774585933"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">128</int>
-						<reference key="object" ref="339851327"/>
+						<int key="objectID">130</int>
+						<reference key="object" ref="557645478"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="parent" ref="774585933"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">130</int>
-						<reference key="object" ref="557645478"/>
+						<int key="objectID">128</int>
+						<reference key="object" ref="339851327"/>
 						<reference key="parent" ref="774585933"/>
 					</object>
 				</object>
@@ -331,7 +334,7 @@
 					<string>UIResponder</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<integer value="1"/>
+					<integer value="2"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -352,7 +355,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">145</int>
+			<int key="maxID">146</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -371,7 +374,7 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
-							<string>id</string>
+							<string>UISegmentedControl</string>
 							<string>id</string>
 						</object>
 					</object>
@@ -391,7 +394,7 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">selectorSelected:</string>
-								<string key="candidateClassName">id</string>
+								<string key="candidateClassName">UISegmentedControl</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">stopPulse:</string>
