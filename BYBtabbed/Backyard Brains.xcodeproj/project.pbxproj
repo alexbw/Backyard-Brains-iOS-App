@@ -122,6 +122,7 @@
 		E9BEB4DB1407D8ED000D1743 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9BEB4D51407D8ED000D1743 /* Icon@2x.png */; };
 		E9C8B40D1363885000F0ED8E /* LarvaJoltAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */; };
 		E9C8B40E1363885000F0ED8E /* ToneStimViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4091363885000F0ED8E /* ToneStimViewController.m */; };
+		E9D0CC7B14A4F0FF00BCC26C /* PulseStimView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9D0CC7A14A4F0FF00BCC26C /* PulseStimView.xib */; };
 		E9E7761713CBA34300AA812C /* TickMarksBig.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E7761613CBA34300AA812C /* TickMarksBig.png */; };
 		E9FAD21B1492F65300CBCB1D /* LJView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9FAD21A1492F65300CBCB1D /* LJView.xib */; };
 		E9FAD21D1492F72200CBCB1D /* LJCalibrationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9FAD21C1492F72100CBCB1D /* LJCalibrationView.xib */; };
@@ -379,6 +380,7 @@
 		E9C8B4071363885000F0ED8E /* LarvaJoltAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LarvaJoltAudio.m; sourceTree = "<group>"; };
 		E9C8B4081363885000F0ED8E /* ToneStimViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToneStimViewController.h; sourceTree = "<group>"; };
 		E9C8B4091363885000F0ED8E /* ToneStimViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToneStimViewController.m; sourceTree = "<group>"; };
+		E9D0CC7A14A4F0FF00BCC26C /* PulseStimView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PulseStimView.xib; sourceTree = "<group>"; };
 		E9E7761613CBA34300AA812C /* TickMarksBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TickMarksBig.png; path = Images/TickMarksBig.png; sourceTree = "<group>"; };
 		E9FAD21A1492F65300CBCB1D /* LJView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LJView.xib; sourceTree = "<group>"; };
 		E9FAD21C1492F72100CBCB1D /* LJCalibrationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LJCalibrationView.xib; sourceTree = "<group>"; };
@@ -948,6 +950,7 @@
 				E92B7E1A149BDDF100DE1BA9 /* ToneStimView.xib */,
 				E92B7E161499214500DE1BA9 /* iPodStimView.xib */,
 				E92B7E18149BDDA200DE1BA9 /* OpticalStimView.xib */,
+				E9D0CC7A14A4F0FF00BCC26C /* PulseStimView.xib */,
 				E9FAD21C1492F72100CBCB1D /* LJCalibrationView.xib */,
 				FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */,
 				FA5A8687115E749E00E201BC /* FirstTimeSpikersView.xib */,
@@ -1242,6 +1245,7 @@
 				E92B7E1B149BDDF200DE1BA9 /* ToneStimView.xib in Resources */,
 				E98831CE14A148D1005D4943 /* gear.png in Resources */,
 				E98831CF14A148D1005D4943 /* gear@2x.png in Resources */,
+				E9D0CC7B14A4F0FF00BCC26C /* PulseStimView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

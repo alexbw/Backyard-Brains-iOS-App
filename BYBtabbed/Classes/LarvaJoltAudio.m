@@ -196,7 +196,11 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
         [self.appMusicPlayer setShuffleMode: MPMusicShuffleModeOff];
         [self.appMusicPlayer setRepeatMode: MPMusicRepeatModeNone];
         [self.appMusicPlayer setQueueWithItemCollection:self.playlist];
+        [self.appMusicPlayer setNowPlayingItem:[self.playlist.items objectAtIndex:self.songNowPlaying]];
         [self.appMusicPlayer play];
+        
+        self.playing = YES;
+        [self.delegate pulseIsPlaying];
     }
     else
     {
@@ -230,14 +234,18 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 {
     NSLog(@"Stopping pulse");
     
-	if (self.toneUnit)
-	{
-		AudioOutputUnitStop(self.toneUnit);
-		AudioUnitUninitialize(self.toneUnit);
-		AudioComponentInstanceDispose(self.toneUnit);
-		self.toneUnit = nil;
-	}
-    
+    if (self.songSelected) 
+    {
+        [self.appMusicPlayer pause];
+    }
+    else if (self.toneUnit)
+    {
+            AudioOutputUnitStop(self.toneUnit);
+            AudioUnitUninitialize(self.toneUnit);
+            AudioComponentInstanceDispose(self.toneUnit);
+            self.toneUnit = nil;
+    }
+        
     self.playing = NO;
     [self.delegate pulseIsStopped];
     [self.timer invalidate];

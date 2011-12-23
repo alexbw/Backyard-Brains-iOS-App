@@ -30,6 +30,7 @@
 
 @property (nonatomic, retain) ToneStimViewController *opticalVC;
 @property (nonatomic, retain) ToneStimViewController *toneVC;
+@property (nonatomic, retain) ToneStimViewController *pulseVC;
 @property (nonatomic, retain) iPodStimViewController *iPodVC;
 @property (nonatomic, retain) ToneStimViewController *calibrationVC;
 @property (nonatomic, retain) UIViewController *currentController;

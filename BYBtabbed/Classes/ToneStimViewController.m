@@ -33,36 +33,48 @@
 
 @implementation ToneStimViewController
 
-@synthesize delegate;
-@synthesize viewTypeString;
+@synthesize delegate            = _delegate;
+@synthesize ljController        = _ljController;
+@synthesize viewTypeString      = _viewTypeString;
 
-@synthesize frequencySlider, dutyCycleSlider, pulseTimeSlider;
-@synthesize frequencyField, pulseWidthField, pulseTimeField;
-@synthesize constantToneSwitch;
-@synthesize toneFreqField, toneFreqSlider;
-@synthesize calibAField, calibBField, calibCField;
+@synthesize frequencySlider     = _frequencySlider;
+@synthesize dutyCycleSlider     = _dutyCycleSlider; 
+@synthesize pulseTimeSlider     = _pulseTimeSlider;
+@synthesize frequencyField      = _frequencyField; 
+@synthesize pulseWidthField     = _pulseWidthField; 
+@synthesize pulseTimeField      = _pulseTimeField;
+@synthesize constantToneSwitch  = _constantToneSwitch;
+@synthesize toneFreqField       = _toneFreqField;
+@synthesize toneFreqSlider      = _toneFreqSlider;
+@synthesize calibAField         = _calibAField;
+@synthesize calibBField         = _calibBField;
+@synthesize calibCField         = _calibCField;
 
-@synthesize numberFormatter;
+@synthesize numberFormatter     = _numberFormatter;
+@synthesize ljCalibrationVC   = _ljCalibrationVC;
 
 #pragma mark - Initiation methods and messages from the system
 
 - (void)dealloc
 {
 	//release outlets
-    [viewTypeString release];
-	[frequencyField release];
-	[pulseWidthField release];
-	[pulseTimeField release];
-	[frequencySlider release];
-	[dutyCycleSlider release];
-	[pulseTimeSlider release];
-    [constantToneSwitch release];
-    [toneFreqField release];
-    [toneFreqSlider release];
-    [calibAField release];
-    [calibBField release];
-    [calibCField release];
-    [numberFormatter release];
+    [_viewTypeString release];
+    
+	[_frequencyField release];
+	[_pulseWidthField release];
+	[_pulseTimeField release];
+	[_frequencySlider release];
+	[_dutyCycleSlider release];
+	[_pulseTimeSlider release];
+    [_constantToneSwitch release];
+    [_toneFreqField release];
+    [_toneFreqSlider release];
+    [_calibAField release];
+    [_calibBField release];
+    [_calibCField release];
+    
+    [_numberFormatter release];
+    [_ljCalibrationVC release];
     [super dealloc];
 }
 
@@ -270,7 +282,7 @@
 {	
     
     
-    if ([view isEqualToString:@"Optical"] || [view isEqualToString:@"Tone"])
+    if ([view isEqualToString:@"Optical"] || [view isEqualToString:@"Tone"] || [view isEqualToString:@"Pulse"])
     {
         if (source==@"Slider")
         {
@@ -381,5 +393,31 @@
     [self updateViewFrom:@"Slider" fromView:self.viewTypeString];
 }
 
+#pragma mark - actions
+
+- (IBAction)showSetup:(id)sender
+{
+    //Called from Optical ViewController
+    
+    /*if (self.ljCalibrationVC==nil)
+    {
+        self.ljCalibrationVC = [[ToneStimViewController alloc]
+                              initWithNibName:@"LJCalibrationView" bundle:nil];
+        self.ljCalibrationVC.viewTypeString = @"Calibration";
+        self.ljCalibrationVC.delegate = self.delegate;
+    }
+    [self presentModalViewController:self.ljCalibrationVC animated:YES];*/
+    [self.ljController  switchToController:self.ljController.calibrationVC];
+    
+}
+
+- (IBAction)hideSetup:(id)sender
+{
+    //Called from Calibration ViewController
+    
+    [self.ljController switchToController:self.ljController.opticalVC];
+    
+    //[self dismissModalViewControllerAnimated:YES];
+}
 
 @end

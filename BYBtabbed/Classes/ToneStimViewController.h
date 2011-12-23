@@ -14,7 +14,9 @@
 @interface ToneStimViewController : UIViewController <LarvaJoltAudioDelegate, UITextFieldDelegate>
 
 @property (nonatomic,assign) id <LarvaJoltViewDelegate> delegate;
+@property (nonatomic,assign) LJController *ljController;
 @property (nonatomic,retain) NSString *viewTypeString;
+@property (nonatomic,retain) ToneStimViewController *ljCalibrationVC;
 
 - (IBAction)toggleConstantTone:(UISwitch *)sender;
 
@@ -29,6 +31,8 @@
 - (IBAction)sliderMoved:(UISlider *)sender;
 - (IBAction)textFieldUpdated:(UITextField *)sender;
 
+- (IBAction)showSetup:(id)sender;
+- (IBAction)hideSetup:(id)sender;
 
 @end
 

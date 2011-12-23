@@ -13,16 +13,21 @@
 
 @implementation LJController
 
-@synthesize delegate;
+@synthesize delegate            = _delegate;
 
-@synthesize backgroundBlue;
+@synthesize backgroundBlue      = _backgroundBlue;
 
-@synthesize backgroundTimer;
-@synthesize playButton, stopButton;
-@synthesize toneVC, iPodVC, opticalVC, calibrationVC;
-@synthesize currentController;
+@synthesize backgroundTimer     = _backgroundTimer;
+@synthesize playButton          = _playButton;
+@synthesize stopButton          = _stopButton;
+@synthesize toneVC              = _toneVC;
+@synthesize pulseVC             = _pulseVC;
+@synthesize iPodVC              = _iPodVC;
+@synthesize opticalVC           = _opticalVC;
+@synthesize calibrationVC       = _calibrationVC;
+@synthesize currentController   = _currentController;
 
-@synthesize theContainerView;
+@synthesize theContainerView    = _theContainerView;
 
 
 #pragma mark - view lifecycle
@@ -31,15 +36,16 @@
 {
     [super dealloc];
     
-    [playButton release];
-    [stopButton release];
-    [backgroundTimer release];
-    [toneVC release];
-    [iPodVC release];
-    [opticalVC release];
-    [calibrationVC release];
-    [currentController release];
-    [theContainerView release];
+    [_playButton release];
+    [_stopButton release];
+    [_backgroundTimer release];
+    [_toneVC release];
+    [_pulseVC release];
+    [_iPodVC release];
+    [_opticalVC release];
+    [_calibrationVC release];
+    [_currentController release];
+    [_theContainerView release];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -52,6 +58,11 @@
             self.toneVC = [[ToneStimViewController alloc]
                            initWithNibName:@"ToneStimView" bundle:nil];
             self.toneVC.viewTypeString = @"Tone";        
+        }
+        if (self.pulseVC==nil)
+        {
+            self.pulseVC = [[ToneStimViewController alloc] initWithNibName:@"PulseStimView" bundle:nil];
+            self.pulseVC.viewTypeString = @"Pulse";
         }
         if (self.opticalVC==nil)
         {
@@ -103,10 +114,16 @@
     [super viewDidLoad];
     
     self.toneVC.delegate        = self.delegate;
+    self.toneVC.ljController    = self;
+    self.pulseVC.delegate       = self.delegate;
+    self.pulseVC.ljController   = self;
     self.opticalVC.delegate     = self.delegate;
+    self.opticalVC.ljController = self;
     self.iPodVC.delegate        = self.delegate;
     self.iPodVC.ljController    = self;
     self.calibrationVC.delegate = self.delegate;
+    self.calibrationVC.ljController    = self;
+
 
 
 
@@ -151,6 +168,8 @@
         [segmentedControl titleForSegmentAtIndex:[segmentedControl selectedSegmentIndex]];
     if ([selectedOption isEqualToString:@"Tone"])
         [self switchToController:(UIViewController *)self.toneVC];
+    else if ([selectedOption isEqualToString:@"Pulse"])
+        [self switchToController:(UIViewController *)self.pulseVC];
     else if ([selectedOption isEqualToString:@"iPod"])
         [self switchToController:(UIViewController *)self.iPodVC];
     else if ([selectedOption isEqualToString:@"Optical"])

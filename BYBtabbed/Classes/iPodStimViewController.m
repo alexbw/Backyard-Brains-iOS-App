@@ -52,7 +52,7 @@
     [picker setAllowsPickingMultipleItems: YES];                       
     picker.prompt =
     NSLocalizedString (@"Add songs to play",
-                       "Prompt in media item picker");
+                       "");
     
     //[picker setModalPresentationStyle:UIModalPresentationFullScreen];
     [self.ljController presentModalViewController:picker animated:YES];
@@ -111,6 +111,32 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.theTableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (self.delegate.pulse.playing 
+            && self.delegate.pulse.songNowPlaying == indexPath.row)
+    {
+        [self.delegate.pulse stopPulse];
+    }
+    else if (!self.delegate.pulse.playing 
+             && self.delegate.pulse.songNowPlaying == indexPath.row)
+    {
+        [self.delegate.pulse playPulse];
+    }
+    else if (self.delegate.pulse.playing 
+             && self.delegate.pulse.songNowPlaying != indexPath.row)
+    {
+        [self.delegate.pulse stopPulse];
+        self.delegate.pulse.songNowPlaying = indexPath.row;
+        [self.delegate.pulse playPulse];
+    }
+    else if (!self.delegate.pulse.playing 
+             && self.delegate.pulse.songNowPlaying != indexPath.row)
+    {
+        self.delegate.pulse.songNowPlaying = indexPath.row;
+        [self.delegate.pulse playPulse];
+    }
+
+    
 }
 
 #pragma mark - Implementation of LarvaJoltAudio delegate protocol.
