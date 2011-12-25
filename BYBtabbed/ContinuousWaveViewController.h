@@ -17,26 +17,12 @@
 
 
 @interface ContinuousWaveViewController : DrawingViewController <DrawingDataManagerDelegate>
-{
-	
-    
-	ContinuousWaveView *cwView;
-	
-	AudioRecorder *audioRecorder;
-    
-    AudioSignalManager *audioSignalManager;
-    
-	IBOutlet UIButton *stopButton;
-}
 
-
-@property (nonatomic, retain) ContinuousWaveView *cwView;
 
 @property (nonatomic, retain) AudioRecorder *audioRecorder;
-
 @property (nonatomic, retain) AudioSignalManager *audioSignalManager;
-
 @property (nonatomic, retain) IBOutlet UIButton *stopButton;
+@property (nonatomic, retain) ContinuousWaveView *cwView;
 
 - (void)updateDataLabels;
 - (void)showAllLabels;

@@ -16,28 +16,16 @@
 @end
 
 
-@interface BBFileTableCell : UITableViewCell {
-	IBOutlet UILabel *shortname;
-	IBOutlet UILabel *subname;
-	IBOutlet UILabel *lengthname;
-	IBOutlet UIButton *actionButton;
-    IBOutlet UIButton *selectButton;
-    
-    //BOOL selected;
-    
-    id <BBFileTableCellDelegate> delegate;
-}
+@interface BBFileTableCell : UITableViewCell 
 
 @property (nonatomic, retain) IBOutlet UILabel *shortname;
 @property (nonatomic, retain) IBOutlet UILabel *subname;
 @property (nonatomic, retain) IBOutlet UILabel *lengthname;
 @property (nonatomic, retain) IBOutlet UIButton *actionButton;
 
-//@property (nonatomic) BOOL isSelected;
-
 @property (nonatomic, assign) id <BBFileTableCellDelegate> delegate;
 
--(IBAction)actionButtonSelected;
+- (IBAction)actionButtonSelected;
 
 
 @end

@@ -12,7 +12,7 @@
 #import "FlipsideInfoViewController.h"
 
 
-@interface ContinuousWaveViewController_iPhone : ContinuousWaveViewController <UINavigationControllerDelegate, FlipsideInfoViewDelegate> {
+@interface ContinuousWaveViewController_iPhone : ContinuousWaveViewController <FlipsideInfoViewDelegate> {
 	
 	// Data labels
 	IBOutlet UIButton *recordButton;

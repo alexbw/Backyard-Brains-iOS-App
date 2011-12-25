@@ -11,22 +11,23 @@
 
 @implementation BBFileTableCell
 
-@synthesize shortname;
-@synthesize subname;
-@synthesize lengthname;
-@synthesize actionButton;
-//@synthesize isSelected;
-@synthesize delegate;
+@synthesize shortname       = _shortname;
+@synthesize subname         = _subname;
+@synthesize lengthname      = _lengthname;
+@synthesize actionButton    = _actionButton;
 
-/*-(id)init
+@synthesize delegate        = _delegate;
+
+- (void)dealloc
 {
-    if ((self = [super init]))
-    {
-        self.isSelected = 0;
-    }
-    return self;
+    [super dealloc];
+    
+    [_shortname release];
+    [_subname release];
+    [_lengthname release];
+    [_actionButton release];
 }
-*/
+
 -(IBAction)actionButtonSelected
 {
     [self.delegate cellActionTriggeredFrom:self];

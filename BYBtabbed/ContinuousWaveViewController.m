@@ -13,19 +13,19 @@
 
 @implementation ContinuousWaveViewController
 
-@synthesize stopButton;
-@synthesize audioRecorder;
-@synthesize audioSignalManager;
-
-@synthesize cwView;
+@synthesize stopButton          = _stopButton;
+@synthesize audioRecorder       = _audioRecorder;
+@synthesize audioSignalManager  = _audioSignalManager;
+@synthesize cwView              = _cwView;
 
 
 
 - (void)dealloc {	
     [super dealloc];
-    [audioRecorder release]; //released in stopRecord ing: too
-    
-    [cwView release];
+    [_stopButton release];
+    [_audioRecorder release]; //released in stopRecord ing: too
+    [_audioSignalManager release];
+    [_cwView release];
     
 
 }
@@ -34,12 +34,12 @@
 # pragma mark - IBActions
 
 - (IBAction)startRecording:(UIButton *)sender {
-	CGRect stopButtonRect = CGRectMake(stopButton.frame.origin.x, 0.0f, stopButton.frame.size.width, stopButton.frame.size.height);
+	CGRect stopButtonRect = CGRectMake(self.stopButton.frame.origin.x, 0.0f, self.stopButton.frame.size.width, self.stopButton.frame.size.height);
 
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:.25];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	[stopButton setFrame:stopButtonRect];	
+	[self.stopButton setFrame:stopButtonRect];	
 	[UIView commitAnimations];
 	
 	self.audioRecorder = [[AudioRecorder alloc] initWithAudioSignalManager:(AudioSignalManager *)self.drawingDataManager];
@@ -48,16 +48,16 @@
 }
 
 - (IBAction)stopRecording:(UIButton *)sender {
-	float offset = stopButton.frame.size.height;
-	CGRect stopButtonRect = CGRectMake(stopButton.frame.origin.x, -offset, stopButton.frame.size.width, stopButton.frame.size.height);
+	float offset = self.stopButton.frame.size.height;
+	CGRect stopButtonRect = CGRectMake(self.stopButton.frame.origin.x, -offset, self.stopButton.frame.size.width, self.stopButton.frame.size.height);
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:.25];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-	[stopButton setFrame:stopButtonRect];
+	[self.stopButton setFrame:stopButtonRect];
 	[UIView commitAnimations];
 	
-	[audioRecorder stopRecording];
-	[audioRecorder release];
+	[self.audioRecorder stopRecording];
+	[self.audioRecorder release];
 	
 }
 
@@ -136,9 +136,9 @@
     if (self.cwView.audioSignalManager.delegate == self) //only true is CW was not opened
         [self.cwView.audioSignalManager pause];
 	
-	if (audioRecorder != nil) {
-		if (audioRecorder.isRecording == YES) {
-			[self stopRecording:stopButton];
+	if (self.audioRecorder != nil) {
+		if (self.audioRecorder.isRecording == YES) {
+			[self stopRecording:self.stopButton];
 			
 
 		}
@@ -349,17 +349,17 @@
 - (void)showAllLabels {
 	[xUnitsPerDivLabel setAlpha:1.0];
 	[yUnitsPerDivLabel setAlpha:1.0];
-	cwView.showGrid = YES;
+	self.cwView.showGrid = YES;
 }
 
 - (void)hideAllLabels {
 	[xUnitsPerDivLabel setAlpha:0.0];
 	[yUnitsPerDivLabel setAlpha:0.0];
-	cwView.showGrid = NO;
+	self.cwView.showGrid = NO;
 }
 
 - (void)toggleVisibilityOfLabelsAndGrid {
-	if (cwView.showGrid == YES) {
+	if (self.cwView.showGrid == YES) {
 		[self hideAllLabels];
 	}
 	

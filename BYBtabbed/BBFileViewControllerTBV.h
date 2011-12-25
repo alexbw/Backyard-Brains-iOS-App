@@ -15,7 +15,7 @@
 
 @class BBFileViewControllerTBV;
 
-@interface BBFileViewControllerTBV: UITableViewController <UISplitViewControllerDelegate, UIActionSheetDelegate, BBFileTableCellDelegate, BBFileActionViewControllerDelegate, DBLoginControllerDelegate, DBRestClientDelegate> {}
+@interface BBFileViewControllerTBV: UITableViewController <UIActionSheetDelegate, BBFileTableCellDelegate, BBFileActionViewControllerDelegate, DBLoginControllerDelegate, DBRestClientDelegate>
 
 @property (nonatomic, assign) IBOutlet UISplitViewController *splitViewController;
 

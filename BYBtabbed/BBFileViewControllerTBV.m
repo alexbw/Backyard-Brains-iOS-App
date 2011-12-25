@@ -184,20 +184,12 @@
 }
 
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 
 #pragma mark - Rotation support
 
 
 
-#pragma mark - Table view data source
+#pragma mark - TableViewDataSource & UITableViewDelegate
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -312,45 +304,7 @@
     [self.theTableView reloadData];
 }
 
-#pragma mark Table view selection
-
-//Keep this around to control the detail view:::
-/*- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-     //Create and configure a new detail view controller appropriate for the selection.
-     
-    NSUInteger row = indexPath.row;
-    
-    UIViewController <SubstitutableDetailViewController> *detailViewController = nil;
-
-    if (row == 0) {
-        FirstDetailViewController *newDetailViewController = [[FirstDetailViewController alloc] initWithNibName:@"FirstDetailView" bundle:nil];
-        detailViewController = newDetailViewController;
-    }
-
-    if (row == 1) {
-        SecondDetailViewController *newDetailViewController = [[SecondDetailViewController alloc] initWithNibName:@"SecondDetailView" bundle:nil];
-        detailViewController = newDetailViewController;
-    }
-
-    // Update the split view controller's view controllers array.
-    NSArray *viewControllers = [[NSArray alloc] initWithObjects:self.navigationController, detailViewController, nil];
-    splitViewController.viewControllers = viewControllers;
-    [viewControllers release];
-    
-    // Dismiss the popover if it's present.
-    if (popoverController != nil) {
-        [popoverController dismissPopoverAnimated:YES];
-    }
-
-    // Configure the new view controller's popover button (after the view has been displayed and its toolbar/navigation bar has been created).
-    if (rootPopoverButtonItem != nil) {
-        [detailViewController showRootPopoverButtonItem:self.rootPopoverButtonItem];
-    }
-
-    [detailViewController release];
-}*/
+#pragma mark - Table view selection
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -531,31 +485,6 @@
         [self pushActionView];
     }
 }
-
-#pragma mark - splitview methods
-
-
-- (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
-    
-    // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
-    barButtonItem.title = @"Files";
-    self.popoverController = pc;
-    self.rootPopoverButtonItem = barButtonItem;
-    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
-        
-    [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
-}
-
-
-- (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-    
-    // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
-    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
-    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
-    self.popoverController = nil;
-    self.rootPopoverButtonItem = nil;
-}
-
 
 
 

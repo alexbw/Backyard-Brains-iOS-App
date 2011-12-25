@@ -36,6 +36,8 @@
 
 @synthesize fileButton;
 
+@synthesize navigationBar;
+
 
 - (void)dealloc {
 	[drawingDataManager release];
@@ -47,6 +49,9 @@
 	[xUnitsPerDivLabel release];
 	[yUnitsPerDivLabel release];
 	[msLegendImage release];
+    
+    [fileButton release];
+    [navigationBar release];
 	
 	[super dealloc];
 
@@ -398,6 +403,13 @@
 	[currentTouches removeAllObjects];	
 }
 
+#pragma mark - UISplitViewControllerDelegate
+
+- (void)splitViewController: (UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController: (UIPopoverController*)pc {
+    
+    [self.navigationBar.topItem setLeftBarButtonItem:barButtonItem animated:YES];
+
+}
 
 
 @end

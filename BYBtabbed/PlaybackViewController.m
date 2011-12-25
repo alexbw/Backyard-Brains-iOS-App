@@ -58,17 +58,8 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated { //tk move all this crap to DrawingViewConroller
+- (void)viewWillAppear:(BOOL)animated { //tk move all this to DrawingViewConroller
 	[super viewWillAppear:animated];
-    
-	
-    self.navigationItem.title = self.file.subname;
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Trigger"
-                                                        style:UIBarButtonItemStylePlain
-                                                        target:self
-                                                        action:@selector(pushTrigger)] autorelease];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    
     
     if (self.apm == nil)
         self.apm = [[AudioPlaybackManager alloc] initWithBBFile:self.file];
@@ -83,27 +74,7 @@
     
     //Reset wait frames so the view will automatically set the viewing frame
     self.apm.nWaitFrames = 0;
-    
-    
-    //Unused stuff from Continuous Wave View:
-    
-	//[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
-    
-	//self.pbView.audioSignalManager = self.audioSignalManager;
-    //self.audioSignalManager.delegate = self;
-	//self.pbView.audioSignalManager.triggering = NO;
-	//[self.apm startPlayback]; //tk NEW
-    
-    //self.audioSignalManager.nTrigWaitFrames = 0;
-	
-	//self.pbView.gridVertexBuffer = (struct wave_s *)malloc(2*(self.pbView.numHorizontalGridLines+self.pbView.numVerticalGridLines)*sizeof(struct wave_s));
-
-	//self.pbView.minorGridVertexBuffer =
-      //  (struct wave_s *)malloc(2*4*(self.pbView.numHorizontalGridLines+self.pbView.numVerticalGridLines)*sizeof(struct wave_s));
-	
-    //[self.pbView updateMinorGridLines];
-    
-    
+        
 	
 	[self.pbView startAnimation];
     

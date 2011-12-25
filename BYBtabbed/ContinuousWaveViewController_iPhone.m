@@ -18,7 +18,6 @@
 - (void)dealloc {	
 	
 	[recordButton release];
-	[stopButton release];
     [stimButton release];
     [super dealloc];
 	

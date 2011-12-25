@@ -12,7 +12,7 @@
 #import "TriggerView.h"
 #import "BBFileActionViewControllerTBV.h"
 
-@interface TriggerViewController : DrawingViewController <DrawingDataManagerDelegate, SubstitutableDetailViewController> {
+@interface TriggerViewController : DrawingViewController <DrawingDataManagerDelegate> {
 	
 	// Data labels
 	IBOutlet UILabel *triggerValueLabel;

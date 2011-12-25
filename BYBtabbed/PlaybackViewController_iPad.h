@@ -10,4 +10,8 @@
 
 @interface PlaybackViewController_iPad : PlaybackViewController
 
+@property (nonatomic,retain) IBOutlet UINavigationItem *navItem;
+
+- (IBAction)done:(id)sender;
+
 @end

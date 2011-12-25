@@ -202,7 +202,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* Backyard_BrainsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Backyard_BrainsAppDelegate.h; path = Classes/Backyard_BrainsAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* Backyard_BrainsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Backyard_BrainsAppDelegate.m; path = Classes/Backyard_BrainsAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* BYB 2.0.74.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 2.0.74.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* BYB 2.0.75.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 2.0.75.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* Backyard_Brains_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Backyard_Brains_Prefix.pch; sourceTree = "<group>"; };
@@ -247,8 +247,6 @@
 		E9AB224B13C550380054209F /* unselected.2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unselected.2x.png; path = Images/unselected.2x.png; sourceTree = "<group>"; };
 		E9B7000113E74D9C0013A1A6 /* TriggerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerViewController.h; sourceTree = "<group>"; };
 		E9B7000213E74D9C0013A1A6 /* TriggerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriggerViewController.m; sourceTree = "<group>"; };
-		E9B7000413E74FCD0013A1A6 /* BBFileActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileActionViewController.h; sourceTree = "<group>"; };
-		E9B7000513E74FCD0013A1A6 /* BBFileActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileActionViewController.m; sourceTree = "<group>"; };
 		E9B7000D13E754DF0013A1A6 /* DrawingDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingDataManager.h; sourceTree = "<group>"; };
 		E9B7000E13E754DF0013A1A6 /* DrawingDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingDataManager.m; sourceTree = "<group>"; };
 		E9B7FFCD13E747B00013A1A6 /* AudioPlaybackManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlaybackManager.h; sourceTree = "<group>"; };
@@ -534,7 +532,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* BYB 2.0.74.app */,
+				1D6058910D05DD3D006BFB54 /* BYB 2.0.75.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -600,15 +598,6 @@
 				E99325CB142261E700CC76D5 /* TabDetailViewController.m */,
 			);
 			name = "Split View";
-			sourceTree = "<group>";
-		};
-		E9B7000913E74FD50013A1A6 /* Action View */ = {
-			isa = PBXGroup;
-			children = (
-				E9B7000413E74FCD0013A1A6 /* BBFileActionViewController.h */,
-				E9B7000513E74FCD0013A1A6 /* BBFileActionViewController.m */,
-			);
-			name = "Action View";
 			sourceTree = "<group>";
 		};
 		E9B7FFF913E74ACB0013A1A6 /* Playback View */ = {
@@ -793,7 +782,6 @@
 			children = (
 				FA1636DC1131AE83003065AC /* Root Views */,
 				E99325D41422620700CC76D5 /* Split View */,
-				E9B7000913E74FD50013A1A6 /* Action View */,
 				FA1636DB1131AE70003065AC /* Continuous View */,
 				FA1636DE1131AEB2003065AC /* Trigger View */,
 				E9B7FFF913E74ACB0013A1A6 /* Playback View */,
@@ -1127,7 +1115,7 @@
 			);
 			name = "Backyard Brains";
 			productName = "Backyard Brains";
-			productReference = 1D6058910D05DD3D006BFB54 /* BYB 2.0.74.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* BYB 2.0.75.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1371,7 +1359,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PRODUCT_NAME = "BYB 2.0.74";
+				PRODUCT_NAME = "BYB 2.0.75";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1392,7 +1380,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PRODUCT_NAME = "BYB 2.0.74";
+				PRODUCT_NAME = "BYB 2.0.75";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;

@@ -40,7 +40,7 @@
 @end
 
 
-@interface DrawingViewController : UIViewController {
+@interface DrawingViewController : UIViewController <UISplitViewControllerDelegate> {
 	DrawingDataManager *drawingDataManager;
 	EAGLView *glView;
 	
@@ -94,6 +94,9 @@
 @property (nonatomic, retain) NSDictionary *preferences;
 
 @property (nonatomic, retain) IBOutlet UIButton *fileButton;
+
+//for iPad
+@property (nonatomic,retain) IBOutlet UINavigationBar *navigationBar;
 
 
 - (void)dealloc;

@@ -5,7 +5,7 @@
 
 @class DrawingDataManager;
 
-@interface TabDetailViewController : UIViewController <SubstitutableDetailViewController, DrawingViewControllerDelegate, UISplitViewControllerDelegate> {}
+@interface TabDetailViewController : UIViewController <DrawingViewControllerDelegate>
 
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 

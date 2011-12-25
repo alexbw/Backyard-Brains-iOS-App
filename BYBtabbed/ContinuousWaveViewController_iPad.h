@@ -12,7 +12,7 @@
 #import "BBFileViewControllerTBV.h"
 #import "FlipsideInfoViewController.h"
 
-@interface ContinuousWaveViewController_iPad : ContinuousWaveViewController <UINavigationControllerDelegate, UIPopoverControllerDelegate, FlipsideInfoViewDelegate, SubstitutableDetailViewController> {
+@interface ContinuousWaveViewController_iPad : ContinuousWaveViewController <UIPopoverControllerDelegate, FlipsideInfoViewDelegate> {
 	
     UIToolbar *toolbar;
     

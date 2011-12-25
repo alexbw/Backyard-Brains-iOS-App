@@ -215,7 +215,7 @@
 #pragma mark - keyboard control
 
 - (void)keyboardWillShow:(NSNotification *)notif
-{
+{ 
     //keyboard will be shown now. depending for which textfield is active, move up or move down the view appropriately
     
     /*if (([self.pulseTimeField isFirstResponder] || [self.toneFreqField isFirstResponder])
@@ -398,15 +398,7 @@
 - (IBAction)showSetup:(id)sender
 {
     //Called from Optical ViewController
-    
-    /*if (self.ljCalibrationVC==nil)
-    {
-        self.ljCalibrationVC = [[ToneStimViewController alloc]
-                              initWithNibName:@"LJCalibrationView" bundle:nil];
-        self.ljCalibrationVC.viewTypeString = @"Calibration";
-        self.ljCalibrationVC.delegate = self.delegate;
-    }
-    [self presentModalViewController:self.ljCalibrationVC animated:YES];*/
+
     [self.ljController  switchToController:self.ljController.calibrationVC];
     
 }
@@ -416,8 +408,7 @@
     //Called from Calibration ViewController
     
     [self.ljController switchToController:self.ljController.opticalVC];
-    
-    //[self dismissModalViewControllerAnimated:YES];
+
 }
 
 @end

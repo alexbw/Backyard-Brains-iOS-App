@@ -14,6 +14,15 @@
 
 #pragma mark - View lifecycle
 
+- (void)dealloc {
+    [tabBarController release];
+    [drawingDataManager release];
+    [fileController release];
+    [navigationController release];
+    [super dealloc];
+}	
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -32,39 +41,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.tabBarController viewWillAppear:animated];
-}
-
-#pragma mark - Managing the popover
-
-- (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
-
-    [[self.tabBarController.viewControllers objectAtIndex:0] showFileButton];
-    [[self.tabBarController.viewControllers objectAtIndex:1] showFileButton];
-}
-
-
-- (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
-
-    [[self.tabBarController.viewControllers objectAtIndex:0]  hideFileButton];
-    [[self.tabBarController.viewControllers objectAtIndex:1]  hideFileButton];
-
+    
+   // [[self.tabBarController.viewControllers objectAtIndex:0] setDelegate:self.delegate];
+   // [[self.tabBarController.viewControllers objectAtIndex:1] showFileButton];
 }
 
 
 
-#pragma mark - Memory management
-
-- (void)dealloc {
-    [tabBarController release];
-    [super dealloc];
-}	
-
-- (BOOL)splitViewController:(UISplitViewController *)svc
-   shouldHideViewController:(UIViewController *)vc
-              inOrientation:(UIInterfaceOrientation)orientation
-{
-    return YES;
-}
 
 
 @end

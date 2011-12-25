@@ -7,28 +7,27 @@
 //
 
 #import "BBFileActionViewControllerTBV.h"
+#import "PlaybackViewController.h"
+#import "PlaybackViewController_iPad.h"
 
 
 @implementation BBFileActionViewControllerTBV
 
 
 //@synthesize theTableView;
-@synthesize actionOptions;
-@synthesize fileNamesToShare;
-@synthesize delegate;
-@synthesize files;//audioSignalManager, files;
+@synthesize actionOptions       = _actionOptions;
+@synthesize fileNamesToShare    = _fileNamesToShare;
+@synthesize files               = _files;
 
-@synthesize popoverController, splitViewController, rootPopoverButtonItem;
+@synthesize delegate            = _delegate;
 
 - (void)dealloc
 {
     [super dealloc];
-    [actionOptions release];
-    [fileNamesToShare release];
-    [files release];
-    [popoverController release];
-    [splitViewController release];
-    [rootPopoverButtonItem release];
+    
+    [_actionOptions release];
+    [_fileNamesToShare release];
+    [_files release];
 }
 
 
@@ -67,12 +66,6 @@
     [super viewWillAppear:animated];
     
     self.files = self.delegate.filesSelectedForAction;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        self.splitViewController = self.delegate.splitViewController;
-        self.popoverController = self.delegate.popoverController;
-        self.rootPopoverButtonItem = self.delegate.rootPopoverButtonItem;
-    }
     
     if ([self.files count] == 1) //single file
     {
@@ -102,12 +95,6 @@
         CGSizeMake(310.0, (self.tableView.rowHeight * ([self.actionOptions count] +1)));
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
 
 #pragma mark - TableViewDelegate methods
 
@@ -162,13 +149,21 @@
     
     if ([cell.textLabel.text isEqualToString:@"Play"])
 	{
-		//get the audiosignalmanager! if we need it
-        
-        PlaybackViewController *pvc = [[PlaybackViewController alloc] initWithNibName:@"PlaybackView" bundle:nil];
-        pvc.delegate = self;
-        pvc.hidesBottomBarWhenPushed = YES;
-		[[self navigationController] pushViewController:pvc animated:YES];
-		[pvc release];
+       if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) 
+        {
+            PlaybackViewController_iPad *pvc = [[PlaybackViewController_iPad alloc] initWithNibName:@"PlaybackView_iPad" bundle:nil];
+            pvc.delegate = self;
+            [self presentModalViewController:pvc animated:YES];
+            [pvc release];
+        }
+        else
+        {
+            PlaybackViewController *pvc = [[PlaybackViewController alloc] initWithNibName:@"PlaybackView" bundle:nil];
+            pvc.delegate = self;
+            pvc.hidesBottomBarWhenPushed = YES;
+            [[self navigationController] pushViewController:pvc animated:YES];
+            [pvc release];
+		}
         
 	}
 	else if ([cell.textLabel.text isEqualToString:@"View Details"])
@@ -309,29 +304,6 @@
 - (void)downloadFiles
 {
 
-}
-
-#pragma mark -
-
-
-- (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
-    
-    // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
-    barButtonItem.title = @"Files";
-    self.popoverController = pc;
-    self.rootPopoverButtonItem = barButtonItem;
-    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
-    [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
-}
-
-
-- (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-    
-    // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
-    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
-    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
-    self.popoverController = nil;
-    self.rootPopoverButtonItem = nil;
 }
 
 

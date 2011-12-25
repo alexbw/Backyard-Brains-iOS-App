@@ -58,6 +58,8 @@
 	[self.drawingDataManager play];
 }
 
+#pragma mark - UIPopoverControllerDelegate
+
 //If the user dismissed by touching outside popover:
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popover {
 	[self.drawingDataManager play];
