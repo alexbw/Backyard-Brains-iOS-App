@@ -36,7 +36,7 @@
 
 @synthesize fileButton;
 
-@synthesize navigationBar;
+@synthesize navItem             = _navItem;
 
 
 - (void)dealloc {
@@ -51,7 +51,7 @@
 	[msLegendImage release];
     
     [fileButton release];
-    [navigationBar release];
+    [_navItem release];
 	
 	[super dealloc];
 
@@ -407,8 +407,14 @@
 
 - (void)splitViewController: (UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController: (UIPopoverController*)pc {
     
-    [self.navigationBar.topItem setLeftBarButtonItem:barButtonItem animated:YES];
+    barButtonItem.title = @"Files";
+    self.navItem.leftBarButtonItem = barButtonItem;
 
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)button
+{
+    self.navItem.leftBarButtonItem = nil;
 }
 
 

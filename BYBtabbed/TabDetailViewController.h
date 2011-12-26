@@ -5,15 +5,14 @@
 
 @class DrawingDataManager;
 
-@interface TabDetailViewController : UIViewController <DrawingViewControllerDelegate>
+@interface TabDetailViewController : UIViewController <DrawingViewControllerDelegate, UITabBarControllerDelegate>
 
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
-
 @property (nonatomic, retain) DrawingDataManager *drawingDataManager;
-@property (nonatomic, retain) IBOutlet BBFileViewControllerTBV *fileController;
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
-@property (nonatomic, assign) IBOutlet id <DrawingViewControllerDelegate> delegate;
+@property (nonatomic,assign) IBOutlet UISplitViewController *splitViewController;
+@property (nonatomic,assign) IBOutlet BBFileViewControllerTBV *fileController;
+@property (nonatomic,assign) IBOutlet id <DrawingViewControllerDelegate> delegate;
 
 
 @end

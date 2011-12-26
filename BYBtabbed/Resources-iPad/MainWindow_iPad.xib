@@ -156,14 +156,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="845734331"/>
-						<reference key="destination" ref="330065822"/>
-					</object>
-					<int key="connectionID">216</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">splitViewController</string>
 						<reference key="source" ref="928417605"/>
 						<reference key="destination" ref="845734331"/>
@@ -180,11 +172,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">navigationController</string>
+						<string key="label">splitViewController</string>
 						<reference key="source" ref="330065822"/>
-						<reference key="destination" ref="20611600"/>
+						<reference key="destination" ref="845734331"/>
 					</object>
-					<int key="connectionID">215</int>
+					<int key="connectionID">217</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">fileController</string>
+						<reference key="source" ref="330065822"/>
+						<reference key="destination" ref="928417605"/>
+					</object>
+					<int key="connectionID">218</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -319,7 +319,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">216</int>
+			<int key="maxID">218</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -483,14 +483,14 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>delegate</string>
 							<string>fileController</string>
-							<string>navigationController</string>
+							<string>splitViewController</string>
 							<string>tabBarController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
 							<string>BBFileViewControllerTBV</string>
-							<string>UINavigationController</string>
+							<string>UISplitViewController</string>
 							<string>UITabBarController</string>
 						</object>
 					</object>
@@ -500,7 +500,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>delegate</string>
 							<string>fileController</string>
-							<string>navigationController</string>
+							<string>splitViewController</string>
 							<string>tabBarController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -514,8 +514,8 @@
 								<string key="candidateClassName">BBFileViewControllerTBV</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">navigationController</string>
-								<string key="candidateClassName">UINavigationController</string>
+								<string key="name">splitViewController</string>
+								<string key="candidateClassName">UISplitViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tabBarController</string>

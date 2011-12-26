@@ -6,19 +6,19 @@
 @implementation TabDetailViewController
 
 
-@synthesize tabBarController;
+@synthesize tabBarController        = _tabBarController;
+@synthesize drawingDataManager      = _drawingDataManager;
 
-@synthesize drawingDataManager, delegate;
-@synthesize fileController;
-@synthesize navigationController;
+@synthesize splitViewController     = _splitViewController;
+@synthesize fileController          = _fileController;
+@synthesize delegate                = _delegate;
 
 #pragma mark - View lifecycle
 
 - (void)dealloc {
-    [tabBarController release];
-    [drawingDataManager release];
-    [fileController release];
-    [navigationController release];
+    [_tabBarController release];
+    [_drawingDataManager release];
+    
     [super dealloc];
 }	
 
@@ -42,11 +42,19 @@
 {
     [self.tabBarController viewWillAppear:animated];
     
-   // [[self.tabBarController.viewControllers objectAtIndex:0] setDelegate:self.delegate];
-   // [[self.tabBarController.viewControllers objectAtIndex:1] showFileButton];
+    DrawingViewController *viewController = [self.tabBarController.viewControllers objectAtIndex:0];
+    self.splitViewController.delegate = viewController;
+    viewController.delegate = self;
+    [viewController release];
 }
 
+#pragma mark - UITabBarControllerDelegate
 
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(DrawingViewController *)viewController
+{
+    self.splitViewController.delegate = viewController;
+    viewController.delegate = self;
+}
 
 
 

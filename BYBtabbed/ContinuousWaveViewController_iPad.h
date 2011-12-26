@@ -12,16 +12,10 @@
 #import "BBFileViewControllerTBV.h"
 #import "FlipsideInfoViewController.h"
 
-@interface ContinuousWaveViewController_iPad : ContinuousWaveViewController <UIPopoverControllerDelegate, FlipsideInfoViewDelegate> {
-	
-    UIToolbar *toolbar;
-    
-    UIBarButtonItem *stimButton, *recordButton, *infoBarButton;
-
-}
+@interface ContinuousWaveViewController_iPad : ContinuousWaveViewController 
+    <UIPopoverControllerDelegate, FlipsideInfoViewDelegate>
 
 
-@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *stimButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *recordButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *infoBarButton;

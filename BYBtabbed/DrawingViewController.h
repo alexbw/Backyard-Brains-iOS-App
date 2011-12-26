@@ -28,14 +28,13 @@
 @protocol DrawingViewControllerDelegate
 @required
 @optional
-//For Live play. This will be the AppDelegate
-    @property (nonatomic, retain) DrawingDataManager *drawingDataManager;
-    @property (nonatomic, retain) LarvaJoltAudio *pulse;
-    @property (nonatomic, retain) BBFileViewControllerTBV *fileController; //for iPad
-    @property (nonatomic, retain) UINavigationController *navigationController; //for iPad
-
+//For Live play. This will be the AppDelegate or the TabDetailController (iPad)
+    @property (nonatomic,retain) DrawingDataManager *drawingDataManager;
+    @property (nonatomic,retain) LarvaJoltAudio *pulse;
+    @property (nonatomic,assign) BBFileViewControllerTBV *fileController; //for iPad
+    
 //For Playback. This will be ActionViewControllerTBV
-    @property (nonatomic, retain) NSArray *files; 
+    @property (nonatomic,retain) NSArray *files; 
 
 @end
 
@@ -96,7 +95,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *fileButton;
 
 //for iPad
-@property (nonatomic,retain) IBOutlet UINavigationBar *navigationBar;
+@property (nonatomic,retain) IBOutlet UINavigationItem *navItem;
 
 
 - (void)dealloc;

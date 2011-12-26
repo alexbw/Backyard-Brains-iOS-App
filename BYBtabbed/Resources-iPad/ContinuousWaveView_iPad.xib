@@ -210,7 +210,7 @@
 						<string key="NSFrame">{{701, 44}, {47, 47}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="681983886"/>
+						<reference key="NSNextKeyView" ref="316454454"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAwIDAgMAA</bytes>
@@ -287,7 +287,7 @@
 						<string key="NSFrame">{{137, 116}, {47, 47}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="511233333"/>
+						<reference key="NSNextKeyView" ref="681983886"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAwIDAgMAA</bytes>
@@ -316,7 +316,7 @@
 						<string key="NSFrameSize">{768, 44}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="511233333"/>
 						<string key="NSReuseIdentifierKey">_NS:276</string>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIBarStyle">2</int>
@@ -409,6 +409,14 @@
 						<reference key="destination" ref="316454454"/>
 					</object>
 					<int key="connectionID">86</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">navItem</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="233267743"/>
+					</object>
+					<int key="connectionID">90</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -559,6 +567,9 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">89</int>
 						<reference key="object" ref="233267743"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="parent" ref="466536088"/>
 					</object>
 				</object>
@@ -622,7 +633,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">89</int>
+			<int key="maxID">91</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -714,14 +725,12 @@
 							<string>infoBarButton</string>
 							<string>recordButton</string>
 							<string>stimButton</string>
-							<string>toolbar</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIBarButtonItem</string>
 							<string>UIBarButtonItem</string>
 							<string>UIBarButtonItem</string>
-							<string>UIToolbar</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -731,7 +740,6 @@
 							<string>infoBarButton</string>
 							<string>recordButton</string>
 							<string>stimButton</string>
-							<string>toolbar</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -746,10 +754,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">stimButton</string>
 								<string key="candidateClassName">UIBarButtonItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">toolbar</string>
-								<string key="candidateClassName">UIToolbar</string>
 							</object>
 						</object>
 					</object>
@@ -801,6 +805,7 @@
 							<string>fileButton</string>
 							<string>infoButton</string>
 							<string>msLegendImage</string>
+							<string>navItem</string>
 							<string>tickMarks</string>
 							<string>xUnitsPerDivLabel</string>
 							<string>yUnitsPerDivLabel</string>
@@ -811,6 +816,7 @@
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIImageView</string>
+							<string>UINavigationItem</string>
 							<string>UIImageView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
@@ -824,6 +830,7 @@
 							<string>fileButton</string>
 							<string>infoButton</string>
 							<string>msLegendImage</string>
+							<string>navItem</string>
 							<string>tickMarks</string>
 							<string>xUnitsPerDivLabel</string>
 							<string>yUnitsPerDivLabel</string>
@@ -845,6 +852,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">msLegendImage</string>
 								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">navItem</string>
+								<string key="candidateClassName">UINavigationItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tickMarks</string>

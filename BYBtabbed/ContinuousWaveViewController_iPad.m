@@ -12,32 +12,24 @@
 
 @implementation ContinuousWaveViewController_iPad
 
-@synthesize toolbar;
-@synthesize recordButton, infoBarButton, stimButton;
-@synthesize fileButton;
 
+@synthesize recordButton    = _recordButton;
+@synthesize infoBarButton   = _infoBarButton;
+@synthesize stimButton      = _stimButton;
+@synthesize fileButton      = _fileButton;
 
+#pragma mark - view lifecycle
 
 - (void)dealloc {
-    [toolbar release];
-	[recordButton release];
-	[infoBarButton release];
-    [stimButton release];
+    
+	[_recordButton release];
+	[_infoBarButton release];
+    [_stimButton release];
+    
     [super dealloc];
 }	
-
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    
-	self.toolbar = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
+ 
+#pragma mark - actions
 
 - (IBAction)displayInfoPopover:(UIButton *)sender {
 	
@@ -51,12 +43,26 @@
 	[self.drawingDataManager pause];
 }
 
-//for FlipsideInfoViewDelegate
+
+
+- (IBAction)stopRecording:(UIButton *)sender {
+    
+    [super stopRecording:sender];
+    
+    if ([(NSObject *)self.delegate respondsToSelector:@selector(fileController)])
+        [self.delegate.fileController checkForNewFilesAndReload];
+	
+}
+
+
+#pragma mark - FlipsideInfoViewDelegate
 - (void)flipsideIsDone
 {
 	[self dismissModalViewControllerAnimated:YES];
 	[self.drawingDataManager play];
 }
+
+
 
 #pragma mark - UIPopoverControllerDelegate
 
@@ -65,14 +71,6 @@
 	[self.drawingDataManager play];
 }
 
-
-
-- (IBAction)stopRecording:(UIButton *)sender {
-    [super stopRecording:sender];
-    
-    [[self.delegate fileController] checkForNewFilesAndReload];
-	
-}
 
 
 
