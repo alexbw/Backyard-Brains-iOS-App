@@ -116,7 +116,7 @@
 	BBFileTitleEditorViewController *titleViewController = [[BBFileTitleEditorViewController alloc] initWithNibName:@"BBFileTitleEditorView" bundle:nil];
 	titleViewController.delegate = self;
 	
-	[[self navigationController] pushViewController:titleViewController animated:YES];
+	[self.navigationController pushViewController:titleViewController animated:YES];
 	
 	[titleViewController release];
 }
@@ -126,7 +126,7 @@
 	self.files = delegate.files;
 	commentViewController.delegate = self;
 	
-	[[self navigationController] pushViewController:commentViewController animated:YES];
+	[self.navigationController pushViewController:commentViewController animated:YES];
 	
 	[commentViewController release];
 }
@@ -138,20 +138,6 @@
 	[button setTitle:aTitle forState:UIControlStateDisabled];
 	[button setTitle:aTitle forState:UIControlStateSelected];
 }
-
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 
 
 

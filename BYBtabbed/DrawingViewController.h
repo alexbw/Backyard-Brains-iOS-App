@@ -32,6 +32,7 @@
     @property (nonatomic,retain) DrawingDataManager *drawingDataManager;
     @property (nonatomic,retain) LarvaJoltAudio *pulse;
     @property (nonatomic,assign) BBFileViewControllerTBV *fileController; //for iPad
+    @property (nonatomic,assign) UISplitViewController *splitViewController; //for iPad
     
 //For Playback. This will be ActionViewControllerTBV
     @property (nonatomic,retain) NSArray *files; 
@@ -39,39 +40,12 @@
 @end
 
 
-@interface DrawingViewController : UIViewController <UISplitViewControllerDelegate> {
-	DrawingDataManager *drawingDataManager;
-	EAGLView *glView;
-	
-	NSMutableSet *currentTouches;
-	
-	CGPoint lastPointOne;
-	CGPoint lastPointTwo;
-	CGPoint firstPointOne;
-	CGPoint firstPointTwo;
-	float pinchChangeInX;
-	float pinchChangeInY;
-	float changeInX;
-	float changeInY;
-	
-	BOOL showGrid;
-	
-	NSDictionary *preferences;
-	
-	IBOutlet id <DrawingViewControllerDelegate> delegate;
-	
-	IBOutlet UIImageView *tickMarks;
-	IBOutlet UIButton *infoButton;
-	IBOutlet UILabel *xUnitsPerDivLabel;
-	IBOutlet UILabel *yUnitsPerDivLabel;
-	IBOutlet UIImageView *msLegendImage;
-	
-}
+@interface DrawingViewController : UIViewController <UISplitViewControllerDelegate>
+
 
 @property (nonatomic, retain) DrawingDataManager *drawingDataManager;
 @property (nonatomic, retain) EAGLView *glView;
 
-@property (nonatomic, retain) NSMutableSet *currentTouches;
 @property CGPoint lastPointOne;
 @property CGPoint lastPointTwo;
 @property CGPoint firstPointOne;
@@ -82,21 +56,20 @@
 @property float changeInY;
 @property BOOL showGrid;
 
+@property (nonatomic, retain) NSMutableSet *currentTouches;
 @property (nonatomic, retain) IBOutlet UIImageView *tickMarks;
 @property (nonatomic, retain) IBOutlet UIButton *infoButton;
 @property (nonatomic, retain) IBOutlet UILabel *xUnitsPerDivLabel;
 @property (nonatomic, retain) IBOutlet UILabel *yUnitsPerDivLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *msLegendImage;
-
-@property (nonatomic, assign) id <DrawingViewControllerDelegate> delegate;
-
 @property (nonatomic, retain) NSDictionary *preferences;
-
-@property (nonatomic, retain) IBOutlet UIButton *fileButton;
+@property (nonatomic, retain) UIBarButtonItem *fileButton;
 
 //for iPad
 @property (nonatomic,retain) IBOutlet UINavigationItem *navItem;
+@property (nonatomic,retain) UIPopoverController *thePopoverController;
 
+@property (nonatomic, assign) id <DrawingViewControllerDelegate> delegate;
 
 - (void)dealloc;
 
@@ -117,9 +90,7 @@
 
 - (IBAction)showInfoPanel:(UIButton *)sender;
 
-- (IBAction)showFilePopover:(UIButton *)sender;
-- (void)hideFileButton;
-- (void)showFileButton;
+- (IBAction)showFilePopover:(UIBarButtonItem *)button;
 
 @end
 

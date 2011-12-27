@@ -48,7 +48,7 @@
 
 	self.pbView = (PlaybackView *)[self view];
     
-    self.file = [delegate.files objectAtIndex:0];
+    self.file = [self.delegate.files objectAtIndex:0];
     
     //grab preferences
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
@@ -88,7 +88,7 @@
 	[self collectPreferences];
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
 	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
-	[preferences writeToFile:finalPath atomically:YES];
+	[self.preferences writeToFile:finalPath atomically:YES];
 	[self.pbView stopAnimation];
 	//[self.apm pausePlayback];
 	
@@ -141,7 +141,7 @@
 	
 	// Set the line color
 	linecolor_s tmpLineColor;
-	NSDictionary *tmpLineColorDict = [NSDictionary dictionaryWithDictionary:[preferences valueForKey:@"lineColor"]];
+	NSDictionary *tmpLineColorDict = [NSDictionary dictionaryWithDictionary:[self.preferences valueForKey:@"lineColor"]];
 	tmpLineColor.R = (GLfloat)[[tmpLineColorDict valueForKey:@"R"] floatValue];
 	tmpLineColor.G = (GLfloat)[[tmpLineColorDict valueForKey:@"G"] floatValue];
 	tmpLineColor.B = (GLfloat)[[tmpLineColorDict valueForKey:@"B"] floatValue];
@@ -150,7 +150,7 @@
 	
 	// Set the grid color
 	linecolor_s tmpGridColor;
-	tmpLineColorDict = [preferences valueForKey:@"gridColor"];
+    tmpLineColorDict = [self.preferences valueForKey:@"gridColor"];
 	tmpGridColor.R = (GLfloat)[[tmpLineColorDict valueForKey:@"R"] floatValue];
 	tmpGridColor.G = (GLfloat)[[tmpLineColorDict valueForKey:@"G"] floatValue];
 	tmpGridColor.B = (GLfloat)[[tmpLineColorDict valueForKey:@"B"] floatValue];
@@ -159,19 +159,19 @@
 	
 	// Set the limits on what we're drawing
 	self.pbView.xMin = -1000*kNumPointsInPlaybackVertexBuffer/self.file.samplingrate;	
-	self.pbView.xMax = [[preferences valueForKey:@"xMax"] floatValue];
-	self.pbView.xBegin = [[preferences valueForKey:@"xBegin"] floatValue];
-	self.pbView.xEnd = [[preferences valueForKey:@"xEnd"] floatValue];
+	self.pbView.xMax = [[self.preferences valueForKey:@"xMax"] floatValue];
+	self.pbView.xBegin = [[self.preferences valueForKey:@"xBegin"] floatValue];
+	self.pbView.xEnd = [[self.preferences valueForKey:@"xEnd"] floatValue];
 		
-	self.pbView.yMin = [[preferences valueForKey:@"yMin"] floatValue];    //-5 000 000
-	self.pbView.yMax = [[preferences valueForKey:@"yMax"] floatValue];    // 5 000 000
-	self.pbView.yBegin = [[preferences valueForKey:@"yBegin"] floatValue];//-5 000
-	self.pbView.yEnd = [[preferences valueForKey:@"yEnd"] floatValue];    // 5 000
+	self.pbView.yMin = [[self.preferences valueForKey:@"yMin"] floatValue];    //-5 000 000
+	self.pbView.yMax = [[self.preferences valueForKey:@"yMax"] floatValue];    // 5 000 000
+	self.pbView.yBegin = [[self.preferences valueForKey:@"yBegin"] floatValue];//-5 000
+	self.pbView.yEnd = [[self.preferences valueForKey:@"yEnd"] floatValue];    // 5 000
 	
-	self.pbView.numHorizontalGridLines = [[preferences valueForKey:@"numHorizontalGridLines"] intValue];
-	self.pbView.numVerticalGridLines = [[preferences valueForKey:@"numVerticalGridLines"] intValue];
+	self.pbView.numHorizontalGridLines = [[self.preferences valueForKey:@"numHorizontalGridLines"] intValue];
+	self.pbView.numVerticalGridLines = [[self.preferences valueForKey:@"numVerticalGridLines"] intValue];
 	
-	self.pbView.showGrid = [[preferences valueForKey:@"showGrid"] boolValue];
+	self.pbView.showGrid = [[self.preferences valueForKey:@"showGrid"] boolValue];
 	
 }
 
@@ -335,14 +335,14 @@
 }
 
 - (void)showAllLabels {
-	[xUnitsPerDivLabel setAlpha:1.0];
-	[yUnitsPerDivLabel setAlpha:1.0];
+	[self.xUnitsPerDivLabel setAlpha:1.0];
+	[self.yUnitsPerDivLabel setAlpha:1.0];
 	pbView.showGrid = YES;
 }
 
 - (void)hideAllLabels {
-	[xUnitsPerDivLabel setAlpha:0.0];
-	[yUnitsPerDivLabel setAlpha:0.0];
+	[self.xUnitsPerDivLabel setAlpha:0.0];
+	[self.yUnitsPerDivLabel setAlpha:0.0];
 	pbView.showGrid = NO;
 }
 

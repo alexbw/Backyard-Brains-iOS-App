@@ -123,7 +123,7 @@
 	[self collectPreferences];
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
 	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"TriggerView.plist"];
-	BOOL err = [preferences writeToFile:finalPath atomically:YES];
+	BOOL err = [self.preferences writeToFile:finalPath atomically:YES];
 	NSLog(@"Wrote prefernces to file. Successful? %d", err);
 	[self.triggerView stopAnimation];
     
@@ -136,7 +136,7 @@
 - (void)dispersePreferences {
 	// Set the line color
 	linecolor_s tmpLineColor;
-	NSDictionary *tmpLineColorDict = [NSDictionary dictionaryWithDictionary:[preferences valueForKey:@"lineColor"]];
+	NSDictionary *tmpLineColorDict = [NSDictionary dictionaryWithDictionary:[self.preferences valueForKey:@"lineColor"]];
 	tmpLineColor.R = (GLfloat)[[tmpLineColorDict valueForKey:@"R"] floatValue];
 	tmpLineColor.G = (GLfloat)[[tmpLineColorDict valueForKey:@"G"] floatValue];
 	tmpLineColor.B = (GLfloat)[[tmpLineColorDict valueForKey:@"B"] floatValue];
@@ -145,7 +145,7 @@
 	
 	// Set the grid color
 	linecolor_s tmpGridColor;
-	tmpLineColorDict = [preferences valueForKey:@"gridColor"];
+    tmpLineColorDict = [self.preferences valueForKey:@"gridColor"];
 	tmpGridColor.R = (GLfloat)[[tmpLineColorDict valueForKey:@"R"] floatValue];
 	tmpGridColor.G = (GLfloat)[[tmpLineColorDict valueForKey:@"G"] floatValue];
 	tmpGridColor.B = (GLfloat)[[tmpLineColorDict valueForKey:@"B"] floatValue];
@@ -154,19 +154,19 @@
 	
 	// Set the limits on what we're drawing
 	self.triggerView.xMin = -1000*kNumPointsInVertexBuffer/self.audioSignalManager.samplingRate;
-	self.triggerView.xMax = [[preferences valueForKey:@"xMax"] floatValue];
-	self.triggerView.xBegin = [[preferences valueForKey:@"xBegin"] floatValue];
-	self.triggerView.xEnd = [[preferences valueForKey:@"xEnd"] floatValue];
+	self.triggerView.xMax = [[self.preferences valueForKey:@"xMax"] floatValue];
+	self.triggerView.xBegin = [[self.preferences valueForKey:@"xBegin"] floatValue];
+	self.triggerView.xEnd = [[self.preferences valueForKey:@"xEnd"] floatValue];
 	
-	self.triggerView.yMin = [[preferences valueForKey:@"yMin"] floatValue];
-	self.triggerView.yMax = [[preferences valueForKey:@"yMax"] floatValue];	
-	self.triggerView.yBegin = [[preferences valueForKey:@"yBegin"] floatValue];
-	self.triggerView.yEnd = [[preferences valueForKey:@"yEnd"] floatValue];
+	self.triggerView.yMin = [[self.preferences valueForKey:@"yMin"] floatValue];
+	self.triggerView.yMax = [[self.preferences valueForKey:@"yMax"] floatValue];	
+	self.triggerView.yBegin = [[self.preferences valueForKey:@"yBegin"] floatValue];
+	self.triggerView.yEnd = [[self.preferences valueForKey:@"yEnd"] floatValue];
 	
-	self.triggerView.numHorizontalGridLines = [[preferences valueForKey:@"numHorizontalGridLines"] intValue];
-	self.triggerView.numVerticalGridLines = [[preferences valueForKey:@"numVerticalGridLines"] intValue];
+	self.triggerView.numHorizontalGridLines = [[self.preferences valueForKey:@"numHorizontalGridLines"] intValue];
+	self.triggerView.numVerticalGridLines = [[self.preferences valueForKey:@"numVerticalGridLines"] intValue];
 	
-	self.triggerView.showGrid = [[preferences valueForKey:@"showGrid"] boolValue];
+	self.triggerView.showGrid = [[self.preferences valueForKey:@"showGrid"] boolValue];
 	
 	self.triggerView.middleOfWave = (self.triggerView.xMin-self.triggerView.xMax)/2.0f;
 	
@@ -237,8 +237,8 @@
     
 	NSLog(@"yEnd: %f, yBegin: %f, gain %f, yPerDiv: %f", self.triggerView.yEnd, self.triggerView.yBegin, self.audioSignalManager.gain, yPerDiv);
 	
-	xUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.1f ms", xPerDiv];
-	yUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.2f mV", yPerDiv];
+	self.xUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.1f ms", xPerDiv];
+	self.yUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.2f mV", yPerDiv];
 	
 }
 
@@ -298,10 +298,10 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	[super touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event];
 	
-	if ([currentTouches count] == 1) {
+	if ([self.currentTouches count] == 1) {
 		[self handleSingleTouchForTriggerView];
 	}
-	else if ([currentTouches count] == 2) {
+	else if ([self.currentTouches count] == 2) {
 		[self handlePinchingForTriggerView];
 	}
 	
@@ -508,14 +508,14 @@
 
 
 - (void)showAllLabels {
-	[xUnitsPerDivLabel setAlpha:1.0];
-	[yUnitsPerDivLabel setAlpha:1.0];
+	[self.xUnitsPerDivLabel setAlpha:1.0];
+	[self.yUnitsPerDivLabel setAlpha:1.0];
 	triggerView.showGrid = YES;
 }
 
 - (void)hideAllLabels {
-	[xUnitsPerDivLabel setAlpha:0.0];
-	[yUnitsPerDivLabel setAlpha:0.0];
+	[self.xUnitsPerDivLabel setAlpha:0.0];
+	[self.yUnitsPerDivLabel setAlpha:0.0];
 	triggerView.showGrid = NO;
 }
 

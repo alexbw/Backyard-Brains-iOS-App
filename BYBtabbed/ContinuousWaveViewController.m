@@ -129,7 +129,7 @@
 	[self collectPreferences];
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
 	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
-	[preferences writeToFile:finalPath atomically:YES];
+	[self.preferences writeToFile:finalPath atomically:YES];
 	[self.cwView stopAnimation];
     //NOTE: TriggerViewController viewWillAppear is called BEFORE viewWillDissappear
     //SO...cover all exits. pause if a view is requested that is not CW.
@@ -153,7 +153,7 @@
 	
 	// Set the line color
 	linecolor_s tmpLineColor;
-	NSDictionary *tmpLineColorDict = [NSDictionary dictionaryWithDictionary:[preferences valueForKey:@"lineColor"]];
+	NSDictionary *tmpLineColorDict = [NSDictionary dictionaryWithDictionary:[self.preferences valueForKey:@"lineColor"]];
 	tmpLineColor.R = (GLfloat)[[tmpLineColorDict valueForKey:@"R"] floatValue];
 	tmpLineColor.G = (GLfloat)[[tmpLineColorDict valueForKey:@"G"] floatValue];
 	tmpLineColor.B = (GLfloat)[[tmpLineColorDict valueForKey:@"B"] floatValue];
@@ -162,7 +162,7 @@
 	
 	// Set the grid color
 	linecolor_s tmpGridColor;
-	tmpLineColorDict = [preferences valueForKey:@"gridColor"];
+	tmpLineColorDict = [self.preferences valueForKey:@"gridColor"];
 	tmpGridColor.R = (GLfloat)[[tmpLineColorDict valueForKey:@"R"] floatValue];
 	tmpGridColor.G = (GLfloat)[[tmpLineColorDict valueForKey:@"G"] floatValue];
 	tmpGridColor.B = (GLfloat)[[tmpLineColorDict valueForKey:@"B"] floatValue];
@@ -171,19 +171,19 @@
 	
 	// Set the limits on what we're drawing
 	self.cwView.xMin = -1000*kNumPointsInVertexBuffer/self.audioSignalManager.samplingRate;	
-	self.cwView.xMax = [[preferences valueForKey:@"xMax"] floatValue];
-	self.cwView.xBegin = [[preferences valueForKey:@"xBegin"] floatValue];
-	self.cwView.xEnd = [[preferences valueForKey:@"xEnd"] floatValue];
+	self.cwView.xMax = [[self.preferences valueForKey:@"xMax"] floatValue];
+	self.cwView.xBegin = [[self.preferences valueForKey:@"xBegin"] floatValue];
+	self.cwView.xEnd = [[self.preferences valueForKey:@"xEnd"] floatValue];
 		
-	self.cwView.yMin = [[preferences valueForKey:@"yMin"] floatValue];    //-5 000 000
-	self.cwView.yMax = [[preferences valueForKey:@"yMax"] floatValue];    // 5 000 000
-	self.cwView.yBegin = [[preferences valueForKey:@"yBegin"] floatValue];//-5 000
-	self.cwView.yEnd = [[preferences valueForKey:@"yEnd"] floatValue];    // 5 000
+	self.cwView.yMin = [[self.preferences valueForKey:@"yMin"] floatValue];    //-5 000 000
+	self.cwView.yMax = [[self.preferences valueForKey:@"yMax"] floatValue];    // 5 000 000
+	self.cwView.yBegin = [[self.preferences valueForKey:@"yBegin"] floatValue];//-5 000
+	self.cwView.yEnd = [[self.preferences valueForKey:@"yEnd"] floatValue];    // 5 000
 	
-	self.cwView.numHorizontalGridLines = [[preferences valueForKey:@"numHorizontalGridLines"] intValue];
-	self.cwView.numVerticalGridLines = [[preferences valueForKey:@"numVerticalGridLines"] intValue];
+	self.cwView.numHorizontalGridLines = [[self.preferences valueForKey:@"numHorizontalGridLines"] intValue];
+	self.cwView.numVerticalGridLines = [[self.preferences valueForKey:@"numVerticalGridLines"] intValue];
 	
-	self.cwView.showGrid = [[preferences valueForKey:@"showGrid"] boolValue];
+	self.cwView.showGrid = [[self.preferences valueForKey:@"showGrid"] boolValue];
 	
 }
 
@@ -247,14 +247,14 @@
 
 - (void)updateDataLabels {
 	
-	NSLog(@"yLabel x: %f, y: %f", yUnitsPerDivLabel.frame.origin.x, yUnitsPerDivLabel.frame.origin.y);
+	NSLog(@"yLabel x: %f, y: %f", self.yUnitsPerDivLabel.frame.origin.x, self.yUnitsPerDivLabel.frame.origin.y);
 	// Spin through all the UILabels that we have control of, and make em better.
 
 	float xPerDiv = (self.cwView.xEnd - self.cwView.xBegin)/3.0f;
 	float yPerDiv = (self.cwView.yEnd - self.cwView.yBegin)/(4.0f*self.audioSignalManager.gain*kVoltScaleFactor);
 	
-	xUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.1f ms", xPerDiv];
-	yUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.2f mV", yPerDiv];
+	self.xUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.1f ms", xPerDiv];
+	self.yUnitsPerDivLabel.text = [NSString stringWithFormat:@"%3.2f mV", yPerDiv];
 	
 }
 
@@ -347,14 +347,14 @@
 }
 
 - (void)showAllLabels {
-	[xUnitsPerDivLabel setAlpha:1.0];
-	[yUnitsPerDivLabel setAlpha:1.0];
+	[self.xUnitsPerDivLabel setAlpha:1.0];
+	[self.yUnitsPerDivLabel setAlpha:1.0];
 	self.cwView.showGrid = YES;
 }
 
 - (void)hideAllLabels {
-	[xUnitsPerDivLabel setAlpha:0.0];
-	[yUnitsPerDivLabel setAlpha:0.0];
+	[self.xUnitsPerDivLabel setAlpha:0.0];
+	[self.yUnitsPerDivLabel setAlpha:0.0];
 	self.cwView.showGrid = NO;
 }
 

@@ -161,7 +161,7 @@
             PlaybackViewController *pvc = [[PlaybackViewController alloc] initWithNibName:@"PlaybackView" bundle:nil];
             pvc.delegate = self;
             pvc.hidesBottomBarWhenPushed = YES;
-            [[self navigationController] pushViewController:pvc animated:YES];
+            [self.navigationController pushViewController:pvc animated:YES];
             [pvc release];
 		}
         
@@ -171,7 +171,7 @@
         
 		BBFileDetailViewController *dvc = [[BBFileDetailViewController alloc] initWithNibName:@"BBFileDetailView" bundle:nil];
 		dvc.delegate = self;	
-		[[self navigationController] pushViewController:dvc animated:YES];
+		[self.navigationController pushViewController:dvc animated:YES];
 		[dvc release];
         
 	}

@@ -10,11 +10,7 @@
 #import "EAGLView.h"
 #import "AudioSignalManager.h"
 
-@interface ContinuousWaveView : EAGLView {
-    
-    AudioSignalManager *audioSignalManager;
-
-}
+@interface ContinuousWaveView : EAGLView
 
 @property (nonatomic, retain) AudioSignalManager *audioSignalManager;
 

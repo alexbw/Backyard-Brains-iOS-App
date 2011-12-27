@@ -10,48 +10,49 @@
 
 @implementation DrawingViewController
 
-@synthesize drawingDataManager;
-@synthesize glView;
 
-@synthesize currentTouches;
-@synthesize lastPointOne;
-@synthesize lastPointTwo;
-@synthesize firstPointOne;
-@synthesize firstPointTwo;
-@synthesize pinchChangeInX;
-@synthesize pinchChangeInY;
-@synthesize changeInX;
-@synthesize changeInY;
-@synthesize showGrid;
+@synthesize lastPointOne            = _lastPointOne;
+@synthesize lastPointTwo            = _lastPointTwo;
+@synthesize firstPointOne           = _firstPointOne;
+@synthesize firstPointTwo           = _firstPointTwo;
+@synthesize pinchChangeInX          = _pinchChangeInX;
+@synthesize pinchChangeInY          = _pinchChangeInY;
+@synthesize changeInX               = _changeInX;
+@synthesize changeInY               = _changeInY;
+@synthesize showGrid                = _showGrid;   
 
-@synthesize tickMarks;
-@synthesize infoButton;
-@synthesize xUnitsPerDivLabel;
-@synthesize yUnitsPerDivLabel;
-@synthesize msLegendImage;
+@synthesize drawingDataManager      = _drawingDataManager;
+@synthesize glView                  = _glView;
+@synthesize currentTouches          = _currentTouches;
+@synthesize tickMarks               = _tickMarks;
+@synthesize infoButton              = _infoButton;
+@synthesize xUnitsPerDivLabel       = _xUnitsPerDivLabel;
+@synthesize yUnitsPerDivLabel       = _yUnitsPerDivLabel;
+@synthesize msLegendImage           = _msLegendImage;
+@synthesize preferences             = _preferences;
+@synthesize fileButton              = _fileButton;
 
-@synthesize preferences;
+@synthesize navItem                 = _navItem;
+@synthesize thePopoverController    = _thePopoverController;
 
 @synthesize delegate;
 
-@synthesize fileButton;
-
-@synthesize navItem             = _navItem;
 
 
 - (void)dealloc {
-	[drawingDataManager release];
-	[glView release];
-	[currentTouches release];
-	[preferences release];
-	[tickMarks release];
-	[infoButton release];
-	[xUnitsPerDivLabel release];
-	[yUnitsPerDivLabel release];
-	[msLegendImage release];
+	[_drawingDataManager release];
+	[_glView release];
+	[_currentTouches release];
+	[_tickMarks release];
+	[_infoButton release];
+	[_xUnitsPerDivLabel release];
+	[_yUnitsPerDivLabel release];
+	[_msLegendImage release];
+	[_preferences release];
+    [_fileButton release];
     
-    [fileButton release];
     [_navItem release];
+    [_thePopoverController release];
 	
 	[super dealloc];
 
@@ -62,8 +63,17 @@
 	[super viewDidLoad];
     
     //make sure tick marks and scale bars change size with rotation
-	tickMarks.contentMode = UIViewContentModeScaleAspectFit;
-	msLegendImage.contentMode = UIViewContentModeScaleAspectFit;
+	self.tickMarks.contentMode = UIViewContentModeScaleAspectFit;
+	self.msLegendImage.contentMode = UIViewContentModeScaleAspectFit;
+    
+    if (self.navItem != nil && self.fileButton == nil)
+    {
+        self.fileButton = [[UIBarButtonItem alloc] 
+                                   initWithTitle:@"Files"
+                                           style:UIBarButtonItemStylePlain
+                                          target:self 
+                                          action:@selector(showFilePopover:)];
+    }
     
 	/*
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -76,19 +86,20 @@
 	
 }
 
-/*- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	UIInterfaceOrientation interfaceOrientation = [[UIDevice currentDevice] orientation];
-	
-	if ( (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) | (interfaceOrientation == UIInterfaceOrientationLandscapeRight) ) {
-		[self fitTickMarksToLandscape];
-		
-	}
     
+    if (self.navItem != nil)
+    {
+        if ( ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft) | ( [[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight) )
+            self.navItem.leftBarButtonItem = nil;
+        else
+            self.navItem.leftBarButtonItem = self.fileButton;
+    }
 	
 }
 
--(void)didRotate:(NSNotification *)theNotification {
+/*-(void)didRotate:(NSNotification *)theNotification {
 	[self fitViewToCurrentOrientation];
 }
 
@@ -153,9 +164,9 @@
 	
     //
 	// Resize the millisecond frame
-	CGRect frame = msLegendImage.frame;
+	CGRect frame = self.msLegendImage.frame;
     frame.size.width = msFrameWidth;
-	msLegendImage.frame = frame;
+	self.msLegendImage.frame = frame;
 	
 	// Reposition the millivolt label
 	CGRect frame = yUnitsPerDivLabel.frame;
@@ -191,9 +202,9 @@
     
     
 	// Resize the millisecond frame
-	CGRect frame = msLegendImage.frame;
+	CGRect frame = self.msLegendImage.frame;
     frame.size.width = msFrameWidth;
-	msLegendImage.frame = frame;
+	self.msLegendImage.frame = frame;
 	
 	// Reposition the millivolt label
 	CGRect frame = yUnitsPerDivLabel.frame;
@@ -207,31 +218,17 @@
 #pragma mark - Managing the popover
 
 
-- (IBAction)showFilePopover:(UIButton *)sender {
+- (IBAction)showFilePopover:(UIBarButtonItem *)button {
     
-   /* NSArray *controllers = self.delegate.splitViewController.viewControllers;
-    UIViewController *rootViewController = [controllers objectAtIndex:0];
+    NSArray *controllers = self.delegate.splitViewController.viewControllers;
+    UIViewController *rootNavController = [controllers objectAtIndex:0];
     
-    UIView *rootView = rootViewController.view;
-    CGRect rootFrame = rootView.frame;
-    rootFrame.origin.x += rootFrame.size.width;
-    
-    [UIView beginAnimations:@"showView" context:NULL];
-    rootView.frame = rootFrame;
-    [UIView commitAnimations];*/
+    self.thePopoverController = [[UIPopoverController alloc] initWithContentViewController:rootNavController];
+    [self.thePopoverController presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     
 }
 
-- (void)hideFileButton {
-    
-    self.fileButton.hidden = YES;
-}
 
-
-- (void)showFileButton {
-
-    self.fileButton.hidden = YES;
-}
 
 - (IBAction)showInfoPanel:(UIButton *)sender {
 	NSLog(@"Showing info panel");
@@ -242,7 +239,7 @@
 	
 	// Set the line color
 	linecolor_s tmpLineColor;
-	NSDictionary *tmpLineColorDict = [NSDictionary dictionaryWithDictionary:[preferences valueForKey:@"lineColor"]];
+	NSDictionary *tmpLineColorDict = [NSDictionary dictionaryWithDictionary:[self.preferences valueForKey:@"lineColor"]];
 	tmpLineColor.R = (GLfloat)[[tmpLineColorDict valueForKey:@"R"] floatValue];
 	tmpLineColor.G = (GLfloat)[[tmpLineColorDict valueForKey:@"G"] floatValue];
 	tmpLineColor.B = (GLfloat)[[tmpLineColorDict valueForKey:@"B"] floatValue];
@@ -251,7 +248,7 @@
 	
 	// Set the grid color
 	linecolor_s tmpGridColor;
-	tmpLineColorDict = [preferences valueForKey:@"gridColor"];
+	tmpLineColorDict = [self.preferences valueForKey:@"gridColor"];
 	tmpGridColor.R = (GLfloat)[[tmpLineColorDict valueForKey:@"R"] floatValue];
 	tmpGridColor.G = (GLfloat)[[tmpLineColorDict valueForKey:@"G"] floatValue];
 	tmpGridColor.B = (GLfloat)[[tmpLineColorDict valueForKey:@"B"] floatValue];
@@ -260,19 +257,19 @@
 	
 	// Set the limits on what we're drawing
 	self.glView.xMin = -1000*kNumPointsInVertexBuffer/self.drawingDataManager.samplingRate;
-	self.glView.xMax = [[preferences valueForKey:@"xMax"] floatValue];
-	self.glView.xBegin = [[preferences valueForKey:@"xBegin"] floatValue];
-	self.glView.xEnd = [[preferences valueForKey:@"xEnd"] floatValue];
+	self.glView.xMax = [[self.preferences valueForKey:@"xMax"] floatValue];
+	self.glView.xBegin = [[self.preferences valueForKey:@"xBegin"] floatValue];
+	self.glView.xEnd = [[self.preferences valueForKey:@"xEnd"] floatValue];
 	
-	self.glView.yMin = [[preferences valueForKey:@"yMin"] floatValue];
-	self.glView.yMax = [[preferences valueForKey:@"yMax"] floatValue];	
-	self.glView.yBegin = [[preferences valueForKey:@"yBegin"] floatValue];
-	self.glView.yEnd = [[preferences valueForKey:@"yEnd"] floatValue];
+	self.glView.yMin = [[self.preferences valueForKey:@"yMin"] floatValue];
+	self.glView.yMax = [[self.preferences valueForKey:@"yMax"] floatValue];	
+	self.glView.yBegin = [[self.preferences valueForKey:@"yBegin"] floatValue];
+	self.glView.yEnd = [[self.preferences valueForKey:@"yEnd"] floatValue];
 	
-	self.glView.numHorizontalGridLines = [[preferences valueForKey:@"numHorizontalGridLines"] intValue];
-	self.glView.numVerticalGridLines = [[preferences valueForKey:@"numVerticalGridLines"] intValue];
+	self.glView.numHorizontalGridLines = [[self.preferences valueForKey:@"numHorizontalGridLines"] intValue];
+	self.glView.numVerticalGridLines = [[self.preferences valueForKey:@"numVerticalGridLines"] intValue];
 	
-	self.glView.showGrid = [[preferences valueForKey:@"showGrid"] boolValue];
+	self.glView.showGrid = [[self.preferences valueForKey:@"showGrid"] boolValue];
 	
 }
 
@@ -326,9 +323,9 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	
-	[currentTouches unionSet:touches];
+	[self.currentTouches unionSet:touches];
 	
-	if ([currentTouches count] == 2) {
+	if ([self.currentTouches count] == 2) {
 		// If two fingers are down, we're pinching and stretching
 		// We record the most recent touches
 		self.lastPointOne = [self getXYCoordinatesOfTouch:0];
@@ -345,7 +342,7 @@
 				 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {	
 		
-	if ([currentTouches count] == 1) {
+	if ([self.currentTouches count] == 1) {
 		// And also the very first touches
 		self.firstPointOne = [self getXYCoordinatesOfTouch:0];
 		self.lastPointOne = [self getXYCoordinatesOfTouch:0];
@@ -365,13 +362,13 @@
 //		}
 	}
 	
-	[currentTouches removeAllObjects];
+	[self.currentTouches removeAllObjects];
 }
 
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 
-	if ([currentTouches count] == 2) {
+	if ([self.currentTouches count] == 2) {
 		// We have two fingers down, so we're changing the x- and y-scale.
 		CGPoint pointOne = [self getXYCoordinatesOfTouch:0];
 		CGPoint pointTwo = [self getXYCoordinatesOfTouch:1];
@@ -387,7 +384,7 @@
 		self.lastPointOne = pointOne;
 		self.lastPointTwo = pointTwo;
 	}
-	else if ([currentTouches count] == 1) {
+	else if ([self.currentTouches count] == 1) {
 		CGPoint pointOne = [self getXYCoordinatesOfTouch:0];
 		
 		self.changeInX = self.lastPointOne.x - pointOne.x;
@@ -400,8 +397,10 @@
 
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-	[currentTouches removeAllObjects];	
+	[self.currentTouches removeAllObjects];	
 }
+
+
 
 #pragma mark - UISplitViewControllerDelegate
 

@@ -11,9 +11,16 @@
 
 @implementation ContinuousWaveView
 
-@synthesize audioSignalManager;
+@synthesize audioSignalManager  = _audioSignalManager;
 
-// You must implement this method
+#pragma mark - view lifecycle
+
+- (void)dealloc {
+    [super dealloc];
+    
+    [_audioSignalManager release];
+}
+
 
 - (id)initWithCoder:(NSCoder*)coder {
     
@@ -99,10 +106,6 @@
 		self.minorGridVertexBuffer[idx + i*2 + 1].y	= self.yEnd;
 	}		
 	
-}
-
-- (void)dealloc {
-    [super dealloc];
 }
 
 
