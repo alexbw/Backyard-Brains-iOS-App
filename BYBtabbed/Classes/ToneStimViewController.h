@@ -26,6 +26,8 @@
 - (void)setViewMovedUp:(BOOL)movedUp byDist:(UInt32)dist;
 
 - (double)checkValue:(double)value forMin:(double)min andMax:(double)max;
+- (double)checkSliderValue:(double)value withArray:(NSArray *)array;
+- (double)checkFieldValue:(double)value withArray:(NSArray *)array;
 
 - (void)updateViewFrom:(NSString *)source fromView:(NSString *)view;
 - (IBAction)sliderMoved:(UISlider *)sender;

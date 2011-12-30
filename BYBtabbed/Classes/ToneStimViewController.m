@@ -18,8 +18,10 @@
 @property (nonatomic,retain) IBOutlet UISlider *dutyCycleSlider;
 @property (nonatomic,retain) IBOutlet UISlider *pulseTimeSlider;
 @property (nonatomic,retain) IBOutlet UITextField *frequencyField;
+@property (nonatomic,retain) IBOutlet UITextField *periodField;
 @property (nonatomic,retain) IBOutlet UITextField *pulseWidthField;
 @property (nonatomic,retain) IBOutlet UITextField *pulseTimeField;
+@property (nonatomic,retain) IBOutlet UITextField *nPulsesField;
 @property (nonatomic,retain) IBOutlet UISwitch *constantToneSwitch;
 
 @property (nonatomic,retain) IBOutlet UISlider *toneFreqSlider;
@@ -27,6 +29,9 @@
 @property (nonatomic,retain) IBOutlet UITextField *calibAField, *calibBField, *calibCField;
 
 @property (nonatomic,retain) NSNumberFormatter *numberFormatter;
+
+@property (nonatomic,retain) NSArray *frequencyStops, *dutyCycleStops, *pulseTimeStops;
+
 
 @end
 
@@ -36,13 +41,16 @@
 @synthesize delegate            = _delegate;
 @synthesize ljController        = _ljController;
 @synthesize viewTypeString      = _viewTypeString;
+@synthesize ljCalibrationVC   = _ljCalibrationVC;
 
 @synthesize frequencySlider     = _frequencySlider;
 @synthesize dutyCycleSlider     = _dutyCycleSlider; 
 @synthesize pulseTimeSlider     = _pulseTimeSlider;
 @synthesize frequencyField      = _frequencyField; 
+@synthesize periodField         = _periodField;
 @synthesize pulseWidthField     = _pulseWidthField; 
 @synthesize pulseTimeField      = _pulseTimeField;
+@synthesize nPulsesField        = _nPulsesField;
 @synthesize constantToneSwitch  = _constantToneSwitch;
 @synthesize toneFreqField       = _toneFreqField;
 @synthesize toneFreqSlider      = _toneFreqSlider;
@@ -51,7 +59,10 @@
 @synthesize calibCField         = _calibCField;
 
 @synthesize numberFormatter     = _numberFormatter;
-@synthesize ljCalibrationVC   = _ljCalibrationVC;
+
+@synthesize frequencyStops      = _frequencyStops;
+@synthesize dutyCycleStops      = _dutyCycleStops;
+@synthesize pulseTimeStops      = _pulseTimeStops;
 
 #pragma mark - Initiation methods and messages from the system
 
@@ -59,13 +70,16 @@
 {
 	//release outlets
     [_viewTypeString release];
+    [_ljCalibrationVC release];
     
-	[_frequencyField release];
-	[_pulseWidthField release];
-	[_pulseTimeField release];
 	[_frequencySlider release];
 	[_dutyCycleSlider release];
 	[_pulseTimeSlider release];
+	[_frequencyField release];
+    [_periodField release];
+	[_pulseWidthField release];
+	[_pulseTimeField release];
+    [_nPulsesField release];
     [_constantToneSwitch release];
     [_toneFreqField release];
     [_toneFreqSlider release];
@@ -74,7 +88,11 @@
     [_calibCField release];
     
     [_numberFormatter release];
-    [_ljCalibrationVC release];
+    
+    [_frequencyStops release];
+    [_dutyCycleStops release];
+    [_pulseTimeStops release];
+    
     [super dealloc];
 }
 
@@ -112,6 +130,49 @@
         self.calibCField.delegate = self;
     }
     
+    //set up stops
+    if ([self.viewTypeString isEqualToString:@"Tone"])
+        self.frequencyStops = [[NSArray alloc] 
+                               initWithObjects:[NSNumber numberWithDouble:0.016667],
+                               [NSNumber numberWithDouble:0.03333],
+                               [NSNumber numberWithDouble:0.1],
+                               [NSNumber numberWithDouble:0.2],
+                               [NSNumber numberWithDouble:1],
+                               [NSNumber numberWithDouble:2],
+                               [NSNumber numberWithDouble:5],
+                               [NSNumber numberWithDouble:10],
+                               [NSNumber numberWithDouble:20],
+                               [NSNumber numberWithDouble:50],
+                               [NSNumber numberWithDouble:100], nil];
+    else if ([self.viewTypeString isEqualToString:@"Optical"])
+        self.frequencyStops = [[NSArray alloc] 
+                               initWithObjects:[NSNumber numberWithInt:20],
+                               [NSNumber numberWithInt:50],
+                               [NSNumber numberWithInt:100],
+                               [NSNumber numberWithInt:200],
+                               [NSNumber numberWithInt:300],
+                               [NSNumber numberWithInt:400],
+                               [NSNumber numberWithInt:500], nil];
+    
+    self.dutyCycleStops = [[NSArray alloc]
+                           initWithObjects:[NSNumber numberWithDouble:0.1f],
+                           [NSNumber numberWithDouble:0.2f],
+                           [NSNumber numberWithDouble:0.3f],
+                           [NSNumber numberWithDouble:0.4f],
+                           [NSNumber numberWithDouble:0.5f],
+                           [NSNumber numberWithDouble:0.6f],
+                           [NSNumber numberWithDouble:0.7f],
+                           [NSNumber numberWithDouble:0.8f],
+                           [NSNumber numberWithDouble:0.9f],
+                           [NSNumber numberWithDouble:1.0f], nil];
+    self.pulseTimeStops = [[NSArray alloc]
+                            initWithObjects:[NSNumber numberWithInt:100],
+                            [NSNumber numberWithInt:500],
+                            [NSNumber numberWithInt:1000],
+                            [NSNumber numberWithInt:5000],
+                            [NSNumber numberWithInt:10000],
+                            [NSNumber numberWithInt:50000],
+                            [NSNumber numberWithInt:100000], nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -286,21 +347,30 @@
     {
         if (source==@"Slider")
         {
-            self.delegate.pulse.pulseTime = self.pulseTimeSlider.value;
+            //self.delegate.pulse.pulseTime = self.pulseTimeSlider.value;
+            self.delegate.pulse.pulseTime =
+                [self checkSliderValue:self.pulseTimeSlider.value withArray:self.pulseTimeStops];
             
             if (self.constantToneSwitch.on) {
                 self.delegate.pulse.frequency = 0;
                 self.frequencyField.enabled  = NO;
+                self.periodField.enabled     = NO;
                 self.frequencySlider.enabled = NO;
                 self.pulseWidthField.enabled = NO;
                 self.dutyCycleSlider.enabled = NO;
             }
             else
             {
-                self.delegate.pulse.frequency = self.frequencySlider.value;
-                self.delegate.pulse.dutyCycle = self.dutyCycleSlider.value;
+                //self.delegate.pulse.frequency = self.frequencySlider.value;
+                self.delegate.pulse.frequency = 
+                    [self checkSliderValue:self.frequencySlider.value withArray:self.frequencyStops];
+                
+                //self.delegate.pulse.dutyCycle = self.dutyCycleSlider.value;
+                self.delegate.pulse.dutyCycle = 
+                    [self checkSliderValue:self.dutyCycleSlider.value withArray:self.dutyCycleStops];
                 
                 self.frequencyField.enabled  = YES;
+                self.periodField.enabled     = YES;
                 self.frequencySlider.enabled = YES;
                 self.pulseWidthField.enabled = YES;
                 self.dutyCycleSlider.enabled = YES;
@@ -330,18 +400,35 @@
         
         if (!self.constantToneSwitch.on)
         {
-            self.frequencySlider.value = self.delegate.pulse.frequency;
+            //self.frequencySlider.value = self.delegate.pulse.frequency;
+            self.frequencySlider.value = 
+                [self checkFieldValue:self.delegate.pulse.frequency 
+                            withArray:self.frequencyStops];
+            
             NSNumber *num1 = [NSNumber numberWithDouble:self.delegate.pulse.frequency];
             self.frequencyField.text = [self.numberFormatter stringFromNumber:num1];
+            NSNumber *num5 = [NSNumber numberWithDouble:(1/self.delegate.pulse.frequency)];
+            self.periodField.text = [self.numberFormatter stringFromNumber:num5];
             
-            self.dutyCycleSlider.value = self.delegate.pulse.dutyCycle;
-            NSNumber *num2 = [NSNumber numberWithDouble:(self.delegate.pulse.dutyCycle/self.delegate.pulse.frequency*1000)];
+            //self.dutyCycleSlider.value = self.delegate.pulse.dutyCycle;
+            self.dutyCycleSlider.value = 
+                [self checkFieldValue:self.delegate.pulse.dutyCycle
+                            withArray:self.dutyCycleStops];
+            
+            NSNumber *num2 = [NSNumber numberWithDouble:(self.delegate.pulse.dutyCycle/self.delegate.pulse.frequency)];
             self.pulseWidthField.text = [self.numberFormatter stringFromNumber:num2];
         }
         
-        self.pulseTimeSlider.value = self.delegate.pulse.pulseTime;
+        //self.pulseTimeSlider.value = self.delegate.pulse.pulseTime;
+        self.pulseTimeSlider.value =
+            [self checkFieldValue:self.delegate.pulse.pulseTime
+                        withArray:self.pulseTimeStops];
+        
         NSNumber *num3 = [NSNumber numberWithDouble:(self.delegate.pulse.pulseTime/1000)];
         self.pulseTimeField.text = [self.numberFormatter stringFromNumber:num3];
+        NSNumber *num4 = [NSNumber 
+          numberWithDouble:(self.delegate.pulse.pulseTime*self.delegate.pulse.frequency)];
+        self.nPulsesField.text = [self.numberFormatter stringFromNumber:num4];
     }
     
     if ([view isEqualToString:@"Calibration"])
@@ -377,6 +464,41 @@
     if (value >= min && value <= max)   { return value; }
     else if (value < min)               { return min;   }
     else                                { return max;   }
+}
+
+- (double)checkSliderValue:(double)value withArray:(NSArray *)array
+{
+    double numStops = array.count;
+    double dif = 1;
+    int theI = 0;
+    for (double i = 0.0f; i <= numStops; ++i) {
+        
+        double thisDif = fabs(value - ((i + 1.0f)/numStops));
+        if (thisDif < dif) {
+            dif = thisDif;
+            theI = i;
+        }
+        
+    }
+    
+    return [[array objectAtIndex:theI] doubleValue];
+}
+
+- (double)checkFieldValue:(double)value withArray:(NSArray *)array
+{
+    double dif = value;
+    double theI = 0;
+    for (int i = 0; i < array.count; ++i) {
+        
+        double thisDif = fabs(value - [[array objectAtIndex:i] doubleValue]);
+        if (thisDif < dif) {
+            dif = thisDif;
+            theI = i;
+        }
+        
+    }
+    
+    return (double)((theI + 1.0f)/array.count);
 }
 
 
