@@ -18,14 +18,20 @@
 @synthesize audioSignalManager  = _audioSignalManager;
 @synthesize cwView              = _cwView;
 
+@synthesize stimButton          = _stimButton;
+@synthesize recordButton        = _recordButton;
+
 
 
 - (void)dealloc {	
     [super dealloc];
+    
+    [_stimButton release];
     [_stopButton release];
     [_audioRecorder release]; //released in stopRecord ing: too
     [_audioSignalManager release];
     [_cwView release];
+    [_recordButton release];
     
 
 }

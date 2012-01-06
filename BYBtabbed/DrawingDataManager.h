@@ -44,7 +44,6 @@ struct wave_s {
 	Float64 samplingRate;
 	float gain;
     
-    id <DrawingDataManagerDelegate> delegate;
 }
 
 

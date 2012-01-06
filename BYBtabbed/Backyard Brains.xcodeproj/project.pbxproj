@@ -32,10 +32,11 @@
 		E983602F14259EB600200156 /* closeSideBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E983602D14259EB600200156 /* closeSideBar@2x.png */; };
 		E98831CE14A148D1005D4943 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = E98831CC14A148D1005D4943 /* gear.png */; };
 		E98831CF14A148D1005D4943 /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E98831CD14A148D1005D4943 /* gear@2x.png */; };
+		E993059714B6D3B500B563EC /* stimshadow.png in Resources */ = {isa = PBXBuildFile; fileRef = E993059514B6D3B500B563EC /* stimshadow.png */; };
+		E993059814B6D3B500B563EC /* stimshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E993059614B6D3B500B563EC /* stimshadow@2x.png */; };
 		E99325D0142261E700CC76D5 /* TabDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325CB142261E700CC76D5 /* TabDetailViewController.m */; };
 		E99325D1142261E700CC76D5 /* BBFileViewControllerTBV.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325CD142261E700CC76D5 /* BBFileViewControllerTBV.m */; };
 		E99325DF14226FD600CC76D5 /* BBFileActionViewControllerTBV.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325DE14226FD600CC76D5 /* BBFileActionViewControllerTBV.m */; };
-		E99325E61422858200CC76D5 /* BBSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99325E51422858200CC76D5 /* BBSplitViewController.m */; };
 		E9AB224D13C550380054209F /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224313C550380054209F /* pause.png */; };
 		E9AB224E13C550380054209F /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224413C550380054209F /* pause@2x.png */; };
 		E9AB224F13C550380054209F /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = E9AB224513C550380054209F /* play.png */; };
@@ -202,7 +203,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* Backyard_BrainsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Backyard_BrainsAppDelegate.h; path = Classes/Backyard_BrainsAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* Backyard_BrainsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Backyard_BrainsAppDelegate.m; path = Classes/Backyard_BrainsAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* BYB 2.0.76.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 2.0.76.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* BYB 2.0.77.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BYB 2.0.77.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* Backyard_Brains_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Backyard_Brains_Prefix.pch; sourceTree = "<group>"; };
@@ -229,14 +230,14 @@
 		E983602D14259EB600200156 /* closeSideBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closeSideBar@2x.png"; sourceTree = "<group>"; };
 		E98831CC14A148D1005D4943 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		E98831CD14A148D1005D4943 /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
+		E993059514B6D3B500B563EC /* stimshadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stimshadow.png; sourceTree = "<group>"; };
+		E993059614B6D3B500B563EC /* stimshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stimshadow@2x.png"; sourceTree = "<group>"; };
 		E99325CA142261E700CC76D5 /* TabDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabDetailViewController.h; sourceTree = "<group>"; };
 		E99325CB142261E700CC76D5 /* TabDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabDetailViewController.m; sourceTree = "<group>"; };
 		E99325CC142261E700CC76D5 /* BBFileViewControllerTBV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileViewControllerTBV.h; sourceTree = "<group>"; };
 		E99325CD142261E700CC76D5 /* BBFileViewControllerTBV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileViewControllerTBV.m; sourceTree = "<group>"; };
 		E99325DD14226FD600CC76D5 /* BBFileActionViewControllerTBV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileActionViewControllerTBV.h; sourceTree = "<group>"; };
 		E99325DE14226FD600CC76D5 /* BBFileActionViewControllerTBV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileActionViewControllerTBV.m; sourceTree = "<group>"; };
-		E99325E41422858200CC76D5 /* BBSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSplitViewController.h; path = Classes/BBSplitViewController.h; sourceTree = "<group>"; };
-		E99325E51422858200CC76D5 /* BBSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSplitViewController.m; path = Classes/BBSplitViewController.m; sourceTree = "<group>"; };
 		E9AB224313C550380054209F /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = Images/pause.png; sourceTree = "<group>"; };
 		E9AB224413C550380054209F /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pause@2x.png"; path = "Images/pause@2x.png"; sourceTree = "<group>"; };
 		E9AB224513C550380054209F /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Images/play.png; sourceTree = "<group>"; };
@@ -532,7 +533,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* BYB 2.0.76.app */,
+				1D6058910D05DD3D006BFB54 /* BYB 2.0.77.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -844,8 +845,6 @@
 			children = (
 				FAF70EB1111E2385009E7EFA /* BBTabViewController.h */,
 				FAF70EB2111E2385009E7EFA /* BBTabViewController.m */,
-				E99325E41422858200CC76D5 /* BBSplitViewController.h */,
-				E99325E51422858200CC76D5 /* BBSplitViewController.m */,
 			);
 			name = "Root Views";
 			sourceTree = "<group>";
@@ -868,10 +867,12 @@
 				E9AB224313C550380054209F /* pause.png */,
 				E9AB224413C550380054209F /* pause@2x.png */,
 				E9AB224913C550380054209F /* stim.png */,
+				E9AB224A13C550380054209F /* stim@2x.png */,
+				E993059514B6D3B500B563EC /* stimshadow.png */,
+				E993059614B6D3B500B563EC /* stimshadow@2x.png */,
 				E9AB224513C550380054209F /* play.png */,
 				E9AB224613C550380054209F /* play@2x.png */,
 				E9AB224813C550380054209F /* selected@2x.png */,
-				E9AB224A13C550380054209F /* stim@2x.png */,
 				E98831CC14A148D1005D4943 /* gear.png */,
 				E98831CD14A148D1005D4943 /* gear@2x.png */,
 				E9BDF4871408265200899D31 /* dropbox@2x.png */,
@@ -1115,7 +1116,7 @@
 			);
 			name = "Backyard Brains";
 			productName = "Backyard Brains";
-			productReference = 1D6058910D05DD3D006BFB54 /* BYB 2.0.76.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* BYB 2.0.77.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1234,6 +1235,8 @@
 				E98831CE14A148D1005D4943 /* gear.png in Resources */,
 				E98831CF14A148D1005D4943 /* gear@2x.png in Resources */,
 				E9D0CC7B14A4F0FF00BCC26C /* PulseStimView.xib in Resources */,
+				E993059714B6D3B500B563EC /* stimshadow.png in Resources */,
+				E993059814B6D3B500B563EC /* stimshadow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1335,7 +1338,6 @@
 				E99325D0142261E700CC76D5 /* TabDetailViewController.m in Sources */,
 				E99325D1142261E700CC76D5 /* BBFileViewControllerTBV.m in Sources */,
 				E99325DF14226FD600CC76D5 /* BBFileActionViewControllerTBV.m in Sources */,
-				E99325E61422858200CC76D5 /* BBSplitViewController.m in Sources */,
 				E9FAD2231492FA7E00CBCB1D /* LJController.m in Sources */,
 				E92B7E21149BDF9600DE1BA9 /* iPodStimViewController.m in Sources */,
 			);
@@ -1359,7 +1361,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PRODUCT_NAME = "BYB 2.0.76";
+				PRODUCT_NAME = "BYB 2.0.77";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1380,7 +1382,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Backyard_Brains-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PRODUCT_NAME = "BYB 2.0.76";
+				PRODUCT_NAME = "BYB 2.0.77";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;

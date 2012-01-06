@@ -38,24 +38,5 @@
     self.tabBarController = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.tabBarController viewWillAppear:animated];
-    
-    DrawingViewController *viewController = [self.tabBarController.viewControllers objectAtIndex:0];
-    self.splitViewController.delegate = viewController;
-    viewController.delegate = self;
-    [viewController release];
-}
-
-#pragma mark - UITabBarControllerDelegate
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(DrawingViewController *)viewController
-{
-    self.splitViewController.delegate = viewController;
-    viewController.delegate = self;
-}
-
-
 
 @end

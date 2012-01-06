@@ -116,7 +116,7 @@ void sessionPropertyListener(void *                  inClientData,
 				NSLog(@"YARRRRR ME MATEYYYYSSSS");
 				NSLog(@"My callback: %lu", asm.myCallbackType);
 				[asm ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:asm.myCallbackType];
-				[asm play];
+				//[asm play]; 
 			}
 		} else {
 			// Just playback
@@ -496,6 +496,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 @synthesize nTrigWaitFrames;
 
 @synthesize isStimulating;
+@synthesize uninitialized;
 
 # pragma mark - Initialization
 
@@ -514,7 +515,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 {
 	
 	hasAudioInput = NO; // we'll assume we don't have audio at first.
-	myCallbackType = callbackType;
+	self.myCallbackType = callbackType;
 		
 	self = [super init];
 	if (self != nil) {
@@ -541,6 +542,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
         self.nTrigWaitFrames = 0;
         
         self.isStimulating = NO;
+        self.uninitialized = YES;;
 		
 		// Grab the gain from the NSUserDefaults THINGYYY
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -573,9 +575,8 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 		
 		playThroughEnabled = NO;
 		
-//		[self setupAudioSession:myCallbackType];
 		
-		[self ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:myCallbackType];
+		[self ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:self.myCallbackType];
 		
 
 		
@@ -587,6 +588,8 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 
 - (void)ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:(UInt32)callbackType {
 	
+    self.uninitialized = NO;
+    
 	// Initialize and configure the audio session, and add an interuption listener
     AudioSessionInitialize(NULL, NULL, sessionInterruptionListener, self);
 	
@@ -619,7 +622,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 	else {
 		hasAudioInput = YES;
 		[self setupAudioSession:callbackType];
-		[self play];
+		//[self play];
 	}
 	
 }
@@ -918,7 +921,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
     NSAssert(err == noErr, @"Setting render callback failed");
 
 	self.myCallbackType = callbackType;
-	[self play];
+	//[self play];
 	
 
 	
@@ -980,7 +983,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
     }
     else if (self.nTrigWaitFrames == kNumWaitFrames)
     {
-        [delegate shouldAutoSetFrame];
+        [self.delegate shouldAutoSetFrame];
         self.nTrigWaitFrames += 1;
     }
 }
@@ -1005,7 +1008,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
         }
         else if (self.nWaitFrames == kNumWaitFrames)
         {
-            [delegate shouldAutoSetFrame];
+            [self.delegate shouldAutoSetFrame];
             self.nWaitFrames += 1;
         }
         
@@ -1027,6 +1030,10 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 - (void)play {
 	NSLog(@"Paused? %d", self.paused);
 	
+    if (self.uninitialized) {
+        [self ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:self.myCallbackType];
+    }
+    
 	UInt32 inputAvailable=0;
 	UInt32 size = sizeof(inputAvailable);
 	AudioSessionGetProperty(kAudioSessionProperty_AudioInputAvailable, 
@@ -1040,9 +1047,14 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 			paused = NO;
 		}
 	}
-		
-	
 }
+
+- (void)stopAudioUnit
+{
+    AudioSessionRemovePropertyListenerWithUserData(kAudioSessionProperty_AudioRouteChange, sessionPropertyListener, self);
+    self.uninitialized = YES;
+}
+
 
 - (void)pauseplay {
 	// Convenience function to toggle pausing
@@ -1058,34 +1070,7 @@ static OSStatus singleShotTriggerCallback(void *inRefCon,
 }
 
 
-#pragma mark - Playback Control methods
 
-
-- (void)playbackStart
-{
-	//load file
-	//initiate timer
-	//fill playbackBuffer
-	
-	
-	      //After kNumWaitFrames (5) buffers are filled, tell view controller to autoset its frame 
-        if (self.nWaitFrames < kNumWaitFrames)
-        {
-            self.nWaitFrames += 1;
-        }
-        else if (self.nWaitFrames == kNumWaitFrames)
-        {
-            [delegate shouldAutoSetFrame];
-            self.nWaitFrames += 1;
-        }
-  
-}
-
-- (void)playbackStop
-{
-	//stop timer
-	//stop filling playbackBuffer
-}
 
 #pragma mark - UIAlertView Delegate Methods
 

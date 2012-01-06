@@ -223,7 +223,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 
 - (void)grabNewFile
 {
-    self.file = delegate.file;
+    self.file = self.delegate.file;
 }
 
 - (void)updateCurrentTimeTo:(float)time
@@ -277,7 +277,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
         }
         else if (self.nWaitFrames == kNumWaitFrames)
         {
-            [delegate shouldAutoSetFrame];
+            [self.delegate shouldAutoSetFrame];
             self.nWaitFrames += 1;
         }
     }

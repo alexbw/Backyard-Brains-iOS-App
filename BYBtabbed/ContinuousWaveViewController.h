@@ -23,6 +23,8 @@
 @property (nonatomic, retain) AudioSignalManager *audioSignalManager;
 @property (nonatomic, retain) IBOutlet UIButton *stopButton;
 @property (nonatomic, retain) ContinuousWaveView *cwView;
+@property (nonatomic, retain) IBOutlet UIButton *stimButton;
+@property (nonatomic, retain) IBOutlet UIButton *recordButton;
 
 - (void)updateDataLabels;
 - (void)showAllLabels;

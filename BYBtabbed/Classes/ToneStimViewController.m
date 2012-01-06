@@ -195,6 +195,15 @@
                             [NSNumber numberWithDouble:10.0f],
                             [NSNumber numberWithDouble:50.0f],
                             [NSNumber numberWithDouble:100.0f], nil]; //s
+
+    //make it pretty on ios < 5.0
+    if (![self.pulseTimeField respondsToSelector:@selector(setBackgroundColor:)]) {
+        self.frequencyField.textColor = [UIColor blackColor];
+        self.periodField.textColor = [UIColor blackColor];
+        self.pulseTimeField.textColor = [UIColor blackColor];
+        self.nPulsesField.textColor = [UIColor blackColor];
+        self.pulseWidthField.textColor = [UIColor blackColor];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -272,6 +281,8 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    
+    textField.text = [textField.text stringByReplacingOccurrencesOfString:@"," withString:@""];
     
     int moveUp = self.keyboardFrame.size.height + 
         (textField.frame.origin.y + textField.frame.size.height)

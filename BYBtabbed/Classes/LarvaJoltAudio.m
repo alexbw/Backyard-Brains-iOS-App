@@ -17,6 +17,7 @@
 
 
 #import "LarvaJoltAudio.h"
+#import "Backyard_BrainsAppDelegate.h"
 
 // Audio Unit render callback function
 static OSStatus RenderTone(
@@ -222,6 +223,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
         self.calibB = defaultCalibB;
         self.calibC = defaultCalibC;
         self.isSquarePulse = NO;
+        self.appMusicPlayer = nil;
         NSLog(@"pulse initialized.");
         
 	}
@@ -233,10 +235,22 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 - (void)playPulse
 {
     if (self.songSelected) {
+        
+        if (self.playlist.count==0) {
+            return;
+        }
+        
         if (self.appMusicPlayer==nil) {
             self.appMusicPlayer =
                 [MPMusicPlayerController applicationMusicPlayer];
         }
+        
+        //make sure audiosignalmanager is stopped
+        Backyard_BrainsAppDelegate *app = (Backyard_BrainsAppDelegate *)[[UIApplication sharedApplication] delegate];
+        AudioSignalManager *theAsm = (AudioSignalManager *)app.drawingDataManager;
+        if ([theAsm respondsToSelector:@selector(stopAudioUnit)])
+            [theAsm stopAudioUnit];
+            
         [self.appMusicPlayer setShuffleMode: MPMusicShuffleModeOff];
         [self.appMusicPlayer setRepeatMode: MPMusicRepeatModeNone];
         [self.appMusicPlayer setQueueWithItemCollection:self.playlist];
@@ -296,6 +310,8 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
     self.playing = NO;
     [self.delegate pulseIsStopped];
     [self.timer invalidate];
+    
+    
 }
 
 - (void)setSongSelected:(BOOL)theSong

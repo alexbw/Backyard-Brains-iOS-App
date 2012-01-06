@@ -122,6 +122,7 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 @property int nTrigWaitFrames;
 
 @property BOOL isStimulating;
+@property BOOL uninitialized;
 
 - (void)ifAudioInputIsAvailableThenSetupAudioSessionWithCallbackType:(UInt32)callbackType;
 - (id)init;
@@ -131,10 +132,8 @@ int findThresholdCrossing(SInt16 *firstStageBuffer, UInt32 inNumberFrames, float
 - (void)fillVertexBufferWithAverageTriggeredSegments;
 - (void)changeCallbackTo:(int)callbackType;
 
-// Redefined from superclass:
-//- (void)fillVertexBufferWithAudioData;
-//- (void)pause;
-//- (void)play;
+
+- (void)stopAudioUnit;
 
 @end
 

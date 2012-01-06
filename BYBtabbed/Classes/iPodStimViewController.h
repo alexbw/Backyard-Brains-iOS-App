@@ -19,7 +19,6 @@
 @property (nonatomic,retain) NSArray *songNames;
 @property (nonatomic,retain) NSArray *songArtists;
 
-
 - (IBAction)presentTheMediaPicker:(id)sender;
 - (void)updateTableWithCollection:(MPMediaItemCollection *)collection;
 

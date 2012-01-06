@@ -58,8 +58,9 @@
     
     
     
-	self.drawingDataManager = [[AudioSignalManager alloc] initWithCallbackType:kAudioCallbackContinuous];
-	[self.drawingDataManager play];
+	self.drawingDataManager = [[AudioSignalManager alloc] 
+                               initWithCallbackType:kAudioCallbackContinuous];
+	//[self.drawingDataManager play];
     
     self.pulse = [[LarvaJoltAudio alloc] init];
     
@@ -68,10 +69,7 @@
 
 	
     // Add the tab bar controller's current view as a subview of the window
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        [window addSubview:splitViewController.view];
-    else
-        [window addSubview:tabBarController.view];
+    [window addSubview:tabBarController.view];
 	
 	// make the window visible
 	[window makeKeyAndVisible];

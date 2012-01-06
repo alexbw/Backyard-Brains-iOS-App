@@ -19,6 +19,7 @@
 @class LarvaJoltAudio;
 
 @interface Backyard_BrainsAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UISplitViewControllerDelegate, DrawingViewControllerDelegate, LarvaJoltViewDelegate> {
+    
     UIWindow *window;
     
     BBTabViewController *tabBarController;

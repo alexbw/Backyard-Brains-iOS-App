@@ -52,41 +52,64 @@
 {
     if (self=[super initWithCoder:aDecoder])
     {
-        // Initialize and set objects
-        if (self.toneVC==nil)
-        {
-            self.toneVC = [[ToneStimViewController alloc]
-                           initWithNibName:@"ToneStimView" bundle:nil];
-            self.toneVC.viewTypeString = @"Tone";        
-        }
-        if (self.pulseVC==nil)
-        {
-            self.pulseVC = [[ToneStimViewController alloc] initWithNibName:@"PulseStimView" bundle:nil];
-            self.pulseVC.viewTypeString = @"Pulse";
-        }
-        if (self.opticalVC==nil)
-        {
-            self.opticalVC = [[ToneStimViewController alloc]
-                              initWithNibName:@"OpticalStimView" bundle:nil];
-            self.opticalVC.viewTypeString = @"Optical";
-        }
-        if (self.iPodVC==nil)
-        {
-            self.iPodVC = [[iPodStimViewController alloc]
-                           initWithNibName:@"iPodStimView" bundle:nil];        
-        }
-        if (self.calibrationVC==nil)
-        {
-            self.calibrationVC = [[ToneStimViewController alloc]
-                                  initWithNibName:@"LJCalibrationView" bundle:nil];
-            self.calibrationVC.viewTypeString = @"Calibration";        
-        }
-        
-        
-        
-        self.backgroundBlue = 0.05;
+        [self setup];
     }
     return self;
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if (self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+    {
+        [self setup];
+    }
+    return self;
+}
+
+- (id)init
+{
+    if (self=[super init])
+    {
+        [self setup];
+    }
+    return self;
+}
+
+- (void)setup
+{
+    // Initialize and set objects
+    if (self.toneVC==nil)
+    {
+        self.toneVC = [[ToneStimViewController alloc]
+                       initWithNibName:@"ToneStimView" bundle:nil];
+        self.toneVC.viewTypeString = @"Tone";        
+    }
+    if (self.pulseVC==nil)
+    {
+        self.pulseVC = [[ToneStimViewController alloc] initWithNibName:@"PulseStimView" bundle:nil];
+        self.pulseVC.viewTypeString = @"Pulse";
+    }
+    if (self.opticalVC==nil)
+    {
+        self.opticalVC = [[ToneStimViewController alloc]
+                          initWithNibName:@"OpticalStimView" bundle:nil];
+        self.opticalVC.viewTypeString = @"Optical";
+    }
+    if (self.iPodVC==nil)
+    {
+        self.iPodVC = [[iPodStimViewController alloc]
+                       initWithNibName:@"iPodStimView" bundle:nil];        
+    }
+    if (self.calibrationVC==nil)
+    {
+        self.calibrationVC = [[ToneStimViewController alloc]
+                              initWithNibName:@"LJCalibrationView" bundle:nil];
+        self.calibrationVC.viewTypeString = @"Calibration";        
+    }
+    
+    
+    
+    self.backgroundBlue = 0.05;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -105,10 +128,6 @@
     NSLog(@"View will appear");
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [self pulseIsStopped];
-}
 
 - (void)viewDidLoad
 {
@@ -185,6 +204,7 @@
 {
     if(newCtl == self.currentController)
         return;
+    
     if([self.currentController isViewLoaded])
         [self.currentController.view removeFromSuperview];
     
@@ -195,6 +215,8 @@
     }
     
     self.currentController = newCtl;
+    
+    [newCtl viewWillAppear:YES];
 }
 
 #pragma mark - methods
@@ -242,6 +264,12 @@
     self.currentController.view.backgroundColor = thisBlue;
 }
 
+#pragma mark - rotation
 
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self switchToController:nil];
+}
 
 @end

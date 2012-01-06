@@ -12,13 +12,9 @@
 
 @implementation ContinuousWaveViewController_iPhone
 
-@synthesize recordButton;
-@synthesize stimButton;
 
 - (void)dealloc {	
 	
-	[recordButton release];
-    [stimButton release];
     [super dealloc];
 	
 

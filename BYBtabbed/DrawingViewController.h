@@ -31,8 +31,6 @@
 //For Live play. This will be the AppDelegate or the TabDetailController (iPad)
     @property (nonatomic,retain) DrawingDataManager *drawingDataManager;
     @property (nonatomic,retain) LarvaJoltAudio *pulse;
-    @property (nonatomic,assign) BBFileViewControllerTBV *fileController; //for iPad
-    @property (nonatomic,assign) UISplitViewController *splitViewController; //for iPad
     
 //For Playback. This will be ActionViewControllerTBV
     @property (nonatomic,retain) NSArray *files; 
@@ -40,7 +38,7 @@
 @end
 
 
-@interface DrawingViewController : UIViewController <UISplitViewControllerDelegate>
+@interface DrawingViewController : UIViewController
 
 
 @property (nonatomic, retain) DrawingDataManager *drawingDataManager;
@@ -63,13 +61,11 @@
 @property (nonatomic, retain) IBOutlet UILabel *yUnitsPerDivLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *msLegendImage;
 @property (nonatomic, retain) NSDictionary *preferences;
-@property (nonatomic, retain) UIBarButtonItem *fileButton;
 
 //for iPad
-@property (nonatomic,retain) IBOutlet UINavigationItem *navItem;
 @property (nonatomic,retain) UIPopoverController *thePopoverController;
 
-@property (nonatomic, assign) id <DrawingViewControllerDelegate> delegate;
+@property (nonatomic, assign) IBOutlet id <DrawingViewControllerDelegate> delegate;
 
 - (void)dealloc;
 
@@ -88,9 +84,8 @@
 - (void)fitTickMarksToLandscape;
 - (void)fitTickMarksToPortrait;*/
 
-- (IBAction)showInfoPanel:(UIButton *)sender;
 
-- (IBAction)showFilePopover:(UIBarButtonItem *)button;
+
 
 @end
 

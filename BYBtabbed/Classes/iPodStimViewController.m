@@ -20,25 +20,32 @@
 
 - (void)dealloc
 {
+    [super dealloc];
+    
     [_theTableView release];
     [_songNames release];
     [_songArtists release];
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self.theTableView setBackgroundView:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    //tell LarvaJolt to prep for a song
-    //if (self.delegate.pulse.playing)
-      //  [self.delegate.pulse stopPulse];
     self.delegate.pulse.songSelected = YES;
+    [self updateTableWithCollection:self.delegate.pulse.playlist];
+    
+    
 }
+
+
 
 #pragma mark - Actions
 
@@ -61,23 +68,31 @@
 
 - (void)updateTableWithCollection:(MPMediaItemCollection *)collection 
 {
-    self.delegate.pulse.playlist = collection;
-    self.delegate.pulse.songNowPlaying = 0;
-    
-    NSArray *songs = [NSArray arrayWithArray:collection.items];
-    self.songNames = [NSArray array];
-    self.songArtists = [NSArray array];
-    for (int i =0; i < songs.count; ++i)
-    {
-        self.songNames = 
-            [self.songNames arrayByAddingObject:[[songs objectAtIndex:i]
-                                                 valueForKey:MPMediaItemPropertyTitle]];
-        self.songArtists =
-            [self.songArtists arrayByAddingObject:[[songs objectAtIndex:i]
-                                                 valueForKey:MPMediaItemPropertyArtist]];
+    if (collection.count == 0) {
+        self.theTableView.hidden = YES;
+        return;
     }
-    
-    [self.theTableView reloadData];
+    else
+    {
+        self.delegate.pulse.playlist = collection;
+        self.delegate.pulse.songNowPlaying = 0;
+        
+        NSArray *songs = [NSArray arrayWithArray:collection.items];
+        self.songNames = [NSArray array];
+        self.songArtists = [NSArray array];
+        for (int i =0; i < songs.count; ++i)
+        {
+            self.songNames = 
+                [self.songNames arrayByAddingObject:[[songs objectAtIndex:i]
+                                                     valueForKey:MPMediaItemPropertyTitle]];
+            self.songArtists =
+                [self.songArtists arrayByAddingObject:[[songs objectAtIndex:i]
+                                                     valueForKey:MPMediaItemPropertyArtist]];
+        }
+        
+        self.theTableView.hidden = NO;
+        [self.theTableView reloadData];
+    }
 }
 
 #pragma mark - Implementation of UITableViewDelegate & UITableViewDataSource
@@ -111,6 +126,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.theTableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    self.delegate.pulse.songSelected = YES;
     
     if (self.delegate.pulse.playing 
             && self.delegate.pulse.songNowPlaying == indexPath.row)
@@ -166,6 +183,8 @@
 - (void) mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
     
     [mediaPicker dismissModalViewControllerAnimated:YES];
+    self.theTableView.hidden = YES;
+    self.delegate.pulse.playlist = nil;
 }
 
 

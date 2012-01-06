@@ -30,9 +30,7 @@
 @synthesize yUnitsPerDivLabel       = _yUnitsPerDivLabel;
 @synthesize msLegendImage           = _msLegendImage;
 @synthesize preferences             = _preferences;
-@synthesize fileButton              = _fileButton;
 
-@synthesize navItem                 = _navItem;
 @synthesize thePopoverController    = _thePopoverController;
 
 @synthesize delegate;
@@ -49,9 +47,7 @@
 	[_yUnitsPerDivLabel release];
 	[_msLegendImage release];
 	[_preferences release];
-    [_fileButton release];
     
-    [_navItem release];
     [_thePopoverController release];
 	
 	[super dealloc];
@@ -66,15 +62,6 @@
 	self.tickMarks.contentMode = UIViewContentModeScaleAspectFit;
 	self.msLegendImage.contentMode = UIViewContentModeScaleAspectFit;
     
-    if (self.navItem != nil && self.fileButton == nil)
-    {
-        self.fileButton = [[UIBarButtonItem alloc] 
-                                   initWithTitle:@"Files"
-                                           style:UIBarButtonItemStylePlain
-                                          target:self 
-                                          action:@selector(showFilePopover:)];
-    }
-    
 	/*
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(didRotate:)
@@ -86,18 +73,6 @@
 	
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-    
-    if (self.navItem != nil)
-    {
-        if ( ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft) | ( [[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight) )
-            self.navItem.leftBarButtonItem = nil;
-        else
-            self.navItem.leftBarButtonItem = self.fileButton;
-    }
-	
-}
 
 /*-(void)didRotate:(NSNotification *)theNotification {
 	[self fitViewToCurrentOrientation];
@@ -214,25 +189,6 @@
 	[self.view setNeedsDisplay];
 }*/
 
-
-#pragma mark - Managing the popover
-
-
-- (IBAction)showFilePopover:(UIBarButtonItem *)button {
-    
-    NSArray *controllers = self.delegate.splitViewController.viewControllers;
-    UIViewController *rootNavController = [controllers objectAtIndex:0];
-    
-    self.thePopoverController = [[UIPopoverController alloc] initWithContentViewController:rootNavController];
-    [self.thePopoverController presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-    
-}
-
-
-
-- (IBAction)showInfoPanel:(UIButton *)sender {
-	NSLog(@"Showing info panel");
-}
 
 
 - (void)dispersePreferences {
@@ -401,20 +357,6 @@
 }
 
 
-
-#pragma mark - UISplitViewControllerDelegate
-
-- (void)splitViewController: (UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController: (UIPopoverController*)pc {
-    
-    barButtonItem.title = @"Files";
-    self.navItem.leftBarButtonItem = barButtonItem;
-
-}
-
-- (void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)button
-{
-    self.navItem.leftBarButtonItem = nil;
-}
 
 
 @end
