@@ -39,7 +39,7 @@ static OSStatus RenderTone(
     
     
     double frequency = lja->_frequency;
-    double outputFrequency = lja->_ledControlFreq;
+    double outputFrequency = lja->_outputFreq;
     double amplitude = lja->_amplitude;
     double sampleRate = lja->_sampleRate;
     double theta = lja->_theta;
@@ -47,7 +47,42 @@ static OSStatus RenderTone(
     double calibB = lja->_calibB;
     double calibC = lja->_calibC;
     
-    if (frequency==0)
+    if (lja->_isSquarePulse) //PULSE -- 1ms sine wave 
+    {
+        
+        double pulseProgress = lja->_pulseProgress;	//progress in pulse from 0.0 - 1.0
+        double dutyCycleInput = lja->_dutyCycle;
+        
+        // Generate the samples
+        for (UInt32 frame = 0; frame < inNumberFrames; frame++)
+        {
+            // Model a biphasic pulse with first, positive pulse at pulseProgress = 0.0 and interpulse gap = 0
+            if ( (pulseProgress >= 0) && (pulseProgress < dutyCycleInput) ) {
+                buffer[frame] = sin(theta)*amplitude;
+            } else {
+                buffer[frame] = 0;
+            }
+            
+            pulseProgress += (1 / sampleRate * frequency);
+            if (pulseProgress > 1.0)
+            {
+                pulseProgress -= 1.0;
+            }
+            
+            theta += (2 * M_PI / sampleRate * outputFrequency);
+            if (theta > 2 * M_PI)
+            {
+                theta -= 2 * M_PI;
+            }
+            
+            
+            // Store the theta back in the view controller
+            lja->_pulseProgress = pulseProgress;
+            lja->_theta = theta;
+        }
+
+    }
+    else if (frequency==0) //TONE -- sine wave
     {
         // Generate the samples
         for (UInt32 frame = 0; frame < inNumberFrames; frame++)
@@ -65,7 +100,7 @@ static OSStatus RenderTone(
             
         }
     }
-    else
+    else //OPTICAL -- sine wave pulses
     {
         
         double pulseProgress = lja->_pulseProgress;	//progress in pulse from 0.0 - 1.0
@@ -110,6 +145,8 @@ static OSStatus RenderTone(
             
         }
     }
+    
+    
 	return noErr;
     
 }
@@ -137,8 +174,11 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 @synthesize pulseTime       = _pulseTime;
 @synthesize sampleRate      = _sampleRate;
 @synthesize pulseProgress   = _pulseProgress;
+@synthesize trainDelay      = _trainDelay;
+@synthesize isSquarePulse   = _isSquarePulse;
 @synthesize theta           = _theta;
-@synthesize ledControlFreq  = _ledControlFreq;
+@synthesize outputFreq      = _outputFreq;
+@synthesize ledFreq         = _ledFreq;
 @synthesize playing         = _playing;
 @dynamic songSelected;
 @synthesize timer           = _timer;
@@ -154,8 +194,9 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 #define defaultDutyCycle 0.5
 #define defaultFrequency 1000 //Hz. Period = 1ms
 #define defaultAmplitude 1.00 //units?
-#define defaultLedControlFrequency 10000.f //Hz
-#define defaultPulseTime 100000 //ms
+#define defaultOutputFreq 1000 //Hz
+#define defaultLedFreq 10000 //Hz
+#define defaultPulseTime 100 //s
 #define defaultCalibA 0
 #define defaultCalibB 1
 #define defaultCalibC 0
@@ -174,10 +215,13 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
 		self.amplitude		= defaultAmplitude;		
         self.pulseTime      = defaultPulseTime;
         self.pulseProgress = 0;
-        self.ledControlFreq = defaultLedControlFrequency;
+        self.theta = 0;
+        self.outputFreq = defaultOutputFreq;
+        self.ledFreq = defaultLedFreq;
         self.calibA = defaultCalibA;
         self.calibB = defaultCalibB;
         self.calibC = defaultCalibC;
+        self.isSquarePulse = NO;
         NSLog(@"pulse initialized.");
         
 	}
@@ -207,13 +251,16 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
         if (!self.toneUnit)
         {
             //create timer
-            self.timer = [NSTimer scheduledTimerWithTimeInterval:self.pulseTime/1000
+            self.timer = [NSTimer scheduledTimerWithTimeInterval:self.pulseTime
                                                           target:self
                                                         selector:@selector(stopPulse)
                                                         userInfo:nil
                                                          repeats:NO];
             
             [self createToneUnit];
+            
+            self.pulseProgress = 0;
+            self.theta = 0;
             
             // Stop changing parameters on the unit
             OSErr err = AudioUnitInitialize(self.toneUnit);

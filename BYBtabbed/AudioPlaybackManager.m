@@ -16,28 +16,75 @@
 
 SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Float64 seconds) {
 
-    //int numSamplesToWrite = kNumPointsInWave;
-	
-    AudioFileID audioFileID = THIS->fileHandle;
-    UInt32 startByte = seconds * THIS->bitRate;// + THIS->dataOffset;
     
-    UInt32 ioNumBytes = kNumPointsInPlaybackVertexBuffer*sizeof(SInt16);
-    if (ioNumBytes > THIS->byteCount)
-        ioNumBytes = THIS->byteCount - startByte;
+    SInt32 halfBufferSize = kNumPointsInPlaybackVertexBuffer*sizeof(SInt16)/2;
+    
+    AudioFileID audioFileID = THIS->_fileHandle;
+    SInt32 frameStartByte = (SInt32)(seconds * THIS->_bitRate + THIS->_dataOffset) - halfBufferSize;
+    UInt32 frameSize = kNumPointsInPlaybackVertexBuffer*sizeof(SInt16);
+    UInt32 audioFileByteCount = THIS->_byteCount;
+    
+    UInt32 ioNumBytes;
+    UInt32 zeroOutFirstBytes = 0;
+    UInt32 zeroOutEndBytes = 0;
+    
+    
+    // Case 0: file is shorter than 1/2 buffer
+    if (audioFileByteCount < (frameSize/2))
+    {
+        ioNumBytes = audioFileByteCount;
+        zeroOutFirstBytes = abs(frameStartByte);
+        zeroOutEndBytes = frameSize - ioNumBytes - zeroOutFirstBytes;
+        NSLog(@"Case 0");
+    }
+    // Case 1: part blank, part audio
+    else if (frameStartByte < 0) {
+        ioNumBytes = frameSize - abs(frameStartByte);
+        zeroOutFirstBytes = frameSize - ioNumBytes;
+        NSLog(@"Case 1");
+    }
+    // Case 2: all audio
+    else if (   frameStartByte >= 0
+             && frameStartByte <= (audioFileByteCount - frameSize) )
+    {
+        ioNumBytes = frameSize;
+        NSLog(@"Case 2");
+    }
+    // Case 3: part audio, part blank
+    else if (  frameStartByte > (audioFileByteCount - frameSize)
+             && frameStartByte < audioFileByteCount )
+    {
+        ioNumBytes = audioFileByteCount - frameStartByte;
+        zeroOutEndBytes = frameSize - ioNumBytes;
+        NSLog(@"Case 3");
+    }
+    else
+    {
+        ioNumBytes = 0;
+        zeroOutFirstBytes = frameSize;
+    }
+
+    
+    // if we're aren't going to read any bytes
     if (ioNumBytes <= 0)
     {
-        THIS->numBytesRead = 0;
+        THIS->_numBytesRead = 0;
         return nil;
     }
     
     void *tempBuffer = malloc(ioNumBytes);
+    UInt32 startReadByte;
+    if (frameStartByte < 0)
+        startReadByte = 0;
+    else
+        startReadByte = frameStartByte;
     
-    NSLog(@"Starting byte is %lu and num of bytes is %lu", startByte, ioNumBytes);
+    NSLog(@"Starting byte is %lu and num of bytes is %lu", startReadByte, ioNumBytes);
     
     
 	// Read from audio to file now
-	OSStatus status = AudioFileReadBytes(audioFileID, YES, startByte, &ioNumBytes, tempBuffer);
-    THIS->numBytesRead = ioNumBytes;
+	OSStatus status = AudioFileReadBytes(audioFileID, YES, startReadByte, &ioNumBytes, tempBuffer);
+    THIS->_numBytesRead = ioNumBytes;
     
 	if (status)
     {
@@ -51,11 +98,23 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 
         if (ioNumBytes > 0) {
             
-            SInt16 *outBuffer = (SInt16 *)tempBuffer;
+            NSLog(@"Zero out %lu, ioNumBytes %lu, zero out %lu",zeroOutFirstBytes, ioNumBytes, zeroOutEndBytes);
             
-            for (int i=0; i < ioNumBytes/sizeof(SInt16); ++i) {//tk
+            SInt16 *temp2Buffer = (SInt16 *)tempBuffer;
+            SInt16 *outBuffer = malloc(frameSize);
+            
+            for (int i = 0; i < zeroOutFirstBytes/sizeof(SInt16); ++i) {
+                outBuffer[i] = 0;
+            }
+            
+            for (int i = 0; i < ioNumBytes/sizeof(SInt16); ++i) {
                 // We've gotta swap each sample's byte order from big endian to host format...
-                outBuffer[i] = CFSwapInt16BigToHost(outBuffer[i]);
+                outBuffer[zeroOutFirstBytes/sizeof(SInt16) + i] = 
+                                    CFSwapInt16BigToHost(temp2Buffer[i]);
+            }
+            
+            for (int i = 0; i < zeroOutEndBytes/sizeof(SInt16); ++i) {
+                outBuffer[(i + (zeroOutFirstBytes + ioNumBytes)/sizeof(SInt16))] = 0;
             }
             
             return outBuffer;
@@ -64,6 +123,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
         else 
         {
             // stop
+            NSLog(@"But zero bytes were read");
             return nil;
         }
     }
@@ -73,14 +133,27 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 
 @implementation AudioPlaybackManager
 
-@synthesize file;
-@synthesize playImage, pauseImage;
+@synthesize file            = _file;
+@synthesize playImage       = _playImage;
+@synthesize pauseImage      = _pauseImage;
 
-@synthesize lastTime;
-@synthesize playing;
+@synthesize lastTime        = _lastTime;
+@synthesize playing         = _playing;
 
-@synthesize fileHandle;
-@synthesize numBytesRead, dataOffset, bitRate, byteCount;
+
+#pragma mark - life cycle
+
+- (void)dealloc
+{
+    [super dealloc];
+    
+    [_file release];
+    [_playImage release];
+    [_pauseImage release];
+    
+    AudioFileClose(_fileHandle);
+    _fileHandle = nil;
+}
 
 - (id)initWithBBFile:(BBFile *)theFile
 {
@@ -103,40 +176,41 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
         // Open the audio file, type = AIFF
         
         AudioFileID id;
-        OSStatus status = AudioFileOpenURL ((CFURLRef)fileURL, kAudioFileReadWritePermission, kAudioFileAIFFType, &id); //inFileTypeHint?? just gonna pass 0
-        self.fileHandle = id;
+        OSStatus status = AudioFileOpenURL ((CFURLRef)fileURL, kAudioFileReadPermission, kAudioFileAIFFType, &id);
+        _fileHandle = id;
         NSLog(@"Open Audio File status: %@", status);
-        
+        [fileURL release];
         
         
         //Get byte count
         UInt64 outData = 0;
         UInt32 outDataSize = sizeof(UInt64);
-        AudioFileGetProperty (  self.fileHandle,
+        AudioFileGetProperty (  _fileHandle,
                                 kAudioFilePropertyAudioDataByteCount,
                               &outDataSize,
                               &outData
                               );
         NSLog(@"Byte count: %llu", outData);
-        self.byteCount = outData;
+        _byteCount = outData;
         
         
         //should be 44100:
-        self.bitRate = self.file.samplingrate*2;
-        NSLog(@"bit rate: %llu", self.bitRate);
+        _bitRate = self.file.samplingrate*2;
+        NSLog(@"bit rate: %llu", _bitRate);
+        
+        //set data offset to zero
+        _dataOffset = 0;
         
         //Just read out all the audio data
         
-        [fileURL release];
-        AudioFileClose(id);
         
         // audioPlayer will remain nil as long as nothing is playing
-        audioPlayer = nil;
+        _audioPlayer = nil;
 
         
-        self.playImage = [UIImage imageNamed:@"play.png"];
-        self.pauseImage = [UIImage imageNamed:@"pause.png"];
-  }
+        self.playImage =    [UIImage imageNamed:@"play.png"];
+        self.pauseImage =   [UIImage imageNamed:@"pause.png"];
+    }
     
     return self;
 }
@@ -146,13 +220,6 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
     [super awakeFromNib];
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-    [file release];
-    [playImage release];
-    [pauseImage release];
-}
 
 - (void)grabNewFile
 {
@@ -161,7 +228,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 
 - (void)updateCurrentTimeTo:(float)time
 {
-    audioPlayer.currentTime = time;
+    _audioPlayer.currentTime = time;
     if (self.playing)
         [self pause];
 }
@@ -174,35 +241,32 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 - (void)fillVertexBufferWithAudioData
 {
     
-    if (audioPlayer != nil)
+    if (self.playing && _audioPlayer != nil)
     {
         
         //get the current time
-        Float64 tNow = audioPlayer.currentTime;
-        if (tNow != self.lastTime)
+        Float64 tNow = _audioPlayer.currentTime;
+        if (tNow != self.lastTime && tNow >= 0)
         {
             NSLog(@"Time now is %f", tNow);
             
+            
             SInt16 *outBuffer = readSingleChannelRingBufferDataAsSInt16(self, tNow);
 
-            if (outBuffer == nil)
+            NSLog(@"bytes read out: %llu", _numBytesRead);
+   
+            if (outBuffer!=nil)
             {
-                [self stop];
-                for (int i = 0; i < kNumPointsInPlaybackVertexBuffer; ++i)
-                {
-                    self.vertexBuffer[i].y = 0;
-                }
-            }
-            else
-            {
-                NSLog(@"bytes read out: %llu", self.numBytesRead);
                 
                 for (int i = 0; i < kNumPointsInPlaybackVertexBuffer; ++i)
                 {
-                    self.vertexBuffer[i].y = outBuffer[i];
+                    if (outBuffer[i])
+                        self.vertexBuffer[i].y = outBuffer[i];
+                    else
+                        self.vertexBuffer[i].y = 0;
                 }
-                
             }
+            
             self.lastTime = tNow;
         }
         
@@ -217,7 +281,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
             self.nWaitFrames += 1;
         }
     }
-    else
+    else // not playing
     {
         for (int i = 0; i < kNumPointsInPlaybackVertexBuffer; ++i)
         {
@@ -239,7 +303,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 - (BOOL)playPause
 {
     
-    if (audioPlayer == nil)  //if you haven't played anything yet
+    if (_audioPlayer == nil)  //if you haven't played anything yet
     {
         [self play];
         return YES;
@@ -266,37 +330,40 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
     
 	NSLog(@"Starting play!");
     
-    //Audio
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[docPath stringByAppendingPathComponent:self.file.filename]];
     
-    if (audioPlayer == nil) {
+    // ----------------------------- Audio -----------------------------------
+    
+    if (_audioPlayer == nil) {
 		// Make a URL to the BBFile's audio file
-		NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-		NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[docPath stringByAppendingPathComponent:self.file.filename]];
-        
+
 		// Fire up an audio player
-		audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
-        audioPlayer.volume = 1.0; // 0.0 - no volume; 1.0 full volume
+		_audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+        _audioPlayer.volume = 1.0; // 0.0 - no volume; 1.0 full volume
         
         NSLog(@"File path %@", [docPath stringByAppendingPathComponent:self.file.filename]);
-		NSLog(@"File duration: %f", audioPlayer.duration);
+		NSLog(@"File duration: %f", _audioPlayer.duration);
         
         
 		NSLog(@"Starting the playing");
 		
         self.delegate.scrubBar.minimumValue = 0;
-		self.delegate.scrubBar.maximumValue = audioPlayer.duration;
+		self.delegate.scrubBar.maximumValue = _audioPlayer.duration;
 		[self startUpdateTimer];
         
-        [fileURL release];
 	}	
     
-	
-	[audioPlayer play];
+	[_audioPlayer play];
+    
+  
+    
+    // --other stuff--
+    
+    [fileURL release];
+        
     self.playing = YES;
-    
-    //Visual
-    
-    
+
     [self.delegate.playPauseButton setImage:self.pauseImage forState:UIControlStateNormal];
     
 }
@@ -306,11 +373,9 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 	NSLog(@"Pausing play!");
     
     //Audio
-    [audioPlayer pause];
+    [_audioPlayer pause];
     self.playing = NO;
-    
-    //Visual
-    
+        
     [self.delegate.playPauseButton setImage:self.playImage forState:UIControlStateNormal];
 }
 
@@ -324,10 +389,10 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 	self.delegate.remainingTimeLabel.text = @"-0:00";
 	self.delegate.scrubBar.value = 0.0f;
 	
-	[timerThread invalidate];
-	[audioPlayer stop];
-	[audioPlayer release];
-	audioPlayer = nil;
+	[_timerThread invalidate];
+	[_audioPlayer stop];
+	[_audioPlayer release];
+	_audioPlayer = nil;
     
     self.playing = NO;
     
@@ -336,7 +401,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 
 #pragma mark - A Useful Timer
 - (void)startUpdateTimer {
-	timerThread = [[NSTimer scheduledTimerWithTimeInterval:kBarUpdateInterval target:self selector:@selector(updateCurrentTime) userInfo:nil repeats:YES] retain];
+	_timerThread = [[NSTimer scheduledTimerWithTimeInterval:kBarUpdateInterval target:self selector:@selector(updateCurrentTime) userInfo:nil repeats:YES] retain];
 }
 
 /*//the thread starts by sending this message
@@ -356,13 +421,13 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
  }*/
 
 - (void)updateCurrentTime {
-	self.delegate.scrubBar.value = audioPlayer.currentTime;
+	self.delegate.scrubBar.value = _audioPlayer.currentTime;
 	
     
-	int minutesElapsed = (int)floor(audioPlayer.currentTime / 60.0);
-	int secondsElapsed = (int)(audioPlayer.currentTime - minutesElapsed*60.0);
+	int minutesElapsed = (int)floor(_audioPlayer.currentTime / 60.0);
+	int secondsElapsed = (int)(_audioPlayer.currentTime - minutesElapsed*60.0);
 	
-	int totalSecondsLeft = (int)(audioPlayer.duration - audioPlayer.currentTime);
+	int totalSecondsLeft = (int)(_audioPlayer.duration - _audioPlayer.currentTime);
 	int minutesLeft = (int)floor(totalSecondsLeft / 60.0);
 	int secondsLeft = (int)(totalSecondsLeft - minutesLeft*60.0);
 	
@@ -378,7 +443,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 	if (totalSecondsLeft == 0) {
 		[self stop];
         NSLog(@"timer stopped playing");
-		[timerThread invalidate];
+		[_timerThread invalidate];
 	}
 	
 	/*if (audioPlayer.playing == NO) {
@@ -397,7 +462,7 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 
 - (UInt32)CalculateBytesForTime:(Float64)inSeconds
 {
-    UInt32 startByte = inSeconds * self.bitRate + self.dataOffset;
+    UInt32 startByte = inSeconds * _bitRate + _dataOffset;
     
     return startByte;
 }

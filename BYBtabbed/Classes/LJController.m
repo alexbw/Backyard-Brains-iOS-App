@@ -100,6 +100,7 @@
     else
         [self pulseIsStopped];
     
+    [self.currentController viewWillAppear:animated];
     
     NSLog(@"View will appear");
 }

@@ -6,7 +6,7 @@
 //  Copyright 2011 Backyard Brains.
 //
 
-#define kOFFSET_FOR_KEYBOARD 110.0
+#define kDistanceToBottomOfScreen 440
 
 #import "ToneStimViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
@@ -22,7 +22,6 @@
 @property (nonatomic,retain) IBOutlet UITextField *pulseWidthField;
 @property (nonatomic,retain) IBOutlet UITextField *pulseTimeField;
 @property (nonatomic,retain) IBOutlet UITextField *nPulsesField;
-@property (nonatomic,retain) IBOutlet UISwitch *constantToneSwitch;
 
 @property (nonatomic,retain) IBOutlet UISlider *toneFreqSlider;
 @property (nonatomic,retain) IBOutlet UITextField *toneFreqField;
@@ -31,7 +30,9 @@
 @property (nonatomic,retain) NSNumberFormatter *numberFormatter;
 
 @property (nonatomic,retain) NSArray *frequencyStops, *dutyCycleStops, *pulseTimeStops;
-
+@property int lastMoveUpValue;
+@property CGRect keyboardFrame;
+@property CGRect originalRect;
 
 @end
 
@@ -41,7 +42,7 @@
 @synthesize delegate            = _delegate;
 @synthesize ljController        = _ljController;
 @synthesize viewTypeString      = _viewTypeString;
-@synthesize ljCalibrationVC   = _ljCalibrationVC;
+@synthesize ljCalibrationVC     = _ljCalibrationVC;
 
 @synthesize frequencySlider     = _frequencySlider;
 @synthesize dutyCycleSlider     = _dutyCycleSlider; 
@@ -51,7 +52,6 @@
 @synthesize pulseWidthField     = _pulseWidthField; 
 @synthesize pulseTimeField      = _pulseTimeField;
 @synthesize nPulsesField        = _nPulsesField;
-@synthesize constantToneSwitch  = _constantToneSwitch;
 @synthesize toneFreqField       = _toneFreqField;
 @synthesize toneFreqSlider      = _toneFreqSlider;
 @synthesize calibAField         = _calibAField;
@@ -63,6 +63,9 @@
 @synthesize frequencyStops      = _frequencyStops;
 @synthesize dutyCycleStops      = _dutyCycleStops;
 @synthesize pulseTimeStops      = _pulseTimeStops;
+@synthesize lastMoveUpValue     = _lastMoveUpValue;
+@synthesize keyboardFrame       = _keyboardFrame;
+@synthesize originalRect        = _originalRect;
 
 #pragma mark - Initiation methods and messages from the system
 
@@ -80,7 +83,6 @@
 	[_pulseWidthField release];
 	[_pulseTimeField release];
     [_nPulsesField release];
-    [_constantToneSwitch release];
     [_toneFreqField release];
     [_toneFreqSlider release];
     [_calibAField release];
@@ -104,7 +106,7 @@
 	self.numberFormatter = [[NSNumberFormatter alloc] init];
 	[self.numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     //[self.numberFormatter setMinimumIntegerDigits:1];
-    [self.numberFormatter setMaximumFractionDigits:1];
+    [self.numberFormatter setMaximumFractionDigits:3];
     
     if ([self.viewTypeString isEqualToString:@"Tone"]
         || [self.viewTypeString isEqualToString:@"Optical"])
@@ -112,10 +114,14 @@
         //assign delegates of text fields to control keyboard behavior
         self.frequencyField.returnKeyType = UIReturnKeyDone;
         self.frequencyField.delegate = self;
+        self.periodField.returnKeyType = UIReturnKeyDone;
+        self.periodField.delegate = self;
         self.pulseWidthField.returnKeyType = UIReturnKeyDone;
         self.pulseWidthField.delegate = self;
         self.pulseTimeField.returnKeyType = UIReturnKeyDone;
         self.pulseTimeField.delegate = self;
+        self.nPulsesField.returnKeyType = UIReturnKeyDone;
+        self.nPulsesField.delegate = self;
     }
     else if ([self.viewTypeString isEqualToString:@"Calibration"]) 
     {
@@ -133,17 +139,33 @@
     //set up stops
     if ([self.viewTypeString isEqualToString:@"Tone"])
         self.frequencyStops = [[NSArray alloc] 
-                               initWithObjects:[NSNumber numberWithDouble:0.016667],
-                               [NSNumber numberWithDouble:0.03333],
-                               [NSNumber numberWithDouble:0.1],
-                               [NSNumber numberWithDouble:0.2],
+                               initWithObjects:[NSNumber numberWithDouble:200],
+                               [NSNumber numberWithDouble:400],
+                               [NSNumber numberWithDouble:600],
+                               [NSNumber numberWithDouble:800],
+                               [NSNumber numberWithDouble:1000],
+                               [NSNumber numberWithDouble:1500],
+                               [NSNumber numberWithDouble:2000],
+                               [NSNumber numberWithDouble:2500],
+                               [NSNumber numberWithDouble:3000],
+                               [NSNumber numberWithDouble:3500],
+                               [NSNumber numberWithDouble:4000],
+                               [NSNumber numberWithDouble:5000],
+                               [NSNumber numberWithDouble:7500],
+                               [NSNumber numberWithDouble:10000],
+                               [NSNumber numberWithDouble:15000], nil]; //Hz
+    else if ([self.viewTypeString isEqualToString:@"Pulse"])
+        self.frequencyStops = [[NSArray alloc] 
+                               initWithObjects:
                                [NSNumber numberWithDouble:1],
-                               [NSNumber numberWithDouble:2],
                                [NSNumber numberWithDouble:5],
                                [NSNumber numberWithDouble:10],
                                [NSNumber numberWithDouble:20],
                                [NSNumber numberWithDouble:50],
-                               [NSNumber numberWithDouble:100], nil];
+                               [NSNumber numberWithDouble:100],
+                               [NSNumber numberWithDouble:200],
+                               [NSNumber numberWithDouble:500],
+                               [NSNumber numberWithDouble:1000], nil]; //Hz
     else if ([self.viewTypeString isEqualToString:@"Optical"])
         self.frequencyStops = [[NSArray alloc] 
                                initWithObjects:[NSNumber numberWithInt:20],
@@ -152,7 +174,7 @@
                                [NSNumber numberWithInt:200],
                                [NSNumber numberWithInt:300],
                                [NSNumber numberWithInt:400],
-                               [NSNumber numberWithInt:500], nil];
+                               [NSNumber numberWithInt:500], nil]; //Hz
     
     self.dutyCycleStops = [[NSArray alloc]
                            initWithObjects:[NSNumber numberWithDouble:0.1f],
@@ -166,18 +188,20 @@
                            [NSNumber numberWithDouble:0.9f],
                            [NSNumber numberWithDouble:1.0f], nil];
     self.pulseTimeStops = [[NSArray alloc]
-                            initWithObjects:[NSNumber numberWithInt:100],
-                            [NSNumber numberWithInt:500],
-                            [NSNumber numberWithInt:1000],
-                            [NSNumber numberWithInt:5000],
-                            [NSNumber numberWithInt:10000],
-                            [NSNumber numberWithInt:50000],
-                            [NSNumber numberWithInt:100000], nil];
+                            initWithObjects:[NSNumber numberWithDouble:0.1f],
+                            [NSNumber numberWithDouble:0.5f],
+                            [NSNumber numberWithDouble:1.0f],
+                            [NSNumber numberWithDouble:5.0f],
+                            [NSNumber numberWithDouble:10.0f],
+                            [NSNumber numberWithDouble:50.0f],
+                            [NSNumber numberWithDouble:100.0f], nil]; //s
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.originalRect = self.view.frame;
     
     // register for keyboard notifications
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
@@ -186,11 +210,23 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:self.view.window];
     }
     
-    //No longer playing a song
-    //if (self.delegate.pulse.songSelected == YES) {
-        self.delegate.pulse.songSelected = NO;
-      //  [self.delegate.pulse stopPulse];
-   // }
+    self.delegate.pulse.songSelected = NO;
+    
+    if ([self.viewTypeString isEqualToString:@"Tone"])
+        self.delegate.pulse.frequency = 0;
+    
+    if ([self.viewTypeString isEqualToString:@"Pulse"])
+    {
+        self.delegate.pulse.isSquarePulse = FALSE; // change to true if we decide on square pulse
+        self.delegate.pulse.frequency = 1000;
+    }
+    else
+        self.delegate.pulse.isSquarePulse = FALSE;
+    
+    if ([self.viewTypeString isEqualToString:@"Optical"])
+        self.delegate.pulse.outputFreq = self.delegate.pulse.ledFreq;
+
+    
 
     [self updateViewFrom:@"Slider" fromView:self.viewTypeString];
 }
@@ -210,7 +246,8 @@
 - (void)pulseIsPlaying
 {
     if ([self.viewTypeString isEqualToString:@"Tone"]
-        || [self.viewTypeString isEqualToString:@"Optical"])
+        || [self.viewTypeString isEqualToString:@"Optical"]
+        || [self.viewTypeString isEqualToString:@"Pulse"])
     {
         self.pulseTimeField.enabled = NO;
         self.pulseTimeSlider.enabled = NO;
@@ -220,7 +257,8 @@
 - (void)pulseIsStopped
 {
     if ([self.viewTypeString isEqualToString:@"Tone"]
-        || [self.viewTypeString isEqualToString:@"Optical"])
+        || [self.viewTypeString isEqualToString:@"Optical"]
+        || [self.viewTypeString isEqualToString:@"Pulse"])
     {
         self.pulseTimeField.enabled = YES;
         self.pulseTimeSlider.enabled = YES;
@@ -232,17 +270,24 @@
 #pragma mark - Implementation of UITextField delegate protocol.
 
 
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    
+    int moveUp = self.keyboardFrame.size.height + 
+        (textField.frame.origin.y + textField.frame.size.height)
+        - kDistanceToBottomOfScreen;
+    
+    if (moveUp > 0)
+        [self setViewMovedUp:YES byDist:moveUp];
+    
+    self.lastMoveUpValue = (textField.frame.origin.y + textField.frame.size.height)
+                                - kDistanceToBottomOfScreen;
+}
+
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
-{/*
-  if ((   [textField isEqual:self.pulseTimeField]
-  || [textField isEqual:self.toneFreqField]
-  || [textField isEqual:self.calibAField]
-  || [textField isEqual:self.calibBField]
-  || [textField isEqual:self.calibCField]  )
-  && self.view.frame.origin.y < 0)
-  {
-  [self setViewMovedUp:NO byDist:0];
-  }*/
+{
+    
 }
 
 // this helps dismiss the keyboard when the "done" button is clicked
@@ -253,57 +298,22 @@
 }
 
 
-
--(void)textFieldDidBeginEditing:(UITextField *)sender
-{
-    /*if  (self.view.frame.origin.y >= 0)
-     {
-     if ([sender isEqual:self.pulseTimeField] || [sender isEqual:self.toneFreqField])
-     {
-     //move the main view, so that the keyboard does not hide it.
-     
-     [self setViewMovedUp:YES byDist:kOFFSET_FOR_KEYBOARD];
-     }
-     else if (   [sender isEqual:self.calibAField]
-     || [sender isEqual:self.calibBField]
-     || [sender isEqual:self.calibCField] )
-     {
-     [self setViewMovedUp:YES byDist:200];
-     }
-     }*/
-}
-
 #pragma mark - keyboard control
 
 - (void)keyboardWillShow:(NSNotification *)notif
 { 
-    //keyboard will be shown now. depending for which textfield is active, move up or move down the view appropriately
+    NSValue *value = [notif.userInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
+    self.keyboardFrame = [value CGRectValue];
     
-    /*if (([self.pulseTimeField isFirstResponder] || [self.toneFreqField isFirstResponder])
-        && self.view.frame.origin.y >= 0)
-    {
-        [self setViewMovedUp:YES byDist:kOFFSET_FOR_KEYBOARD];
-    }
-    else if (!([self.pulseTimeField isFirstResponder]
-               || [self.toneFreqField isFirstResponder]
-               || [self.calibAField isFirstResponder]
-               || [self.calibBField isFirstResponder]
-               || [self.calibCField isFirstResponder])
-             && self.view.frame.origin.y < 0)
-    {
-        [self setViewMovedUp:NO byDist:0];
-    }
-    else if ([self.calibAField isFirstResponder]
-             || [self.calibBField isFirstResponder]
-             || [self.calibCField isFirstResponder])
-    {
-        [self setViewMovedUp:YES byDist:200];
-    }*/
+    int moveUp = (self.keyboardFrame.size.height + self.lastMoveUpValue);
+    if (moveUp > 0)
+        [self setViewMovedUp:YES byDist:moveUp];
+
 }
 
 - (void)keyboardWillHide:(NSNotification *)notif
 {
-    //[self setViewMovedUp:NO byDist:0];
+    [self setViewMovedUp:NO byDist:0];
 }
 
 
@@ -317,14 +327,14 @@
     {
         // 1. move the view's origin up so that the text field that will be hidden come above the keyboard 
         // 2. increase the size of the view so that the area behind the keyboard is covered up.
-        rect.origin.y -= dist;
-        rect.size.height += dist;
+        rect.origin.y -= (dist + rect.origin.y);
+        rect.size.height += (dist + rect.origin.y);
     }
     else
     {
         // revert back to the normal state.
-        rect.origin.y = 0;
-        rect.size.height = self.view.frame.size.height;
+        rect.origin.y = self.originalRect.origin.y;
+        rect.size.height = self.originalRect.size.height;
     }
     NSLog(@"Did move up = %@\n", (movedUp ? @"YES" : @"NO"));
     
@@ -342,107 +352,211 @@
 - (void)updateViewFrom:(NSString *)source fromView:(NSString *)view
 {	
     
-    
-    if ([view isEqualToString:@"Optical"] || [view isEqualToString:@"Tone"] || [view isEqualToString:@"Pulse"])
+    //---------------------------- TONE ----------------------------------------
+    if ([view isEqualToString:@"Tone"])
     {
         if (source==@"Slider")
         {
-            //self.delegate.pulse.pulseTime = self.pulseTimeSlider.value;
             self.delegate.pulse.pulseTime =
                 [self checkSliderValue:self.pulseTimeSlider.value withArray:self.pulseTimeStops];
             
-            if (self.constantToneSwitch.on) {
-                self.delegate.pulse.frequency = 0;
-                self.frequencyField.enabled  = NO;
-                self.periodField.enabled     = NO;
-                self.frequencySlider.enabled = NO;
-                self.pulseWidthField.enabled = NO;
-                self.dutyCycleSlider.enabled = NO;
-            }
-            else
-            {
-                //self.delegate.pulse.frequency = self.frequencySlider.value;
-                self.delegate.pulse.frequency = 
-                    [self checkSliderValue:self.frequencySlider.value withArray:self.frequencyStops];
-                
-                //self.delegate.pulse.dutyCycle = self.dutyCycleSlider.value;
-                self.delegate.pulse.dutyCycle = 
-                    [self checkSliderValue:self.dutyCycleSlider.value withArray:self.dutyCycleStops];
-                
-                self.frequencyField.enabled  = YES;
-                self.periodField.enabled     = YES;
-                self.frequencySlider.enabled = YES;
-                self.pulseWidthField.enabled = YES;
-                self.dutyCycleSlider.enabled = YES;
-            }  
+            self.delegate.pulse.outputFreq = 
+                [self checkSliderValue:self.frequencySlider.value withArray:self.frequencyStops];
+            
             NSLog(@"Updated from Slider");
         }
-        else
+        else if (source==@"Field")
         {
-            if (!self.constantToneSwitch.on)
-            {
-                self.delegate.pulse.frequency = [self checkValue:[self.frequencyField.text doubleValue]
-                                                          forMin:self.frequencySlider.minimumValue
-                                                          andMax:self.frequencySlider.maximumValue ];
-                
-                self.delegate.pulse.dutyCycle =
-                [self checkValue:[self.pulseWidthField.text doubleValue] / 1000 * self.delegate.pulse.frequency
-                          forMin: self.dutyCycleSlider.minimumValue
-                          andMax: self.dutyCycleSlider.maximumValue ];
-            }
-            self.delegate.pulse.pulseTime = [self checkValue:[self.pulseTimeField.text doubleValue] * 1000
-                                                      forMin: self.pulseTimeSlider.minimumValue
-                                                      andMax: self.pulseTimeSlider.maximumValue ];
             
-                    
+            if ([self.frequencyField isFirstResponder]) {
+                
+                self.delegate.pulse.outputFreq =
+                    [self checkValue:[self.frequencyField.text doubleValue]
+                              forMin:[[self.frequencyStops objectAtIndex:0] doubleValue]
+                              andMax:[[self.frequencyStops objectAtIndex:self.frequencyStops.count-1] doubleValue] ];
+            }
+            else if ([self.pulseTimeField isFirstResponder])
+            {
+                self.delegate.pulse.pulseTime = 
+                    [self checkValue:([self.pulseTimeField.text doubleValue])
+                              forMin:[[self.pulseTimeStops objectAtIndex:0] doubleValue]
+                              andMax:[[self.pulseTimeStops objectAtIndex:self.pulseTimeStops.count-1] doubleValue] ];
+                
+            }
+            else if ([self.nPulsesField isFirstResponder])
+            {
+                self.delegate.pulse.pulseTime = 
+                    [self checkValue:([self.nPulsesField.text doubleValue]/self.delegate.pulse.frequency)
+                              forMin:[[self.pulseTimeStops objectAtIndex:0] doubleValue]
+                              andMax:[[self.pulseTimeStops objectAtIndex:self.pulseTimeStops.count-1] doubleValue] ];
+            }
+            
+            
             NSLog(@"Updated from Field");
         }
         
-        if (!self.constantToneSwitch.on)
+        self.frequencySlider.value = 
+            [self checkFieldValue:self.delegate.pulse.outputFreq 
+                        withArray:self.frequencyStops];
+        
+        NSNumber *num1 = [NSNumber numberWithDouble:self.delegate.pulse.outputFreq];
+        self.frequencyField.text = [self.numberFormatter stringFromNumber:num1];
+        
+        self.pulseTimeSlider.value = [self checkFieldValue:self.delegate.pulse.pulseTime
+                                                 withArray:self.pulseTimeStops];
+        
+        NSNumber *num3 = [NSNumber numberWithDouble:(self.delegate.pulse.pulseTime)];
+        self.pulseTimeField.text = [self.numberFormatter stringFromNumber:num3];
+        NSNumber *num4 = 
+            [NSNumber numberWithDouble:(self.delegate.pulse.pulseTime*self.delegate.pulse.outputFreq)];
+        self.nPulsesField.text = [self.numberFormatter stringFromNumber:num4];
+    }
+    //---------------------------- PULSE ----------------------------------------
+    else if ([view isEqualToString:@"Pulse"]) 
+    {
+        if (source==@"Slider")
         {
-            //self.frequencySlider.value = self.delegate.pulse.frequency;
-            self.frequencySlider.value = 
-                [self checkFieldValue:self.delegate.pulse.frequency 
-                            withArray:self.frequencyStops];
+            self.delegate.pulse.pulseTime =
+                [self checkSliderValue:self.pulseTimeSlider.value withArray:self.pulseTimeStops];
             
-            NSNumber *num1 = [NSNumber numberWithDouble:self.delegate.pulse.frequency];
-            self.frequencyField.text = [self.numberFormatter stringFromNumber:num1];
-            NSNumber *num5 = [NSNumber numberWithDouble:(1/self.delegate.pulse.frequency)];
-            self.periodField.text = [self.numberFormatter stringFromNumber:num5];
+            self.delegate.pulse.frequency =
+                [self checkSliderValue:self.frequencySlider.value withArray:self.frequencyStops];
             
-            //self.dutyCycleSlider.value = self.delegate.pulse.dutyCycle;
-            self.dutyCycleSlider.value = 
-                [self checkFieldValue:self.delegate.pulse.dutyCycle
-                            withArray:self.dutyCycleStops];
+            self.delegate.pulse.dutyCycle = 0.001f * self.delegate.pulse.frequency;
             
-            NSNumber *num2 = [NSNumber numberWithDouble:(self.delegate.pulse.dutyCycle/self.delegate.pulse.frequency)];
-            self.pulseWidthField.text = [self.numberFormatter stringFromNumber:num2];
+            NSLog(@"Updated from Slider");
+        }
+        else if (source==@"Field")
+        {
+            if ([self.periodField isFirstResponder])
+            {
+                self.delegate.pulse.frequency =
+                    [self checkValue:[self.frequencyField.text doubleValue]
+                              forMin:[[self.frequencyStops objectAtIndex:0] doubleValue]
+                              andMax:[[self.frequencyStops objectAtIndex:self.frequencyStops.count-1] doubleValue] ];        
+            }
+            else if ([self.pulseTimeField isFirstResponder])
+            {
+                self.delegate.pulse.pulseTime = 
+                [self checkValue:([self.pulseTimeField.text doubleValue])
+                          forMin:[[self.pulseTimeStops objectAtIndex:0] doubleValue]
+                          andMax:[[self.pulseTimeStops objectAtIndex:self.pulseTimeStops.count-1] doubleValue] ];
+                
+            }            
+            else if ([self.nPulsesField isFirstResponder])
+            {
+                self.delegate.pulse.pulseTime = 
+                [self checkValue:([self.nPulsesField.text doubleValue]/self.delegate.pulse.frequency)
+                          forMin:[[self.pulseTimeStops objectAtIndex:0] doubleValue]
+                          andMax:[[self.pulseTimeStops objectAtIndex:self.pulseTimeStops.count-1] doubleValue] ];
+            }
+
+            
+            NSLog(@"Updated from Field");
         }
         
-        //self.pulseTimeSlider.value = self.delegate.pulse.pulseTime;
+        self.frequencySlider.value = 
+            [self checkFieldValue:self.delegate.pulse.frequency withArray:self.frequencyStops];
+        
+        NSNumber *num5 = [NSNumber numberWithDouble:(1.0f/self.delegate.pulse.frequency)];
+        self.periodField.text = [self.numberFormatter stringFromNumber:num5];
+        
         self.pulseTimeSlider.value =
             [self checkFieldValue:self.delegate.pulse.pulseTime
                         withArray:self.pulseTimeStops];
         
-        NSNumber *num3 = [NSNumber numberWithDouble:(self.delegate.pulse.pulseTime/1000)];
+        NSNumber *num3 = [NSNumber numberWithDouble:(self.delegate.pulse.pulseTime)];
         self.pulseTimeField.text = [self.numberFormatter stringFromNumber:num3];
-        NSNumber *num4 = [NSNumber 
-          numberWithDouble:(self.delegate.pulse.pulseTime*self.delegate.pulse.frequency)];
+        
+        NSNumber *num4 = 
+            [NSNumber numberWithDouble:(self.delegate.pulse.pulseTime*self.delegate.pulse.frequency)];
         self.nPulsesField.text = [self.numberFormatter stringFromNumber:num4];
     }
-    
-    if ([view isEqualToString:@"Calibration"])
+    //---------------------------- OPTICAL -------------------------------------
+    else if ([view isEqualToString:@"Optical"])
     {
         if (source==@"Slider")
         {
-            self.delegate.pulse.ledControlFreq = self.toneFreqSlider.value;            
+            self.delegate.pulse.pulseTime =
+                [self checkSliderValue:self.pulseTimeSlider.value withArray:self.pulseTimeStops];
+            
+            self.delegate.pulse.frequency = 
+                [self checkSliderValue:self.frequencySlider.value withArray:self.frequencyStops];
+            
+            self.delegate.pulse.dutyCycle = 
+                [self checkSliderValue:self.dutyCycleSlider.value withArray:self.dutyCycleStops];
+        
+            NSLog(@"Updated from Slider");
         }
-        else
+        else if (source==@"Field")
         {
-            self.delegate.pulse.ledControlFreq = 
-            [ self checkValue:[[self.toneFreqField.text stringByReplacingOccurrencesOfString:@"," withString:@""] doubleValue]
-                       forMin: self.toneFreqSlider.minimumValue 
-                       andMax: self.toneFreqSlider.maximumValue ];
+            
+            if ([self.frequencyField isFirstResponder]) {
+                
+                self.delegate.pulse.frequency =
+                    [self checkValue:[self.frequencyField.text doubleValue]
+                              forMin:[[self.frequencyStops objectAtIndex:0] doubleValue]
+                              andMax:[[self.frequencyStops objectAtIndex:self.frequencyStops.count-1] doubleValue] ];
+                        
+            }
+            else if ([self.pulseWidthField isFirstResponder])
+            {
+                self.delegate.pulse.dutyCycle =
+                [self checkValue:([self.pulseWidthField.text doubleValue] * self.delegate.pulse.frequency)
+                          forMin:[[self.dutyCycleStops objectAtIndex:0] doubleValue]
+                          andMax:[[self.dutyCycleStops objectAtIndex:self.dutyCycleStops.count-1] doubleValue] ];            
+            }
+            else if ([self.pulseTimeField isFirstResponder])
+            {
+                self.delegate.pulse.pulseTime = 
+                [self checkValue:([self.pulseTimeField.text doubleValue])
+                          forMin:[[self.pulseTimeStops objectAtIndex:0] doubleValue]
+                          andMax:[[self.pulseTimeStops objectAtIndex:self.pulseTimeStops.count-1] doubleValue] ];
+                
+            }
+                    
+            NSLog(@"Updated from Field");
+        }
+    
+        self.frequencySlider.value = 
+            [self checkFieldValue:self.delegate.pulse.frequency 
+                        withArray:self.frequencyStops];
+        
+        NSNumber *num1 = [NSNumber numberWithDouble:self.delegate.pulse.frequency];
+        self.frequencyField.text = [self.numberFormatter stringFromNumber:num1];
+        
+        self.dutyCycleSlider.value = 
+            [self checkFieldValue:self.delegate.pulse.dutyCycle
+                        withArray:self.dutyCycleStops];
+        
+        NSNumber *num2 = [NSNumber numberWithDouble:(self.delegate.pulse.dutyCycle/self.delegate.pulse.frequency)];
+        self.pulseWidthField.text = [self.numberFormatter stringFromNumber:num2];
+    
+        
+        self.pulseTimeSlider.value =
+            [self checkFieldValue:self.delegate.pulse.pulseTime
+                        withArray:self.pulseTimeStops];
+        
+        NSNumber *num3 = [NSNumber numberWithDouble:(self.delegate.pulse.pulseTime)];
+        self.pulseTimeField.text = [self.numberFormatter stringFromNumber:num3];
+        
+    }
+    //---------------------------- CALIBRATION ---------------------------------
+    else if ([view isEqualToString:@"Calibration"])
+    {
+        
+        if (source==@"Slider")
+        {
+            self.delegate.pulse.ledFreq = self.toneFreqSlider.value;      
+            self.delegate.pulse.outputFreq = self.delegate.pulse.ledFreq;
+        }
+        else if (source==@"Field")
+        {
+            self.delegate.pulse.ledFreq = 
+                [self checkValue:[[self.toneFreqField.text stringByReplacingOccurrencesOfString:@"," withString:@""] doubleValue]
+                           forMin: self.toneFreqSlider.minimumValue 
+                           andMax: self.toneFreqSlider.maximumValue ];
+            self.delegate.pulse.outputFreq = self.delegate.pulse.outputFreq;
             
             self.delegate.pulse.calibA = [self.calibAField.text doubleValue];
             self.delegate.pulse.calibB = [self.calibBField.text doubleValue];
@@ -452,8 +566,8 @@
             NSLog(@"Updated from Field");
         }
         
-        self.toneFreqSlider.value = self.delegate.pulse.ledControlFreq;
-        NSNumber *num = [NSNumber numberWithDouble:self.delegate.pulse.ledControlFreq];
+        self.toneFreqSlider.value = self.delegate.pulse.ledFreq;
+        NSNumber *num = [NSNumber numberWithDouble:self.delegate.pulse.ledFreq];
         self.toneFreqField.text = [self.numberFormatter stringFromNumber:num];
     }
 }
@@ -471,9 +585,9 @@
     double numStops = array.count;
     double dif = 1;
     int theI = 0;
-    for (double i = 0.0f; i <= numStops; ++i) {
+    for (double i = 0.0f; i < numStops; ++i) {
         
-        double thisDif = fabs(value - ((i + 1.0f)/numStops));
+        double thisDif = fabs(value - i/(numStops - 1.0f));
         if (thisDif < dif) {
             dif = thisDif;
             theI = i;
@@ -498,7 +612,7 @@
         
     }
     
-    return (double)((theI + 1.0f)/array.count);
+    return (double)(theI/(array.count-1));
 }
 
 

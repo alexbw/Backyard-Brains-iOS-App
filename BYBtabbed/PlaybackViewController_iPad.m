@@ -6,6 +6,7 @@
 //  Copyright 2011 Backyard Brains. All rights reserved.
 //
 
+#import "Backyard_BrainsAppDelegate.h"
 #import "PlaybackViewController_iPad.h"
 
 @implementation PlaybackViewController_iPad
@@ -24,6 +25,20 @@
     
     self.navItem.title = self.file.subname;
     
+    
+    //stop the main audio signal manager
+    Backyard_BrainsAppDelegate *appDelegate = (Backyard_BrainsAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.drawingDataManager pause];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    //start the main audio signal manager
+    Backyard_BrainsAppDelegate *appDelegate = (Backyard_BrainsAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.drawingDataManager play];
 }
 
 

@@ -36,11 +36,14 @@
 	double _frequency;
 	double _amplitude; 
     double _pulseTime;
+    double _trainDelay;
+    BOOL _isSquarePulse;
 	
 	double _sampleRate;
 	double _pulseProgress;
     double _theta;
-    double _ledControlFreq;
+    double _outputFreq;
+    double _ledFreq;
     
     double _calibA, _calibB, _calibC;
 	
@@ -55,12 +58,14 @@
 @property double frequency;
 @property double amplitude;
 @property double pulseTime;
-
+@property double trainDelay;
+@property BOOL isSquarePulse;
 
 @property double sampleRate;
 @property double pulseProgress;
 @property double theta;
-@property double ledControlFreq;
+@property double outputFreq;
+@property double ledFreq;
 
 @property BOOL playing;
 @property BOOL songSelected;

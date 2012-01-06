@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "BYB 2.0.75.app"
+               BuildableName = "BYB 2.0.76.app"
                BlueprintName = "Backyard Brains"
                ReferencedContainer = "container:Backyard Brains.xcodeproj">
             </BuildableReference>
@@ -32,7 +32,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "BYB 2.0.75.app"
+            BuildableName = "BYB 2.0.76.app"
             BlueprintName = "Backyard Brains"
             ReferencedContainer = "container:Backyard Brains.xcodeproj">
          </BuildableReference>
@@ -47,12 +47,13 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug"
       debugDocumentVersioning = "YES"
+      enablesOpenGLESFrameCapture = "YES"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "BYB 2.0.75.app"
+            BuildableName = "BYB 2.0.76.app"
             BlueprintName = "Backyard Brains"
             ReferencedContainer = "container:Backyard Brains.xcodeproj">
          </BuildableReference>
@@ -72,7 +73,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "BYB 2.0.75.app"
+            BuildableName = "BYB 2.0.76.app"
             BlueprintName = "Backyard Brains"
             ReferencedContainer = "container:Backyard Brains.xcodeproj">
          </BuildableReference>

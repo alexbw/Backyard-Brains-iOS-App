@@ -127,7 +127,6 @@
 						<string key="NSFrame">{{712, 933}, {46, 30}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<reference key="IBUIBackgroundColor" ref="308444581"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -228,7 +227,7 @@
 					</object>
 					<object class="IBUILabel" id="523317879">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">276</int>
+						<int key="NSvFlags">300</int>
 						<string key="NSFrame">{{20, 475}, {47, 24}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
@@ -256,7 +255,7 @@
 						<string key="NSReuseIdentifierKey">_NS:276</string>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIBarStyle">2</int>
-						<object class="NSMutableArray" key="IBUIItems">
+						<object class="NSArray" key="IBUIItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUINavigationItem" id="80601801">
 								<reference key="IBUINavigationBar" ref="786129463"/>
@@ -492,7 +491,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UIButton</string>
+							<string>UIBarButtonItem</string>
 							<string>UIButton</string>
 						</object>
 					</object>
@@ -507,7 +506,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
 								<string key="name">showFilePopover:</string>
-								<string key="candidateClassName">UIButton</string>
+								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">showInfoPanel:</string>
@@ -519,22 +518,18 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>delegate</string>
-							<string>fileButton</string>
 							<string>infoButton</string>
 							<string>msLegendImage</string>
-							<string>navigationBar</string>
+							<string>navItem</string>
 							<string>tickMarks</string>
 							<string>xUnitsPerDivLabel</string>
 							<string>yUnitsPerDivLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIImageView</string>
-							<string>UINavigationBar</string>
+							<string>UINavigationItem</string>
 							<string>UIImageView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
@@ -544,25 +539,15 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>delegate</string>
-							<string>fileButton</string>
 							<string>infoButton</string>
 							<string>msLegendImage</string>
-							<string>navigationBar</string>
+							<string>navItem</string>
 							<string>tickMarks</string>
 							<string>xUnitsPerDivLabel</string>
 							<string>yUnitsPerDivLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">delegate</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">fileButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">infoButton</string>
 								<string key="candidateClassName">UIButton</string>
@@ -572,8 +557,8 @@
 								<string key="candidateClassName">UIImageView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">navigationBar</string>
-								<string key="candidateClassName">UINavigationBar</string>
+								<string key="name">navItem</string>
+								<string key="candidateClassName">UINavigationItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tickMarks</string>

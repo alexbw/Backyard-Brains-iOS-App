@@ -36,7 +36,7 @@
 
 @property (nonatomic, retain) IBOutlet BBTabViewController *tabBarController;
 
-@property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
+@property (nonatomic, assign) IBOutlet UISplitViewController *splitViewController;
 @property (nonatomic, retain) IBOutlet BBFileViewControllerTBV *rootVC;
 @property (nonatomic, retain) IBOutlet TabDetailViewController *detailVC;
 

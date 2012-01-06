@@ -61,6 +61,8 @@
 - (void)viewWillAppear:(BOOL)animated { //tk move all this to DrawingViewConroller
 	[super viewWillAppear:animated];
     
+
+    
     if (self.apm == nil)
         self.apm = [[AudioPlaybackManager alloc] initWithBBFile:self.file];
     self.apm.delegate = self;
@@ -99,6 +101,7 @@
 
 		}
 	}*/
+    
 }
 
 

@@ -19,21 +19,20 @@
 
 
 @interface AudioPlaybackManager : DrawingDataManager {
-    @protected
+
         //see: http://stackoverflow.com/questions/1905010/iphone-combine-audio-files
-        // Instance variables that are not properties
-        AVAudioPlayer *audioPlayer;
-        NSTimer *timerThread;
-        
-        BBFile *file;
-        UIImage *playImage, *pauseImage;
-        
-        BOOL playing;
-        Float64 lastTime;
+        AVAudioPlayer *_audioPlayer;
+        NSTimer *_timerThread;
+    
+        BBFile *_file;
     
     @public
-        AudioFileID fileHandle;
-        UInt64 numBytesRead, dataOffset, bitRate, byteCount;
+        AudioFileID _fileHandle;
+        UInt64 _numBytesRead;
+        UInt64 _bitRate;
+        UInt64 _byteCount;
+        UInt64 _dataOffset;
+        
 }
 
 @property (nonatomic, retain) BBFile *file;
@@ -41,9 +40,6 @@
 
 @property BOOL playing;
 @property Float64 lastTime;
-
-@property AudioFileID fileHandle;
-@property UInt64 numBytesRead, dataOffset, bitRate, byteCount;
 
 
 
