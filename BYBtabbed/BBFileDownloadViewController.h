@@ -34,6 +34,8 @@
 }
 
 @property (nonatomic, retain) id <BBFileDownloadViewControllerDelegate> delegate;
+@property (nonatomic,retain) IBOutlet UIButton *bottomButton;
+@property (nonatomic,retain) IBOutlet UIScrollView *scrollView;
 
 - (void)setupServer;
 - (void)startServer;

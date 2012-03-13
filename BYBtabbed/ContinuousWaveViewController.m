@@ -19,6 +19,9 @@
 @synthesize cwView              = _cwView;
 
 @synthesize stimButton          = _stimButton;
+@synthesize stimShadowButton    = _stimShadowButton;
+@synthesize alphaTimer          = _alphaTimer;
+@synthesize theAlpha            = _theAlpha;
 @synthesize recordButton        = _recordButton;
 
 
@@ -27,6 +30,8 @@
     [super dealloc];
     
     [_stimButton release];
+    [_stimShadowButton release];
+    [_alphaTimer release];
     [_stopButton release];
     [_audioRecorder release]; //released in stopRecord ing: too
     [_audioSignalManager release];
@@ -35,6 +40,80 @@
     
 
 }
+
+
+# pragma mark - View Controller Events
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+    
+    //Keep both of these around. DDM for the superclass, ASM for self
+    self.drawingDataManager = self.delegate.drawingDataManager;
+	self.audioSignalManager = (AudioSignalManager *)self.drawingDataManager;
+    
+	self.cwView = (ContinuousWaveView *)[self view];
+    
+    //grab preferences
+	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
+	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
+	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
+	[self dispersePreferences];		
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.delegate.pulse.delegate = self;
+    self.theAlpha = 0;
+    
+    
+	[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
+	
+	self.cwView.audioSignalManager = self.audioSignalManager;
+    self.audioSignalManager.delegate = self;
+	[self.cwView.audioSignalManager setVertexBufferXRangeFrom:self.cwView.xMin to:self.cwView.xMax];
+	self.cwView.audioSignalManager.triggering = NO;
+	[self.cwView.audioSignalManager play];
+    
+    //Reset wait frames so the view will automatically set the viewing frame
+    self.cwView.audioSignalManager.nWaitFrames = 0;
+    self.cwView.audioSignalManager.nTrigWaitFrames = 0;
+	
+	self.cwView.gridVertexBuffer = (struct wave_s *)malloc(2*(self.cwView.numHorizontalGridLines+self.cwView.numVerticalGridLines)*sizeof(struct wave_s));
+    
+	self.cwView.minorGridVertexBuffer =
+    (struct wave_s *)malloc(2*4*(self.cwView.numHorizontalGridLines+self.cwView.numVerticalGridLines)*sizeof(struct wave_s));
+	
+    [self.cwView updateMinorGridLines];
+	
+	[self.cwView startAnimation];
+    
+	[self updateDataLabels];
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[self collectPreferences];
+	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
+	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
+	[self.preferences writeToFile:finalPath atomically:YES];
+	[self.cwView stopAnimation];
+    //NOTE: TriggerViewController viewWillAppear is called BEFORE viewWillDissappear
+    //SO...cover all exits. pause if a view is requested that is not CW.
+    if (self.cwView.audioSignalManager.delegate == self) //only true is CW was not opened
+        [self.cwView.audioSignalManager pause];
+	
+	if (self.audioRecorder != nil) {
+		if (self.audioRecorder.isRecording == YES) {
+			[self stopRecording:self.stopButton];
+			
+            
+		}
+	}
+}
+
 
 
 # pragma mark - IBActions
@@ -70,6 +149,7 @@
 
 - (IBAction)startStim:(UIButton *)sender
 {    
+    NSLog(@"pressed stim button");
     if (self.delegate.pulse.playing)
         [self.delegate.pulse stopPulse];
     else
@@ -81,74 +161,6 @@
 - (void)pissMyPants {
 	NSLog(@"I've pissed my pants");
 	
-}
-
-
-# pragma mark - View Controller Events
-
-- (void)viewDidLoad {
-	[super viewDidLoad];
-    
-    //Keep both of these around. DDM for the superclass, ASM for self
-    self.drawingDataManager = self.delegate.drawingDataManager;
-	self.audioSignalManager = (AudioSignalManager *)self.drawingDataManager;
-    
-	self.cwView = (ContinuousWaveView *)[self view];
-    
-    //grab preferences
-	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
-	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
-	self.preferences = [NSDictionary dictionaryWithContentsOfFile:finalPath];
-	[self dispersePreferences];		
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated { 
-	[super viewWillAppear:animated];
-    
-	[self.audioSignalManager changeCallbackTo:kAudioCallbackContinuous];
-	
-	self.cwView.audioSignalManager = self.audioSignalManager;
-    self.audioSignalManager.delegate = self;
-	[self.cwView.audioSignalManager setVertexBufferXRangeFrom:self.cwView.xMin to:self.cwView.xMax];
-	self.cwView.audioSignalManager.triggering = NO;
-	[self.cwView.audioSignalManager play];
-    
-    //Reset wait frames so the view will automatically set the viewing frame
-    self.cwView.audioSignalManager.nWaitFrames = 0;
-    self.cwView.audioSignalManager.nTrigWaitFrames = 0;
-	
-	self.cwView.gridVertexBuffer = (struct wave_s *)malloc(2*(self.cwView.numHorizontalGridLines+self.cwView.numVerticalGridLines)*sizeof(struct wave_s));
-
-	self.cwView.minorGridVertexBuffer =
-        (struct wave_s *)malloc(2*4*(self.cwView.numHorizontalGridLines+self.cwView.numVerticalGridLines)*sizeof(struct wave_s));
-	
-    [self.cwView updateMinorGridLines];
-	
-	[self.cwView startAnimation];
-    
-	[self updateDataLabels];
-}
-
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[self collectPreferences];
-	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
-	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
-	[self.preferences writeToFile:finalPath atomically:YES];
-	[self.cwView stopAnimation];
-    //NOTE: TriggerViewController viewWillAppear is called BEFORE viewWillDissappear
-    //SO...cover all exits. pause if a view is requested that is not CW.
-    if (self.cwView.audioSignalManager.delegate == self) //only true is CW was not opened
-        [self.cwView.audioSignalManager pause];
-	
-	if (self.audioRecorder != nil) {
-		if (self.audioRecorder.isRecording == YES) {
-			[self stopRecording:self.stopButton];
-			
-
-		}
-	}
 }
 
 
@@ -374,6 +386,49 @@
 	}
 }
 
+#pragma mark - LarvaJoltAudioDelegate
+
+- (void)pulseIsPlaying
+{
+    if (![self.alphaTimer isValid])
+        self.alphaTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(updateStimShadowAlpha) userInfo:nil repeats:YES];
+    
+}
+
+- (void)pulseIsStopped
+{
+    self.stimShadowButton.alpha = 0.0;
+    if ([self.alphaTimer isValid])
+        [self.alphaTimer invalidate];
+}
+
+- (void)updateStimShadowAlpha
+{
+    double alpha = self.theAlpha;
+    if (alpha > 0.0)  
+    { 
+        alpha = fabs(alpha) + 0.02;
+        self.theAlpha = alpha;
+    }
+    else      
+    { 
+        alpha = fabs(alpha) - 0.02;
+        self.theAlpha = alpha * -1;
+    }
+    
+    if (alpha > 0.8)
+    {    
+        alpha = 0.8;     
+        self.theAlpha = alpha * -1;
+    }
+    else if (alpha < 0.2)    
+    {    
+        alpha = 0.2;   
+        self.theAlpha = alpha;
+    }
+    
+    self.stimShadowButton.alpha = alpha;
+}
 
 
 

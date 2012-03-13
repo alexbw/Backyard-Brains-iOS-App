@@ -20,6 +20,10 @@
 @synthesize backgroundTimer     = _backgroundTimer;
 @synthesize playButton          = _playButton;
 @synthesize stopButton          = _stopButton;
+@synthesize segmentedControl    = _segmentedControl;
+@synthesize pleaseRotateLabel   = _pleaseRotateLabel;
+@synthesize rotateLeftView      = _rotateLeftView;
+@synthesize rotateRightView     = _rotateRightView;
 @synthesize toneVC              = _toneVC;
 @synthesize pulseVC             = _pulseVC;
 @synthesize iPodVC              = _iPodVC;
@@ -124,6 +128,9 @@
         [self pulseIsStopped];
     
     [self.currentController viewWillAppear:animated];
+    
+    UIInterfaceOrientation orientation = [[UIDevice currentDevice] orientation];
+    [self willRotateToInterfaceOrientation:orientation duration:0];
     
     NSLog(@"View will appear");
 }
@@ -269,7 +276,69 @@
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self switchToController:nil];
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    // on iPhone, must be in portrait to edit stim options
+    
+    if (!(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad))
+    {
+        
+        if (toInterfaceOrientation == UIInterfaceOrientationPortrait) 
+        {
+            if (self.currentController ==nil)
+                [self switchToController:self.toneVC];
+            
+            self.segmentedControl.enabled = YES;
+            self.pleaseRotateLabel.hidden = YES;
+            
+        }
+        else 
+        {
+            [self switchToController:nil];
+            
+            self.segmentedControl.enabled = NO;
+            if (self.pleaseRotateLabel == nil)
+            {
+                CGRect frame = CGRectMake(0, 0, 0, 0);
+                CGRect screenFrame = [[UIScreen mainScreen] bounds];
+                frame.size.width = screenFrame.size.height;
+                frame.size.height = screenFrame.size.width;
+                self.pleaseRotateLabel = [[UILabel alloc] initWithFrame:frame];
+                [self.pleaseRotateLabel setText:@"Rotate to access stim settings"];
+                [self.pleaseRotateLabel setBackgroundColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.2 alpha:0.9]];
+                [self.pleaseRotateLabel setFont:[UIFont systemFontOfSize:30.0f]];
+                [self.pleaseRotateLabel setTextColor:[UIColor whiteColor]];
+                [self.pleaseRotateLabel setTextAlignment:UITextAlignmentCenter];
+                [self.view addSubview:self.pleaseRotateLabel];
+            }
+            self.pleaseRotateLabel.hidden = NO;
+            
+            if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
+                if (self.rotateRightView == nil)
+                {
+                    self.rotateRightView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rotate-left.png"]];
+                    CGRect imgFrame = CGRectMake(self.pleaseRotateLabel.frame.size.width/2 - 32, 50, 64, 64);
+                    [self.rotateRightView setFrame:imgFrame];
+                    [self.pleaseRotateLabel addSubview:self.rotateRightView];
+                }
+                self.rotateRightView.hidden = NO;
+                self.rotateLeftView.hidden = YES;
+            }
+            else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+                if (self.rotateLeftView == nil)
+                {
+                    self.rotateLeftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rotate-right.png"]];
+                    CGRect imgFrame = CGRectMake(self.pleaseRotateLabel.frame.size.width/2 - 32, 50, 64, 64);
+                    [self.rotateLeftView setFrame:imgFrame];
+                    [self.pleaseRotateLabel addSubview:self.rotateLeftView];
+                }
+                self.rotateLeftView.hidden = NO;
+                self.rotateRightView.hidden = YES;
+            }
+        }
+    }
+    
+    
 }
 
 @end

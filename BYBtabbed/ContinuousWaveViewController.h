@@ -13,10 +13,11 @@
 #import "BBFileViewControllerTBV.h"
 #import "AudioRecorder.h"
 #import "FlipsideInfoViewController.h"
+#import "LarvaJoltAudio.h"
 #import "math.h"
 
 
-@interface ContinuousWaveViewController : DrawingViewController <DrawingDataManagerDelegate>
+@interface ContinuousWaveViewController : DrawingViewController <DrawingDataManagerDelegate, LarvaJoltAudioDelegate>
 
 
 @property (nonatomic, retain) AudioRecorder *audioRecorder;
@@ -24,7 +25,11 @@
 @property (nonatomic, retain) IBOutlet UIButton *stopButton;
 @property (nonatomic, retain) ContinuousWaveView *cwView;
 @property (nonatomic, retain) IBOutlet UIButton *stimButton;
+@property (nonatomic, retain) IBOutlet UIButton *stimShadowButton;
 @property (nonatomic, retain) IBOutlet UIButton *recordButton;
+
+@property (nonatomic, retain) NSTimer *alphaTimer;
+@property double theAlpha;
 
 - (void)updateDataLabels;
 - (void)showAllLabels;

@@ -104,6 +104,12 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self playPause:nil];
+}
 
 # pragma mark - IBActions
 

@@ -11,6 +11,8 @@
 
 @implementation BBFileDownloadViewController
 @synthesize delegate;
+@synthesize bottomButton        = _bottomButton;
+@synthesize scrollView          = _scrollView;
 
 - (void)viewWillAppear:(BOOL)animated {
     
@@ -36,6 +38,7 @@
     //fileNameLabel.numberOfLines = 0;
 	fileNameLabel.text = theNames;
 
+    [self updateContentSize];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -129,5 +132,18 @@
     [super dealloc];
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+
+    [self updateContentSize];
+}
+
+- (void)updateContentSize
+{
+    CGSize size = self.scrollView.contentSize;
+    size.height = self.bottomButton.frame.size.height + self.bottomButton.frame.origin.y;
+    [self.scrollView setContentSize:size];
+}
 
 @end

@@ -16,10 +16,7 @@
 
 @synthesize fileButton       = _fileButton;
 @synthesize stimSetupButton  = _stimSetupButton;
-@synthesize stimShadowButton = _stimShadowButton;
 @synthesize currentPopover   = _currentPopover;
-@synthesize alphaTimer       = _alphaTimer;
-@synthesize theAlpha         = _theAlpha;
 
 
 #pragma mark - view lifecycle
@@ -29,20 +26,11 @@
 	
     [_fileButton release];
     [_stimSetupButton release];
-    [_stimShadowButton release];
     [_currentPopover release];
-    [_alphaTimer release];
     
     [super dealloc];
 }	
- 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    self.delegate.pulse.delegate = self;
-    self.theAlpha = 0;
-}
+
 
 #pragma mark - actions
 
@@ -132,6 +120,8 @@
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
     if (self.currentPopover != nil)
     {
         [self.currentPopover dismissPopoverAnimated:YES];
@@ -139,48 +129,5 @@
     }
 }
 
-#pragma mark - LarvaJoltAudioDelegate
-
-- (void)pulseIsPlaying
-{
-    if (![self.alphaTimer isValid])
-        self.alphaTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(updateStimShadowAlpha) userInfo:nil repeats:YES];
-    
-}
-
-- (void)pulseIsStopped
-{
-    self.stimShadowButton.alpha = 0.0;
-    if ([self.alphaTimer isValid])
-        [self.alphaTimer invalidate];
-}
-
-- (void)updateStimShadowAlpha
-{
-    double alpha = self.theAlpha;
-    if (alpha > 0.0)  
-    { 
-        alpha = fabs(alpha) + 0.02;
-        self.theAlpha = alpha;
-    }
-    else      
-    { 
-        alpha = fabs(alpha) - 0.02;
-        self.theAlpha = alpha * -1;
-    }
-    
-    if (alpha > 0.8)
-    {    
-        alpha = 0.8;     
-        self.theAlpha = alpha * -1;
-    }
-    else if (alpha < 0.2)    
-    {    
-        alpha = 0.2;   
-        self.theAlpha = alpha;
-    }
-    
-    self.stimShadowButton.alpha = alpha;
-}
 
 @end

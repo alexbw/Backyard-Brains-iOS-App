@@ -125,6 +125,15 @@
 		E9C8B40E1363885000F0ED8E /* ToneStimViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C8B4091363885000F0ED8E /* ToneStimViewController.m */; };
 		E9D0CC7B14A4F0FF00BCC26C /* PulseStimView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9D0CC7A14A4F0FF00BCC26C /* PulseStimView.xib */; };
 		E9E7761713CBA34300AA812C /* TickMarksBig.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E7761613CBA34300AA812C /* TickMarksBig.png */; };
+		E9F68440150FB87100B3BE1D /* rotate-left-b.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F68438150FB87100B3BE1D /* rotate-left-b.png */; };
+		E9F68441150FB87100B3BE1D /* rotate-left-b@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F68439150FB87100B3BE1D /* rotate-left-b@2x.png */; };
+		E9F68442150FB87100B3BE1D /* rotate-left.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F6843A150FB87100B3BE1D /* rotate-left.png */; };
+		E9F68443150FB87100B3BE1D /* rotate-left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F6843B150FB87100B3BE1D /* rotate-left@2x.png */; };
+		E9F68444150FB87100B3BE1D /* rotate-right-b.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F6843C150FB87100B3BE1D /* rotate-right-b.png */; };
+		E9F68445150FB87100B3BE1D /* rotate-right-b@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F6843D150FB87100B3BE1D /* rotate-right-b@2x.png */; };
+		E9F68446150FB87100B3BE1D /* rotate-right.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F6843E150FB87100B3BE1D /* rotate-right.png */; };
+		E9F68447150FB87100B3BE1D /* rotate-right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F6843F150FB87100B3BE1D /* rotate-right@2x.png */; };
+		E9F6844B150FF2FF00B3BE1D /* BBNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F6844A150FF2FE00B3BE1D /* BBNavController.m */; };
 		E9FAD21B1492F65300CBCB1D /* LJView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9FAD21A1492F65300CBCB1D /* LJView.xib */; };
 		E9FAD21D1492F72200CBCB1D /* LJCalibrationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9FAD21C1492F72100CBCB1D /* LJCalibrationView.xib */; };
 		E9FAD2231492FA7E00CBCB1D /* LJController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FAD2221492FA7E00CBCB1D /* LJController.m */; };
@@ -381,6 +390,16 @@
 		E9C8B4091363885000F0ED8E /* ToneStimViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToneStimViewController.m; sourceTree = "<group>"; };
 		E9D0CC7A14A4F0FF00BCC26C /* PulseStimView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PulseStimView.xib; sourceTree = "<group>"; };
 		E9E7761613CBA34300AA812C /* TickMarksBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TickMarksBig.png; path = Images/TickMarksBig.png; sourceTree = "<group>"; };
+		E9F68438150FB87100B3BE1D /* rotate-left-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate-left-b.png"; sourceTree = "<group>"; };
+		E9F68439150FB87100B3BE1D /* rotate-left-b@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate-left-b@2x.png"; sourceTree = "<group>"; };
+		E9F6843A150FB87100B3BE1D /* rotate-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate-left.png"; sourceTree = "<group>"; };
+		E9F6843B150FB87100B3BE1D /* rotate-left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate-left@2x.png"; sourceTree = "<group>"; };
+		E9F6843C150FB87100B3BE1D /* rotate-right-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate-right-b.png"; sourceTree = "<group>"; };
+		E9F6843D150FB87100B3BE1D /* rotate-right-b@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate-right-b@2x.png"; sourceTree = "<group>"; };
+		E9F6843E150FB87100B3BE1D /* rotate-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate-right.png"; sourceTree = "<group>"; };
+		E9F6843F150FB87100B3BE1D /* rotate-right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate-right@2x.png"; sourceTree = "<group>"; };
+		E9F68449150FF2FE00B3BE1D /* BBNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBNavController.h; path = Classes/BBNavController.h; sourceTree = "<group>"; };
+		E9F6844A150FF2FE00B3BE1D /* BBNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBNavController.m; path = Classes/BBNavController.m; sourceTree = "<group>"; };
 		E9FAD21A1492F65300CBCB1D /* LJView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LJView.xib; sourceTree = "<group>"; };
 		E9FAD21C1492F72100CBCB1D /* LJCalibrationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LJCalibrationView.xib; sourceTree = "<group>"; };
 		E9FAD2211492FA7E00CBCB1D /* LJController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJController.h; sourceTree = "<group>"; };
@@ -554,8 +573,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				1D3623240D0F684500981E51 /* Backyard_BrainsAppDelegate.h */,
-				1D3623250D0F684500981E51 /* Backyard_BrainsAppDelegate.m */,
 				FAB0F4941127762D00218AB9 /* Constants.h */,
 				28A0AB4B0D9B1048005BE974 /* Backyard_Brains_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -566,7 +583,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FA1636EC1131AEF5003065AC /* XIBs */,
 				FA1636E01131AEDC003065AC /* plists */,
 				FA1636DF1131AECC003065AC /* Images */,
 			);
@@ -781,6 +797,8 @@
 		FA1636D11131AE27003065AC /* Display */ = {
 			isa = PBXGroup;
 			children = (
+				1D3623240D0F684500981E51 /* Backyard_BrainsAppDelegate.h */,
+				1D3623250D0F684500981E51 /* Backyard_BrainsAppDelegate.m */,
 				FA1636DC1131AE83003065AC /* Root Views */,
 				E99325D41422620700CC76D5 /* Split View */,
 				FA1636DB1131AE70003065AC /* Continuous View */,
@@ -793,6 +811,7 @@
 				FAAC43B7115D998C00967AA7 /* Flipside Info View */,
 				FA5A8680115E73B600E201BC /* First Time Spikers View */,
 				FA1636D21131AE34003065AC /* Abstract Superclasses */,
+				FA1636EC1131AEF5003065AC /* XIBs */,
 			);
 			name = Display;
 			path = ..;
@@ -807,6 +826,8 @@
 				E9B7FFF613E74A970013A1A6 /* EAGLView.m */,
 				E9B7000D13E754DF0013A1A6 /* DrawingDataManager.h */,
 				E9B7000E13E754DF0013A1A6 /* DrawingDataManager.m */,
+				E9F68449150FF2FE00B3BE1D /* BBNavController.h */,
+				E9F6844A150FF2FE00B3BE1D /* BBNavController.m */,
 			);
 			name = "Abstract Superclasses";
 			sourceTree = "<group>";
@@ -900,6 +921,14 @@
 				FA88BDC11145B115006C2FE0 /* Share_inactive.png */,
 				E983602C14259EB600200156 /* closeSideBar.png */,
 				E983602D14259EB600200156 /* closeSideBar@2x.png */,
+				E9F68438150FB87100B3BE1D /* rotate-left-b.png */,
+				E9F68439150FB87100B3BE1D /* rotate-left-b@2x.png */,
+				E9F6843A150FB87100B3BE1D /* rotate-left.png */,
+				E9F6843B150FB87100B3BE1D /* rotate-left@2x.png */,
+				E9F6843C150FB87100B3BE1D /* rotate-right-b.png */,
+				E9F6843D150FB87100B3BE1D /* rotate-right-b@2x.png */,
+				E9F6843E150FB87100B3BE1D /* rotate-right.png */,
+				E9F6843F150FB87100B3BE1D /* rotate-right@2x.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -1237,6 +1266,14 @@
 				E9D0CC7B14A4F0FF00BCC26C /* PulseStimView.xib in Resources */,
 				E993059714B6D3B500B563EC /* stimshadow.png in Resources */,
 				E993059814B6D3B500B563EC /* stimshadow@2x.png in Resources */,
+				E9F68440150FB87100B3BE1D /* rotate-left-b.png in Resources */,
+				E9F68441150FB87100B3BE1D /* rotate-left-b@2x.png in Resources */,
+				E9F68442150FB87100B3BE1D /* rotate-left.png in Resources */,
+				E9F68443150FB87100B3BE1D /* rotate-left@2x.png in Resources */,
+				E9F68444150FB87100B3BE1D /* rotate-right-b.png in Resources */,
+				E9F68445150FB87100B3BE1D /* rotate-right-b@2x.png in Resources */,
+				E9F68446150FB87100B3BE1D /* rotate-right.png in Resources */,
+				E9F68447150FB87100B3BE1D /* rotate-right@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1340,6 +1377,7 @@
 				E99325DF14226FD600CC76D5 /* BBFileActionViewControllerTBV.m in Sources */,
 				E9FAD2231492FA7E00CBCB1D /* LJController.m in Sources */,
 				E92B7E21149BDF9600DE1BA9 /* iPodStimViewController.m in Sources */,
+				E9F6844B150FF2FF00B3BE1D /* BBNavController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

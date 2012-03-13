@@ -72,7 +72,7 @@
         self.navigationItem.title = [[self.files objectAtIndex:0] shortname];
         
         self.actionOptions = [NSArray arrayWithObjects:
-                              @"View Details",
+                              @"File Details",
                               @"Play",
                               //@"Analyze",
                               @"Email",
@@ -84,7 +84,7 @@
         self.navigationItem.title = [NSString stringWithFormat:@"%u Files", [self.files count]];
         
         self.actionOptions = [NSArray arrayWithObjects:
-                              @"View Details",
+                              @"File Details",
                               @"Email",
                               @"Download",
                               @"Delete", nil];
@@ -93,8 +93,10 @@
     
     self.contentSizeForViewInPopover =
         CGSizeMake(310.0, (self.tableView.rowHeight * ([self.actionOptions count] +1)));
+    
+    
+    
 }
-
 
 #pragma mark - TableViewDelegate methods
 
@@ -166,7 +168,7 @@
 		}
         
 	}
-	else if ([cell.textLabel.text isEqualToString:@"View Details"])
+	else if ([cell.textLabel.text isEqualToString:@"File Details"])
 	{
         
 		BBFileDetailViewController *dvc = [[BBFileDetailViewController alloc] initWithNibName:@"BBFileDetailView" bundle:nil];

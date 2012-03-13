@@ -347,6 +347,7 @@
     BBFileActionViewControllerTBV *actionViewController = [[BBFileActionViewControllerTBV alloc] init];
     actionViewController.delegate = self;
     
+    
     [self.navigationController pushViewController:actionViewController animated:YES];
     [actionViewController release];
 }
@@ -490,7 +491,7 @@
 
 #pragma mark - DropBox methods
 
-- (IBAction)dbButtonPressed
+- (void)dbButtonPressed
 {
     if ([[self.preferences valueForKey:@"isDBLinked"] boolValue])
     {
@@ -580,6 +581,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    
     CGRect dbBarRect = CGRectMake(self.dbStatusBar.frame.origin.x,
                                   self.theTableView.frame.origin.y,
                                   self.dbStatusBar.frame.size.width,

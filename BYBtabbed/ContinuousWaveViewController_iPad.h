@@ -11,18 +11,15 @@
 #import "ContinuousWaveViewController.h"
 #import "BBFileViewControllerTBV.h"
 #import "FlipsideInfoViewController.h"
-#import "LarvaJoltAudio.h"
+
 
 @interface ContinuousWaveViewController_iPad : ContinuousWaveViewController 
-    <UIPopoverControllerDelegate, FlipsideInfoViewDelegate, LarvaJoltAudioDelegate>
+    <UIPopoverControllerDelegate, FlipsideInfoViewDelegate>
 
 
 @property (nonatomic, retain) IBOutlet UIButton *fileButton;
 @property (nonatomic, retain) IBOutlet UIButton *stimSetupButton;
-@property (nonatomic, retain) IBOutlet UIButton *stimShadowButton;
 @property (nonatomic, retain) UIPopoverController *currentPopover;
-@property (nonatomic, retain) NSTimer *alphaTimer;
-@property double theAlpha;
 
 - (IBAction)displayInfoPopover:(UIButton *)sender;
 - (IBAction)displayFilePopover:(UIButton *)sender;

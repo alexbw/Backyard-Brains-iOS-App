@@ -27,6 +27,10 @@
 
 @property (nonatomic,retain) IBOutlet UIButton *playButton;
 @property (nonatomic,retain) IBOutlet UIButton *stopButton;
+@property (nonatomic,retain) IBOutlet UISegmentedControl *segmentedControl;
+@property (nonatomic,retain) UILabel *pleaseRotateLabel;
+@property (nonatomic,retain) UIImageView *rotateRightView;
+@property (nonatomic,retain) UIImageView *rotateLeftView;
 
 @property (nonatomic, retain) ToneStimViewController *opticalVC;
 @property (nonatomic, retain) ToneStimViewController *toneVC;
