@@ -25,20 +25,20 @@
     
     self.navItem.title = self.file.subname;
     
-    
+   /* 
     //stop the main audio signal manager
     Backyard_BrainsAppDelegate *appDelegate = (Backyard_BrainsAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.drawingDataManager pause];
+    [appDelegate.drawingDataManager pause];*/
     
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+  /*  
     //start the main audio signal manager
     Backyard_BrainsAppDelegate *appDelegate = (Backyard_BrainsAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.drawingDataManager play];
+    [appDelegate.drawingDataManager play];*/
 }
 
 

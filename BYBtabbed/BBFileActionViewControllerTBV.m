@@ -155,7 +155,8 @@
         {
             PlaybackViewController_iPad *pvc = [[PlaybackViewController_iPad alloc] initWithNibName:@"PlaybackView_iPad" bundle:nil];
             pvc.delegate = self;
-            [self presentModalViewController:pvc animated:YES];
+            [pvc setModalPresentationStyle:UIModalPresentationFullScreen];
+            [self presentViewController:pvc animated:YES completion:nil];
             [pvc release];
         }
         else
