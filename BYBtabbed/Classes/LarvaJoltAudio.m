@@ -264,6 +264,7 @@ void ToneInterruptionListener(void *inClientData, UInt32 inInterruptionState)
     {
         if (!self.toneUnit)
         {
+            
             //create timer
             self.timer = [NSTimer scheduledTimerWithTimeInterval:self.pulseTime
                                                           target:self

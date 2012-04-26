@@ -92,7 +92,7 @@
 	NSString *finalPath = [pathStr stringByAppendingPathComponent:@"ContinuousWaveView.plist"];
 	[self.preferences writeToFile:finalPath atomically:YES];
 	[self.pbView stopAnimation];
-	//[self.apm pausePlayback];
+	[self.apm stop];
 	
 	/*if (audioRecorder != nil) {
 		if (audioRecorder.isRecording == YES) {
