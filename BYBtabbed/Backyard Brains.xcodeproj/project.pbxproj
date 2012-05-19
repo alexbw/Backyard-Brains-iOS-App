@@ -179,6 +179,10 @@
 		FA88C770114837EE006C2FE0 /* BBFileTitleEditorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA88C76F114837EE006C2FE0 /* BBFileTitleEditorView.xib */; };
 		FA88C81611486E85006C2FE0 /* BBFileCommentEditorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA88C81511486E85006C2FE0 /* BBFileCommentEditorView.xib */; };
 		FA88C81911486EAC006C2FE0 /* BBFileCommentEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA88C81811486EAC006C2FE0 /* BBFileCommentEditorViewController.m */; };
+		FAAB169E15682787002AC63E /* AudioFileReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = FAAB169915682787002AC63E /* AudioFileReader.mm */; };
+		FAAB169F15682787002AC63E /* AudioFileWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB169B15682787002AC63E /* AudioFileWriter.m */; };
+		FAAB16A015682787002AC63E /* RingBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FAAB169D15682787002AC63E /* RingBuffer.mm */; };
+		FAAB16A21568279D002AC63E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAB16A11568279D002AC63E /* Accelerate.framework */; };
 		FAAC43B9115D9A0A00967AA7 /* FlipsideInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */; };
 		FAAC43BC115D9A2200967AA7 /* FlipsideInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAC43BB115D9A2200967AA7 /* FlipsideInfoViewController.m */; };
 		FAC9FE10115AE5350004822F /* FileButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FAC9FE0D115AE5350004822F /* FileButton.png */; };
@@ -471,6 +475,13 @@
 		FA88C81511486E85006C2FE0 /* BBFileCommentEditorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BBFileCommentEditorView.xib; sourceTree = "<group>"; };
 		FA88C81711486EAC006C2FE0 /* BBFileCommentEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileCommentEditorViewController.h; sourceTree = "<group>"; };
 		FA88C81811486EAC006C2FE0 /* BBFileCommentEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileCommentEditorViewController.m; sourceTree = "<group>"; };
+		FAAB169815682787002AC63E /* AudioFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFileReader.h; path = ../../Novocaine/Novocaine/AudioFileReader.h; sourceTree = "<group>"; };
+		FAAB169915682787002AC63E /* AudioFileReader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AudioFileReader.mm; path = ../../Novocaine/Novocaine/AudioFileReader.mm; sourceTree = "<group>"; };
+		FAAB169A15682787002AC63E /* AudioFileWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFileWriter.h; path = ../../Novocaine/Novocaine/AudioFileWriter.h; sourceTree = "<group>"; };
+		FAAB169B15682787002AC63E /* AudioFileWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioFileWriter.m; path = ../../Novocaine/Novocaine/AudioFileWriter.m; sourceTree = "<group>"; };
+		FAAB169C15682787002AC63E /* RingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RingBuffer.h; path = ../../Novocaine/Novocaine/RingBuffer.h; sourceTree = "<group>"; };
+		FAAB169D15682787002AC63E /* RingBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RingBuffer.mm; path = ../../Novocaine/Novocaine/RingBuffer.mm; sourceTree = "<group>"; };
+		FAAB16A11568279D002AC63E /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		FAAC43B8115D9A0A00967AA7 /* FlipsideInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlipsideInfoView.xib; sourceTree = "<group>"; };
 		FAAC43BA115D9A2200967AA7 /* FlipsideInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlipsideInfoViewController.h; sourceTree = "<group>"; };
 		FAAC43BB115D9A2200967AA7 /* FlipsideInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlipsideInfoViewController.m; sourceTree = "<group>"; };
@@ -501,6 +512,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAAB16A21568279D002AC63E /* Accelerate.framework in Frameworks */,
 				E92B7E23149BFC2A00DE1BA9 /* MediaPlayer.framework in Frameworks */,
 				E9BDF51314082D4E00899D31 /* Security.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -544,6 +556,7 @@
 		29B97314FDCFA39411CA2CEA /* Backyard Brains */ = {
 			isa = PBXGroup;
 			children = (
+				FAAB16A11568279D002AC63E /* Accelerate.framework */,
 				29B97315FDCFA39411CA2CEA /* Main */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -771,6 +784,12 @@
 		FA1636D01131AE1A003065AC /* Audio Input */ = {
 			isa = PBXGroup;
 			children = (
+				FAAB169815682787002AC63E /* AudioFileReader.h */,
+				FAAB169915682787002AC63E /* AudioFileReader.mm */,
+				FAAB169A15682787002AC63E /* AudioFileWriter.h */,
+				FAAB169B15682787002AC63E /* AudioFileWriter.m */,
+				FAAB169C15682787002AC63E /* RingBuffer.h */,
+				FAAB169D15682787002AC63E /* RingBuffer.mm */,
 				E9B7FFE013E749390013A1A6 /* AudioSignalManager.h */,
 				E9B7FFE113E749390013A1A6 /* AudioSignalManager.m */,
 			);
@@ -1346,6 +1365,9 @@
 				E9FAD2231492FA7E00CBCB1D /* LJController.m in Sources */,
 				E92B7E21149BDF9600DE1BA9 /* iPodStimViewController.m in Sources */,
 				E9F6844B150FF2FF00B3BE1D /* BBNavController.m in Sources */,
+				FAAB169E15682787002AC63E /* AudioFileReader.mm in Sources */,
+				FAAB169F15682787002AC63E /* AudioFileWriter.m in Sources */,
+				FAAB16A015682787002AC63E /* RingBuffer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

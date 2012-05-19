@@ -35,20 +35,17 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
         ioNumBytes = audioFileByteCount;
         zeroOutFirstBytes = abs(frameStartByte);
         zeroOutEndBytes = frameSize - ioNumBytes - zeroOutFirstBytes;
-        NSLog(@"Case 0");
     }
     // Case 1: part blank, part audio
     else if (frameStartByte < 0) {
         ioNumBytes = frameSize - abs(frameStartByte);
         zeroOutFirstBytes = frameSize - ioNumBytes;
-        NSLog(@"Case 1");
     }
     // Case 2: all audio
     else if (   frameStartByte >= 0
              && frameStartByte <= (audioFileByteCount - frameSize) )
     {
         ioNumBytes = frameSize;
-        NSLog(@"Case 2");
     }
     // Case 3: part audio, part blank
     else if (  frameStartByte > (audioFileByteCount - frameSize)
@@ -56,7 +53,6 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
     {
         ioNumBytes = audioFileByteCount - frameStartByte;
         zeroOutEndBytes = frameSize - ioNumBytes;
-        NSLog(@"Case 3");
     }
     else
     {
@@ -78,27 +74,21 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
         startReadByte = 0;
     else
         startReadByte = frameStartByte;
-    
-    NSLog(@"Starting byte is %lu and num of bytes is %lu", startReadByte, ioNumBytes);
-    
-    
+        
 	// Read from audio to file now
 	OSStatus status = AudioFileReadBytes(audioFileID, YES, startReadByte, &ioNumBytes, tempBuffer);
     THIS->_numBytesRead = ioNumBytes;
     
 	if (status)
     {
-		NSLog(@"AudioFileReadBytes failed: %ld, with ioNumBytes: %lu", status, ioNumBytes);
         return nil;
     }
     else
     {
         
-		NSLog(@"AudioFileReadBytes succeeded with ioNumBytes: %lu", ioNumBytes);
 
         if (ioNumBytes > 0) {
             
-            NSLog(@"Zero out %lu, ioNumBytes %lu, zero out %lu",zeroOutFirstBytes, ioNumBytes, zeroOutEndBytes);
             
             SInt16 *temp2Buffer = (SInt16 *)tempBuffer;
             SInt16 *outBuffer = malloc(frameSize);
@@ -123,7 +113,6 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
         else 
         {
             // stop
-            NSLog(@"But zero bytes were read");
             return nil;
         }
     }
@@ -229,13 +218,12 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
 - (void)updateCurrentTimeTo:(float)time
 {
     _audioPlayer.currentTime = time;
-    if (self.playing)
-        [self pause];
+    [self updateCurrentTime];
+
 }
 
 
 # pragma mark - Visual playback methods
-
 
 
 - (void)fillVertexBufferWithAudioData
@@ -248,12 +236,9 @@ SInt16 * readSingleChannelRingBufferDataAsSInt16( AudioPlaybackManager *THIS, Fl
         Float64 tNow = _audioPlayer.currentTime;
         if (tNow != self.lastTime && tNow >= 0)
         {
-            NSLog(@"Time now is %f", tNow);
-            
             
             SInt16 *outBuffer = readSingleChannelRingBufferDataAsSInt16(self, tNow);
 
-            NSLog(@"bytes read out: %llu", _numBytesRead);
    
             if (outBuffer!=nil)
             {

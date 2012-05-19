@@ -134,6 +134,7 @@
 
 - (IBAction)positionInFileChanged:(UISlider *)sender {
 	NSLog(@"Position in file changed!");
+//    [self.apm pause];
 	[self.apm updateCurrentTimeTo:sender.value];
 }
 

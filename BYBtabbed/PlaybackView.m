@@ -30,8 +30,6 @@
 	[self prepareOpenGLView];
 	
 	[self.apm fillVertexBufferWithAudioData];	// Grab the audio data
-	
-    
     
 	if (self.showGrid)
 		[self drawGridLines];
