@@ -10,11 +10,11 @@
 
 
 #import "DrawingViewController.h"
-@class PlaybackView;
-@class AudioPlaybackManager;
-
+#import "PlaybackView.h"
+#import "AudioPlaybackManager.h"
 
 @interface PlaybackViewController : DrawingViewController <DrawingDataManagerDelegate>
+
 {
 	// Data labels
 	IBOutlet UIButton *playPauseButton;

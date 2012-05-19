@@ -133,7 +133,6 @@
 
 
 - (IBAction)positionInFileChanged:(UISlider *)sender {
-	NSLog(@"Position in file changed!");
 //    [self.apm pause];
 	[self.apm updateCurrentTimeTo:sender.value];
 }
@@ -245,9 +244,7 @@
 
 - (void)updateDataLabels {
 	
-	NSLog(@"yLabel x: %f, y: %f", self.yUnitsPerDivLabel.frame.origin.x, self.yUnitsPerDivLabel.frame.origin.y);
 	// Spin through all the UILabels that we have control of, and make em better.
-
 	float xPerDiv = (self.pbView.xEnd - self.pbView.xBegin)/3.0f;
 	float yPerDiv = (self.pbView.yEnd - self.pbView.yBegin)/(4.0f*self.file.gain*kVoltScaleFactor);
 	
@@ -303,11 +300,12 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"OKAYYY");
 	[super touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event];
-	
+    
 	float viewWidth  = self.pbView.bounds.size.width;
 	float viewHeight = self.pbView.bounds.size.height;
-		
+    
 	self.pinchChangeInX /= viewWidth;
 	self.pinchChangeInY /= viewHeight;
 	self.pinchChangeInX *= 2.2f;
@@ -317,7 +315,7 @@
 	float newxBegin = self.pbView.xBegin - self.pbView.xBegin*self.pinchChangeInX;
 	float newyBegin = self.pbView.yBegin - self.pbView.yBegin*self.pinchChangeInY;
 	
-
+    
 	
 	if ( newyBegin > self.pbView.yMin & newyBegin < 200) {
 		self.pbView.yBegin = newyBegin;
@@ -331,13 +329,12 @@
 	}
 	
 	[self updateDataLabels];
-
+    
 	
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	[super touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event];
-	//[self.pbView updateMinorGridLines];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -347,17 +344,17 @@
 - (void)showAllLabels {
 	[self.xUnitsPerDivLabel setAlpha:1.0];
 	[self.yUnitsPerDivLabel setAlpha:1.0];
-	pbView.showGrid = YES;
+	self.pbView.showGrid = YES;
 }
 
 - (void)hideAllLabels {
 	[self.xUnitsPerDivLabel setAlpha:0.0];
 	[self.yUnitsPerDivLabel setAlpha:0.0];
-	pbView.showGrid = NO;
+	self.pbView.showGrid = NO;
 }
 
 - (void)toggleVisibilityOfLabelsAndGrid {
-	if (pbView.showGrid == YES) {
+	if (self.pbView.showGrid == YES) {
 		[self hideAllLabels];
 	}
 	
@@ -365,9 +362,6 @@
 		[self showAllLabels];
 	}
 }
-
-
-
 
 
 @end

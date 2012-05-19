@@ -280,6 +280,8 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	
 	[self.currentTouches unionSet:touches];
+    
+    NSLog(@"====================    %d", [self.currentTouches count]);
 	
 	if ([self.currentTouches count] == 2) {
 		// If two fingers are down, we're pinching and stretching
@@ -297,7 +299,8 @@
 
 				 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {	
-		
+    
+    
 	if ([self.currentTouches count] == 1) {
 		// And also the very first touches
 		self.firstPointOne = [self getXYCoordinatesOfTouch:0];
@@ -324,6 +327,8 @@
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 
+    NSLog(@"----------------------    %d", [self.currentTouches count]);
+    
 	if ([self.currentTouches count] == 2) {
 		// We have two fingers down, so we're changing the x- and y-scale.
 		CGPoint pointOne = [self getXYCoordinatesOfTouch:0];
@@ -337,8 +342,12 @@
 		self.pinchChangeInX =  thisxdiff - lastxdiff;
 		self.pinchChangeInY = thisydiff - lastydiff;
 				
+        NSLog(@"%f, %f", self.lastPointOne.y, pointOne.y);
+        
 		self.lastPointOne = pointOne;
 		self.lastPointTwo = pointTwo;
+        
+
 	}
 	else if ([self.currentTouches count] == 1) {
 		CGPoint pointOne = [self getXYCoordinatesOfTouch:0];
