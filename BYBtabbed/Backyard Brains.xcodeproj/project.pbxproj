@@ -179,6 +179,8 @@
 		FA88C770114837EE006C2FE0 /* BBFileTitleEditorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA88C76F114837EE006C2FE0 /* BBFileTitleEditorView.xib */; };
 		FA88C81611486E85006C2FE0 /* BBFileCommentEditorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA88C81511486E85006C2FE0 /* BBFileCommentEditorView.xib */; };
 		FA88C81911486EAC006C2FE0 /* BBFileCommentEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA88C81811486EAC006C2FE0 /* BBFileCommentEditorViewController.m */; };
+		FA8EDB1D15693E6000AE86BF /* SensibleTableView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA8EDB1C15693E5F00AE86BF /* SensibleTableView.framework */; };
+		FA8EDB2015693EA100AE86BF /* BBFileDetailViewController 2.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8EDB1F15693EA100AE86BF /* BBFileDetailViewController 2.m */; };
 		FAAB169E15682787002AC63E /* AudioFileReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = FAAB169915682787002AC63E /* AudioFileReader.mm */; };
 		FAAB169F15682787002AC63E /* AudioFileWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB169B15682787002AC63E /* AudioFileWriter.m */; };
 		FAAB16A015682787002AC63E /* RingBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = FAAB169D15682787002AC63E /* RingBuffer.mm */; };
@@ -475,6 +477,9 @@
 		FA88C81511486E85006C2FE0 /* BBFileCommentEditorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BBFileCommentEditorView.xib; sourceTree = "<group>"; };
 		FA88C81711486EAC006C2FE0 /* BBFileCommentEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFileCommentEditorViewController.h; sourceTree = "<group>"; };
 		FA88C81811486EAC006C2FE0 /* BBFileCommentEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFileCommentEditorViewController.m; sourceTree = "<group>"; };
+		FA8EDB1C15693E5F00AE86BF /* SensibleTableView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SensibleTableView.framework; sourceTree = "<group>"; };
+		FA8EDB1E15693EA100AE86BF /* BBFileDetailViewController 2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BBFileDetailViewController 2.h"; sourceTree = "<group>"; };
+		FA8EDB1F15693EA100AE86BF /* BBFileDetailViewController 2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BBFileDetailViewController 2.m"; sourceTree = "<group>"; };
 		FAAB169815682787002AC63E /* AudioFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFileReader.h; path = ../../Novocaine/Novocaine/AudioFileReader.h; sourceTree = "<group>"; };
 		FAAB169915682787002AC63E /* AudioFileReader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AudioFileReader.mm; path = ../../Novocaine/Novocaine/AudioFileReader.mm; sourceTree = "<group>"; };
 		FAAB169A15682787002AC63E /* AudioFileWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFileWriter.h; path = ../../Novocaine/Novocaine/AudioFileWriter.h; sourceTree = "<group>"; };
@@ -526,6 +531,7 @@
 				FA826E0111558926005BE83D /* CFNetwork.framework in Frameworks */,
 				FACDAD2F1156960C0063FC9B /* CoreAudio.framework in Frameworks */,
 				FACDAD53115696C90063FC9B /* AVFoundation.framework in Frameworks */,
+				FA8EDB1D15693E6000AE86BF /* SensibleTableView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,6 +563,7 @@
 			isa = PBXGroup;
 			children = (
 				FAAB16A11568279D002AC63E /* Accelerate.framework */,
+				FA8EDB1C15693E5F00AE86BF /* SensibleTableView.framework */,
 				29B97315FDCFA39411CA2CEA /* Main */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -1110,6 +1117,8 @@
 				FA88C64A114821FF006C2FE0 /* BBFileTitleEditorViewController.m */,
 				FA88C81711486EAC006C2FE0 /* BBFileCommentEditorViewController.h */,
 				FA88C81811486EAC006C2FE0 /* BBFileCommentEditorViewController.m */,
+				FA8EDB1E15693EA100AE86BF /* BBFileDetailViewController 2.h */,
+				FA8EDB1F15693EA100AE86BF /* BBFileDetailViewController 2.m */,
 			);
 			name = "File Detail View";
 			sourceTree = "<group>";
@@ -1368,6 +1377,7 @@
 				FAAB169E15682787002AC63E /* AudioFileReader.mm in Sources */,
 				FAAB169F15682787002AC63E /* AudioFileWriter.m in Sources */,
 				FAAB16A015682787002AC63E /* RingBuffer.mm in Sources */,
+				FA8EDB2015693EA100AE86BF /* BBFileDetailViewController 2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1382,6 +1392,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1405,6 +1419,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Backyard_Brains_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;

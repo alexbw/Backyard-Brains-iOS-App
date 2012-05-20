@@ -13,6 +13,7 @@
 #import "BBFileDetailViewController.h"
 #import "BBFileTableCell.h"
 #import "BBFileDownloadViewController.h"
+#import "BBFileDetailViewController 2.h"
 
 #import "DrawingViewController.h"
 

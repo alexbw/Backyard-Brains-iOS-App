@@ -172,8 +172,8 @@
 	else if ([cell.textLabel.text isEqualToString:@"File Details"])
 	{
         
-		BBFileDetailViewController *dvc = [[BBFileDetailViewController alloc] initWithNibName:@"BBFileDetailView" bundle:nil];
-		dvc.delegate = self;	
+		BBFileDetailViewController_2 *dvc = [[BBFileDetailViewController_2 alloc] init];
+		dvc.bbfile = [self.files objectAtIndex:0];	
 		[self.navigationController pushViewController:dvc animated:YES];
 		[dvc release];
         
