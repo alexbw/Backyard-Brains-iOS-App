@@ -169,6 +169,7 @@
 		}
         
 	}
+     
 	else if ([cell.textLabel.text isEqualToString:@"File Details"])
 	{
         

@@ -45,6 +45,6 @@ typedef struct _stimulationLog {
 - (id)initWithRecordingFile;
 - (id)initWithFilepath:(NSString *)path;
 - (void)updateMetadata;
-
+- (NSURL *)fileURL;
 
 @end

@@ -164,6 +164,14 @@
 	
 }
 
+- (NSURL *)fileURL
+{
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:[docPath stringByAppendingPathComponent:self.filename]];
+    return fileURL;
+}
+
+
 - (void)updateMetadata
 {   
 
